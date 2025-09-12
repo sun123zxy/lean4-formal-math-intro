@@ -1,0 +1,252 @@
+% --- lang test ---
+
+\newif\ifzh
+\RequirePackage{xstring}
+\IfBeginWith{$lang$}{zh}{
+    \zhtrue
+    \documentclass[fontset=fandol,envcountsect]{ctexbeamer}
+    \def\transmodified{最后更新于}
+    \def\transtoc{目录}
+    \def\transreferences{参考文献}
+}{
+    \zhfalse
+    \documentclass[fontset=fandol,envcountsect]{beamer}
+    \usepackage{xeCJK}
+    \def\transmodified{Last modified on}
+    \def\transtoc{Table of Contents}
+    \def\transreferences{References}
+}
+
+% --- pandoc ---
+
+\usepackage{subcaption}
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+$tightlist.tex()$
+$tables.tex()$
+$graphics.tex()$
+
+% --- adjust code font size ---
+
+$if(highlighting-macros)$
+\renewenvironment{Shaded} {\begin{snugshade}\scriptsize} {\end{snugshade}}
+$endif$
+
+% --- bibliography ---
+
+\RequirePackage[backend=biber,style=alphabetic,autocite=plain]{biblatex}
+% \RequirePackage[backend=biber,style=gb7714-2015,autocite=plain]{biblatex}
+\addbibresource{$bibliography$}
+
+\makeatletter % force emph things in biblatex to be italic
+\renewrobustcmd*{\mkbibemph}{\mkbibitalic}
+\protected\long\def\blx@imc@mkbibemph#1{\blx@imc@mkbibitalic{#1}}
+\makeatother
+
+% -- tikz --
+
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quiver}
+
+% --- theorems ---
+
+\makeatletter
+\def\cleartheorem#1{%
+    \expandafter\let\csname#1\endcsname\relax
+    \expandafter\let\csname c@#1\endcsname\relax
+}
+\makeatother
+
+\cleartheorem{theorem}
+\cleartheorem{lemma}
+\cleartheorem{corollary}
+\cleartheorem{definition}
+\cleartheorem{example}
+\cleartheorem{solution}
+
+\newcommand{\mynewthm}[2]{\newtheorem{#1}{#2}}
+
+\ifzh % zhthm
+
+\theoremstyle{theorem}
+\mynewthm{theorem}{定理}
+\mynewthm{definition}{定义}
+\mynewthm{lemma}{引理}
+\mynewthm{corollary}{推论}
+\mynewthm{proposition}{命题}
+\mynewthm{conjecture}{猜想}
+
+\theoremstyle{example}
+\mynewthm{example}{例}
+\mynewthm{exercise}{习题}
+
+\theoremstyle{remark}
+\newtheorem*{myproof}{证明}
+\newtheorem*{solution}{解}
+\newtheorem*{remark}{注记}
+
+\renewenvironment{proof}{\begin{myproof}}{\qed \end{myproof}}
+
+\else % enthm
+
+\theoremstyle{theorem}
+\mynewthm{theorem}{Theorem}
+\mynewthm{definition}{Definition}
+\mynewthm{lemma}{Lemma}
+\mynewthm{corollary}{Corollary}
+\mynewthm{proposition}{Proposition}
+\mynewthm{conjecture}{Conjecture}
+
+\theoremstyle{example}
+\mynewthm{example}{Example}
+\mynewthm{exercise}{Exercise}
+
+\theoremstyle{remark}
+\newtheorem*{solution}{Solution}
+\newtheorem*{remark}{Remark}
+
+\fi % endthm
+
+% --- styles ---
+
+\usetheme{Madrid}
+\usefonttheme{professionalfonts} % this makes math fonts looks good
+
+$if(custom-color.define)$
+$custom-color.define$
+$endif$
+
+$if(custom-color.main)$
+\colorlet{beamer@blendedblue}{$custom-color.main$}
+$endif$
+
+$if(custom-color.theorem)$
+\setbeamercolor{block title}{bg=$custom-color.theorem$}
+$endif$
+
+$if(custom-color.example)$
+\setbeamercolor{block title example}{bg=$custom-color.example$}
+$endif$
+
+$if(custom-color.remark)$
+\AtBeginEnvironment{proof}{\setbeamercolor{block title}{bg=$custom-color.remark$}}
+\AtBeginEnvironment{solution}{\setbeamercolor{block title}{bg=$custom-color.remark$}}
+\AtBeginEnvironment{remark}{\setbeamercolor{block title}{bg=$custom-color.remark$}}
+$endif$
+
+$if(custom-color.link)$
+\hypersetup{
+    colorlinks=true,
+    urlcolor=$custom-color.link$,
+    linkcolor=, % default color for other links
+    citecolor=$custom-color.link$,
+    anchorcolor=,
+    filecolor=
+}
+$endif$
+
+\let\oldemph\emph
+\renewcommand{\emph}[1]{\oldemph{\usebeamercolor[fg]{structure} #1}}
+\let\textbf\alert
+
+\ifzh
+    \setlength{\parindent}{2em}
+    \addtobeamertemplate{block begin}{}{\setlength\parindent{2em}}
+    \addtobeamertemplate{block example begin}{}{\setlength\parindent{2em}}
+    \addtobeamertemplate{alertblock alerted begin}{}{\setlength\parindent{2em}}
+
+    \setlength{\parskip}{3pt} % slighty more spacing
+\fi
+
+% --- structures ---
+
+$if(toc)$
+\AtBeginSection[]
+{
+  \begin{frame}{\transtoc}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+\AtBeginSubsection[]
+{
+  \begin{frame}{\transtoc}
+    \tableofcontents[currentsubsection]
+  \end{frame}
+}
+$endif$
+
+% --- SunQuarTeX ---
+
+\newcommand{\SunQuarTeX}{\phantom{}\kern-.0em\lower.0ex\hbox{\(\mathbf S\)}\kern-.045em\lower.0ex\hbox{\(\scriptstyle \mathbf U\)}\kern-.045em\hbox{\(\scriptstyle \mathbb N\)}\kern-.0em\hbox{\(\mathbb Q\)}\kern-.045em\lower.0ex\hbox{\(\scriptstyle \mathbf U\)}\kern-.135em\lower.0ex\hbox{\(\scriptstyle \mathbf A\)}\kern-.09em\lower.0ex\hbox{\(\scriptstyle \mathbb R\)}\kern-.072em\text{\bfseries\TeX}}
+
+$if(header-includes)$
+$header-includes/first$
+$endif$
+
+% --- main ---
+
+$if(title)$
+\title$if(shorttitle)$[$shorttitle$]$endif${$title$$if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
+
+$if(subtitle)$
+\subtitle$if(shortsubtitle)$[$shortsubtitle$]$endif${$subtitle$}
+$endif$
+
+\author$if(shortauthor)$[$shortauthor$]$endif${$for(author)$$author$$sep$ \and $endfor$}
+
+\date$if(shortdate)$[$shortdate$]$endif${$date$$if(date-modified)$\thanks{\transmodified \space $date-modified$.}$endif$}
+
+$if(institute)$
+\institute$if(shortinstitute)$[$shortinstitute$]$endif${$for(institute)$$institute$$sep$ \and $endfor$}
+$endif$
+
+$if(titlegraphic)$
+\titlegraphic{
+$for(titlegraphic)$
+  \includegraphics$if(titlegraphicoptions)$[$for(titlegraphicoptions)$$titlegraphicoptions$$sep$, $endfor$]$endif${$titlegraphic$}$sep$\enspace
+$endfor$}
+$endif$
+
+$if(logo)$
+\logo{\includegraphics{$logo$}}
+$endif$
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+$for(include-before)$
+$include-before$
+
+$endfor$
+
+$if(toc)$
+\begin{frame}{\transtoc}
+  \tableofcontents
+\end{frame}
+$endif$
+
+$body$
+
+$if(bibliography)$
+\begin{frame}[allowframebreaks]{\transreferences}
+  \ifzh
+    \printbibliography[heading=none, title={参考文献}]
+  \else
+    \printbibliography[heading=none]
+  \fi
+\end{frame}
+$endif$
+
+$for(include-after)$
+$include-after$
+
+$endfor$
+
+\end{document}

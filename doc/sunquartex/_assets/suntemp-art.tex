@@ -1,0 +1,252 @@
+% --- lang test ---
+
+\newif\ifzh
+\RequirePackage{xstring}
+\IfBeginWith{$lang$}{zh}{
+    \zhtrue
+    \documentclass[fontset=fandol,$if(fontsize)$ $fontsize$,$endif$]{ctexart}
+    \def\transmodified{最后更新于}
+    \def\transtoc{目录}
+}{
+    \zhfalse
+    \documentclass[$if(fontsize)$ $fontsize$,$endif$]{article}
+    \usepackage{xeCJK}
+    \def\transmodified{Last modified on}
+    \def\transtoc{Table of Contents}
+}
+
+% --- beginning ---
+
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+$else$
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+$endif$
+
+\usepackage[a4paper,top=2.75cm,bottom=2.25cm,left=2.75cm,right=2.75cm,marginparwidth=1.75cm]{geometry}
+\ifzh
+    \setCJKmainfont{FandolSong-Regular.otf}[BoldFont = FandolHei-Regular.otf, ItalicFont = FandolKai-Regular.otf] % Hei represents bold, Kai represents italic
+    \ctexset{
+        section/format              += \zihao{-4}\raggedright,
+        subsection/format           += \zihao{5}\raggedright,
+        subsubsection/format        += \zihao{5}\raggedright,
+        subsubsection/numbering      = false
+    }
+\fi
+
+% --- pandoc ---
+
+\usepackage{subcaption}
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+$tightlist.tex()$
+$tables.tex()$
+$graphics.tex()$
+
+% --- adjust code font size ---
+
+$if(highlighting-macros)$
+\renewenvironment{Shaded} {\begin{snugshade}\small} {\end{snugshade}}
+$endif$
+
+% --- bibliography ---
+
+\usepackage[backend=biber,style=alphabetic,autocite=plain]{biblatex}
+% \usepackage[backend=biber,style=gb7714-2015,autocite=plain]{biblatex}
+\addbibresource{$bibliography$}
+
+% --- hyperref ---
+
+\usepackage{hyperref} % render refs as hyperlinks
+
+% --- floating ---
+
+\usepackage{float} % for better floating for tables and figures, such as "H" option for tables to make them stay HERE precisely
+\floatplacement{figure}{H}
+\floatplacement{table}{H}
+
+% --- titling ---
+\ifzh
+    % title
+    \usepackage{titling}
+    \pretitle{\begin{center} \zihao{-2} \bfseries}
+    \posttitle{\par\end{center}\vskip 0.5em}
+    \usepackage{etoolbox}
+    \makeatletter
+    \providecommand{\subtitle}[1]{
+        \apptocmd{\@title}{\vskip 0.5em \par {\zihao{4} \kaishu #1 \par}}{}{}
+    }
+    \makeatother
+    % author
+    \preauthor{\begin{center}\zihao{-4}\kaishu % \kaishu for Chinese only
+        \lineskip 0.5em%
+        \begin{tabular}[t]{c}}
+    \postauthor{\end{tabular}\par\end{center}}
+    % date
+    \predate{\begin{center} \zihao{-4} \kaishu}
+    \postdate{\par\end{center}}
+\else
+    \usepackage{etoolbox}
+    \makeatletter
+    \providecommand{\subtitle}[1]{
+        \apptocmd{\@title}{\vskip 0.5em \par {\large #1 \par}}{}{}
+    }
+\makeatother
+\fi
+
+% --- abstract ---
+
+\ifzh
+    \renewenvironment{abstract}{\subparagraph{摘要}\kaishu}{}
+    % \newenvironment{keywords}{\subparagraph{关键词}\kaishu}{}
+\fi
+
+% -- math --
+
+\usepackage{amsmath} % better math. including \eqref
+\usepackage{amssymb} % better symbols like \varnothing. amsfonts inside (which support \mathbb etc.)
+
+% -- tikz --
+
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{quiver}
+
+% -- theorems ---
+
+\usepackage{amsthm} % better theorem-like environment support (such as proof, unordered, etc.)
+
+\newtheorem{counter}{Counter}$if(custom-theorem.numbered-within)$[$custom-theorem.numbered-within$]$endif$
+\newcommand{\mynewthm}[2]{\newtheorem{#1}$if(custom-theorem.numbered-alike)$[counter]{#2}$elseif(custom-theorem.numbered-within)${#2}[$custom-theorem.numbered-within$]$else${#2}$endif$}
+
+\ifzh % zhthm
+
+\newtheoremstyle{suncnthm}% name
+{}% Space above
+{}% Space below
+{}% Body font
+{\parindent}% Indent amount
+{}% Theorem head font
+{\phantom{.}}% Punctuation after theorem head % no punctuation
+{5pt plus 1pt minus 1pt}% Space after theorem head % default
+{\bfseries \thmname{#1}\thmnumber{ #2}\thmnote{（#3）}}% Theorem head spec % bold number
+
+\theoremstyle{suncnthm}
+
+\mynewthm{theorem}{定理}
+\mynewthm{lemma}{引理}
+\mynewthm{corollary}{推论}
+\mynewthm{proposition}{命题}
+\mynewthm{conjecture}{猜想}
+\mynewthm{definition}{定义}
+\mynewthm{example}{例}
+\mynewthm{exercise}{习题}
+\newtheorem*{solution}{解}
+\newtheorem*{remark}{注记}
+
+% proof hack begin
+\makeatletter
+\newenvironment{myproof}[1][\myproofname]{\par
+  \pushQED{\qed}%
+  \normalfont \topsep6\p@\@plus6\p@\relax
+  \trivlist
+%<amsbook|amsproc>  \itemindent\normalparindent
+  \itemindent\parindent
+  \item[\hskip\labelsep
+%<amsbook|amsproc>        \scshape
+%<amsart|amsthm>        \itshape
+    \bfseries 
+    #1\phantom{.}%\@addpunct{.}
+    ]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+}
+%    \end{macrocode}
+%    Default for \cn{proofname}:
+%    \begin{macrocode}
+\providecommand{\myproofname}{证明}
+
+\makeatother
+% hack end
+\renewenvironment{proof}{\begin{myproof}}{\end{myproof}}
+
+\else % enthm
+
+\theoremstyle{definition}
+\mynewthm{theorem}{Theorem}
+\mynewthm{lemma}{Lemma}
+\mynewthm{corollary}{Corollary}
+\mynewthm{proposition}{Proposition}
+\mynewthm{conjecture}{Conjecture}
+\mynewthm{definition}{Definition}
+\mynewthm{example}{Example}
+\mynewthm{exercise}{Exercise}
+
+\theoremstyle{remark}
+\newtheorem*{solution}{Solution}
+\newtheorem*{remark}{Remark}
+
+\fi % endthm
+
+% --- SunQuarTeX ---
+
+\newcommand{\SunQuarTeX}{\phantom{}\kern-.0em\lower.0ex\hbox{\(\mathbf S\)}\kern-.045em\lower.0ex\hbox{\(\scriptstyle \mathbf U\)}\kern-.045em\hbox{\(\scriptstyle \mathbb N\)}\kern-.0em\hbox{\(\mathbb Q\)}\kern-.045em\lower.0ex\hbox{\(\scriptstyle \mathbf U\)}\kern-.135em\lower.0ex\hbox{\(\scriptstyle \mathbf A\)}\kern-.09em\lower.0ex\hbox{\(\scriptstyle \mathbb R\)}\kern-.072em\text{\bfseries\TeX}}
+
+$if(header-includes)$
+$header-includes/first$
+$endif$
+
+% --- main ---
+
+\title{$title$}
+
+$if(subtitle)$
+\subtitle{$subtitle$}
+$endif$
+
+\author{$for(author)$$author$$sep$ \and $endfor$}
+
+\date{$date$$if(date-modified)$\thanks{\transmodified \space $date-modified$.}$endif$}
+
+\begin{document}
+
+\maketitle
+
+$if(abstract)$
+\begin{abstract}
+    $abstract$
+\end{abstract}
+$endif$
+
+$for(include-before)$
+$include-before$
+
+$endfor$
+
+$if(toc)$
+$if(toc-title)$
+\renewcommand*\contentsname{\transtoc}
+$endif$
+{
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+}
+$endif$
+
+$body$
+
+\ifzh
+  \printbibliography[title={参考文献}]
+\else
+  \printbibliography
+\fi
+
+$for(include-after)$
+$include-after$
+
+$endfor$
+
+\end{document}

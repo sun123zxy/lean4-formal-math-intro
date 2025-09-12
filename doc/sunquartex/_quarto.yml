@@ -1,0 +1,8 @@
+project:
+  title: SunQuarTeX
+  output-dir: _output
+
+metadata-files: 
+  - "./_format.yml"
+  - "./_article.yml"
+  - "./_filter.yml"

@@ -1,0 +1,53 @@
+# --- format defaults ---
+csl: "./_assets/ieee.csl"
+format:
+  html:
+    theme: "./_assets/custom.scss"
+    linestretch: 1.7
+    code-fold: true
+    html-math-method: mathjax
+    reference-location: margin
+    # citation-location: margin
+    link-external-icon: true
+    link-external-newwindow: true
+    toc: true
+    include-in-header:
+      - file: "./_assets/html-preset.html"
+  pdf:
+    # keep-tex: true
+    pdf-engine: xelatex
+    cite-method: biblatex # override the default csl cite method
+    execute:
+      echo: false
+    fig-pos: false
+    template: "./_assets/suntemp-art.tex"
+    include-in-header:
+      text: ""
+    # toc: true
+    # custom-theorem:
+      # numbered-within: section
+      # numbered-alike: true
+  docx:
+    reference-doc: "./_assets/suntemp-art.docx"
+  gfm:
+    wrap: preserve
+  beamer:
+    # slide-level: # left default to handle automatically, see Pandoc manual
+    pdf-engine: xelatex
+    theme: madrid
+    cite-method: biblatex # override the default csl cite method
+    execute:
+      echo: false
+    fig-pos: false
+    template: "./_assets/suntemp-pre.tex"
+    include-in-header:
+      text: ""
+    custom-color:
+      define: "\\definecolor{blueblk}{HTML}{1874D0}"
+      main: "green!40!black"
+      theorem: "green!32!black"
+      example: "blueblk!50!black"
+      remark: "white!15!black"
+      link: "lime!85!black"
+  # revealjs: default
+  # pptx: default

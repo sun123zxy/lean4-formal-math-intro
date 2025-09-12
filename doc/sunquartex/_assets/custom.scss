@@ -1,0 +1,71 @@
+/*-- scss:rules --*/
+$theorem-border-left-color: $green;
+
+figcaption, .panel-caption, .figure-caption{
+  text-align: center;
+}
+
+/*
+// code before Quarto 1.4
+.theorem{
+  border-left-color: $theorem-border-left-color!important;
+  @extend .callout;
+  @extend .callout-style-simple;
+  @extend .no-icon;
+  
+  >:first-child{
+    margin-top: 0.25rem;
+  }
+  >:last-child{
+    margin-bottom: 0.4rem;
+  }
+  // .callout-body is not introduced to keep the original font size.
+}
+*/
+
+.callout-body:has(.theorem){
+  font-size: unset!important;
+  .theorem > :last-child{
+    margin-bottom: .2rem;
+  }
+}
+
+.proof{
+  &:not(.remark)>:last-child::after{ /*QED symbol*/
+    content: "\220e";
+    float: right;
+  }
+  +*{
+    clear: right;
+  }
+}
+
+#quarto-appendix.default {
+  background-color: transparent;
+}
+table {
+  background: transparent!important;
+}
+
+em {
+  font-weight: bold;
+}
+
+.tikz svg{
+  max-width: 100%;
+  height: auto;
+  margin-bottom: .5rem;
+  filter: drop-shadow(0 0 .3px);
+}
+
+/*
+section p {
+    text-indent: 2em;
+}
+*/
+
+/*
+ol, ul {
+  padding-left: 2rem;
+}
+*/
