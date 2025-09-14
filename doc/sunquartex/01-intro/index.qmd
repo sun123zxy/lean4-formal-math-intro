@@ -143,17 +143,4 @@ AI excels in Python. Why not Lean?
 
 ### References
 
-- Introductory:
-
-  - [CAV2024](https://leodemoura.github.io/files/CAV2024.pdf)
-  - [Terence Tao at IMO 2024: AI and Mathematics](https://www.youtube.com/watch?v=e049IoFBnLA)
-
-- Bibles
-
-  - Theorem Proving in Lean 4 (Emphasize type theory)
-  - Mathematics in Lean 4 (Practical bible for mathematicians)
-  - Lean Language Manual (Details)
-
-- Community
-
-  - Lean Zulip
+blah

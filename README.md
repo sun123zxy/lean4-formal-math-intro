@@ -1,13 +1,3 @@
-# 2025fall-lean4-teach
+# 2025 Fall Introduction to Formal Mathematics with Lean 4
 
-## GitHub configuration
-
-To set up your new GitHub repository, follow these steps:
-
-* Under your repository name, click **Settings**.
-* In the **Actions** section of the sidebar, click "General".
-* Check the box **Allow GitHub Actions to create and approve pull requests**.
-* Click the **Pages** section of the settings sidebar.
-* In the **Source** dropdown menu, select "GitHub Actions".
-
-After following the steps above, you can remove this section from the README file.
+This repository contains the materials for the hobby course "Introduction to Formal Mathematics with Lean 4", offered in Fall 2025 at Beijing Institute of Technology.

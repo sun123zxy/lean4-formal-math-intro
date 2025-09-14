@@ -1,10 +1,8 @@
 # Plan (WIP)
 
-Week 1--12, pick a weekday evening, ~ 90 min / week
+Week 1--12, Wednesday evening, ~ 90 min / week
 
-## Introduction to Formal Mathematics and the Lean Theorem Prover
-
-blah
+## Introduction to Formal Mathematics with Lean 4
 
 ## Hello World
 
@@ -97,13 +95,13 @@ Implicit Arguments
 
 - `{x : Nat}`, `@`, `(x := 3)`
 
-## Abstract Algebra: Group, rings and fields
+## Abstract Algebra: Group, Rings and Fields
 
 - `field_simp`
 
-## Quotient Types and Universal properties
+## Quotient Types and Universal Properties
 
-## Inductive Types and Induction methods
+## Inductive Types and Induction Methods
 
 ## Classes and Instances
 
