@@ -1,9 +1,9 @@
 ---
-title: Introduction to the Lean 4 Theorem Prover
+title: Introduction to Formal Mathematics with Lean 4
 subtitle: For newcomers to formalization methods
-date: 2025/09/15
+date: 2025/09/17
 author: Xingyu Zhong
-institute: Beijing Institue of Technology
+institute: Beijing Institute of Technology
 shortinstitute: BIT
 lang: en
 
@@ -20,21 +20,21 @@ format:
 
   - implicit assumptions
   - skipping details: "It's clear that we have..."
-  - "viewed as" arguments: $V^* = V$, $(A \times B) \times C = A \times (B \times C)$
-  - abuses of notation: $3 \in \mathbb Z / 5 \mathbb Z$
+  - "viewed as" arguments: $V^* = V$, $(A \times B) \times C = A \times (B \times C)$ ^[Knowledgable audience may recognize them as examples of natural isomorphisms in category theory.]
+  - abuses of notation: $3 \in \mathbb Z / 5 \mathbb Z$, $\mathbb C \subseteq \mathbb C[x]$
 
 - precision in formal language
 
   - computer programs are formal languages
 
-### Curry--Howard correspondence
-
-:::::{#tbl-curry-howard}
+### Mathematical proofs vs. Computer programs ^[see also [Computational Trilogy](https://ncatlab.org/nlab/show/computational+trilogy), with category theory as the third vertex]
 
 :::{.list-table aligns="c,c" width="1,1"}
 
-* - Logic side
-  - Programming side
+Curry--Howard correspondence
+
+* - Logic
+  - Programming
 * - proposition
   - type
 * - proof
@@ -59,16 +59,71 @@ format:
   - dependent sum type $\sum$
 :::
 
-Mathematical proofs are in one-to-one correspondence with computer programs
-:::::
+### Set theory vs. Type theory
+
+- Mathematicians choose axiomatic set theory (with first-order logic) as the foundation of mathematics.
+
+  - naive set theory fits human's intuition well
+
+- Type theory is an alternative foundation that is equally expressive, but more suitable for computer formalization.
+
+:::{.list-table aligns="c,c" width="1,1"}
+
+* - Set Theory
+  - Type Theory
+
+* - everything is a set
+  - everything has a type
+
+* - $3 \in \mathbb R$ is a proposition
+  - $(3 : \mathbb R)$ is a typing judgment
+
+* - $\mathbb Q \subseteq \mathbb R$ is an inclusion
+  - $\mathbb Q \to \mathbb R$ is a type conversion
+:::
 
 ### What is Lean 4
 
-- A modern programming language designed for theorem proving
+- A mordern functional programming language designed for theorem proving
 
-### A typical Lean theorem
+> “Lean is based on a version of dependent type theory known as the *Calculus of Constructions*, with a countable hierarchy of non-cumulative universes and inductive types.” --- [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/)
+
+### Lean's dependent type theory
+
+- Dependent type theory is a powerful extension of type theory where
+
+  - types may depend on terms "given before" them
+  - first-order logic can be implemented in dependent type theory
+
+- functions, inductive types and quotient types^[Though seemingly [redundant](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/Part_B/threekindsoftypes.html), there is [a reason](https://lean-lang.org/doc/reference/latest/The-Type-System/Quotients/#quotient-funext) for making quotient types as a fundamental constructing method.] are the basic methods to construct new types.
+
+:::{.list-table aligns="c,c" width="1,1"}
+
+* - Set Theory
+  - Lean's dependent type theory
+
+* - $\forall x \in \mathbb R,\, x^2 \geq 0$
+  
+  - has type $(x : \mathbb R) \to (x^2 \geq 0)$
+
+* - $(n \in \mathbb N) \mapsto (1,0,\dots,0) \in \mathbb R^n$
+
+  - has type $(n : \mathbb N) \to \mathbb R^n$
+
+* - $\{ 0,1 \} = 2$ is a set equality
+  - make no sense
+
+* - cardinality is an equivalence class
+  - is a quotient type
+
+* - Russell's paradox
+  - [Girard's paradox](https://en.wikipedia.org/wiki/System_U#Girard's_paradox)
+:::
+
+### An example Lean 4 code
 
 - FLT
+- TendsTo
 
 # Why formalize
 
@@ -87,7 +142,7 @@ AI excels in Python. Why not Lean?
 
 - Proposing conjectures
 
-  - On which facts should we care about
+  - on which facts should we care about
 
 ### Rigor matters
 
@@ -107,7 +162,7 @@ AI excels in Python. Why not Lean?
 
     > "I spent much of 2019 obsessed with the proof of this theorem, almost getting crazy over it. In the end, we were able to get an argument pinned down on paper, but I think nobody else has dared to look at the details of this, and so I still have some small lingering doubts." --- [Peter Scholze](https://www.nature.com/articles/d41586-021-01627-2)
 
-###
+### "Mathematical engineering"
 
 - manipulating tons of theorems and proofs with mature software engineering techniques
 
@@ -117,9 +172,7 @@ AI excels in Python. Why not Lean?
 
 > The beauty of the system: you do not have to understand the whole proof of FLT in order to contribute. The blueprint breaks down the proof into many many small lemmas, and if you can formalise a proof of just one of those lemmas then I am eagerly awaiting your pull request. --- [Kevin Buzzard on the FLT Project](https://leanprover-community.github.io/blog/posts/FLT-announcement/)
 
-###
-
-- Formalization as learning
+### Formalization as learning
 
 - proofs with infinite detail
 

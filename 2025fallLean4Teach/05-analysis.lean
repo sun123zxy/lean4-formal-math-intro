@@ -3,13 +3,6 @@ import Mathlib
 def TendsTo (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| < ε
 
-example : TendsTo (fun _ ↦ 998244353) 998244353 := by
-  unfold TendsTo
-  intro ε hε
-  use 19260817
-  intro n hn
-  simp [hε]
-
 /-- The limit of the constant sequence with value `c` is `c`. -/
 theorem tendsTo_const (c : ℝ) : TendsTo (fun _ ↦ c) c := by
   unfold TendsTo
