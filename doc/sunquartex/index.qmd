@@ -1,0 +1,6 @@
+---
+format:
+  html: default
+---
+
+{{< include ../../README.md >}}

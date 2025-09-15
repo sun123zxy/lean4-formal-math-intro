@@ -2,6 +2,6 @@ project:
   type: website
 
 website:
-  site-url: "https://sun123zxy.github.io/sunquartex/"
+  # site-url: "https://sun123zxy.github.io/sunquartex/"
   sidebar:
     contents: auto
