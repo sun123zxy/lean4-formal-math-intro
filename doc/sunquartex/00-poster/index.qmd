@@ -87,4 +87,4 @@ BICMR--Ubiquant AI4Math 数据标注团队实习经验
 
 - Community
 
-  - Lean Zulip
+  - [Lean Zulip](https://leanprover.zulipchat.com/)

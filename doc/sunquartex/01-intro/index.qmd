@@ -9,10 +9,23 @@ lang: en
 
 format:
   beamer:
-    toc: true
+    toc: true 
 ---
 
 # What is formalization
+
+### Natural language vs. formal language
+
+- ambiguity in natural language
+
+  - implicit assumptions
+  - skipping details: "It's clear that we have..."
+  - "viewed as" arguments: $V^* = V$, $(A \times B) \times C = A \times (B \times C)$
+  - abuses of notation: $3 \in \mathbb Z / 5 \mathbb Z$
+
+- precision in formal language
+
+  - computer programs are formal languages
 
 ### Curry--Howard correspondence
 
@@ -49,9 +62,13 @@ format:
 Mathematical proofs are in one-to-one correspondence with computer programs
 :::::
 
-### What (is Lean 4)
+### What is Lean 4
 
-### A typical Lean file
+- A modern programming language designed for theorem proving
+
+### A typical Lean theorem
+
+- FLT
 
 # Why formalize
 
@@ -132,6 +149,10 @@ AI excels in Python. Why not Lean?
 # How to formalize
 
 ### What you will learn
+
+### A typical Lean file
+
+- mathematical analysis
 
 ### Drawbacks
 
