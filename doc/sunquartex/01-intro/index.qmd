@@ -27,7 +27,7 @@ format:
 
   - computer programs are formal languages
 
-### Mathematical proofs vs. Computer programs ^[see also [Computational Trilogy](https://ncatlab.org/nlab/show/computational+trilogy), with category theory as the third vertex]
+### Mathematical proofs vs. Computer programs^[see also [Computational Trilogy](https://ncatlab.org/nlab/show/computational+trilogy), with category theory as the third vertex]
 
 :::{.list-table aligns="c,c" width="1,1"}
 
@@ -84,7 +84,7 @@ Curry--Howard correspondence
 
 ### What is Lean 4
 
-- A mordern functional programming language designed for theorem proving
+- A modern functional programming language designed for theorem proving
 
 > “Lean is based on a version of dependent type theory known as the *Calculus of Constructions*, with a countable hierarchy of non-cumulative universes and inductive types.” --- [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/)
 
@@ -148,7 +148,7 @@ AI excels in Python. Why not Lean?
 
 - It's the foundation of mathematics
 
-- Inprecise natural language often leads to misunderstandings and glitches
+- Imprecise natural language often leads to misunderstandings and glitches
 
   - Especially when proofs get longer and longer
 
@@ -191,30 +191,88 @@ AI excels in Python. Why not Lean?
 
 # Why now formalize
 
-### Mathematician-friendly community
+### Formalization becomes more accessible
 
-- mathematician-friendly languages, interfaces, tools and community emerges
+Mathematician-friendly languages, interfaces, tools and community emerges:
+
+- Lean 4 with VSCode extension, modern interactive theorem prover made for mathematicians
+
+- formalization becomes more and more fashionable
+
+- big names works on formalization:
+  - [Kevin Buzzard](https://profiles.imperial.ac.uk/k.buzzard) works on formalizing FLT
+  - [Peter Scholze](https://www.nature.com/articles/d41586-021-01627-2)'s work on condensed mathematics has been formalized
+  - [Terrence Tao](https://terrytao.wordpress.com/) gave [a talk](https://www.youtube.com/watch?v=e049IoFBnLA) on formalization in IMO 2024 and wrote a Lean 4 companion of his book "Analysis I" recently
+
+- computer scientists and volunteering mathematicians run Lean 4 community collaboratively
 
 ### Mathlib 4 is expanding explosively
 
-- undergraduate may contribute: some low fruits
+By the time of 2025/09/16, Mathlib 4 has^[Statistics fetched from [Mathlib statistics](https://leanprover-community.github.io/mathlib_stats.html)]
+
+:::{.list-table aligns="c,c,c,c" width="1,1,1,1"}
+
+* - Lines of code
+  - Definitions
+  - Theorems
+  - Contributors
+
+* - 1950000
+  - 115438
+  - 232204
+  - 653
+:::
+
+- undergraduate may contribute: some low-hanging fruits
 
 # How to formalize
 
-### What you will learn
+### The goal
 
-### A typical Lean file
+The goal, at the end of this course, is
 
-- mathematical analysis
+- to get used to think formally
+- to migrate from set theory to dependent type theory
+- to practice basic skills to translate statements and proofs into Lean 4
+- to know how to find existing theorems, how the community works
+- to acquire enough common senses to read the bibles (MiL, TPiL, Mathlib 4 Doc, etc.) by yourself for future formalization projects
+- (optimistically) to set up a Lean 4 formalization club at BIT!
 
-### Drawbacks
+### How will we learn
 
-- Formalization is tedious in its nature, Lean 4 is no exception
+As mathematicians, we learn Lean 4 to formalizing mathematics. We learn by practice.
+
+- Dozens of Lean files packed with well-organized examples and exercises suffice to get you started, suitable for both guided study and self study. Most lectures will be given in this style.
+
+- This style of teaching is inspired by [Kevin Buzzard's 2024 course on formalising mathematics in the Lean theorem prover](https://github.com/ImperialCollegeLondon/formalising-mathematics-2024) and [many other courses](https://leanprover-community.github.io/teaching/courses.html).
+
+### What we won't cover
+
+Due to the limited time, my personal inability and the design of this course, we might not be able to cover:
+
+- a deep discussion into dependent type theory or Lean 4 as a programming language itself
+
+  - Read [TPiL](https://lean-lang.org/theorem_proving_in_lean4/) for a Lean 4 tutorial that emphasizes on type theory.
+  - Read [FPiL](https://lean-lang.org/functional_programming_in_lean/) for a Lean 4 tutorial that focuses more on functional programming.
+
+- systematic exposition of how a particular branch of mathematics is formalized in Mathlib 4
+
+  - Read [MiL](https://leanprover-community.github.io/mathematics_in_lean/) for this purpose.
+
+- how to organize a massive formalization project from scratch, i.e. project management
+
+  - somewhat subtle, might can only be learned by reading Mathlib codes and practical experience
+
+### Disclaimer
+
+- Formalization is tedious in its nature, Lean is no exception
 
 - Type conversions can be an extra burden (exclusive for type-theory-based systems)
 
 - Knowledge needs to be re-learned before being referenced
 
-### References
+- Different people may formalize the same thing in different ways
 
-blah
+### If these do not scare you away...
+
+Welcome aboard. Have fun formalizing mathematics!

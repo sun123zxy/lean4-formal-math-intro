@@ -16,3 +16,11 @@ example : TendsTo (fun _ ↦ 998244353) 998244353 := by
   use 19260817
   intro n hn
   simp [hε]
+
+theorem tendsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
+    TendsTo (fun n => a n + b n) (A + B) := by
+  sorry
+
+theorem tendsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)
+    (hab : ∀ n, a n ≤ b n) (hbc : ∀ n, b n ≤ c n) : TendsTo b L := by
+  sorry
