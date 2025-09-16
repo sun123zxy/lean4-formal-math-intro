@@ -134,10 +134,23 @@ AI excels in Python. Why not Lean?
 - Automated theorem proving
 
   - especially those "abstract nonsense"
+  
+  - full-auto (create a proof without human interaction)
+  
+  - semi-auto (suggest tactics)
+
+    - `exact?`, Github Copilot, ...
 
 - Natural language to formal language
 
   - automatically transplanting textbooks and papers into Lean
+
+  - full-auto (translate without human interaction)
+  
+  - bolt-action (search for existing theorems)
+
+    - [LeanSearch](https://leansearch.net/), [LeanExplore](https://www.leanexplore.com/), ...
+  
   - Converse? Already happening!
 
 - Proposing conjectures
