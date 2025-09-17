@@ -27,7 +27,7 @@ resources:
 
   - implicit assumptions
   - skipping details: "It's clear that we have..."
-  - "viewed as" arguments: $V^* = V$, $(A \times B) \times C = A \times (B \times C)$ ^[Knowledgable audience may recognize them as examples of natural isomorphisms in category theory.]
+  - "viewed as" arguments: $V^{**} = V$, $(A \times B) \times C = A \times (B \times C)$ ^[Knowledgable audience may recognize them as examples of natural isomorphisms in category theory.]
   - abuses of notation: $3 \in \mathbb Z / 5 \mathbb Z$, $\mathbb C \subseteq \mathbb C[x]$
 
 - precision in formal language
