@@ -48,7 +48,7 @@ jobs:
       - name: Prepare for TikZ rendering
         run: |
           echo "" >> temp.qmd
-          quarto render temp.qmd --to=pdf --template=doc/sunquartex/_assets/suntemp-tikz.tex
+          quarto render temp.qmd --to=pdf --template=2025fallLean4Teach/_assets/suntemp-tikz.tex
           rm temp.qmd
 
       # From https://github.com/actions/setup-python
@@ -56,7 +56,7 @@ jobs:
         uses: actions/setup-python@v3
 
       - name: Setup Python dependencies
-        run: python3 -m pip install doc/sunquartex/.
+        run: python3 -m pip install 2025fallLean4Teach/.
 
       # - name: Render Quarto Project
       #   uses: quarto-dev/quarto-actions/render@v2
@@ -66,7 +66,7 @@ jobs:
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          path: doc/sunquartex/
+          path: 2025fallLean4Teach/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
           QUARTO_PROFILE: website
