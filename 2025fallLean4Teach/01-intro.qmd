@@ -11,7 +11,7 @@ format:
   html:
     other-links:
       - text: "Lean 4 code"
-        href: index.lean
+        href: 01-intro.lean
   beamer:
     toc: true
 ---

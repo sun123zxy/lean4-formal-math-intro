@@ -41,16 +41,6 @@ jobs:
           tlmgr path add
           dvisvgm --help
       
-      - name: Install mutool
-        run: sudo apt-get install mupdf-tools
-      
-      # To import libraries in advance for tikz image generation
-      - name: Prepare for TikZ rendering
-        run: |
-          echo "" >> temp.qmd
-          quarto render temp.qmd --to=pdf --template=2025fallLean4Teach/_assets/suntemp-tikz.tex
-          rm temp.qmd
-
       # From https://github.com/actions/setup-python
       - name: Setup Python
         uses: actions/setup-python@v3
