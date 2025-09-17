@@ -289,3 +289,8 @@ Due to the limited time, my personal inability and the design of this course, we
 ### If these do not scare you away...
 
 Welcome aboard. Have fun formalizing mathematics!
+
+### Resources
+
+- [course repository](https://github.com/sun123zxy/2025fall-lean4-teach)
+- [online documentation](https://sun123zxy.github.io/2025fall-lean4-teach/)
