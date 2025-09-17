@@ -95,7 +95,7 @@ Curry--Howard correspondence
   - types may depend on terms "given before" them
   - first-order logic can be implemented in dependent type theory
 
-- functions, inductive types and quotient types^[Though seemingly [redundant](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/Part_B/threekindsoftypes.html), there is [a reason](https://lean-lang.org/doc/reference/latest/The-Type-System/Quotients/#quotient-funext) for making quotient types as a fundamental constructing method.] are the basic methods to construct new types.
+- functions, inductive types and quotient types^[Though seemingly [redundant](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/Part_B/threekindsoftypes.html), there are reasons for making quotient types as a fundamental constructing method. [funext](https://lean-lang.org/doc/reference/latest/The-Type-System/Quotients/#quotient-funext) [thesis](https://ncatlab.org/nlab/files/Li-QuotientTypes.pdf)] are the basic methods to construct new types.
 
 :::{.list-table aligns="c,c" width="1,1"}
 
