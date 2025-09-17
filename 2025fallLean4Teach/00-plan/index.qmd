@@ -2,10 +2,11 @@
 title: 形式化数学与 Lean 4 定理证明入门
 subtitle: Introduction to Formal Mathematics with Lean 4
 author: 钟星宇 \quad 北京理工大学 \quad sun123zxy@qq.com
-date: 2025/09/17
+date: 2025/09/15
 lang: zh
 
 format:
+  html: default
   pdf: default
 ---
 

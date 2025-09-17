@@ -8,8 +8,12 @@ shortinstitute: BIT
 lang: en
 
 format:
+  html:
+    other-links:
+      - text: "Lean 4 code"
+        href: index.lean
   beamer:
-    toc: true 
+    toc: true
 ---
 
 # What is formalization

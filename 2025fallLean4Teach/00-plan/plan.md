@@ -1,4 +1,8 @@
-# Plan (WIP)
+---
+title: Plan (WIP)
+format:
+  html: default
+---
 
 Week 1--12, Wednesday evening, ~ 90 min / week
 

@@ -1,6 +1,7 @@
 ---
 format:
-  html: default
+  html:
+    toc: false
 ---
 
-{{< include ../../README.md >}}
+{{< include ../README.md >}}
