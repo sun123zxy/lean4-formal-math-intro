@@ -14,6 +14,9 @@ format:
         href: 01-intro.lean
   beamer:
     toc: true
+
+resources: 
+  - 01-intro.lean
 ---
 
 # What is formalization

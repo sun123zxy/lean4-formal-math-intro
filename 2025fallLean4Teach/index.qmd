@@ -11,6 +11,9 @@ format:
       - text: "Lean 4 tactics cheatsheet"
         href: 00-plan/lean-tactics.pdf
   pdf: default
+
+resources: 
+  - 00-plan/lean-tactics.pdf
 ---
 
 ## 背景简介
