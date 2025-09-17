@@ -4,8 +4,6 @@ format:
   html: default
 ---
 
-Week 1--12, Wednesday evening, ~ 90 min / week
-
 ## Introduction to Formal Mathematics with Lean 4
 
 ## Hello World
