@@ -9,11 +9,8 @@ format:
   html:
     other-links:
       - text: "Lean 4 tactics cheatsheet"
-        href: 00-plan/lean-tactics.pdf
+        href: https://leanprover-community.github.io/papers/lean-tactics.pdf
   pdf: default
-
-resources: 
-  - 00-plan/lean-tactics.pdf
 ---
 
 ## 背景简介
@@ -32,11 +29,11 @@ AI4Math 是将人工智能技术应用于数学研究的跨学科领域。其目
 
 :::{layout="[4,6]"}
 
-![课程群](00-plan/wechat.png){#fig-wechat height=180px}
+![课程群](res/wechat.png){#fig-wechat height=180px}
 
 **时间**：1--12 周周三 18:30--20:05，首次课程 9 月 17 日  
 **地点**：文萃楼 G223  
-**主讲人**：[钟星宇](https://scholar.sun123zxy.top/)    
+**主讲人**：[钟星宇](https://scholar.sun123zxy.top/)  
 北京理工大学 2022 级强基数学专业本科生  
 Mathlib 4 Contributor  
 ICPC Regional Silver Medalist  
