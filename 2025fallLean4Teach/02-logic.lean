@@ -13,19 +13,11 @@ the implication `p → q` means "if `p` then `q`".
 
 By the Curry--Howard correspondence, `p → q` is also understood as
 a function that takes a proof of `p` and produces a proof of `q`.
-
-When we define a theorem `theorem name (h1 : p1) ... (hn : pn) : q := ...`,
-we are actually defining a function of type
-`name : (h1 : p1) → ... → (hn : pn) → (h : q)`.
-
-`→` is right associative, so `p → q → r` means `p → (q → r)`.
-You may notice that this is logically equivalent to `p ∧ q → r`.
-This relationship is known as *currification*. We shall discuss this later.
 -/
 
 section
 
-variable (p q r : Prop)
+variable (p q r : Prop) -- this introduces global variables within this section
 
 #check p → q
 #check fun (hp : p) ↦ hp -- this is the inline way to define a function
@@ -44,7 +36,20 @@ but you can also construct proofs directly (called term-style proof)
 -/
 example (hp : p) : p := hp
 
-/- modus ponens -/
+/-
+When we define a theorem `theorem name (h1 : p1) ... (hn : pn) : q := ...`,
+we are actually defining a function of type `name : (h1 : p1) → ... → (hn : pn) → (h : q)`.
+`example`s are just anonymous `theorem`s.
+
+`→` is right associative, so `p → q → r` means `p → (q → r)`.
+You may notice that this is logically equivalent to `p ∧ q → r`.
+This relationship is known as *currification*. We shall discuss this later.
+
+Example: Say `hpqr`, `hp`, `hq` are proofs of `p → q → r`, `p`, `q` respectively.
+Then `hpqr hp` is a proof of `q → r`, and `hpqr hp hq` is a proof of `r`.
+-/
+
+/- *modus ponens* -/
 theorem mp (hp : p) (hpq : p → q) : q := by
   exact hpq hp
   -- try `exact?`
@@ -63,7 +68,7 @@ example (hq : q) : p → q := by
   intro hp
   exact hq
 
-/- modus ponens, with hidden hypothesis -/
+/- *modus ponens*, with hidden hypothesis -/
 example : p → (p → q) → q := by
   intro hp hpq -- you can `intro` multiple hypotheses at once
   exact hpq hp
@@ -78,7 +83,7 @@ tactic: `apply`
 If `q` is the goal and we have `hpq : p → q`, then `apply hpq` changes the goal to `p`.
 -/
 
-/- modus ponens, with another proof -/
+/- *modus ponens*, with another proof -/
 example (hp : p) (hpq : p → q) : q := by
   apply hpq
   exact hp
