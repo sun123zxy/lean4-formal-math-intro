@@ -7,7 +7,12 @@ variable (p q r : Prop)
 /-
 ## Implication `→`
 
-For propositions `p` and `q`, the implication `p → q` means "if `p` then `q`".
+Implication `→` is the most fundamental way of constructing new types
+in Lean's dependent type theory. It's one of the first-class citizens in Lean.
+
+In the universe of `Prop`, for propositions `p` and `q`,
+the implication `p → q` means "if `p` then `q`".
+
 By the Curry--Howard correspondence, `p → q` is also understood as
 a function that takes a proof of `p` and produces a proof of `q`.
 
@@ -21,19 +26,26 @@ This relationship is known as *currification*. We shall discuss this later.
 -/
 
 #check p → q
-#check fun (hp : p) ↦ hp
+#check fun (hp : p) ↦ hp -- this is the inline way to define a function
 
 /-
 tactic: `exact`
 If the goal is `p` and we have `hp : p`, then `exact hp` solves the goal.
 -/
-
 example (hp : p) : p := by
   exact hp
+
+/-
+In fact in this case we don't need a `by`, since `hp` is just of type `p`
+`by` activates the tactic mode, which helps us construct proofs interactively
+but you can also construct proofs directly (called term-style proof)
+-/
+example (hp : p) : p := hp
 
 /- modus ponens -/
 theorem mp (hp : p) (hpq : p → q) : q := by
   exact hpq hp
+  -- try `exact?`
 
 #check mp
 #check (mp : (p : Prop) → (q : Prop) → p → (p → q) → q)
@@ -77,13 +89,131 @@ example (hpq : p → q) (hqr : q → r) : p → r := by
   exact hp
 
 /-
-# Negation `¬`, `True` and `False`
+# `Not` (`¬`), `True` and `False`
+
+In Lean's dependent type theory, `True` and `False` are propositions serving as
+the initial and terminal objects in the universe of `Prop`.
+
+They are constructed as inductive types, which is another fundamental way of constructing new types.
+(We shall discuss inductive types later)
 -/
 
 /-
-# And `∧` and or `∨`
+`True` has a single constructor `True.intro`, which produces the unique proof of `True`.
+This means that `True` is self-evidently true.
+
+`trivial` is a tactic that solves goals of type `True` using `True.intro`,
+though it's power does not stop here.
+-/
+
+#print True
+#check True.intro
+
+/- The following examples shows that `True → p` is logically equivalent to `p`. -/
+
+example (hp : p) : True → p := by
+  intro _ -- use `_` as a placeholder if the hypothesis is not needed
+  exact hp
+
+/- Above is actually the elimination law of `True`. Ignore this if you don't understand it now. -/
+example (hp : p) : True → p := True.rec hp
+
+example (htp : True → p) : p := htp True.intro
+
+example (htp : True → p) : p := by
+  apply htp
+  trivial
+
+/-
+`False` has no constructors, meaning that there is no way to construct a proof of `False`.
+This means that `False` is always false.
+
+`False.elim` is the eliminator of `False`, serve as the "principle of explosion",
+which allows us to derive anything from a falsehood.
+Note that this principle is true *by definition* in Lean's dependent type theory.
+You will understand this better after learning about inductive types.
+
+`exfalso` is a tactic that applys `False.elim` to the current goal, changing it to `False`.
+`contradiction` is a tactic that proves the current goal
+by finding a trivial contradiction in the context.
+-/
+
+#print False
+#check False.elim
+#check False.rec -- ignore this if you don't understand it now
+
+example (hf : False) : p := False.elim hf
+
+example (hf : False) : p := by
+  exfalso
+  exact hf
+
+example (hf : False) : p := by
+  contradiction
+
+example (h : 1 + 1 = 3) : RiemannHypothesis := by
+  contradiction
+
+/-
+On how to actually obtain a proof of `False` from a trivially false hypothesis via term-style proof
+TODO, see [here](https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers)
 -/
 
 /-
-# Iff `↔`
+In Lean's dependent type theory, negation `¬p` is realized as `p → False`
+
+You may understand `¬p` as "if `p` then absurd", indicating that `p` cannot be true.
+-/
+
+#print Not
+
+/- this has a name `absurd` in Lean -/
+#check absurd
+example (hp : p) (hnp : ¬p) : False := hnp hp
+
+/- contraposition -/
+example : (p → q) → (¬q → ¬p) := by
+  intro hpq hnq hp
+  exact hnq (hpq hp)
+/- `contrapose!` is a tactic that does exactly this. We shall discuss this later. -/
+
+example : p → ¬¬p := by
+  intro hp hnp
+  exact hnp hp
+
+/-
+Double negation elimination is not valid in intuitionistic logic.
+You'll need *proof by contradiction* to prove it.
+The tactic `by_contra` is used for this purpose.
+If the goal is `p`, then `by_contra hnp` changes the goal to `False`
+and adds the hypothesis `hnp : ¬p` into the context.
+-/
+theorem not_not_cancel : ¬¬p → p := by
+  intro hnnp
+  by_contra hnp
+  exact hnnp hnp
+
+/- You can use the following command to check what axioms are used in the proof -/
+#print axioms not_not_cancel
+
+/-
+
+For logical lunatics:
+
+In Lean, *proof by contradiction* is a result of *law of excluded middle* `Classical.em`,
+the latter is derived from:
+
+- *the axiom of choice* `Classical.choice`
+- *function extensionality* `funext`
+  - which is a result of quotient axiom `Quot.sound`
+- *propositional extensionality* `propext`
+
+-/
+
+/-
+# `And` (`∧`) and `Or` (`∨`)
+-/
+
+/-
+# `Iff` (`↔`)
 -/
