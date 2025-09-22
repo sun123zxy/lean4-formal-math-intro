@@ -2,8 +2,6 @@ import Mathlib
 
 /- # Logic -/
 
-variable (p q r : Prop)
-
 /-
 ## Implication `→`
 
@@ -24,6 +22,10 @@ we are actually defining a function of type
 You may notice that this is logically equivalent to `p ∧ q → r`.
 This relationship is known as *currification*. We shall discuss this later.
 -/
+
+section
+
+variable (p q r : Prop)
 
 #check p → q
 #check fun (hp : p) ↦ hp -- this is the inline way to define a function
@@ -88,8 +90,10 @@ example (hpq : p → q) (hqr : q → r) : p → r := by
   apply hpq
   exact hp
 
+end
+
 /-
-# `Not` (`¬`), `True` and `False`
+## `Not` (`¬`), `True` (`⊤`) and `False` (`⊥`)
 
 In Lean's dependent type theory, `True` and `False` are propositions serving as
 the initial and terminal objects in the universe of `Prop`.
@@ -105,6 +109,10 @@ This means that `True` is self-evidently true.
 `trivial` is a tactic that solves goals of type `True` using `True.intro`,
 though it's power does not stop here.
 -/
+
+section
+
+variable (p q : Prop)
 
 #print True
 #check True.intro
@@ -177,17 +185,28 @@ example : (p → q) → (¬q → ¬p) := by
   exact hnq (hpq hp)
 /- `contrapose!` is a tactic that does exactly this. We shall discuss this later. -/
 
+example : ¬True → False := by
+  intro h
+  exact h True.intro
+
+example : ¬False := by
+  intro h
+  exact h
+
 example : p → ¬¬p := by
   intro hp hnp
   exact hnp hp
 
 /-
-Double negation elimination is not valid in intuitionistic logic.
-You'll need *proof by contradiction* to prove it.
-The tactic `by_contra` is used for this purpose.
-If the goal is `p`, then `by_contra hnp` changes the goal to `False`
+*Double negation elimination* is not valid in intuitionistic logic.
+You'll need *proof by contradiction* `Classical.byContradiction` to prove it.
+The tactic `by_contra` is created for this purpose.
+If the goal is `p`, then `by_contra hnp` changes the goal to `False`,
 and adds the hypothesis `hnp : ¬p` into the context.
 -/
+#check Classical.byContradiction
+
+/- double negation elimination -/
 theorem not_not_cancel : ¬¬p → p := by
   intro hnnp
   by_contra hnp
@@ -196,19 +215,41 @@ theorem not_not_cancel : ¬¬p → p := by
 /- You can use the following command to check what axioms are used in the proof -/
 #print axioms not_not_cancel
 
-/-
+/- For logical lunatics:
 
-For logical lunatics:
-
-In Lean, *proof by contradiction* is a result of *law of excluded middle* `Classical.em`,
-the latter is derived from:
-
+In Lean, `Classical.byContradiction` is proved by the fact that
+all propositions are `Decidable` in classical logic, which is a result of
 - *the axiom of choice* `Classical.choice`
-- *function extensionality* `funext`
-  - which is a result of quotient axiom `Quot.sound`
-- *propositional extensionality* `propext`
+- *the law of excluded middle* `Classical.em`, which is a result of
+  - *the axiom of choice* `Classical.choice`
+  - *function extensionality* `funext`, which is a result of
+    - the quotient axiom `Quot.sound`
+  - *propositional extensionality* `propext`
 
+You can always trace back like this in Lean, by ctrl-clicking the names.
+This is a reason why Lean is awesome for learning logic and mathematics.
 -/
+
+/- another side of contraposition -/
+example : (¬q → ¬p) → (p → q) := by
+  intro hnqnp hp
+  by_contra hnq
+  exact hnqnp hnq hp
+
+end
+
+/-
+In fact above is equivalent to double negation elimination.
+This one use the `have` tactic, which allows us to state and prove a lemma in the middle of a proof.
+You don't have to digest the proof. Just see how `have` is used.
+-/
+example (hctp : (p q : Prop) → (¬q → ¬p) → (p → q)) : (p : Prop) → (¬¬p → p) := by
+  intro p hnnp
+  have h : (¬p → ¬True) := by
+    intro hnp _
+    exact hnnp hnp
+  apply hctp True p h
+  trivial
 
 /-
 # `And` (`∧`) and `Or` (`∨`)
