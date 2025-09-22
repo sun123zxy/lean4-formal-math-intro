@@ -14,3 +14,11 @@ git clone git@github.com:sun123zxy/2025fall-lean4-teach.git
 cd 2025fall-lean4-teach
 lake exe cache get
 ```
+
+## Update
+
+To update the repository, make sure you have discarded any local changes (otherwise you may need to merge manually). Then execute the following commands in your terminal:
+
+```bash
+git pull
+```
