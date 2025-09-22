@@ -50,10 +50,12 @@ Then `hpqr hp` is a proof of `q → r`, and `hpqr hp hq` is a proof of `r`.
 -/
 
 /- *modus ponens* -/
-theorem mp (hp : p) (hpq : p → q) : q := by
-  exact hpq hp
-  -- try `exact?`
+theorem mp (hp : p) (hpq : p → q) : q := hpq hp
 
+/- `exact?` may help to close some trivial goals -/
+example (hp : p) (hpq : p → q) : q := by exact?
+
+/- note how we write the type of `mp` differently -/
 #check mp
 #check (mp : (p : Prop) → (q : Prop) → p → (p → q) → q)
 
@@ -94,6 +96,24 @@ example (hpq : p → q) (hqr : q → r) : p → r := by
   apply hqr
   apply hpq
   exact hp
+
+/-
+tactic: `specialize`
+If we have `hpq : p → q` and `hp : p`,
+then `specialize hpq hp` reassigns `hpq` to `hpq hp`, a proof of `q`.
+-/
+
+/- *modus ponens*, with another proof -/
+example (hp : p) (hpq : p → q) : q := by
+  specialize hpq hp
+  exact hpq
+
+/- transitivity of `→`, with another proof -/
+example (hpq : p → q) (hqr : q → r) : p → r := by
+  intro hp
+  specialize hpq hp
+  specialize hqr hpq
+  exact hqr
 
 end
 
@@ -170,6 +190,9 @@ example (h : 1 + 1 = 3) : RiemannHypothesis := by
 /-
 On how to actually obtain a proof of `False` from a trivially false hypothesis via term-style proof
 TODO, see [here](https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers)
+
+Sharp-eyed readers may notice that `True` and `False` act similarly to
+singleton sets and empty sets in set theory. This is exactly what "terminal" and "initial" mean.
 -/
 
 /-

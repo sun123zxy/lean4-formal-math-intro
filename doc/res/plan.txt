@@ -24,7 +24,7 @@ format:
 - IMPLIES: `intro` (construct IMPLIES / FORALL), `specialize` `apply` (eliminate IMPLIES / FORALL)
 - AND / OR: `constructor` (construct AND), `left` `right` (construct OR), `rcases` (eliminate AND & OR)
 - EXISTS: `use` (construct EXISTS), `rcases` (eliminate EXISTS)
-- NOT: `push_neg`, `exfalso`, `by_contra`, `by_contrapose`
+- NOT: `push_neg`, `exfalso`, `by_contra`, `contrapose`
 - `have` `let` `set`
 
 [Tactic cheatsheet](https://github.com/fpvandoorn/LeanCourse24/blob/master/lean-tactics.pdf)
