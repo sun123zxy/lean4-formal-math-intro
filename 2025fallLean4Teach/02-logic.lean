@@ -75,7 +75,7 @@ example (hq : q) : p → q := by
   intro hp
   exact hq
 
-/- *modus ponens*, with hidden hypothesis -/
+/- modus ponens, with hidden hypothesis -/
 example : p → (p → q) → q := by
   intro hp hpq -- you can `intro` multiple hypotheses at once
   exact hpq hp
@@ -90,7 +90,7 @@ tactic: `apply`
 If `q` is the goal and we have `hpq : p → q`, then `apply hpq` changes the goal to `p`.
 -/
 
-/- *modus ponens*, with another proof -/
+/- modus ponens, with another proof -/
 example (hp : p) (hpq : p → q) : q := by
   apply hpq
   exact hp
@@ -108,7 +108,7 @@ If we have `hpq : p → q` and `hp : p`,
 then `specialize hpq hp` reassigns `hpq` to `hpq hp`, a proof of `q`.
 -/
 
-/- *modus ponens*, with another proof -/
+/- modus ponens, with another proof -/
 example (hp : p) (hpq : p → q) : q := by
   specialize hpq hp
   exact hpq
@@ -346,6 +346,14 @@ example (hpq : p ∧ q) : p := by
 /-
 The actual universal elimination rule of `And` is the so-called *decurrification*:
 From `(p → q → r)` we may deduce `(p ∧ q → r)`. This is actually a logical equivalence.
+
+Intuitively, requiring both `p` and `q` to deduce `r` is nothing but
+requiring `p` to deduce that `q` is sufficient to deduce `r`.
+
+Currification is heavily used in functional programming for its convenience, Lean is no exception.
+
+You are no stranger to decurrification even if you are not a functional programmer:
+The *universal property of the tensor product of modules* says exactly the same.
 -/
 
 /- currification -/
@@ -359,12 +367,15 @@ example (h : p → q → r) : (p ∧ q → r) := by
   exact h hpq.left hpq.right
 
 example (h : p → q → r) : (p ∧ q → r) := by
-  intro hpq
-  exact h hpq.left hpq.right
+  intro ⟨hp, hq⟩
+  exact h hp hq
 
 example (h : p → q → r) : (p ∧ q → r) := by
   intro ⟨hp, hq⟩
-  exact h hp hq
+  apply h -- `apply` is smart enough to auto-decurrify and generate two subgoals
+  · exact hp
+  · exact hq
+
 
 /- [IGNORE] decurrification actually originates from `And.rec`, which is self-evident -/
 #check And.rec
