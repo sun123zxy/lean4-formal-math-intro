@@ -1,6 +1,11 @@
 import Mathlib
 
-/- # Logic -/
+/-
+# Logic
+
+You may skip the materials tagged with [IGNORE] below. Most of them are here to illustrate
+the nature of inductive types, which may be too advanced for beginners.
+-/
 
 /-
 ## Implication `→`
@@ -123,6 +128,9 @@ end
 In Lean's dependent type theory, `True` and `False` are propositions serving as
 the initial and terminal objects in the universe of `Prop`.
 
+Eagle-eyed readers may notice that `True` and `False` act similarly to
+singleton sets and empty sets in set theory.
+
 They are constructed as inductive types, which is another fundamental way of constructing new types.
 (We shall discuss inductive types later)
 -/
@@ -148,7 +156,7 @@ example (hp : p) : True → p := by
   intro _ -- use `_` as a placeholder if the hypothesis is not needed
   exact hp
 
-/- Above is actually the elimination law of `True`. Ignore this if you don't understand it now. -/
+/- [IGNORE] Above is actually the elimination law of `True`. -/
 example (hp : p) : True → p := True.rec hp
 
 example (htp : True → p) : p := htp True.intro
@@ -163,7 +171,7 @@ This means that `False` is always false.
 
 `False.elim` is the eliminator of `False`, serve as the "principle of explosion",
 which allows us to derive anything from a falsehood.
-Note that this principle is true *by definition* in Lean's dependent type theory.
+[IGNORE] Note that this principle is *self-evidently true* in Lean's dependent type theory.
 You will understand this better after learning about inductive types.
 
 `exfalso` is a tactic that applys `False.elim` to the current goal, changing it to `False`.
@@ -173,7 +181,7 @@ by finding a trivial contradiction in the context.
 
 #print False
 #check False.elim
-#check False.rec -- ignore this if you don't understand it now
+#check False.rec -- [IGNORE]
 
 example (hf : False) : p := False.elim hf
 
@@ -190,9 +198,6 @@ example (h : 1 + 1 = 3) : RiemannHypothesis := by
 /-
 On how to actually obtain a proof of `False` from a trivially false hypothesis via term-style proof
 TODO, see [here](https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers)
-
-Sharp-eyed readers may notice that `True` and `False` act similarly to
-singleton sets and empty sets in set theory. This is exactly what "terminal" and "initial" mean.
 -/
 
 /-
@@ -281,7 +286,97 @@ example (hctp : (p q : Prop) → (¬q → ¬p) → (p → q)) : (p : Prop) → (
 
 /-
 # `And` (`∧`) and `Or` (`∨`)
+
+In Lean's dependent type theory, `∧` and `∨` serve as
+the direct product and the direct sum in the universe of `Prop`.
+
+Eagle-eyed readers may notice that `∧` and `∨` act similarly to
+Cartesian product and disjoint union in set theory.
+
+They are also constructed as inductive types.
 -/
+
+section
+
+variable (p q r : Prop)
+
+/-
+The only constructor of `And` is `And.intro`, which takes a proof of `p` and a proof of `q`
+to produce a proof of `p ∧ q`.
+
+`constructor` tactic applies `And.intro` to split the goal `p ∧ q` into subgoals `p` and `q`.
+You may also use the anonymous constructor notation `⟨hp, hq⟩` to mean `And.intro hp hq`.
+
+Regard this as the universal property of the direct product if you like.
+-/
+
+#print And
+
+/- how to obtain an `∧` -/
+#check And.intro
+example (hp : p) (hq : q) : p ∧ q := And.intro hp hq
+example (hp : p) (hq : q) : p ∧ q := ⟨hp, hq⟩
+example (hp : p) (hq : q) : p ∧ q := by
+  constructor
+  · exact hp
+  · exact hq
+
+/- universal property of the direct product -/
+example (hrp : r → p) (hrq : r → q) : r → p ∧ q := by
+  intro hr
+  exact ⟨hrp hr, hrq hr⟩
+
+/-
+`And.left` and `And.right` are among the elimination rules of `And`,
+which extract the proofs of `p` and `q`.
+
+`rcases hpq with ⟨hp, hq⟩` is a tactic that breaks down the hypothesis
+`hpq : p ∧ q` into `hp : p` and `hq : q`.
+-/
+
+#check And.left
+#check And.right
+
+/- how to obtain LHS -/
+example (hpq : p ∧ q) : p := hpq.left
+example (hpq : p ∧ q) : p := by
+  rcases hpq with ⟨hp, _⟩
+  exact hp
+
+/-
+The actual universal elimination rule of `And` is the so-called *decurrification*:
+From `(p → q → r)` we may deduce `(p ∧ q → r)`. This is actually a logical equivalence.
+-/
+
+/- currification -/
+example (h : p ∧ q → r) : (p → q → r) := by
+  intro hp hq
+  exact h ⟨hp, hq⟩
+
+/- decurrification -/
+example (h : p → q → r) : (p ∧ q → r) := by
+  intro hpq
+  exact h hpq.left hpq.right
+
+example (h : p → q → r) : (p ∧ q → r) := by
+  intro hpq
+  exact h hpq.left hpq.right
+
+example (h : p → q → r) : (p ∧ q → r) := by
+  intro ⟨hp, hq⟩
+  exact h hp hq
+
+/- [IGNORE] decurrification actually originates from `And.rec`, which is self-evident -/
+#check And.rec
+theorem decurrify (h : p → q → r) : (p ∧ q → r) := And.rec h
+
+/- `And.left` is actually a consequence of decurrification -/
+example : p ∧ q → p := by
+  apply decurrify
+  intro hp _
+  exact hp
+
+end
 
 /-
 # `Iff` (`↔`)
