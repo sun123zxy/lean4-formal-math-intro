@@ -143,7 +143,7 @@ They are constructed as inductive types, which is another fundamental way of con
 `trivial` is a tactic that solves goals of type `True` using `True.intro`,
 though it's power does not stop here.
 
-`True` is self-evidently true.
+[IGNORE] `True` is self-evidently true.
 By *self-evident*, we mean that `True` is true by the inductive type definition of `True`.
 Typically, *introduction rules* and *elimination rules* (universal ones) are self-evident.
 You may understand these terms better along the way.
@@ -179,8 +179,7 @@ This means that `False` is always false.
 
 `False.elim` is the eliminator of `False`, serve as the "principle of explosion",
 which allows us to derive anything from a falsehood.
-[IGNORE] Note that this principle is self-evidently true in Lean's dependent type theory.
-You will understand this better after learning about inductive types.
+[IGNORE] `False.elim` self-evidently true in Lean's dependent type theory.
 
 `exfalso` is a tactic that applys `False.elim` to the current goal, changing it to `False`.
 `contradiction` is a tactic that proves the current goal
@@ -394,7 +393,7 @@ From `(p → q → r)` we may deduce `(p ∧ q → r)`. This is actually a logic
 Intuitively, requiring both `p` and `q` to deduce `r` is nothing but
 requiring `p` to deduce that `q` is sufficient to deduce `r`.
 
-Decurrification is also self-evidently true in Lean's dependent type theory.
+[IGNORE] Decurrification is also self-evidently true in Lean's dependent type theory.
 
 Currification is heavily used in functional programming for its convenience, Lean is no exception.
 
