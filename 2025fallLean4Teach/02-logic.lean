@@ -75,12 +75,12 @@ example (hq : q) : p → q := by
   intro hp
   exact hq
 
-/- modus ponens, with hidden hypothesis -/
+/- [EXR] modus ponens, with hidden hypothesis -/
 example : p → (p → q) → q := by
   intro hp hpq -- you can `intro` multiple hypotheses at once
   exact hpq hp
 
-/- transitivity of `→` -/
+/- [EXR] transitivity of `→` -/
 example (hpq : p → q) (hqr : q → r) : p → r := by
   intro hp
   exact hqr (hpq hp)
@@ -95,7 +95,7 @@ example (hp : p) (hpq : p → q) : q := by
   apply hpq
   exact hp
 
-/- transitivity of `→`, with another proof -/
+/- [EXR] transitivity of `→`, with another proof -/
 example (hpq : p → q) (hqr : q → r) : p → r := by
   intro hp
   apply hqr
@@ -139,10 +139,14 @@ They are constructed as inductive types, which is another fundamental way of con
 ### `True` (`⊤`)
 
 `True` has a single constructor `True.intro`, which produces the unique proof of `True`.
-This means that `True` is self-evidently true.
 
 `trivial` is a tactic that solves goals of type `True` using `True.intro`,
 though it's power does not stop here.
+
+`True` is self-evidently true.
+By *self-evident*, we mean that `True` is true by the inductive type definition of `True`.
+Typically, *introduction rules* and *elimination rules* (universal ones) are self-evident.
+You may understand these terms better along the way.
 -/
 
 section
@@ -175,7 +179,7 @@ This means that `False` is always false.
 
 `False.elim` is the eliminator of `False`, serve as the "principle of explosion",
 which allows us to derive anything from a falsehood.
-[IGNORE] Note that this principle is *self-evidently true* in Lean's dependent type theory.
+[IGNORE] Note that this principle is self-evidently true in Lean's dependent type theory.
 You will understand this better after learning about inductive types.
 
 `exfalso` is a tactic that applys `False.elim` to the current goal, changing it to `False`.
@@ -185,7 +189,9 @@ by finding a trivial contradiction in the context.
 
 #print False
 #check False.elim
-#check False.rec -- [IGNORE]
+#check False.rec -- [IGNORE] `False.elim` is actually defined as `False.rec`
+
+/- eliminating `False` -/
 
 example (hf : False) : p := False.elim hf
 
@@ -196,6 +202,7 @@ example (hf : False) : p := by
 example (hf : False) : p := by
   contradiction
 
+/- [EXR] -/
 example (h : 1 + 1 = 3) : RiemannHypothesis := by
   contradiction
 
@@ -218,20 +225,23 @@ You may understand `¬p` as "if `p` then absurd", indicating that `p` cannot be 
 #check absurd
 example (hp : p) (hnp : ¬p) : False := hnp hp
 
-/- contraposition -/
+/- [EXR] contraposition -/
 example : (p → q) → (¬q → ¬p) := by
   intro hpq hnq hp
   exact hnq (hpq hp)
 /- `contrapose!` is a tactic that does exactly this. We shall discuss this later. -/
 
+/- [EXR] -/
 example : ¬True → False := by
   intro h
   exact h True.intro
 
+/- [EXR] -/
 example : ¬False := by
   intro h
   exact h
 
+/- [EXR] double negation introduction -/
 example : p → ¬¬p := by
   intro hp hnp
   exact hnp hp
@@ -269,7 +279,7 @@ You can always trace back like this in Lean, by ctrl-clicking the names.
 This is a reason why Lean is awesome for learning logic and mathematics.
 -/
 
-/- another side of contraposition -/
+/- [EXR] another side of contraposition -/
 example : (¬q → ¬p) → (p → q) := by
   intro hnqnp hp
   by_contra hnq
@@ -334,7 +344,7 @@ example (hp : p) (hq : q) : p ∧ q := by
   · exact hp
   · exact hq
 
-/- universal property of the direct product -/
+/- [EXR] universal property of the direct product -/
 example (hrp : r → p) (hrq : r → q) : r → p ∧ q := by
   intro hr
   exact ⟨hrp hr, hrq hr⟩
@@ -356,6 +366,11 @@ example (hpq : p ∧ q) : p := hpq.left
 example (hpq : p ∧ q) : p := by
   rcases hpq with ⟨hp, _⟩
   exact hp
+
+/- [EXR] `And` is symmetric -/
+example : p ∧ q → q ∧ p := by
+  intro hpq
+  exact ⟨hpq.right, hpq.left⟩
 
 /- nested and -/
 
@@ -379,24 +394,26 @@ From `(p → q → r)` we may deduce `(p ∧ q → r)`. This is actually a logic
 Intuitively, requiring both `p` and `q` to deduce `r` is nothing but
 requiring `p` to deduce that `q` is sufficient to deduce `r`.
 
+Decurrification is also self-evidently true in Lean's dependent type theory.
+
 Currification is heavily used in functional programming for its convenience, Lean is no exception.
 
 You are no stranger to decurrification even if you are not a functional programmer:
 The *universal property of the tensor product of modules* says exactly the same.
 -/
 
-/- currification -/
+/- [EXR] currification -/
 example (h : p ∧ q → r) : (p → q → r) := by
   intro hp hq
   exact h ⟨hp, hq⟩
 
-/- decurrification -/
+/- [EXR] decurrification -/
 example (h : p → q → r) : (p ∧ q → r) := by
   intro hpq
   exact h hpq.left hpq.right
 
 example (h : p → q → r) : (p ∧ q → r) := by
-  intro ⟨hp, hq⟩
+  intro ⟨hp, hq⟩ -- `intro` is smart enough to destructure `And`
   exact h hp hq
 
 example (h : p → q → r) : (p ∧ q → r) := by
@@ -405,12 +422,11 @@ example (h : p → q → r) : (p ∧ q → r) := by
   · exact hp
   · exact hq
 
-
 /- [IGNORE] decurrification actually originates from `And.rec`, which is self-evident -/
 #check And.rec
 theorem decurrify (h : p → q → r) : (p ∧ q → r) := And.rec h
 
-/- `And.left` is actually a consequence of decurrification -/
+/- [EXR] `And.left` is actually a consequence of decurrification -/
 example : p ∧ q → p := by
   apply decurrify
   intro hp _
