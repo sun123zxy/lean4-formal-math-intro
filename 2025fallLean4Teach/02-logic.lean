@@ -1,8 +1,9 @@
 import Mathlib
 
 /-
-You may skip the materials tagged with [IGNORE] below. Most of them are here to illustrate
-the nature of inductive types, which may be too advanced for beginners.
+You may skip the materials tagged with [IGNORE] for the first runthrough.
+Most of them are here to illustrate the nature of inductive types,
+which may be too advanced for beginners.
 
 # At the Very Beginning...
 
@@ -39,6 +40,15 @@ example : ∀ x : ℝ, 0 ≤ x ^ 2 := thm_sq_nonneg
 
 /-
 # Logic (Part I)
+
+We shall work out the basic logic in Lean's dependent type theory.
+
+[IGNORE]
+You may notice along the way that except `→`,
+all other logical connectives are defined as *inductive types*.
+And they have their own *self-evident* *introduction rules* and *elimination rules*.
+We shall discuss inductive types later in this course.
+These logical connectives serve as good examples.
 
 ## Implication `→`
 
@@ -131,18 +141,23 @@ If the goal is `p → q`, then `intro hp` changes the goal to `q` and adds the h
 `hp : p` into the context.
 -/
 
+/- modus ponens, with a hidden hypothesis -/
+example (hp : p) : (p → q) → q := by
+  intro hpq
+  exact hpq hp
+
 example (hq : q) : p → q := by
-  intro hp
+  intro _  -- use `_` as a placeholder if the introduced hypothesis is not needed
   exact hq
 
-/- [EXR] modus ponens, with hidden hypothesis -/
+/- modus ponens, with two hidden hypothesis -/
 example : p → (p → q) → q := by
   intro hp hpq -- you can `intro` multiple hypotheses at once
   exact hpq hp
 
 /- [EXR] transitivity of `→` -/
-example (hpq : p → q) (hqr : q → r) : p → r := by
-  intro hp
+example : (p → q) → (q → r) → (p → r) := by
+  intro hpq hqr hp
   exact hqr (hpq hp)
 
 /-
@@ -186,28 +201,22 @@ end
 ## `True`, `False` and `Not`
 
 In Lean's dependent type theory, `True` and `False` are propositions serving as
-the *initial and terminal objects* in the universe of `Prop`.
+the *terminal and initial objects* in the universe of `Prop`.
 
 Eagle-eyed readers may notice that `True` and `False` act similarly to
 singleton sets and empty sets in set theory.
 
-They are constructed as *inductive types*,
-which is another fundamental way of constructing new types.
-(We shall discuss inductive types later in this course.)
+They are constructed as *inductive types*.
 -/
 
 /-
 ### `True` (`⊤`)
 
 `True` has a single constructor `True.intro`, which produces the unique proof of `True`.
+[IGNORE] Thus `True` is self-evidently true by `True.intro`.
 
 `trivial` is a tactic that solves goals of type `True` using `True.intro`,
 though it's power does not stop here.
-
-[IGNORE] `True` is self-evidently true.
-By *self-evident*, we mean that `True` is true by the inductive type definition of `True`.
-Typically, *introduction rules* and *elimination rules* (universal ones) are self-evident.
-You may understand these terms better along the way.
 -/
 
 section
@@ -217,10 +226,15 @@ variable (p q : Prop)
 #print True
 #check True.intro
 
+/- `True` as the terminal object -/
+example : p → True := by
+  intro _
+  exact True.intro
+
 /- The following examples shows that `True → p` is logically equivalent to `p`. -/
 
 example (hp : p) : True → p := by
-  intro _ -- use `_` as a placeholder if the hypothesis is not needed
+  intro _
   exact hp
 
 /- [IGNORE] Above is actually the elimination law of `True`. -/

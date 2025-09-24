@@ -39,6 +39,8 @@ You may also use the anonymous constructor notation `⟨hp, hq⟩` to mean `And.
 /- introducing `And` -/
 
 #check And.intro
+
+/- [IGNORE] these examples, as introduction rules, are self-evidently true -/
 example (hp : p) (hq : q) : p ∧ q := And.intro hp hq
 example (hp : p) (hq : q) : p ∧ q := ⟨hp, hq⟩
 example (hp : p) (hq : q) : p ∧ q := by
