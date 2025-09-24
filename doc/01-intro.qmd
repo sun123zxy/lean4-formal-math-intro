@@ -270,10 +270,11 @@ As mathematicians, we learn Lean 4 to formalizing mathematics. We learn by pract
 
 Due to the limited time, my personal inability and the design of this course, we might not be able to cover:
 
-- a deep discussion into dependent type theory or Lean 4 as a programming language itself
+- a deep discussion into dependent type theory or Lean as a programming language itself
 
   - Read [TPiL](https://lean-lang.org/theorem_proving_in_lean4/) for a Lean 4 tutorial that emphasizes on type theory.
   - Read [FPiL](https://lean-lang.org/functional_programming_in_lean/) for a Lean 4 tutorial that focuses more on functional programming.
+  - Refer to [Lean Language Manual](https://leanprover.github.io/lean4/doc/index.html) for precise specifications.
 
 - systematic exposition of how a particular branch of mathematics is formalized in Mathlib 4
 

@@ -46,8 +46,8 @@ When we define a theorem `theorem name (h1 : p1) ... (hn : pn) : q := ...`,
 we are actually defining a function of type `name : (h1 : p1) → ... → (hn : pn) → (h : q)`.
 `example`s are just anonymous `theorem`s.
 
-`→` is right associative, so `p → q → r` means `p → (q → r)`.
-You may notice that this is logically equivalent to `p ∧ q → r`.
+`→` is right-associative. In general, hover the mouse over the operators to see how they associate.
+so `p → q → r` means `p → (q → r)`. You may notice that this is logically equivalent to `p ∧ q → r`.
 This relationship is known as *currification*. We shall discuss this later.
 
 Example: Say `hpqr`, `hp`, `hq` are proofs of `p → q → r`, `p`, `q` respectively.
@@ -123,7 +123,7 @@ example (hpq : p → q) (hqr : q → r) : p → r := by
 end
 
 /-
-## `Not` (`¬`), `True` (`⊤`) and `False` (`⊥`)
+## `True`, `False` and `Not`
 
 In Lean's dependent type theory, `True` and `False` are propositions serving as
 the initial and terminal objects in the universe of `Prop`.
@@ -136,6 +136,8 @@ They are constructed as inductive types, which is another fundamental way of con
 -/
 
 /-
+### `True` (`⊤`)
+
 `True` has a single constructor `True.intro`, which produces the unique proof of `True`.
 This means that `True` is self-evidently true.
 
@@ -166,6 +168,8 @@ example (htp : True → p) : p := by
   trivial
 
 /-
+### `False` (`⊥`)
+
 `False` has no constructors, meaning that there is no way to construct a proof of `False`.
 This means that `False` is always false.
 
@@ -197,10 +201,12 @@ example (h : 1 + 1 = 3) : RiemannHypothesis := by
 
 /-
 On how to actually obtain a proof of `False` from a trivially false hypothesis via term-style proof
-TODO, see [here](https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers)
+[TODO], see [here](https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers)
 -/
 
 /-
+### `Not` (`¬`)
+
 In Lean's dependent type theory, negation `¬p` is realized as `p → False`
 
 You may understand `¬p` as "if `p` then absurd", indicating that `p` cannot be true.
@@ -252,9 +258,9 @@ theorem not_not_cancel : ¬¬p → p := by
 
 In Lean, `Classical.byContradiction` is proved by the fact that
 all propositions are `Decidable` in classical logic, which is a result of
-- *the axiom of choice* `Classical.choice`
-- *the law of excluded middle* `Classical.em`, which is a result of
-  - *the axiom of choice* `Classical.choice`
+- the *axiom of choice* `Classical.choice`
+- the *law of excluded middle* `Classical.em`, which is a result of
+  - the axiom of choice `Classical.choice`
   - *function extensionality* `funext`, which is a result of
     - the quotient axiom `Quot.sound`
   - *propositional extensionality* `propext`
@@ -285,7 +291,7 @@ example (hctp : (p q : Prop) → (¬q → ¬p) → (p → q)) : (p : Prop) → (
   trivial
 
 /-
-# `And` (`∧`) and `Or` (`∨`)
+# `And` and `Or`
 
 In Lean's dependent type theory, `∧` and `∨` serve as
 the direct product and the direct sum in the universe of `Prop`.
@@ -301,18 +307,25 @@ section
 variable (p q r : Prop)
 
 /-
+## `And` (`∧`)
+
 The only constructor of `And` is `And.intro`, which takes a proof of `p` and a proof of `q`
 to produce a proof of `p ∧ q`.
+
+Regard this as the *universal property of the direct product* if you like.
+
+`And.intro hp hq` can be abbreviated as `⟨hp, hq⟩`, called the *anonymous constructor*.
 
 `constructor` tactic applies `And.intro` to split the goal `p ∧ q` into subgoals `p` and `q`.
 You may also use the anonymous constructor notation `⟨hp, hq⟩` to mean `And.intro hp hq`.
 
-Regard this as the universal property of the direct product if you like.
+`split_ands` tactic is like `constructor` but works for nested `And`s.
 -/
 
 #print And
 
-/- how to obtain an `∧` -/
+/- introducing `And` -/
+
 #check And.intro
 example (hp : p) (hq : q) : p ∧ q := And.intro hp hq
 example (hp : p) (hq : q) : p ∧ q := ⟨hp, hq⟩
@@ -332,16 +345,32 @@ which extract the proofs of `p` and `q`.
 
 `rcases hpq with ⟨hp, hq⟩` is a tactic that breaks down the hypothesis
 `hpq : p ∧ q` into `hp : p` and `hq : q`.
+Equivalently you can use `let ⟨hp, hq⟩ := hpq`.
 -/
+
+/- eliminating `And` -/
 
 #check And.left
 #check And.right
-
-/- how to obtain LHS -/
 example (hpq : p ∧ q) : p := hpq.left
 example (hpq : p ∧ q) : p := by
   rcases hpq with ⟨hp, _⟩
   exact hp
+
+/- nested and -/
+
+example (hpqr : p ∧ q ∧ r) : r := hpqr.right.right
+example (hpqr : p ∧ q ∧ r) : r := by
+  rcases hpqr with ⟨_, ⟨_, hr⟩⟩ -- anonymous constructor can be nested
+  exact hr
+
+example (hp : p) (hq : q) (hr : r) : p ∧ q ∧ r := by
+  exact ⟨hp, ⟨hq, hr⟩⟩
+example (hp : p) (hq : q) (hr : r) : p ∧ q ∧ r := by
+  split_ands
+  · exact hp
+  · exact hq
+  · exact hr
 
 /-
 The actual universal elimination rule of `And` is the so-called *decurrification*:
@@ -387,8 +416,16 @@ example : p ∧ q → p := by
   intro hp _
   exact hp
 
+/-
+### `Or` (`∨`)
+
+[TODO]
+-/
+
 end
 
 /-
 # `Iff` (`↔`)
+
+[TODO]
 -/
