@@ -1,13 +1,45 @@
 import Mathlib
 
 /-
-# Logic
-
 You may skip the materials tagged with [IGNORE] below. Most of them are here to illustrate
 the nature of inductive types, which may be too advanced for beginners.
+
+# At the Very Beginning...
+
+There are some basic notions you should be familiar with.
+
+## `:` and `:=`
+
+`3 : ℕ` means that `3` is a term of type `ℕ`.
+
+By the Curry--Howard correspondence, `hp : p` means that `hp` is a proof of the proposition `p`.
 -/
 
+#check 3
+#check ℕ
+#check ∀ x : ℝ, 0 ≤ x ^ 2
+#check sq_nonneg
+
 /-
+`:=` is used to define terms..
+-/
+
+def myThree : ℕ := 3
+
+/-
+`theorem` is just a definition in the `Prop` universe
+By the Curry--Howard correspondence, for `theorem`,
+behind `:`, the theorem statement follows;
+behind `:=`, a proof should be given.
+-/
+theorem thm_sq_nonneg : ∀ x : ℝ, 0 ≤ x ^ 2 := sq_nonneg
+
+-- `example` is just an anonymous theorem
+example : ∀ x : ℝ, 0 ≤ x ^ 2 := thm_sq_nonneg
+
+/-
+# Logic (Part I)
+
 ## Implication `→`
 
 Implication `→` is the most fundamental way of constructing new types
@@ -15,54 +47,82 @@ in Lean's dependent type theory. It's one of the first-class citizens in Lean.
 
 In the universe of `Prop`, for propositions `p` and `q`,
 the implication `p → q` means "if `p` then `q`".
-
-By the Curry--Howard correspondence, `p → q` is also understood as
-a function that takes a proof of `p` and produces a proof of `q`.
 -/
 
 section
 
 variable (p q r : Prop) -- this introduces global variables within this section
 
+#check p
+#check q
 #check p → q
-#check fun (hp : p) ↦ hp -- this is the inline way to define a function
+
+/-
+`→` is right-associative. In general, hover the mouse over the operators to see how they associate.
+so `p → q → r` means `p → (q → r)`. You may notice that this is logically equivalent to `p ∧ q → r`.
+This relationship is known as *currification*. We shall discuss this later.
+-/
+
+/- modus ponens -/
+theorem mp : p → (p → q) → q := by sorry -- `sorry` is a placeholder for unfinished proofs
+
+/-
+By the Curry--Howard correspondence, `p → q` is also understood as
+a function that takes a proof of `p` and produces a proof of `q`.
+
+We introduce an important syntax to define functions / theorems:
+When we define a theorem `theorem name (h1 : p1) ... (hn : pn) : q := ...`,
+we are actually defining a function `name` of type `(h1 : p1) → ... → (hn : pn) → q`.
+Programmingly, `h1`, ..., `hn` are the parameters of the function and `q` is the return type.
+
+The significance of this syntax, compared to `theorem name : p1 → ... → pn → q := ...`, is that now
+`h1`, ..., `hn`, proofs of `p1`, ..., `pn`, are now introduced as hypotheses into the context,
+available for you along the way to prove `q`.
+-/
+
+/- this proves a theorem of type `p → p` -/
+example (hp : p) : p := hp
+
+/- modus ponens, with a proof -/
+example (hp : p) (hpq : p → q) : q := hpq hp
+
+/-
+A function can also be defined inline, using `fun` (lambda syntax):
+`fun (h1 : p1) ... (hn : pn) ↦ (hq : q)` defines a function of type
+`(h1 : p1) → ... → (hn : pn) → q`
+
+Some of the type specifications may be omitted, as Lean can infer them.
+-/
+
+example : p → p := fun (hp : p) ↦ (hp : p)
+example : p → p := fun (hp : p) ↦ hp
+example : p → (p → q) → q := fun (hp : p) (hpq : p → q) ↦ hpq hp
+example : p → (p → q) → q := fun hp hpq ↦ hpq hp
+
+/-
+Construct proofs using explicit terms is called *term-style proof*.
+This can be tedious for complicated proofs.
+
+Fortunately, Lean provides the *tactic mode* to help us construct proofs interactively.
+
+`by` activates the tactic mode.
+
+The tactic mode captures the way mathematicians actually think:
+There is a goal `q` to prove, and we have several hypotheses
+`h1 : p1`, ..., `hn : pn` in the context to use.
+We apply tactics to change the goal and the context until the goal is solved.
+This produces a proof of `p1 → ... → pn → q`.
+-/
+
+example (hp : p) : p := by exact hp
 
 /-
 tactic: `exact`
 If the goal is `p` and we have `hp : p`, then `exact hp` solves the goal.
 -/
-example (hp : p) : p := by
-  exact hp
-
-/-
-In fact in this case we don't need a `by`, since `hp` is just of type `p`
-`by` activates the tactic mode, which helps us construct proofs interactively
-but you can also construct proofs directly (called term-style proof)
--/
-example (hp : p) : p := hp
-
-/-
-When we define a theorem `theorem name (h1 : p1) ... (hn : pn) : q := ...`,
-we are actually defining a function of type `name : (h1 : p1) → ... → (hn : pn) → (h : q)`.
-`example`s are just anonymous `theorem`s.
-
-`→` is right-associative. In general, hover the mouse over the operators to see how they associate.
-so `p → q → r` means `p → (q → r)`. You may notice that this is logically equivalent to `p ∧ q → r`.
-This relationship is known as *currification*. We shall discuss this later.
-
-Example: Say `hpqr`, `hp`, `hq` are proofs of `p → q → r`, `p`, `q` respectively.
-Then `hpqr hp` is a proof of `q → r`, and `hpqr hp hq` is a proof of `r`.
--/
-
-/- *modus ponens* -/
-theorem mp (hp : p) (hpq : p → q) : q := hpq hp
 
 /- `exact?` may help to close some trivial goals -/
 example (hp : p) (hpq : p → q) : q := by exact?
-
-/- note how we write the type of `mp` differently -/
-#check mp
-#check (mp : (p : Prop) → (q : Prop) → p → (p → q) → q)
 
 /-
 tactic: `intro`
@@ -126,13 +186,14 @@ end
 ## `True`, `False` and `Not`
 
 In Lean's dependent type theory, `True` and `False` are propositions serving as
-the initial and terminal objects in the universe of `Prop`.
+the *initial and terminal objects* in the universe of `Prop`.
 
 Eagle-eyed readers may notice that `True` and `False` act similarly to
 singleton sets and empty sets in set theory.
 
-They are constructed as inductive types, which is another fundamental way of constructing new types.
-(We shall discuss inductive types later)
+They are constructed as *inductive types*,
+which is another fundamental way of constructing new types.
+(We shall discuss inductive types later in this course.)
 -/
 
 /-
@@ -298,149 +359,3 @@ example (hctp : (p q : Prop) → (¬q → ¬p) → (p → q)) : (p : Prop) → (
     exact hnnp hnp
   apply hctp True p h
   trivial
-
-/-
-# `And` and `Or`
-
-In Lean's dependent type theory, `∧` and `∨` serve as
-the direct product and the direct sum in the universe of `Prop`.
-
-Eagle-eyed readers may notice that `∧` and `∨` act similarly to
-Cartesian product and disjoint union in set theory.
-
-They are also constructed as inductive types.
--/
-
-section
-
-variable (p q r : Prop)
-
-/-
-## `And` (`∧`)
-
-The only constructor of `And` is `And.intro`, which takes a proof of `p` and a proof of `q`
-to produce a proof of `p ∧ q`.
-
-Regard this as the *universal property of the direct product* if you like.
-
-`And.intro hp hq` can be abbreviated as `⟨hp, hq⟩`, called the *anonymous constructor*.
-
-`constructor` tactic applies `And.intro` to split the goal `p ∧ q` into subgoals `p` and `q`.
-You may also use the anonymous constructor notation `⟨hp, hq⟩` to mean `And.intro hp hq`.
-
-`split_ands` tactic is like `constructor` but works for nested `And`s.
--/
-
-#print And
-
-/- introducing `And` -/
-
-#check And.intro
-example (hp : p) (hq : q) : p ∧ q := And.intro hp hq
-example (hp : p) (hq : q) : p ∧ q := ⟨hp, hq⟩
-example (hp : p) (hq : q) : p ∧ q := by
-  constructor
-  · exact hp
-  · exact hq
-
-/- [EXR] universal property of the direct product -/
-example (hrp : r → p) (hrq : r → q) : r → p ∧ q := by
-  intro hr
-  exact ⟨hrp hr, hrq hr⟩
-
-/-
-`And.left` and `And.right` are among the elimination rules of `And`,
-which extract the proofs of `p` and `q`.
-
-`rcases hpq with ⟨hp, hq⟩` is a tactic that breaks down the hypothesis
-`hpq : p ∧ q` into `hp : p` and `hq : q`.
-Equivalently you can use `let ⟨hp, hq⟩ := hpq`.
--/
-
-/- eliminating `And` -/
-
-#check And.left
-#check And.right
-example (hpq : p ∧ q) : p := hpq.left
-example (hpq : p ∧ q) : p := by
-  rcases hpq with ⟨hp, _⟩
-  exact hp
-
-/- [EXR] `And` is symmetric -/
-example : p ∧ q → q ∧ p := by
-  intro hpq
-  exact ⟨hpq.right, hpq.left⟩
-
-/- nested and -/
-
-example (hpqr : p ∧ q ∧ r) : r := hpqr.right.right
-example (hpqr : p ∧ q ∧ r) : r := by
-  rcases hpqr with ⟨_, ⟨_, hr⟩⟩ -- anonymous constructor can be nested
-  exact hr
-
-example (hp : p) (hq : q) (hr : r) : p ∧ q ∧ r := by
-  exact ⟨hp, ⟨hq, hr⟩⟩
-example (hp : p) (hq : q) (hr : r) : p ∧ q ∧ r := by
-  split_ands
-  · exact hp
-  · exact hq
-  · exact hr
-
-/-
-The actual universal elimination rule of `And` is the so-called *decurrification*:
-From `(p → q → r)` we may deduce `(p ∧ q → r)`. This is actually a logical equivalence.
-
-Intuitively, requiring both `p` and `q` to deduce `r` is nothing but
-requiring `p` to deduce that `q` is sufficient to deduce `r`.
-
-[IGNORE] Decurrification is also self-evidently true in Lean's dependent type theory.
-
-Currification is heavily used in functional programming for its convenience, Lean is no exception.
-
-You are no stranger to decurrification even if you are not a functional programmer:
-The *universal property of the tensor product of modules* says exactly the same.
--/
-
-/- [EXR] currification -/
-example (h : p ∧ q → r) : (p → q → r) := by
-  intro hp hq
-  exact h ⟨hp, hq⟩
-
-/- [EXR] decurrification -/
-example (h : p → q → r) : (p ∧ q → r) := by
-  intro hpq
-  exact h hpq.left hpq.right
-
-example (h : p → q → r) : (p ∧ q → r) := by
-  intro ⟨hp, hq⟩ -- `intro` is smart enough to destructure `And`
-  exact h hp hq
-
-example (h : p → q → r) : (p ∧ q → r) := by
-  intro ⟨hp, hq⟩
-  apply h -- `apply` is smart enough to auto-decurrify and generate two subgoals
-  · exact hp
-  · exact hq
-
-/- [IGNORE] decurrification actually originates from `And.rec`, which is self-evident -/
-#check And.rec
-theorem decurrify (h : p → q → r) : (p ∧ q → r) := And.rec h
-
-/- [EXR] `And.left` is actually a consequence of decurrification -/
-example : p ∧ q → p := by
-  apply decurrify
-  intro hp _
-  exact hp
-
-/-
-### `Or` (`∨`)
-
-[TODO]
--/
-
-end
-
-/-
-# `Iff` (`↔`)
-
-[TODO]
--/
