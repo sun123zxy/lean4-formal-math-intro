@@ -227,6 +227,15 @@ example (hpr : p → r) (hqr : q → r) : p ∨ q → r := by
   · exact hqr hq
 
 /-
+### Comprehensive exercises for `And` and `Or`
+
+[EXR] distributive laws
+-/
+
+example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := by sorry
+example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by sorry
+
+/-
 ### `Decidable`: Do partial classical-logic reasoning in intuitionistic logic
 
 It's high time to introduce `Decidable` here for the first time.
@@ -236,13 +245,14 @@ They know classical logic is equipped with `Classical.em`: `p ∨ ¬p` for any p
 Though rarely do they know the concept of `Decidable`.
 
 `Decidable p` means just the same as `p ∨ ¬p`.
+It means that we know explicitly which one of `p` and `¬p` is true.
 
 Though formally in Lean, `Decidable` is defined as a distinct inductive type,
 it is very similar to `Or` in that you may, somehow, even use it like a `p ∨ ¬p`.
 The major differences are:
 
 - The constructors of `Decidable` has different names: `isTrue` and `isFalse`
-- [IGNORE] `Decidable` lives in `Type` universe instead of `Prop` universe for some reason [TODO].
+- [IGNORE] `Decidable` lives in `Type` universe instead of `Prop` universe for some reasons [TODO].
 - [IGNORE] It is tagged as a typeclass.
   This allows Lean to automatically find a proof of `Decidable p`
   so that you don't have to prove it yourself.
@@ -254,20 +264,16 @@ which is more flexible than simply working in classical logic.
 #check Decidable
 #check Decidable.isTrue
 #check Decidable.isFalse
-#check Decidable.byCases
 
-/- [IGNORE] -/
-example [Decidable p] : p ∨ ¬p := by
-  cases (inferInstance : Decidable p) with
-  | isTrue hp => exact Or.inl hp
-  | isFalse hnp => exact Or.inr hnp
+#check Classical.byContradiction -- we have done this before
 
-/- ### Comprehensive exercises for `And` and `Or` -/
-
-/- [EXR] distributive laws -/
-
-example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := by sorry
-example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by sorry
+/- proof by contradiction in intuitionistic logic with decidable hypothesis -/
+example [dp : Decidable p] : (¬p → False) → p := by
+  intro hnpn
+  rcases dp with (hnp | hp)
+  · exfalso; exact hnpn hnp
+  · exact hp
+#check Decidable.byContradiction -- the above has a name
 
 /-
 ### Pushing negations
@@ -286,8 +292,18 @@ example (hpq : p → q) (hnpq : ¬p → q) : q := by
   · exact hpq hp
   · exact hnpq hp
 
-/- This gives us an equivalent characterization of `Or` -/
-example : p ∨ q ↔ ¬p → q := by
+/-
+Proof by cases would help us to obtain an equivalent characterization of `Or`.
+
+In intuitionistic logic, we cannot do implications like `¬p → q` implying `p ∨ q`,
+because we don't know exactly which one of `p` and `¬p` is true,
+and the introduction rules of `Or` are asking us to provide it explicitly.
+
+This is a reason why intuitionistic logic is considered to be computable.
+
+But in classical logic, or when `p` is `Decidable`, we can do it by case analysis on `p`.
+-/
+example : (p ∨ q) ↔ (¬p → q) := by
   constructor
   · rintro (hp | hq)
     · intro hnp
@@ -299,7 +315,20 @@ example : p ∨ q ↔ ¬p → q := by
     by_cases h?p : p
     · left; exact h?p
     · right; exact hnpq h?p
--- #check -- above has a name
+
+/-
+We also have an equivalent characterization of `And`.
+This is also done in classical logic.
+-/
+example : (p ∧ q) ↔ ¬(p → ¬q) := by
+  constructor
+  · intro ⟨hp, hnq⟩ hpnq
+    exact hpnq hp hnq
+  · intro hnpnq -- the direction of constructing `And` needs classical logic
+    contrapose hnpnq
+    rw [Classical.not_not]
+    intro hp hq
+    exact hnpnq ⟨hp, hq⟩
 
 /- [EXR] `→`--`∨` distribution -/
 example : (r → p ∨ q) ↔ ((r → p) ∨ (r → q)) := by
@@ -320,7 +349,6 @@ example : (r → p ∨ q) ↔ ((r → p) ∨ (r → q)) := by
 #check imp_or -- above has a name
 
 /- [EXR] De Morgan's laws -/
-
 example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := by
   constructor
   · intro hnq
@@ -335,7 +363,9 @@ example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := by
   · rintro ⟨hnp, hnq⟩ (hp | hq)
     · exact hnp hp
     · exact hnq hq
+#check not_or -- above has a name
 
+/- [EXR] De Morgan's laws -/
 example : ¬(p ∧ q) ↔ ¬p ∨ ¬q := by
   constructor
   · intro hnpq -- this direction needs classical logic
@@ -349,22 +379,7 @@ example : ¬(p ∧ q) ↔ ¬p ∨ ¬q := by
   · rintro (hnp | hnq) ⟨hp, hq⟩
     · exact hnp hp
     · exact hnq hq
-
-example : (p ∧ ¬q) ↔ ¬(p → q) := by
-  constructor
-  · intro ⟨hp, hnq⟩ hpq
-    exact hnq (hpq hp)
-  · intro hnpq -- this direction needs classical logic
-    constructor
-    · by_contra hnp
-      apply hnpq
-      intro hp
-      exfalso
-      exact hnp hp
-    · intro hq
-      apply hnpq
-      intro _
-      exact hq
+#check not_and -- above has a name
 
 /-
 Introducing `push_neg` tactic: automatically proves all the above.
@@ -388,5 +403,5 @@ end
 /-
 # `Iff` (`↔`), second visit
 
-[TODO]
+[TODO] We do it with `Eq`? In the next chapter?
 -/

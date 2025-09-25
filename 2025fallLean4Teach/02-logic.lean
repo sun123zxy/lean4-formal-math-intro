@@ -330,13 +330,12 @@ and adds the hypothesis `hnp : ¬p` into the context.
 #check Classical.byContradiction
 
 /- double negation elimination -/
-theorem not_not_cancel : ¬¬p → p := by
+example : ¬¬p → p := by
   intro hnnp
   by_contra hnp
   exact hnnp hnp
-
 /- You can use the following command to check what axioms are used in the proof -/
-#print axioms not_not_cancel
+#print axioms Classical.not_not -- above has a name
 
 /- For logical lunatics:
 
