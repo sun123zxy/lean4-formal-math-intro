@@ -236,46 +236,6 @@ example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := by sorry
 example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by sorry
 
 /-
-### `Decidable`: Do partial classical-logic reasoning in intuitionistic logic
-
-It's high time to introduce `Decidable` here for the first time.
-
-Mathematicians often know the intutionistic logic.
-They know classical logic is equipped with `Classical.em`: `p ∨ ¬p` for any proposition `p`.
-Though rarely do they know the concept of `Decidable`.
-
-`Decidable p` means just the same as `p ∨ ¬p`.
-It means that we know explicitly which one of `p` and `¬p` is true.
-
-Though formally in Lean, `Decidable` is defined as a distinct inductive type,
-it is very similar to `Or` in that you may, somehow, even use it like a `p ∨ ¬p`.
-The major differences are:
-
-- The constructors of `Decidable` has different names: `isTrue` and `isFalse`
-- [IGNORE] `Decidable` lives in `Type` universe instead of `Prop` universe for some reasons [TODO].
-- [IGNORE] It is tagged as a typeclass.
-  This allows Lean to automatically find a proof of `Decidable p`
-  so that you don't have to prove it yourself.
-
-`Decidable` allows you to just assume `p ∨ ¬p` for only some propositions,
-which is more flexible than simply working in classical logic.
--/
-
-#check Decidable
-#check Decidable.isTrue
-#check Decidable.isFalse
-
-#check Classical.byContradiction -- we have done this before
-
-/- proof by contradiction in intuitionistic logic with decidable hypothesis -/
-example [dp : Decidable p] : (¬p → False) → p := by
-  intro hnpn
-  rcases dp with (hnp | hp)
-  · exfalso; exact hnpn hnp
-  · exact hp
-#check Decidable.byContradiction -- the above has a name
-
-/-
 ### Pushing negations
 
 Some negation can be pushed within intuitionistic logic. Some cannot.
@@ -294,14 +254,6 @@ example (hpq : p → q) (hnpq : ¬p → q) : q := by
 
 /-
 Proof by cases would help us to obtain an equivalent characterization of `Or`.
-
-In intuitionistic logic, we cannot do implications like `¬p → q` implying `p ∨ q`,
-because we don't know exactly which one of `p` and `¬p` is true,
-and the introduction rules of `Or` are asking us to provide it explicitly.
-
-This is a reason why intuitionistic logic is considered to be computable.
-
-But in classical logic, or when `p` is `Decidable`, we can do it by case analysis on `p`.
 -/
 example : (p ∨ q) ↔ (¬p → q) := by
   constructor
@@ -393,8 +345,6 @@ For more exercises, see
 [Propositions and Proofs - TPiL4](https://lean-lang.org/theorem_proving_in_lean4/Propositions-and-Proofs/#classical-logic)
 -/
 
-end
-
 /-
 # Forall `∀` and `Exists` `∃`
 
@@ -405,3 +355,93 @@ end
 
 [TODO] We do it with `Eq`? In the next chapter?
 -/
+
+/-
+### [IGNORE] `Decidable`
+
+It's high time to introduce `Decidable` here for the first time.
+
+Mathematicians are often aware of intuitionistic logic.
+They know classical logic is equipped with `Classical.em`: `p ∨ ¬p` for any proposition `p`.
+Though rarely do they know the concept of `Decidable`,
+which more often appears in the theory of computation.
+
+In intuitionistic logic, `Or` means slightly stronger than in classical logic:
+by `p ∨ q` we mean that we know explicitly which one of `p` and `q` is true.
+We cannot do implications like `¬p → q` implying `p ∨ q`,
+because we don't know exactly which one of `p` and `¬p` is true,
+and the introduction rules of `Or` are asking us to provide it explicitly.
+This is a reason why intuitionistic logic is considered to be computable.
+
+For short, `Decidable p` means exactly the same as `p ∨ ¬p` in intuitionistic logic.
+It means that we know explicitly which one of `p` and `¬p` is true.
+
+Though formally in Lean, `Decidable` is defined as a distinct inductive type,
+it is very similar to `Or` in that you may, somehow, even use it like a `p ∨ ¬p`.
+But there are major differences. They are:
+
+- [IGNORE] `Decidable` lives in `Type` universe, instead of `Prop` universe.
+
+  In Lean's dependent type theory, things in `Prop` universe are allowed to be
+  non-constructive. This is because in `Prop` universe, proofs are *proof-irrelevant*:
+  Lean forgets the exact proof of a proposition once it is proved.
+  So when we have an `Or`, we actually have no idea which one of the two sides is true.
+  Lean is designed so, probably because most of the mathematics is non-constructive.
+
+  On the other hand, things in `Type` universe are required to be constructive,
+  unless you have used `Classical.choice` (In such situation, Lean will require
+  you to tag it as `noncomputable`).
+
+  `Decidable` is designed to be constructive,
+  because it is used to decide whether a proposition is true or false by computation.
+  So `Decidable` must live in `Type` universe: To save whether `p` or `¬p` is true.
+
+- [IGNORE] It is tagged as a typeclass.
+
+  This allows Lean to automatically find a proof of `Decidable p`
+  so that you don't have to prove it yourself.
+
+  So at many places `Decidable p` is implicitly deduced.
+
+- The constructors of `Decidable` has different names: `isTrue` and `isFalse`
+
+To wrap up, we have `Decidable` because:
+
+- To mean exactly the same as `p ∨ ¬p` in intuitionistic logic, to make it computable.
+
+- To allow you to just assume `p ∨ ¬p` for only some propositions,
+  which is more flexible than a classical logic overkill.
+-/
+
+#print Decidable
+#check Decidable.isTrue
+#check Decidable.isFalse
+
+/- [IGNORE] `Decidable` enables computation -/
+
+#eval True
+#eval True → False
+#eval False → (1 + 1 = 3)
+#synth Decidable (False → (1 + 1 = 3))
+
+/- this ensures a computable proof -/
+instance : Decidable (p → p ∨ q) := by
+  apply Decidable.isTrue -- explicit use of constructor
+  intro hp
+  left
+  exact hp
+#synth Decidable (p → p ∨ q)
+#eval (p q : Prop) → (p → (p ∨ q))
+
+/- `Decidable` enables partial classical logic -/
+
+#check Classical.byContradiction -- we have done this before
+/- proof by contradiction in intuitionistic logic with decidable hypothesis -/
+example [dp : Decidable p] : (¬p → False) → p := by
+  intro hnpn
+  rcases dp with (hnp | hp)
+  · exfalso; exact hnpn hnp
+  · exact hp
+#check Decidable.byContradiction -- above has a name
+
+end
