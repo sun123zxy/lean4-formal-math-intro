@@ -48,7 +48,7 @@ example (hp : p) (hq : q) : p ∧ q := by
   · exact hp
   · exact hq
 
-/- [EXR] universal property of the direct product -/
+/- [EXR] `→`--`∨` distribution. Universal property of the direct product. -/
 example (hrp : r → p) (hrq : r → q) : r → p ∧ q := by
   intro hr
   exact ⟨hrp hr, hrq hr⟩
@@ -70,11 +70,23 @@ example (hpq : p ∧ q) : p := hpq.left
 example (hpq : p ∧ q) : p := by
   rcases hpq with ⟨hp, _⟩
   exact hp
+example : p ∧ q → p := by
+  rintro ⟨hp, _⟩ -- `rintro` is a combination of `intro` and `rcases`
+  exact hp
 
 /- [EXR] `And` is symmetric -/
 example : p ∧ q → q ∧ p := by
   intro hpq
   exact ⟨hpq.right, hpq.left⟩
+#check And.comm -- above has a name
+
+/- [EXR] `→`--`∨` distribution, in another direction. -/
+example (hrpq : r → p ∧ q) : (r → p) ∧ (r → q) := by
+  constructor
+  · intro hr
+    exact (hrpq hr).left
+  · intro hr
+    exact (hrpq hr).right
 
 /- nested and -/
 
@@ -137,15 +149,244 @@ example : p ∧ q → p := by
   exact hp
 
 /-
+### `Iff` (`↔`), first visit
+
+It's high time to introduce `Iff` here for the first time.
+
+`Iff` (`↔`) contains two side of implications: `Iff.mp` and `Iff.mpr`.
+
+Though it is defined as a distinct inductive type,
+`Iff` is very similar to `And` in that you may, somehow, even use it like a `(p → q) ∧ (q → p)`.
+The only major difference is the name of the two components.
+-/
+
+#check Iff.intro
+#check Iff.mp
+#check Iff.mpr
+
+example : (p ↔ q) ↔ (p → q) ∧ (q → p) := by
+  constructor
+  · intro h
+    exact ⟨h.mp, h.mpr⟩
+  · intro ⟨hpq, hqp⟩
+    exact ⟨hpq, hqp⟩
+
+/-
 ### `Or` (`∨`)
 
+`Or` has two constructors `Or.inl` and `Or.inr`.
+Either a proof of `p` or a proof of `q` produces a proof of `p ∨ q`.
+
 [TODO]
+-/
+
+#print Or
+#check Or.inl
+#check Or.inr
+#check Or.elim
+#check Or.rec
+
+/- introducing `Or` -/
+
+example (hp : p) : p ∨ q := Or.inl hp
+example (hq : q) : p ∨ q := by
+  right
+  exact hq
+
+/- elimination rule of `Or`, universal property of the direct sum -/
+
+example (hpr : p → r) (hqr : q → r) : (p ∨ q → r) := fun hpq ↦ (Or.elim hpq hpr hqr)
+example (hpr : p → r) (hqr : q → r) : (p ∨ q → r) := (Or.elim · hpr hqr) -- note the use of `·`
+example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
+  apply Or.elim hpq
+  · exact hpr
+  · exact hqr
+
+example (hpr : p → r) (hqr : q → r) : (p ∨ q → r) := fun
+  | Or.inl hp => hpr hp
+  | Or.inr hq => hqr hq
+example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r :=
+  match hpq with
+  | Or.inl hp => hpr hp
+  | Or.inr hq => hqr hq
+example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
+  match hpq with
+  | Or.inl hp => exact hpr hp
+  | Or.inr hq => exact hqr hq
+example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
+  cases hpq with
+  | inl hp => exact hpr hp
+  | inr hq => exact hqr hq
+example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
+  rcases hpq with (hp | hq)
+  · exact hpr hp
+  · exact hqr hq
+example (hpr : p → r) (hqr : q → r) : p ∨ q → r := by
+  rintro (hp | hq)
+  · exact hpr hp
+  · exact hqr hq
+
+/-
+### `Decidable`: Do partial classical-logic reasoning in intuitionistic logic
+
+It's high time to introduce `Decidable` here for the first time.
+
+Mathematicians often know the intutionistic logic.
+They know classical logic is equipped with `Classical.em`: `p ∨ ¬p` for any proposition `p`.
+Though rarely do they know the concept of `Decidable`.
+
+`Decidable p` means just the same as `p ∨ ¬p`.
+
+Though formally in Lean, `Decidable` is defined as a distinct inductive type,
+it is very similar to `Or` in that you may, somehow, even use it like a `p ∨ ¬p`.
+The major differences are:
+
+- The constructors of `Decidable` has different names: `isTrue` and `isFalse`
+- [IGNORE] `Decidable` lives in `Type` universe instead of `Prop` universe for some reason [TODO].
+- [IGNORE] It is tagged as a typeclass.
+  This allows Lean to automatically find a proof of `Decidable p`
+  so that you don't have to prove it yourself.
+
+`Decidable` allows you to just assume `p ∨ ¬p` for only some propositions,
+which is more flexible than simply working in classical logic.
+-/
+
+#check Decidable
+#check Decidable.isTrue
+#check Decidable.isFalse
+#check Decidable.byCases
+
+/- [IGNORE] -/
+example [Decidable p] : p ∨ ¬p := by
+  cases (inferInstance : Decidable p) with
+  | isTrue hp => exact Or.inl hp
+  | isFalse hnp => exact Or.inr hnp
+
+/- ### Comprehensive exercises for `And` and `Or` -/
+
+/- [EXR] distributive laws -/
+
+example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := by sorry
+example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by sorry
+
+/-
+### Pushing negations
+
+Some negation can be pushed within intuitionistic logic. Some cannot.
+-/
+
+/- Classical logic: case analysis -/
+
+example (hpq : p → q) (hnpq : ¬p → q) : q := Or.elim (Classical.em p) hpq hnpq
+#check Classical.byCases -- above has a name
+
+/- We have a corresponding tactic: `by_cases` -/
+example (hpq : p → q) (hnpq : ¬p → q) : q := by
+  by_cases hp : p
+  · exact hpq hp
+  · exact hnpq hp
+
+/- This gives us an equivalent characterization of `Or` -/
+example : p ∨ q ↔ ¬p → q := by
+  constructor
+  · rintro (hp | hq)
+    · intro hnp
+      exfalso
+      exact hnp hp
+    · intro _
+      exact hq
+  · intro hnpq  -- the direction of constructing `Or` needs classical logic
+    by_cases h?p : p
+    · left; exact h?p
+    · right; exact hnpq h?p
+-- #check -- above has a name
+
+/- [EXR] `→`--`∨` distribution -/
+example : (r → p ∨ q) ↔ ((r → p) ∨ (r → q)) := by
+  constructor
+  · intro hrpq -- this direction needs classical logic
+    by_cases h?r : r
+    · rcases hrpq h?r with (hp | hq)
+      · left; intro _; exact hp
+      · right; intro _; exact hq
+    · left
+      intro hr
+      exfalso; exact h?r hr
+  · rintro (hrp | hrq)
+    · intro hr
+      left; exact hrp hr
+    · intro hr
+      right; exact hrq hr
+#check imp_or -- above has a name
+
+/- [EXR] De Morgan's laws -/
+
+example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := by
+  constructor
+  · intro hnq
+    constructor
+    · intro hp
+      apply hnq
+      left; exact hp
+    · intro hq
+      apply hnq
+      right
+      exact hq
+  · rintro ⟨hnp, hnq⟩ (hp | hq)
+    · exact hnp hp
+    · exact hnq hq
+
+example : ¬(p ∧ q) ↔ ¬p ∨ ¬q := by
+  constructor
+  · intro hnpq -- this direction needs classical logic
+    by_cases h?p : p
+    · right
+      intro hq
+      apply hnpq
+      exact ⟨h?p, hq⟩
+    · left
+      exact h?p
+  · rintro (hnp | hnq) ⟨hp, hq⟩
+    · exact hnp hp
+    · exact hnq hq
+
+example : (p ∧ ¬q) ↔ ¬(p → q) := by
+  constructor
+  · intro ⟨hp, hnq⟩ hpq
+    exact hnq (hpq hp)
+  · intro hnpq -- this direction needs classical logic
+    constructor
+    · by_contra hnp
+      apply hnpq
+      intro hp
+      exfalso
+      exact hnp hp
+    · intro hq
+      apply hnpq
+      intro _
+      exact hq
+
+/-
+Introducing `push_neg` tactic: automatically proves all the above.
+It works in classical logic where *negation normal forms* exist.
+
+`by_contra!`, `contrapose!` are `push_neg`-enhanced version of their non-`!` counterparts.
+-/
+
+/-
+For more exercises, see
+[Propositions and Proofs - TPiL4](https://lean-lang.org/theorem_proving_in_lean4/Propositions-and-Proofs/#classical-logic)
 -/
 
 end
 
 /-
-# `Iff` (`↔`)
+# Forall `∀` and `Exists` `∃`
+
+-/
+
+/-
+# `Iff` (`↔`), second visit
 
 [TODO]
 -/
