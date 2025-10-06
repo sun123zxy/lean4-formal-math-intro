@@ -345,15 +345,82 @@ For more exercises, see
 [Propositions and Proofs - TPiL4](https://lean-lang.org/theorem_proving_in_lean4/Propositions-and-Proofs/#classical-logic)
 -/
 
-/-
-# Forall `∀` and `Exists` `∃`
+end
 
+/-
+# `Forall` and `Exists`
+
+## Forall (`∀`)
+
+As you may have already noticed, `∀` is just an alternative way of writing `→`,
+psychologically, it emphasizes that this arrow is of dependent type.
+Say `p` is a predicate on a type `X`, i.e. of type `X → Prop`,
+then `∀ x : X, p x` is exactly the same as `(x : X) → p x`.
+
+Though `→` is primitive in Lean's dependent type theory,
+we may still state the introduction and elimination rules of `∀`:
+
+- Introduction: `fun (x : X) ↦ (h x : p x)` produces a proof of `∀ x : X, p x`.
+
+- Elimination: Given a proof `h` of `∀ x : X, p x`, we can obtain a proof of `p a`
+  for any specific `a : X`. It is exactly `h a`.
 -/
+
+section
+
+variable {X : Type} (p q : X → Prop) (a b : X)
+
+#check ∀ x : X, p x
+#check ∀ x, p x -- Lean is smart enough to infer the type of `x`
+
+/-
+## `Exists` (`∃`)
+
+`∃` is a bit more complicated.
+Slogan: `∀` is a dependent `→`, `∃` is a dependent `×` (or `∧` in `Prop` universe)
+
+`∃ x : X, p x` means that we have the following data:
+
+- an element `a : X`;
+- a proof `h : p a`.
+
+So a pair `(a, h)` would suffice to construct a proof of `∃ x : X, p x`.
+Note that `h` is a proof of `p a`, whose type depends on `a`.
+So this pair has type `(x : X) × (p x)`.
+-/
+
+/-
+Introduction rule:
+`Exists` is constructed from such pairs by the constructor `Exists.intro`.
+[IGNORE] This is the defining constructor of `Exists` as an inductive type.
+-/
+#check Exists.intro
+
+-- '[TODO]
+
+/-
+## [IGNORE] A remark for the cosmologists
+
+The pair `(a, h)` actually do not have type `(x : X) × (p x)`.
+The latter notation is actually for  the *dependent pair type* (or `Sigma` type),
+which lives in `Type*` universe.
+But `Exists` should live in `Prop`. In `Prop` universe we have the proof-irrelevance.
+i.e. we do not save data. So `Exists` forget the exact witness `a` once it is proved.
+-/
+
+#print Exists
+#print Sigma
+
+end
 
 /-
 # `Iff` (`↔`), second visit
 
 [TODO] We do it with `Eq`? In the next chapter?
+-/
+
+/-
+common tactics: `have`, `suffices`, `show`
 -/
 
 /-
@@ -412,6 +479,10 @@ To wrap up, we have `Decidable` because:
 - To allow you to just assume `p ∨ ¬p` for only some propositions,
   which is more flexible than a classical logic overkill.
 -/
+
+section
+
+variable (p q : Prop)
 
 #print Decidable
 #check Decidable.isTrue
