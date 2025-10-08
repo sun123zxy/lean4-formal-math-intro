@@ -40,7 +40,7 @@ You may also use the anonymous constructor notation `⟨hp, hq⟩` to mean `And.
 
 #check And.intro
 
-/- [IGNORE] these examples, as introduction rules, are self-evidently true -/
+/- These examples, as introduction rules, are self-evidently true. -/
 example (hp : p) (hq : q) : p ∧ q := And.intro hp hq
 example (hp : p) (hq : q) : p ∧ q := ⟨hp, hq⟩
 example (hp : p) (hq : q) : p ∧ q := by
@@ -235,116 +235,6 @@ example (hpr : p → r) (hqr : q → r) : p ∨ q → r := by
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := by sorry
 example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by sorry
 
-/-
-### Pushing negations
-
-Some negation can be pushed within intuitionistic logic. Some cannot.
--/
-
-/- Classical logic: case analysis -/
-
-example (hpq : p → q) (hnpq : ¬p → q) : q := Or.elim (Classical.em p) hpq hnpq
-#check Classical.byCases -- above has a name
-
-/- We have a corresponding tactic: `by_cases` -/
-example (hpq : p → q) (hnpq : ¬p → q) : q := by
-  by_cases hp : p
-  · exact hpq hp
-  · exact hnpq hp
-
-/-
-Proof by cases would help us to obtain an equivalent characterization of `Or`.
--/
-example : (p ∨ q) ↔ (¬p → q) := by
-  constructor
-  · rintro (hp | hq)
-    · intro hnp
-      exfalso
-      exact hnp hp
-    · intro _
-      exact hq
-  · intro hnpq  -- the direction of constructing `Or` needs classical logic
-    by_cases h?p : p
-    · left; exact h?p
-    · right; exact hnpq h?p
-
-/-
-We also have an equivalent characterization of `And`.
-This is also done in classical logic.
--/
-example : (p ∧ q) ↔ ¬(p → ¬q) := by
-  constructor
-  · intro ⟨hp, hnq⟩ hpnq
-    exact hpnq hp hnq
-  · intro hnpnq -- the direction of constructing `And` needs classical logic
-    contrapose hnpnq
-    rw [Classical.not_not]
-    intro hp hq
-    exact hnpnq ⟨hp, hq⟩
-
-/- [EXR] `→`--`∨` distribution -/
-example : (r → p ∨ q) ↔ ((r → p) ∨ (r → q)) := by
-  constructor
-  · intro hrpq -- this direction needs classical logic
-    by_cases h?r : r
-    · rcases hrpq h?r with (hp | hq)
-      · left; intro _; exact hp
-      · right; intro _; exact hq
-    · left
-      intro hr
-      exfalso; exact h?r hr
-  · rintro (hrp | hrq)
-    · intro hr
-      left; exact hrp hr
-    · intro hr
-      right; exact hrq hr
-#check imp_or -- above has a name
-
-/- [EXR] De Morgan's laws -/
-example : ¬(p ∨ q) ↔ ¬p ∧ ¬q := by
-  constructor
-  · intro hnq
-    constructor
-    · intro hp
-      apply hnq
-      left; exact hp
-    · intro hq
-      apply hnq
-      right
-      exact hq
-  · rintro ⟨hnp, hnq⟩ (hp | hq)
-    · exact hnp hp
-    · exact hnq hq
-#check not_or -- above has a name
-
-/- [EXR] De Morgan's laws -/
-example : ¬(p ∧ q) ↔ ¬p ∨ ¬q := by
-  constructor
-  · intro hnpq -- this direction needs classical logic
-    by_cases h?p : p
-    · right
-      intro hq
-      apply hnpq
-      exact ⟨h?p, hq⟩
-    · left
-      exact h?p
-  · rintro (hnp | hnq) ⟨hp, hq⟩
-    · exact hnp hp
-    · exact hnq hq
-#check not_and -- above has a name
-
-/-
-Introducing `push_neg` tactic: automatically proves all the above.
-It works in classical logic where *negation normal forms* exist.
-
-`by_contra!`, `contrapose!` are `push_neg`-enhanced version of their non-`!` counterparts.
--/
-
-/-
-For more exercises, see
-[Propositions and Proofs - TPiL4](https://lean-lang.org/theorem_proving_in_lean4/Propositions-and-Proofs/#classical-logic)
--/
-
 end
 
 /-
@@ -352,13 +242,12 @@ end
 
 ## Forall (`∀`)
 
-As you may have already noticed, `∀` is just an alternative way of writing `→`,
-psychologically, it emphasizes that this arrow is of dependent type.
+As you may have already noticed, `∀` is just an alternative way of writing `→`.
 Say `p` is a predicate on a type `X`, i.e. of type `X → Prop`,
 then `∀ x : X, p x` is exactly the same as `(x : X) → p x`.
 
 Though `→` is primitive in Lean's dependent type theory,
-we may still state the introduction and elimination rules of `∀`:
+we may still (perhaps awkwardly) state the introduction and elimination rules of `∀`:
 
 - Introduction: `fun (x : X) ↦ (h x : p x)` produces a proof of `∀ x : X, p x`.
 
@@ -368,50 +257,171 @@ we may still state the introduction and elimination rules of `∀`:
 
 section
 
-variable {X : Type} (p q : X → Prop) (a b : X)
+variable {X : Type} (p q : X → Prop) (r s : Prop) (a b : X)
 
 #check ∀ x : X, p x
 #check ∀ x, p x -- Lean is smart enough to infer the type of `x`
 
 /-
+[IGNORE]
+Writing `∀` emphasizes that the arrow `→` is of dependent type,
+and the domain `X` is a type, not a proposition.
+But they are just purely psychological, as the following examples show.
+-/
+example : (hrs : r → s) → (∀ _ : r, s) := by
+  intro hrs
+  exact hrs
+
+/-
 ## `Exists` (`∃`)
 
 `∃` is a bit more complicated.
-Slogan: `∀` is a dependent `→`, `∃` is a dependent `×` (or `∧` in `Prop` universe)
 
+Slogan: `∀` is a dependent `→`, `∃` is a dependent `×` (or `∧` in `Prop` universe)
+-/
+
+#check ∃ x : X, p x
+#check ∃ x, p x -- Lean is smart enough to infer the type of `x`
+
+/-
 `∃ x : X, p x` means that we have the following data:
 
 - an element `a : X`;
 - a proof `h : p a`.
 
 So a pair `(a, h)` would suffice to construct a proof of `∃ x : X, p x`.
-Note that `h` is a proof of `p a`, whose type depends on `a`.
-So this pair has type `(x : X) × (p x)`.
--/
 
-/-
-Introduction rule:
-`Exists` is constructed from such pairs by the constructor `Exists.intro`.
-[IGNORE] This is the defining constructor of `Exists` as an inductive type.
+This is the defining introduction rule of `Exists` as an inductive type.
 -/
 #check Exists.intro
 
--- '[TODO]
+/-
+As like `And`, you may use the anonymous constructor notation `⟨a, h⟩` to mean `Exists.intro a h`.
+
+In tactic mode, `use a` make use of `Exists.intro a` to reduce
+the goal `∃ x : X, p x` to `p a`.
+-/
+example (a : X) (h : p a) : ∃ x, p x := Exists.intro a h
+example (a : X) (h : p a) : ∃ x, p x := ⟨a, h⟩
+example (a : X) (h : p a) : ∃ x, p x := by use a
+
+-- [EXR]
+example (x y z : ℕ) (hxy : x < y) (hyz : y < z) : ∃ w, x < w ∧ w < z :=
+  ⟨y, ⟨hxy, hyz⟩⟩
 
 /-
-## [IGNORE] A remark for the cosmologists
+Note that in the defining pair `(a, h)`, `h` is a proof of `p a`, whose type depends on `a`.
+Thus psychologically, you may view `∃ x : X, p x` as a dependent pair type `(x : X) × (p x)`.
 
-The pair `(a, h)` actually do not have type `(x : X) × (p x)`.
-The latter notation is actually for  the *dependent pair type* (or `Sigma` type),
-which lives in `Type*` universe.
-But `Exists` should live in `Prop`. In `Prop` universe we have the proof-irrelevance.
-i.e. we do not save data. So `Exists` forget the exact witness `a` once it is proved.
+Have writing `Exists` as a dependent pair type reminded you of the currification process?
+
+Elimination rule:
+To construct the implication `(∃ x : X, p x) → q`, it suffices to have a proof of
+`(∀ x : X, p x → q)`, i.e. `(x : X) → p x → q`.
+
+In tactic mode, `rcases h with ⟨a, ha⟩` make use of this elimination rule to break down
+a hypothesis `h : ∃ x : X, p x` into a witness `a : X` and a proof `ha : p a`.
 -/
 
-#print Exists
-#print Sigma
+#check Exists.elim
+
+example : (∀ x, p x → r) → ((∃ x, p x) → r) := by
+  intro hf he
+  exact Exists.elim he hf
+
+example : (∀ x, p x → r) → ((∃ x, p x) → r) := by
+  intro hf he
+  rcases he with ⟨a, hpa⟩
+  exact hf a hpa
+
+example : (∀ x, p x → r) → ((∃ x, p x) → r) := by
+  intro h ⟨a, hpa⟩ -- you may also `rcases` explicitly
+  exact h a hpa
+
+-- [EXR] reverse direction is also true
+example :  ((∃ x, p x) → r) → (∀ x, p x → r) := by
+  intro h a hpa
+  apply h
+  use a
+
+-- [EXR]
+example : (∃ x, r ∧ p x) → r ∧ (∃ x, r ∧ p x) := by
+  intro ⟨a, ⟨hr, hpa⟩⟩
+  exact ⟨hr, ⟨a, ⟨hr, hpa⟩⟩⟩
+
+-- [EXR]
+example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := by
+  constructor
+  · rintro ⟨a, (hpa | hqa)⟩
+    · left; use a
+    · right; use a
+  · rintro (⟨a, hpa⟩ | ⟨a, hqa⟩)
+    · use a; left; exact hpa
+    · use a; right; exact hqa
 
 end
+
+/-
+### [IGNORE] A cosmological remark
+
+The pair `(a, h)` actually do not have type `(x : X) × (p x)`.
+The latter notation is actually for the *dependent pair type* (or `Sigma` type),
+which lives in `Type*` universe.
+
+But `Exists` should live in `Prop`,
+and in `Prop` universe we admit *proof-irrelevance*, i.e. we do not save data.
+So `Exists` forget the exact witness `a` once it is proved.
+
+This "forgetfulness" is revealed by the fact that there is no elimination rule
+`Exists.fst` to extract the witness `a` from a proof of `∃ x : X, p x`,
+as long as `X` lives in the `Type*` universe.
+(Note that `Exists.elim` can only produce propositions in `Prop`)
+
+But if `X` lives in `Prop` universe, then we do have `Exists.fst`:
+-/
+
+section
+
+#check Exists.fst
+
+/-
+Wait, wait, we never worked with `X : Prop` before. Say `p : r → Prop` and `r s : Prop`,
+what does `∃ hr : r, p hr` mean?
+It means that `r` and `p hr` are both true?
+[TODO] I don't know how to explain this properly so far.
+-/
+
+variable (r : Prop) (p : r → Prop)
+#check ∃ hr : r, p hr
+
+-- Prove `Exists.fst` and `Exists.snd` by `Exists.elim`
+example (he : ∃ hr : r, p hr) : r ∧ p he.fst := by
+  apply Exists.elim he
+  intro hr hpr
+  exact ⟨hr, hpr⟩
+
+end
+
+/-
+## [IGNORE] A cosmological remark, continued
+
+Same construction, different universes. Other examples are also shown below.
+-/
+
+#print And -- `×` in `Prop`
+#print Prod -- `×` in `Type*`
+
+-- Forall `∀`: dependent `∏` in `Prop`
+-- dependent function type: dependent `∏` in `Type*`
+
+#print Or -- `⊕` in `Prop`
+#print Sum -- `⊕` in `Type*`
+
+#print Exists -- dependent `∑` in `Prop`
+#print Sigma -- dependent `Σ` in `Type*`
+
+#print Nonempty -- a proof of non-emptiness living in `Prop`
+#print Inhabited -- an designated element living in `Sort*`
 
 /-
 # `Iff` (`↔`), second visit
@@ -420,99 +430,9 @@ end
 -/
 
 /-
-common tactics: `have`, `suffices`, `show`
+## More on the proof language
+
+[TODO]
+`have`, `suffices`, `show`
+`on_goal`, `all_goals`
 -/
-
-/-
-### [IGNORE] `Decidable`
-
-It's high time to introduce `Decidable` here for the first time.
-
-Mathematicians are often aware of intuitionistic logic.
-They know classical logic is equipped with `Classical.em`: `p ∨ ¬p` for any proposition `p`.
-Though rarely do they know the concept of `Decidable`,
-which more often appears in the theory of computation.
-
-In intuitionistic logic, `Or` means slightly stronger than in classical logic:
-by `p ∨ q` we mean that we know explicitly which one of `p` and `q` is true.
-We cannot do implications like `¬p → q` implying `p ∨ q`,
-because we don't know exactly which one of `p` and `¬p` is true,
-and the introduction rules of `Or` are asking us to provide it explicitly.
-This is a reason why intuitionistic logic is considered to be computable.
-
-For short, `Decidable p` means exactly the same as `p ∨ ¬p` in intuitionistic logic.
-It means that we know explicitly which one of `p` and `¬p` is true.
-
-Though formally in Lean, `Decidable` is defined as a distinct inductive type,
-it is very similar to `Or` in that you may, somehow, even use it like a `p ∨ ¬p`.
-But there are major differences. They are:
-
-- [IGNORE] `Decidable` lives in `Type` universe, instead of `Prop` universe.
-
-  In Lean's dependent type theory, things in `Prop` universe are allowed to be
-  non-constructive. This is because in `Prop` universe, proofs are *proof-irrelevant*:
-  Lean forgets the exact proof of a proposition once it is proved.
-  So when we have an `Or`, we actually have no idea which one of the two sides is true.
-  Lean is designed so, probably because most of the mathematics is non-constructive.
-
-  On the other hand, things in `Type` universe are required to be constructive,
-  unless you have used `Classical.choice` (In such situation, Lean will require
-  you to tag it as `noncomputable`).
-
-  `Decidable` is designed to be constructive,
-  because it is used to decide whether a proposition is true or false by computation.
-  So `Decidable` must live in `Type` universe: To save whether `p` or `¬p` is true.
-
-- [IGNORE] It is tagged as a typeclass.
-
-  This allows Lean to automatically find a proof of `Decidable p`
-  so that you don't have to prove it yourself.
-
-  So at many places `Decidable p` is implicitly deduced.
-
-- The constructors of `Decidable` has different names: `isTrue` and `isFalse`
-
-To wrap up, we have `Decidable` because:
-
-- To mean exactly the same as `p ∨ ¬p` in intuitionistic logic, to make it computable.
-
-- To allow you to just assume `p ∨ ¬p` for only some propositions,
-  which is more flexible than a classical logic overkill.
--/
-
-section
-
-variable (p q : Prop)
-
-#print Decidable
-#check Decidable.isTrue
-#check Decidable.isFalse
-
-/- [IGNORE] `Decidable` enables computation -/
-
-#eval True
-#eval True → False
-#eval False → (1 + 1 = 3)
-#synth Decidable (False → (1 + 1 = 3))
-
-/- this ensures a computable proof -/
-instance : Decidable (p → p ∨ q) := by
-  apply Decidable.isTrue -- explicit use of constructor
-  intro hp
-  left
-  exact hp
-#synth Decidable (p → p ∨ q)
-#eval (p q : Prop) → (p → (p ∨ q))
-
-/- `Decidable` enables partial classical logic -/
-
-#check Classical.byContradiction -- we have done this before
-/- proof by contradiction in intuitionistic logic with decidable hypothesis -/
-example [dp : Decidable p] : (¬p → False) → p := by
-  intro hnpn
-  rcases dp with (hnp | hp)
-  · exfalso; exact hnpn hnp
-  · exact hp
-#check Decidable.byContradiction -- above has a name
-
-end
