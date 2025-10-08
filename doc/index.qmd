@@ -86,6 +86,8 @@ BICMR--Ubiquant AI4Math 数据标注团队实习经验
   - [Lean Language Manual](https://leanprover.github.io/lean4/doc/index.html)
   - [Type Theory - nLab](https://ncatlab.org/nlab/show/type+theory)
 
+  - [Other bibles](https://lakesare.brick.do/all-lean-books-and-where-to-find-them-x2nYwjM3AwBQ)
+
 - Courses
 
   - [Kevin Buzzard's 2024 course on formalising mathematics in the Lean theorem prover](https://github.com/ImperialCollegeLondon/formalising-mathematics-2024)
