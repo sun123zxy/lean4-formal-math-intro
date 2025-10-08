@@ -71,7 +71,7 @@ example (hpq : p ∧ q) : p := by
   rcases hpq with ⟨hp, _⟩
   exact hp
 example : p ∧ q → p := by
-  rintro ⟨hp, _⟩ -- `rintro` is a combination of `intro` and `rcases`
+  intro ⟨hp, _⟩ -- implicit break-down in `intro`
   exact hp
 
 /- [EXR] `And` is symmetric -/
@@ -218,11 +218,11 @@ example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
   | inl hp => exact hpr hp
   | inr hq => exact hqr hq
 example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
-  rcases hpq with (hp | hq)
+  rcases hpq with (hp | hq) -- `rcases` can also destructure `Or`
   · exact hpr hp
   · exact hqr hq
 example (hpr : p → r) (hqr : q → r) : p ∨ q → r := by
-  rintro (hp | hq)
+  rintro (hp | hq) -- `rintro` is a combination of `intro` and `rcases`
   · exact hpr hp
   · exact hqr hq
 
