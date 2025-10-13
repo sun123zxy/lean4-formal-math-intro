@@ -189,17 +189,17 @@ MathJax = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#at-the-very-beginning" id="toc-at-the-very-beginning" class="nav-link active" data-scroll-target="#at-the-very-beginning">At the Very Beginning…</a>
+  <li><a href="#at-the-very-beginning" id="toc-at-the-very-beginning" class="nav-link active" data-scroll-target="#at-the-very-beginning"><span class="header-section-number"></span> At the Very Beginning…</a>
   <ul class="collapse">
-  <li><a href="#and" id="toc-and" class="nav-link" data-scroll-target="#and"><code>:</code> and <code>:=</code></a></li>
+  <li><a href="#and" id="toc-and" class="nav-link" data-scroll-target="#and"><span class="header-section-number">1</span> <code>:</code> and <code>:=</code></a></li>
   </ul></li>
-  <li><a href="#logic-part-i" id="toc-logic-part-i" class="nav-link" data-scroll-target="#logic-part-i">Logic (Part I)</a>
+  <li><a href="#logic-part-i" id="toc-logic-part-i" class="nav-link" data-scroll-target="#logic-part-i"><span class="header-section-number"></span> Logic (Part I)</a>
   <ul class="collapse">
-  <li><a href="#implication" id="toc-implication" class="nav-link" data-scroll-target="#implication">Implication <code>→</code></a></li>
-  <li><a href="#true-false-and-not" id="toc-true-false-and-not" class="nav-link" data-scroll-target="#true-false-and-not"><code>True</code>, <code>False</code> and <code>Not</code></a>
+  <li><a href="#implication" id="toc-implication" class="nav-link" data-scroll-target="#implication"><span class="header-section-number">1</span> Implication <code>→</code></a></li>
+  <li><a href="#true-false-and-not" id="toc-true-false-and-not" class="nav-link" data-scroll-target="#true-false-and-not"><span class="header-section-number">2</span> <code>True</code>, <code>False</code> and <code>Not</code></a>
   <ul class="collapse">
-  <li><a href="#true" id="toc-true" class="nav-link" data-scroll-target="#true"><code>True</code> (<code>⊤</code>)</a></li>
-  <li><a href="#false" id="toc-false" class="nav-link" data-scroll-target="#false"><code>False</code> (<code>⊥</code>)</a></li>
+  <li><a href="#true" id="toc-true" class="nav-link" data-scroll-target="#true"><span class="header-section-number">2.1</span> <code>True</code> (<code>⊤</code>)</a></li>
+  <li><a href="#false" id="toc-false" class="nav-link" data-scroll-target="#false"><span class="header-section-number">2.2</span> <code>False</code> (<code>⊥</code>)</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -229,11 +229,11 @@ MathJax = {
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You may skip the materials tagged with [IGNORE] for the first runthrough. Most of them are here to illustrate the nature of inductive types, which may be too advanced for beginners.</p>
-<section id="at-the-very-beginning" class="level1">
-<h1>At the Very Beginning…</h1>
+<section id="at-the-very-beginning" class="level1" data-number="">
+<h1 data-number=""><span class="header-section-number"></span> At the Very Beginning…</h1>
 <p>There are some basic notions you should be familiar with.</p>
-<section id="and" class="level2">
-<h2 class="anchored" data-anchor-id="and"><code>:</code> and <code>:=</code></h2>
+<section id="and" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="and"><span class="header-section-number">1</span> <code>:</code> and <code>:=</code></h2>
 <p><code>3 : ℕ</code> means that <code>3</code> is a term of type <code>ℕ</code>.</p>
 <p>By the Curry–Howard correspondence, <code>hp : p</code> means that <code>hp</code> is a proof of the proposition <code>p</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="dv">3</span></span>
@@ -249,12 +249,12 @@ MathJax = {
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="kw">∀</span> x : ℝ, <span class="dv">0</span> ≤ x ^ <span class="dv">2</span> <span class="op">:=</span> thm_sq_nonneg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="logic-part-i" class="level1">
-<h1>Logic (Part I)</h1>
+<section id="logic-part-i" class="level1" data-number="">
+<h1 data-number=""><span class="header-section-number"></span> Logic (Part I)</h1>
 <p>We shall work out the basic logic in Lean’s dependent type theory.</p>
 <p>[IGNORE] You may notice along the way that except <code>→</code>, all other logical connectives are defined as <em>inductive types</em>. And they have their own <em>self-evident</em> <em>introduction rules</em> and <em>elimination rules</em>. We shall discuss inductive types later in this course. These logical connectives serve as good examples.</p>
-<section id="implication" class="level2">
-<h2 class="anchored" data-anchor-id="implication">Implication <code>→</code></h2>
+<section id="implication" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="implication"><span class="header-section-number">1</span> Implication <code>→</code></h2>
 <p>Implication <code>→</code> is the most fundamental way of constructing new types in Lean’s dependent type theory. It’s one of the first-class citizens in Lean.</p>
 <p>In the universe of <code>Prop</code>, for propositions <code>p</code> and <code>q</code>, the implication <code>p → q</code> means “if <code>p</code> then <code>q</code>”.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
@@ -330,13 +330,13 @@ MathJax = {
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="true-false-and-not" class="level2">
-<h2 class="anchored" data-anchor-id="true-false-and-not"><code>True</code>, <code>False</code> and <code>Not</code></h2>
+<section id="true-false-and-not" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="true-false-and-not"><span class="header-section-number">2</span> <code>True</code>, <code>False</code> and <code>Not</code></h2>
 <p>In Lean’s dependent type theory, <code>True</code> and <code>False</code> are propositions serving as the <em>terminal and initial objects</em> in the universe of <code>Prop</code>.</p>
 <p>Eagle-eyed readers may notice that <code>True</code> and <code>False</code> act similarly to singleton sets and empty sets in set theory.</p>
 <p>They are constructed as <em>inductive types</em>.</p>
-<section id="true" class="level3">
-<h3 class="anchored" data-anchor-id="true"><code>True</code> (<code>⊤</code>)</h3>
+<section id="true" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="true"><span class="header-section-number">2.1</span> <code>True</code> (<code>⊤</code>)</h3>
 <p><code>True</code> has a single constructor <code>True.intro</code>, which produces the unique proof of <code>True</code>. [IGNORE] Thus <code>True</code> is self-evidently true by <code>True.intro</code>.</p>
 <p><code>trivial</code> is a tactic that solves goals of type <code>True</code> using <code>True.intro</code>, though it’s power does not stop here.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
@@ -362,8 +362,8 @@ MathJax = {
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> htp</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trivial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="false" class="level3">
-<h3 class="anchored" data-anchor-id="false"><code>False</code> (<code>⊥</code>)</h3>
+<section id="false" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="false"><span class="header-section-number">2.2</span> <code>False</code> (<code>⊥</code>)</h3>
 <p><code>False</code> has no constructors, meaning that there is no way to construct a proof of <code>False</code>. This means that <code>False</code> is always false.</p>
 <p><code>False.elim</code> is the eliminator of <code>False</code>, serve as the “principle of explosion”, which allows us to derive anything from a falsehood. [IGNORE] <code>False.elim</code> self-evidently true in Lean’s dependent type theory.</p>
 <p><code>exfalso</code> is a tactic that applys <code>False.elim</code> to the current goal, changing it to <code>False</code>. <code>contradiction</code> is a tactic that proves the current goal by finding a trivial contradiction in the context.</p>
