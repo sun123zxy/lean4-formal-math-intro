@@ -1,5 +1,8 @@
 ---
 title: 03-logic.lean
+
+number-sections: true
+
 format:
   html: default
 ---
