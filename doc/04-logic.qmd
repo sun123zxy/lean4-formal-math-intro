@@ -1,0 +1,7 @@
+---
+title: 04-logic.lean
+format:
+  html: default
+---
+
+{{< lean-include ../2025fallLean4Teach/04-logic.lean >}}
