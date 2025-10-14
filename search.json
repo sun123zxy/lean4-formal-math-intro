@@ -100,6 +100,16 @@
     ]
   },
   {
+    "objectID": "03-logic.html#remainder",
+    "href": "03-logic.html#remainder",
+    "title": "03-logic.lean",
+    "section": "4 Remainder",
+    "text": "4 Remainder\nIff (↔︎), second visit, bundled and unbundled version\nwe do it with Eq? Eq is hard. Maybe a second visit when touching inductive types.",
+    "crumbs": [
+      "03-logic.lean"
+    ]
+  },
+  {
     "objectID": "01-intro.html",
     "href": "01-intro.html",
     "title": "Introduction to Formal Mathematics with Lean 4",
