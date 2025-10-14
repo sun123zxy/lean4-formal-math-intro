@@ -464,7 +464,7 @@ Same construction, different universes. Other examples are also shown below.
 #print Inhabited -- an designated element living in `Sort*`
 
 /-
-# Remainder
+## Remainder
 
 `Iff` (`↔`), second visit, bundled and unbundled version
 
