@@ -22,9 +22,9 @@ section
 variable (p q r : Prop)
 
 /-
-## `And` (`∧`)
+### `And` (`∧`)
 
-### Introducing `And`
+#### Introducing `And`
 
 The only constructor of `And` is `And.intro`, which takes a proof of `p` and a proof of `q`
 to produce a proof of `p ∧ q`.
@@ -86,7 +86,7 @@ example (hrp : r → p) (hrq : r → q) : r → p ∧ q := by
   exact ⟨hrp hr, hrq hr⟩
 
 /-
-### Eliminating `And`
+#### Eliminating `And`
 
 `And.left` and `And.right` are among the elimination rules of `And`,
 which extract the proofs of `p` and `q`.
@@ -130,7 +130,7 @@ example (hrpq : r → p ∧ q) : (r → p) ∧ (r → q) := by
     exact (hrpq hr).right
 
 /-
-### Currification
+#### Currification
 
 The actual universal elimination rule of `And` is the so-called *decurrification*:
 From `(p → q → r)` we may deduce `(p ∧ q → r)`. This is actually a logical equivalence.
@@ -205,7 +205,7 @@ example : (p ↔ q) ↔ (p → q) ∧ (q → p) := by
 /-
 ### `Or` (`∨`)
 
-### Introducing `Or`
+#### Introducing `Or`
 
 `Or` has two constructors, `Or.inl` and `Or.inr`.
 Either a proof of `p` or a proof of `q` produces a proof of `p ∨ q`.
@@ -222,7 +222,7 @@ example (hq : q) : p ∨ q := by
   exact hq
 
 /-
-### Eliminating `Or`
+#### Eliminating `Or`
 
 To prove `r` from `p ∨ q`, it suffices to prove both `p → r` and `q → r`.
 This is the elimination rule of `Or`,
@@ -278,9 +278,9 @@ example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by sorry
 end
 
 /-
-# `Forall` and `Exists`
+## `Forall` and `Exists`
 
-## Forall (`∀`)
+### Forall (`∀`)
 
 As you may have already noticed, `∀` is just an alternative way of writing `→`.
 Say `p` is a predicate on a type `X`, i.e. of type `X → Prop`,
@@ -313,7 +313,7 @@ example : (hrs : r → s) → (∀ _ : r, s) := by
   exact hrs
 
 /-
-## `Exists` (`∃`)
+### `Exists` (`∃`)
 
 `∃` is a bit more complicated.
 
@@ -324,6 +324,8 @@ Slogan: `∀` is a dependent `→`, `∃` is a dependent `×` (or `∧` in `Prop
 #check ∃ x, p x -- Lean is smart enough to infer the type of `x`
 
 /-
+#### Introducting `Exists`
+
 `∃ x : X, p x` means that we have the following data:
 
 - an element `a : X`;
@@ -334,15 +336,17 @@ So a pair `(a, h)` would suffice to construct a proof of `∃ x : X, p x`.
 This is the defining introduction rule of `Exists` as an inductive type.
 -/
 #check Exists.intro
+example (a : X) (h : p a) : ∃ x, p x := Exists.intro a h
 
 /-
 As like `And`, you may use the anonymous constructor notation `⟨a, h⟩` to mean `Exists.intro a h`.
+-/
+example (a : X) (h : p a) : ∃ x, p x := ⟨a, h⟩
 
+/-
 In tactic mode, `use a` make use of `Exists.intro a` to reduce
 the goal `∃ x : X, p x` to `p a`.
 -/
-example (a : X) (h : p a) : ∃ x, p x := Exists.intro a h
-example (a : X) (h : p a) : ∃ x, p x := ⟨a, h⟩
 example (a : X) (h : p a) : ∃ x, p x := by use a
 
 -- [EXR]
@@ -354,21 +358,25 @@ Note that in the defining pair `(a, h)`, `h` is a proof of `p a`, whose type dep
 Thus psychologically, you may view `∃ x : X, p x` as a dependent pair type `(x : X) × (p x)`.
 
 Have writing `Exists` as a dependent pair type reminded you of the currification process?
-
-Elimination rule:
-To construct the implication `(∃ x : X, p x) → q`, it suffices to have a proof of
-`(∀ x : X, p x → q)`, i.e. `(x : X) → p x → q`.
-
-In tactic mode, `rcases h with ⟨a, ha⟩` make use of this elimination rule to break down
-a hypothesis `h : ∃ x : X, p x` into a witness `a : X` and a proof `ha : p a`.
 -/
 
+/-
+#### Eliminating `Exists`
+
+To construct the implication `(∃ x : X, p x) → q`, it suffices to have a proof of
+`(∀ x : X, p x → q)`, i.e. `(x : X) → p x → q`.
+`Exists.elim` does exactly above.
+-/
 #check Exists.elim
 
 example : (∀ x, p x → r) → ((∃ x, p x) → r) := by
   intro hf he
   exact Exists.elim he hf
 
+/-
+In tactic mode, `rcases h with ⟨a, ha⟩` make use of this elimination rule to break down
+a hypothesis `h : ∃ x : X, p x` into a witness `a : X` and a proof `ha : p a`.
+-/
 example : (∀ x, p x → r) → ((∃ x, p x) → r) := by
   intro hf he
   rcases he with ⟨a, hpa⟩
@@ -402,7 +410,7 @@ example : (∃ x, p x ∨ q x) ↔ (∃ x, p x) ∨ (∃ x, q x) := by
 end
 
 /-
-### [IGNORE] A cosmological remark
+#### [IGNORE] A cosmological remark
 
 The pair `(a, h)` actually do not have type `(x : X) × (p x)`.
 The latter notation is actually for the *dependent pair type* (or `Sigma` type),
