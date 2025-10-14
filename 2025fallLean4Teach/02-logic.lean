@@ -5,6 +5,8 @@ You may skip the materials tagged with [IGNORE] for the first runthrough.
 Most of them are here to illustrate the nature of inductive types,
 which may be too advanced for beginners.
 
+Materials tagged with [EXR] are recommended for you to try before looking at the solution.
+
 # At the Very Beginning...
 
 There are some basic notions you should be familiar with.
@@ -42,6 +44,12 @@ example : ∀ x : ℝ, 0 ≤ x ^ 2 := thm_sq_nonneg
 # Logic (Part I)
 
 We shall work out the basic logic in Lean's dependent type theory.
+
+In this part, we cover:
+
+- Implication
+  - Syntax for defining functions / theorems
+- Tactic Mode
 
 [IGNORE]
 You may notice along the way that except `→`,
@@ -110,6 +118,8 @@ example : p → (p → q) → q := fun (hp : p) (hpq : p → q) ↦ hpq hp
 example : p → (p → q) → q := fun hp hpq ↦ hpq hp
 
 /-
+## Tactic Mode
+
 Construct proofs using explicit terms is called *term-style proof*.
 This can be tedious for complicated proofs.
 
@@ -165,12 +175,12 @@ tactic: `apply`
 If `q` is the goal and we have `hpq : p → q`, then `apply hpq` changes the goal to `p`.
 -/
 
-/- modus ponens, with another proof -/
+/- modus ponens -/
 example (hp : p) (hpq : p → q) : q := by
   apply hpq
   exact hp
 
-/- [EXR] transitivity of `→`, with another proof -/
+/- [EXR] transitivity of `→` -/
 example (hpq : p → q) (hqr : q → r) : p → r := by
   intro hp
   apply hqr
@@ -178,111 +188,72 @@ example (hpq : p → q) (hqr : q → r) : p → r := by
   exact hp
 
 /-
+Above tactics are minimal and sufficient for simple proofs.
+
+When proofs went more complicated, you may want more tactics that suit your needs.
+
+Remember your favorite tactics and use them accordingly.
+-/
+
+/-
 tactic: `specialize`
 If we have `hpq : p → q` and `hp : p`,
 then `specialize hpq hp` reassigns `hpq` to `hpq hp`, a proof of `q`.
 -/
 
-/- modus ponens, with another proof -/
 example (hp : p) (hpq : p → q) : q := by
   specialize hpq hp
   exact hpq
 
-/- transitivity of `→`, with another proof -/
 example (hpq : p → q) (hqr : q → r) : p → r := by
   intro hp
   specialize hpq hp
   specialize hqr hpq
   exact hqr
 
-end
-
 /-
-## `True`, `False` and `Not`
-
-In Lean's dependent type theory, `True` and `False` are propositions serving as
-the *terminal and initial objects* in the universe of `Prop`.
-
-Eagle-eyed readers may notice that `True` and `False` act similarly to
-singleton sets and empty sets in set theory.
-
-They are constructed as *inductive types*.
+tactic: `have`
+`have` helps you to state and prove a lemma in the middle of a proof.
+`have h : p := hp` adds the hypothesis `h : p` into the context,
+where `hp` is a proof of `p` that you provide.
 -/
 
-/-
-### `True` (`⊤`)
-
-`True` has a single constructor `True.intro`, which produces the unique proof of `True`.
-[IGNORE] Thus `True` is self-evidently true by `True.intro`.
-
-`trivial` is a tactic that solves goals of type `True` using `True.intro`,
-though it's power does not stop here.
--/
-
-section
-
-variable (p q : Prop)
-
-#print True
-#check True.intro
-
-/- `True` as the terminal object -/
-example : p → True := by
-  intro _
-  exact True.intro
-
-/- The following examples shows that `True → p` is logically equivalent to `p`. -/
-
-example (hp : p) : True → p := by
-  intro _
-  exact hp
-
-/- [IGNORE] Above is actually the elimination law of `True`. -/
-example (hp : p) : True → p := True.rec hp
-
-example (htp : True → p) : p := htp True.intro
-
-example (htp : True → p) : p := by
-  apply htp
-  trivial
+example (hpq : p → q) (hqr : q → r) : p → r := by
+  intro hp
+  have hq : q := hpq hp
+  have hr : r := by -- combine with `by` is also possible
+    apply hqr
+    exact hq
+  exact hr
 
 /-
-### `False` (`⊥`)
-
-`False` has no constructors, meaning that there is no way to construct a proof of `False`.
-This means that `False` is always false.
-
-`False.elim` is the eliminator of `False`, serve as the "principle of explosion",
-which allows us to derive anything from a falsehood.
-[IGNORE] `False.elim` self-evidently true in Lean's dependent type theory.
-
-`exfalso` is a tactic that applys `False.elim` to the current goal, changing it to `False`.
-`contradiction` is a tactic that proves the current goal
-by finding a trivial contradiction in the context.
+tactic: `suffices`
+Say our goal is `q`, `suffices hp : p from hq` changes the goal to `p`,
+as long as you can provide a proof `hq` of `q` from a proof `hp` of `p`.
+You may also switch to the tactic mode by `suffices hp : p by ...`
 -/
 
-#print False
-#check False.elim
-#check False.rec -- [IGNORE] `False.elim` is actually defined as `False.rec`
+example (hpq : p → q) (hqr : q → r) : p → r := by
+  intro hp
+  suffices hq : q from hqr hq
+  exact hpq hp
 
-/- eliminating `False` -/
-
-example (hf : False) : p := False.elim hf
-
-example (hf : False) : p := by
-  exfalso
-  exact hf
-
-example (hf : False) : p := by
-  contradiction
-
-/- [EXR] -/
-example (h : 1 + 1 = 3) : RiemannHypothesis := by
-  contradiction
+example (hpq : p → q) (hqr : q → r) : p → r := by
+  intro hp
+  suffices hq : q by
+    apply hqr
+    exact hq
+  exact hpq hp
 
 /-
-On how to actually obtain a proof of `False` from a trivially false hypothesis via term-style proof
-[TODO], see [here](https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers)
+`show` (it is not a tactic!)
+Sometimes you want to clarify what exactly you are giving a proof for.
+`show p from h` make sure that `h` is interpreted as a proof of `p`.
+`show p by ...` switches to the tactic mode to construct a proof of `p`.
 -/
+
+example (hpq : p → q) (hqr : q → r) : p → r := by
+  intro hp
+  exact hqr (show q by apply hpq; exact hp)
 
 end

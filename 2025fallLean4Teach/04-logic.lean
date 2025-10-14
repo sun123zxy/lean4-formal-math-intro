@@ -3,11 +3,114 @@ import Mathlib
 /-
 # Logic (Part III)
 
-- negation
-- classical logic tactics, e.g. proof by contradiction
-- the difference between classical and intuitionistic logic
-- negation-pushing techniques
+1. `True`, `False` and `Not`
+2. classical logic tactics, e.g. proof by contradiction
+3. negation-pushing techniques
+4. the difference between classical and intuitionistic logic
+5. `Decidable`
+
+3 is recommended for those who wants to have some exercises.
+For lazy ones, you may only remember the tactics introduced there.
+
+4, 5 are optional and left for logical lunatics.
 -/
+
+/-
+## `True`, `False` and `Not`
+
+In Lean's dependent type theory, `True` and `False` are propositions serving as
+the *terminal and initial objects* in the universe of `Prop`.
+
+Eagle-eyed readers may notice that `True` and `False` act similarly to
+singleton sets and empty sets in set theory.
+
+They are constructed as *inductive types*.
+-/
+
+section
+
+variable (p q : Prop)
+
+
+/-
+### `True` (`⊤`)
+
+`True` has a single constructor `True.intro`, which produces the unique proof of `True`.
+`True` is self-evidently true by `True.intro`.
+-/
+#check True.intro
+
+/- `True` as the terminal object -/
+example : p → True := by
+  intro _
+  exact True.intro
+
+/- The following examples shows that `True → p` is logically equivalent to `p`. -/
+
+example (hp : p) : True → p := by
+  intro _
+  exact hp
+
+/- [IGNORE] Above is actually the elimination law of `True`. -/
+example (hp : p) : True → p := True.rec hp
+
+example (htp : True → p) : p := htp True.intro
+
+/-
+`trivial` is a tactic that solves goals of type `True` using `True.intro`,
+though it's power does not stop here.
+-/
+example (htp : True → p) : p := by
+  apply htp
+  trivial
+
+/-
+### `False` (`⊥`)
+
+`False` has no constructors, meaning that there is no way to construct a proof of `False`.
+This means that `False` is always false.
+
+`False.elim` is the eliminator of `False`, serve as the "principle of explosion",
+which allows us to derive anything from a falsehood.
+`False.elim` is self-evidently true in Lean's dependent type theory.
+-/
+
+#check False.elim
+#check False.rec -- [IGNORE] `False.elim` is actually defined as `False.rec`
+
+/- eliminating `False` -/
+example (hf : False) : p := False.elim hf
+
+/- `exfalso` is a tactic that applys `False.elim` to the current goal, changing it to `False`. -/
+example (hf : False) : p := by
+  exfalso
+  exact hf
+
+/-
+`contradiction` is a tactic that proves the current goal
+by finding a trivial contradiction in the context.
+-/
+example (hf : False) : p := by
+  contradiction
+
+-- [EXR]
+example (h : 1 + 1 = 3) : RiemannHypothesis := by
+  contradiction
+
+/-
+On how to actually obtain a proof of `False` from a trivially false hypothesis via term-style proof
+[TODO], see [here](https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers)
+-/
+
+/-
+[IGNORE]
+Experienced audiences may question why `False.elim` lands in `Sort*` universe instead of `Prop`.
+This is because `False` is a *subsingleton*.
+See [the manual](https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#subsingleton-elimination)
+to understand how the universe of a recursor is determined.
+-/
+
+end
 
 /-
 ## `Not` (`¬`)
@@ -89,9 +192,9 @@ example : (¬q → ¬p) → (p → q) := by
 end
 
 /-
+[IGNORE]
 In fact above is equivalent to double negation elimination.
 This one use the `have` tactic, which allows us to state and prove a lemma in the middle of a proof.
-You don't have to digest the proof. Just see how `have` is used.
 -/
 example (hctp : (p q : Prop) → (¬q → ¬p) → (p → q)) : (p : Prop) → (¬¬p → p) := by
   intro p hnnp

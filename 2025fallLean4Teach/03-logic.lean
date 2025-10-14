@@ -3,6 +3,9 @@ import Mathlib
 /-
 # Logic (Part II)
 
+- `And` and `Or`
+- `Forall` and `Exists`
+
 ## `And` and `Or`
 
 In Lean's dependent type theory, `∧` and `∨` serve as
@@ -21,32 +24,61 @@ variable (p q r : Prop)
 /-
 ## `And` (`∧`)
 
+### Introducing `And`
+
 The only constructor of `And` is `And.intro`, which takes a proof of `p` and a proof of `q`
 to produce a proof of `p ∧ q`.
 
-Regard this as the *universal property of the direct product* if you like.
-
-`And.intro hp hq` can be abbreviated as `⟨hp, hq⟩`, called the *anonymous constructor*.
-
-`constructor` tactic applies `And.intro` to split the goal `p ∧ q` into subgoals `p` and `q`.
-You may also use the anonymous constructor notation `⟨hp, hq⟩` to mean `And.intro hp hq`.
-
-`split_ands` tactic is like `constructor` but works for nested `And`s.
+It is self-evident. Regard this as the *universal property of the direct product* if you like.
 -/
-
-#print And
-
-/- introducing `And` -/
 
 #check And.intro
 
-/- These examples, as introduction rules, are self-evidently true. -/
 example (hp : p) (hq : q) : p ∧ q := And.intro hp hq
+
+/- `And.intro hp hq` can be abbreviated as `⟨hp, hq⟩`, called the *anonymous constructor*. -/
 example (hp : p) (hq : q) : p ∧ q := ⟨hp, hq⟩
+
+/- introducing nested `And` -/
+example (hp : p) (hq : q) (hr : r) : p ∧ q ∧ r := by
+  exact ⟨hp, hq, hr⟩ -- equivalent to `⟨hp, ⟨hq, hr⟩⟩`
+
+/-
+`constructor` tactic applies `And.intro` to split the goal `p ∧ q` into subgoals `p` and `q`.
+You may also use the anonymous constructor notation `⟨hp, hq⟩` to mean `And.intro hp hq`.
+
+use `·` to focus on the first goal in your goal list.
+-/
 example (hp : p) (hq : q) : p ∧ q := by
   constructor
   · exact hp
   · exact hq
+
+/- `on_goal` tactic can be used to focus on a specific goal. -/
+example (hp : p) (hq : q) : p ∧ q := by
+  constructor
+  on_goal 2 => exact hq
+  exact hp
+
+/- `all_goals` tactic can be used to simultaneously perform tactics on all goals. -/
+example (hp : p) : p ∧ p := by
+  constructor
+  all_goals exact hp
+
+/-
+`assumption` tactic tries to close goals using existing hypotheses in the context.
+Can be useful when there are many goals.
+-/
+example (hp : p) (hq : q) : p ∧ q := by
+  constructor
+  all_goals assumption
+
+/- `split_ands` tactic is like `constructor` but works for nested `And`s. -/
+example (hp : p) (hq : q) (hr : r) : p ∧ q ∧ r := by
+  split_ands
+  · exact hp
+  · exact hq
+  · exact hr
 
 /- [EXR] `→`--`∨` distribution. Universal property of the direct product. -/
 example (hrp : r → p) (hrq : r → q) : r → p ∧ q := by
@@ -54,30 +86,39 @@ example (hrp : r → p) (hrq : r → q) : r → p ∧ q := by
   exact ⟨hrp hr, hrq hr⟩
 
 /-
+### Eliminating `And`
+
 `And.left` and `And.right` are among the elimination rules of `And`,
 which extract the proofs of `p` and `q`.
-
-`rcases hpq with ⟨hp, hq⟩` is a tactic that breaks down the hypothesis
-`hpq : p ∧ q` into `hp : p` and `hq : q`.
-Equivalently you can use `let ⟨hp, hq⟩ := hpq`.
 -/
-
-/- eliminating `And` -/
-
 #check And.left
 #check And.right
 example (hpq : p ∧ q) : p := hpq.left
+example (hpqr : p ∧ q ∧ r) : r := hpqr.right.right
+
+/-
+`rcases hpq with ⟨hp, hq⟩` is a tactic that breaks down the hypothesis
+`hpq : p ∧ q` into `hp : p` and `hq : q`.
+Equivalently you can use `have ⟨hp, hq⟩ := hpq`.
+-/
 example (hpq : p ∧ q) : p := by
   rcases hpq with ⟨hp, _⟩
   exact hp
+
+/- implicit break-down in `intro` -/
 example : p ∧ q → p := by
-  intro ⟨hp, _⟩ -- implicit break-down in `intro`
+  intro ⟨hp, _⟩
   exact hp
+
+/- nested `And` elimination -/
+example (hpqr : p ∧ q ∧ r) : r := by
+  rcases hpqr with ⟨_, _, hr⟩
+  exact hr
 
 /- [EXR] `And` is symmetric -/
 example : p ∧ q → q ∧ p := by
-  intro hpq
-  exact ⟨hpq.right, hpq.left⟩
+  intro ⟨hp, hq⟩
+  exact ⟨hq, hp⟩
 #check And.comm -- above has a name
 
 /- [EXR] `→`--`∨` distribution, in another direction. -/
@@ -88,22 +129,9 @@ example (hrpq : r → p ∧ q) : (r → p) ∧ (r → q) := by
   · intro hr
     exact (hrpq hr).right
 
-/- nested and -/
-
-example (hpqr : p ∧ q ∧ r) : r := hpqr.right.right
-example (hpqr : p ∧ q ∧ r) : r := by
-  rcases hpqr with ⟨_, ⟨_, hr⟩⟩ -- anonymous constructor can be nested
-  exact hr
-
-example (hp : p) (hq : q) (hr : r) : p ∧ q ∧ r := by
-  exact ⟨hp, ⟨hq, hr⟩⟩
-example (hp : p) (hq : q) (hr : r) : p ∧ q ∧ r := by
-  split_ands
-  · exact hp
-  · exact hq
-  · exact hr
-
 /-
+### Currification
+
 The actual universal elimination rule of `And` is the so-called *decurrification*:
 From `(p → q → r)` we may deduce `(p ∧ q → r)`. This is actually a logical equivalence.
 
@@ -116,6 +144,9 @@ Currification is heavily used in functional programming for its convenience, Lea
 
 You are no stranger to decurrification even if you are not a functional programmer:
 The *universal property of the tensor product of modules* says exactly the same.
+$$
+\operatorname{Hom}(M \otimes N, P) \cong \operatorname{Hom}(M, \operatorname{Hom}(N, P))
+$$
 -/
 
 /- [EXR] currification -/
@@ -156,10 +187,10 @@ It's high time to introduce `Iff` here for the first time.
 `Iff` (`↔`) contains two side of implications: `Iff.mp` and `Iff.mpr`.
 
 Though it is defined as a distinct inductive type,
-`Iff` is very similar to `And` in that you may, somehow, even use it like a `(p → q) ∧ (q → p)`.
+`Iff` may be seen as a bundled version of `(p → q) ∧ (q → p)`.
+you may, somehow, even use it like a `(p → q) ∧ (q → p)`.
 The only major difference is the name of the two components.
 -/
-
 #check Iff.intro
 #check Iff.mp
 #check Iff.mpr
@@ -174,26 +205,32 @@ example : (p ↔ q) ↔ (p → q) ∧ (q → p) := by
 /-
 ### `Or` (`∨`)
 
-`Or` has two constructors `Or.inl` and `Or.inr`.
-Either a proof of `p` or a proof of `q` produces a proof of `p ∨ q`.
+### Introducing `Or`
 
-[TODO]
+`Or` has two constructors, `Or.inl` and `Or.inr`.
+Either a proof of `p` or a proof of `q` produces a proof of `p ∨ q`.
 -/
 
-#print Or
 #check Or.inl
 #check Or.inr
-#check Or.elim
-#check Or.rec
-
-/- introducing `Or` -/
 
 example (hp : p) : p ∨ q := Or.inl hp
+
+/- `left` (resp. `right`) tactic reduce `Or` goals to `p` (resp. `q`) -/
 example (hq : q) : p ∨ q := by
   right
   exact hq
 
-/- elimination rule of `Or`, universal property of the direct sum -/
+/-
+### Eliminating `Or`
+
+To prove `r` from `p ∨ q`, it suffices to prove both `p → r` and `q → r`.
+This is the elimination rule of `Or`,
+or the *universal property* of the direct sum.
+-/
+
+#check Or.elim
+#check Or.rec -- [IGNORE]
 
 example (hpr : p → r) (hqr : q → r) : (p ∨ q → r) := fun hpq ↦ (Or.elim hpq hpr hqr)
 example (hpr : p → r) (hqr : q → r) : (p ∨ q → r) := (Or.elim · hpr hqr) -- note the use of `·`
@@ -202,6 +239,10 @@ example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
   · exact hpr
   · exact hqr
 
+/-
+`match`-style syntax is designed to make use of `Or.elim` to destructure `Or` to cases.
+[IGNORE] You may just skim through this syntax for now.
+-/
 example (hpr : p → r) (hqr : q → r) : (p ∨ q → r) := fun
   | Or.inl hp => hpr hp
   | Or.inr hq => hqr hq
@@ -217,6 +258,10 @@ example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
   cases hpq with
   | inl hp => exact hpr hp
   | inr hq => exact hqr hq
+
+/-
+`rcases` may also serve as a tactic version of `match`, which is much more convenient.
+-/
 example (hpr : p → r) (hqr : q → r) (hpq : p ∨ q) : r := by
   rcases hpq with (hp | hq) -- `rcases` can also destructure `Or`
   · exact hpr hp
@@ -226,12 +271,7 @@ example (hpr : p → r) (hqr : q → r) : p ∨ q → r := by
   · exact hpr hp
   · exact hqr hq
 
-/-
-### Comprehensive exercises for `And` and `Or`
-
-[EXR] distributive laws
--/
-
+/- [EXR] distributive laws -/
 example : p ∧ (q ∨ r) ↔ (p ∧ q) ∨ (p ∧ r) := by sorry
 example : p ∨ (q ∧ r) ↔ (p ∨ q) ∧ (p ∨ r) := by sorry
 
@@ -338,7 +378,7 @@ example : (∀ x, p x → r) → ((∃ x, p x) → r) := by
   intro h ⟨a, hpa⟩ -- you may also `rcases` explicitly
   exact h a hpa
 
--- [EXR] reverse direction is also true
+/- [EXR] reverse direction is also true -/
 example :  ((∃ x, p x) → r) → (∀ x, p x → r) := by
   intro h a hpa
   apply h
@@ -424,15 +464,9 @@ Same construction, different universes. Other examples are also shown below.
 #print Inhabited -- an designated element living in `Sort*`
 
 /-
-# `Iff` (`↔`), second visit
+# Remainder
 
-[TODO] We do it with `Eq`? In the next chapter?
--/
+`Iff` (`↔`), second visit, bundled and unbundled version
 
-/-
-## More on the proof language
-
-[TODO]
-`have`, `suffices`, `show`
-`on_goal`, `all_goals`
+we do it with `Eq`? `Eq` is hard. Maybe a second visit when touching inductive types.
 -/
