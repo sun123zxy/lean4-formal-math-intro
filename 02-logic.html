@@ -196,11 +196,7 @@ MathJax = {
   <li><a href="#logic-part-i" id="toc-logic-part-i" class="nav-link" data-scroll-target="#logic-part-i"><span class="header-section-number"></span> Logic (Part I)</a>
   <ul class="collapse">
   <li><a href="#implication" id="toc-implication" class="nav-link" data-scroll-target="#implication"><span class="header-section-number">1</span> Implication <code>→</code></a></li>
-  <li><a href="#true-false-and-not" id="toc-true-false-and-not" class="nav-link" data-scroll-target="#true-false-and-not"><span class="header-section-number">2</span> <code>True</code>, <code>False</code> and <code>Not</code></a>
-  <ul class="collapse">
-  <li><a href="#true" id="toc-true" class="nav-link" data-scroll-target="#true"><span class="header-section-number">2.1</span> <code>True</code> (<code>⊤</code>)</a></li>
-  <li><a href="#false" id="toc-false" class="nav-link" data-scroll-target="#false"><span class="header-section-number">2.2</span> <code>False</code> (<code>⊥</code>)</a></li>
-  </ul></li>
+  <li><a href="#tactic-mode" id="toc-tactic-mode" class="nav-link" data-scroll-target="#tactic-mode"><span class="header-section-number">2</span> Tactic Mode</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -229,6 +225,7 @@ MathJax = {
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You may skip the materials tagged with [IGNORE] for the first runthrough. Most of them are here to illustrate the nature of inductive types, which may be too advanced for beginners.</p>
+<p>Materials tagged with [EXR] are recommended for you to try before looking at the solution.</p>
 <section id="at-the-very-beginning" class="level1" data-number="">
 <h1 data-number=""><span class="header-section-number"></span> At the Very Beginning…</h1>
 <p>There are some basic notions you should be familiar with.</p>
@@ -252,6 +249,14 @@ MathJax = {
 <section id="logic-part-i" class="level1" data-number="">
 <h1 data-number=""><span class="header-section-number"></span> Logic (Part I)</h1>
 <p>We shall work out the basic logic in Lean’s dependent type theory.</p>
+<p>In this part, we cover:</p>
+<ul>
+<li>Implication
+<ul>
+<li>Syntax for defining functions / theorems</li>
+</ul></li>
+<li>Tactic Mode</li>
+</ul>
 <p>[IGNORE] You may notice along the way that except <code>→</code>, all other logical connectives are defined as <em>inductive types</em>. And they have their own <em>self-evident</em> <em>introduction rules</em> and <em>elimination rules</em>. We shall discuss inductive types later in this course. These logical connectives serve as good examples.</p>
 <section id="implication" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="implication"><span class="header-section-number">1</span> Implication <code>→</code></h2>
@@ -280,6 +285,9 @@ MathJax = {
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → p <span class="op">:=</span> <span class="kw">fun</span> (hp : p) ↦ hp</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → (p → q) → q <span class="op">:=</span> <span class="kw">fun</span> (hp : p) (hpq : p → q) ↦ hpq hp</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → (p → q) → q <span class="op">:=</span> <span class="kw">fun</span> hp hpq ↦ hpq hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="tactic-mode" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="tactic-mode"><span class="header-section-number">2</span> Tactic Mode</h2>
 <p>Construct proofs using explicit terms is called <em>term-style proof</em>. This can be tedious for complicated proofs.</p>
 <p>Fortunately, Lean provides the <em>tactic mode</em> to help us construct proofs interactively.</p>
 <p><code>by</code> activates the tactic mode.</p>
@@ -306,87 +314,57 @@ MathJax = {
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hpq hqr hp</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hqr (hpq hp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>tactic: <code>apply</code> If <code>q</code> is the goal and we have <code>hpq : p → q</code>, then <code>apply hpq</code> changes the goal to <code>p</code>.</p>
-<p>modus ponens, with another proof</p>
+<p>modus ponens</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) (hpq : p → q) : q <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> hpq</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>[EXR] transitivity of <code>→</code>, with another proof</p>
+<p>[EXR] transitivity of <code>→</code></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> hqr</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> hpq</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Above tactics are minimal and sufficient for simple proofs.</p>
+<p>When proofs went more complicated, you may want more tactics that suit your needs.</p>
+<p>Remember your favorite tactics and use them accordingly.</p>
+<p>tactic: <code>suffices</code> Say our goal is <code>q</code>, <code>suffices hp : p from hq</code> changes the goal to <code>p</code>, as long as you can provide a proof <code>hq</code> of <code>q</code> from a proof <code>hp</code> of <code>p</code>. You may also switch to the tactic mode by <code>suffices hp : p by ...</code></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suffices</span> hq : q <span class="fu">from</span> hqr hq</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq hp</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suffices</span> hq : q <span class="kw">by</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> hqr</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hq</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>show</code> (it is not a tactic!) Sometimes you want to clarify what exactly you are giving a proof for. <code>show p from h</code> make sure that <code>h</code> is interpreted as a proof of <code>p</code>. <code>show p by ...</code> switches to the tactic mode to construct a proof of <code>p</code>.</p>
 <p>tactic: <code>specialize</code> If we have <code>hpq : p → q</code> and <code>hp : p</code>, then <code>specialize hpq hp</code> reassigns <code>hpq</code> to <code>hpq hp</code>, a proof of <code>q</code>.</p>
-<p>modus ponens, with another proof</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) (hpq : p → q) : q <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>transitivity of <code>→</code>, with another proof</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hqr hpq</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hqr</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="true-false-and-not" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="true-false-and-not"><span class="header-section-number">2</span> <code>True</code>, <code>False</code> and <code>Not</code></h2>
-<p>In Lean’s dependent type theory, <code>True</code> and <code>False</code> are propositions serving as the <em>terminal and initial objects</em> in the universe of <code>Prop</code>.</p>
-<p>Eagle-eyed readers may notice that <code>True</code> and <code>False</code> act similarly to singleton sets and empty sets in set theory.</p>
-<p>They are constructed as <em>inductive types</em>.</p>
-<section id="true" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="true"><span class="header-section-number">2.1</span> <code>True</code> (<code>⊤</code>)</h3>
-<p><code>True</code> has a single constructor <code>True.intro</code>, which produces the unique proof of <code>True</code>. [IGNORE] Thus <code>True</code> is self-evidently true by <code>True.intro</code>.</p>
-<p><code>trivial</code> is a tactic that solves goals of type <code>True</code> using <code>True.intro</code>, though it’s power does not stop here.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q : <span class="fu">Prop</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> True</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> True.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>True</code> as the terminal object</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → True <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> _</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> True.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The following examples shows that <code>True → p</code> is logically equivalent to <code>p</code>.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) : True → p <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> _</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>[IGNORE] Above is actually the elimination law of <code>True</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) : True → p <span class="op">:=</span> True.rec hp</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (htp : True → p) : p <span class="op">:=</span> htp True.<span class="fu">intro</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (htp : True → p) : p <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> htp</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trivial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="false" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="false"><span class="header-section-number">2.2</span> <code>False</code> (<code>⊥</code>)</h3>
-<p><code>False</code> has no constructors, meaning that there is no way to construct a proof of <code>False</code>. This means that <code>False</code> is always false.</p>
-<p><code>False.elim</code> is the eliminator of <code>False</code>, serve as the “principle of explosion”, which allows us to derive anything from a falsehood. [IGNORE] <code>False.elim</code> self-evidently true in Lean’s dependent type theory.</p>
-<p><code>exfalso</code> is a tactic that applys <code>False.elim</code> to the current goal, changing it to <code>False</code>. <code>contradiction</code> is a tactic that proves the current goal by finding a trivial contradiction in the context.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> False</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> False.elim</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> False.rec <span class="co">-- [IGNORE] `False.elim` is actually defined as `False.rec`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>eliminating <code>False</code></p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hf : False) : p <span class="op">:=</span> False.elim hf</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hf : False) : p <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exfalso</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hf</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hf : False) : p <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contradiction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>[EXR]</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : <span class="dv">1</span> + <span class="dv">1</span> = <span class="dv">3</span>) : RiemannHypothesis <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contradiction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>On how to actually obtain a proof of <code>False</code> from a trivially false hypothesis via term-style proof [TODO], see <a href="https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers">here</a></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) (hpq : p → q) : q <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hqr hpq</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hqr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>tactic: <code>have</code> <code>have</code> helps you to state and prove a lemma in the middle of a proof. <code>have h : p := hp</code> adds the hypothesis <code>h : p</code> into the context, where <code>hp</code> is a proof of <code>p</code> that you provide.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hq : q <span class="op">:=</span> hpq hp</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hr : r <span class="op">:=</span> <span class="kw">by</span> <span class="co">-- combine with `by` is also possible</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> hqr</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hq</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hqr (<span class="fu">show</span> q <span class="kw">by</span> <span class="fu">apply</span> hpq; <span class="fu">exact</span> hp)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-</section>
 </section>
 </section>
 

@@ -191,11 +191,16 @@ MathJax = {
   <ul>
   <li><a href="#logic-part-iii" id="toc-logic-part-iii" class="nav-link active" data-scroll-target="#logic-part-iii"><span class="header-section-number"></span> Logic (Part III)</a>
   <ul class="collapse">
-  <li><a href="#not" id="toc-not" class="nav-link" data-scroll-target="#not"><span class="header-section-number">1</span> <code>Not</code> (<code>¬</code>)</a></li>
-  <li><a href="#pushing-negations" id="toc-pushing-negations" class="nav-link" data-scroll-target="#pushing-negations"><span class="header-section-number">2</span> Pushing negations</a>
+  <li><a href="#true-false-and-not" id="toc-true-false-and-not" class="nav-link" data-scroll-target="#true-false-and-not"><span class="header-section-number">1</span> <code>True</code>, <code>False</code> and <code>Not</code></a>
   <ul class="collapse">
-  <li><a href="#negation-with-and" id="toc-negation-with-and" class="nav-link" data-scroll-target="#negation-with-and"><span class="header-section-number">2.1</span> Negation with <code>∧</code> and <code>∨</code></a></li>
-  <li><a href="#ignore-decidable" id="toc-ignore-decidable" class="nav-link" data-scroll-target="#ignore-decidable"><span class="header-section-number">2.2</span> [IGNORE] <code>Decidable</code></a></li>
+  <li><a href="#true" id="toc-true" class="nav-link" data-scroll-target="#true"><span class="header-section-number">1.1</span> <code>True</code> (<code>⊤</code>)</a></li>
+  <li><a href="#false" id="toc-false" class="nav-link" data-scroll-target="#false"><span class="header-section-number">1.2</span> <code>False</code> (<code>⊥</code>)</a></li>
+  </ul></li>
+  <li><a href="#not" id="toc-not" class="nav-link" data-scroll-target="#not"><span class="header-section-number">2</span> <code>Not</code> (<code>¬</code>)</a></li>
+  <li><a href="#pushing-negations" id="toc-pushing-negations" class="nav-link" data-scroll-target="#pushing-negations"><span class="header-section-number">3</span> Pushing negations</a>
+  <ul class="collapse">
+  <li><a href="#negation-with-and" id="toc-negation-with-and" class="nav-link" data-scroll-target="#negation-with-and"><span class="header-section-number">3.1</span> Negation with <code>∧</code> and <code>∨</code></a></li>
+  <li><a href="#ignore-decidable" id="toc-ignore-decidable" class="nav-link" data-scroll-target="#ignore-decidable"><span class="header-section-number">3.2</span> [IGNORE] <code>Decidable</code></a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -226,165 +231,222 @@ MathJax = {
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="logic-part-iii" class="level1" data-number="">
 <h1 data-number=""><span class="header-section-number"></span> Logic (Part III)</h1>
-<ul>
-<li>negation</li>
+<ol type="1">
+<li><code>True</code>, <code>False</code> and <code>Not</code></li>
 <li>classical logic tactics, e.g.&nbsp;proof by contradiction</li>
-<li>the difference between classical and intuitionistic logic</li>
 <li>negation-pushing techniques</li>
-</ul>
-<section id="not" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="not"><span class="header-section-number">1</span> <code>Not</code> (<code>¬</code>)</h2>
-<p>In Lean’s dependent type theory, negation <code>¬p</code> is realized as <code>p → False</code></p>
-<p>You may understand <code>¬p</code> as “if <code>p</code> then absurd”, indicating that <code>p</code> cannot be true.</p>
+<li>the difference between classical and intuitionistic logic</li>
+<li><code>Decidable</code></li>
+</ol>
+<p>3 is recommended for those who wants to have some exercises. For lazy ones, you may only remember the tactics introduced there.</p>
+<p>4, 5 are optional and left for logical lunatics.</p>
+<section id="true-false-and-not" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="true-false-and-not"><span class="header-section-number">1</span> <code>True</code>, <code>False</code> and <code>Not</code></h2>
+<p>In Lean’s dependent type theory, <code>True</code> and <code>False</code> are propositions serving as the <em>terminal and initial objects</em> in the universe of <code>Prop</code>.</p>
+<p>Eagle-eyed readers may notice that <code>True</code> and <code>False</code> act similarly to singleton sets and empty sets in set theory.</p>
+<p>They are constructed as <em>inductive types</em>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q : <span class="fu">Prop</span>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Not</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="true" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="true"><span class="header-section-number">1.1</span> <code>True</code> (<code>⊤</code>)</h3>
+<p><code>True</code> has a single constructor <code>True.intro</code>, which produces the unique proof of <code>True</code>. <code>True</code> is self-evidently true by <code>True.intro</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> True.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>True</code> as the terminal object</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → True <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> _</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> True.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The following examples shows that <code>True → p</code> is logically equivalent to <code>p</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) : True → p <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> _</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[IGNORE] Above is actually the elimination law of <code>True</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) : True → p <span class="op">:=</span> True.rec hp</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (htp : True → p) : p <span class="op">:=</span> htp True.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>trivial</code> is a tactic that solves goals of type <code>True</code> using <code>True.intro</code>, though it’s power does not stop here.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (htp : True → p) : p <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> htp</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trivial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="false" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="false"><span class="header-section-number">1.2</span> <code>False</code> (<code>⊥</code>)</h3>
+<p><code>False</code> has no constructors, meaning that there is no way to construct a proof of <code>False</code>. This means that <code>False</code> is always false.</p>
+<p><code>False.elim</code> is the eliminator of <code>False</code>, serve as the “principle of explosion”, which allows us to derive anything from a falsehood. <code>False.elim</code> is self-evidently true in Lean’s dependent type theory.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> False.elim</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> False.rec <span class="co">-- [IGNORE] `False.elim` is actually defined as `False.rec`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>eliminating <code>False</code></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hf : False) : p <span class="op">:=</span> False.elim hf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>exfalso</code> is a tactic that applys <code>False.elim</code> to the current goal, changing it to <code>False</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hf : False) : p <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exfalso</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>contradiction</code> is a tactic that proves the current goal by finding a trivial contradiction in the context.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hf : False) : p <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contradiction</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : <span class="dv">1</span> + <span class="dv">1</span> = <span class="dv">3</span>) : RiemannHypothesis <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">contradiction</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>On how to actually obtain a proof of <code>False</code> from a trivially false hypothesis via term-style proof [TODO], see <a href="https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#recursor-elaboration-helpers">here</a></p>
+<p>[IGNORE] Experienced audiences may question why <code>False.elim</code> lands in <code>Sort*</code> universe instead of <code>Prop</code>. This is because <code>False</code> is a <em>subsingleton</em>. See <a href="https://lean-lang.org/doc/reference/latest//The-Type-System/Inductive-Types/#subsingleton-elimination">the manual</a> to understand how the universe of a recursor is determined.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="not" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="not"><span class="header-section-number">2</span> <code>Not</code> (<code>¬</code>)</h2>
+<p>In Lean’s dependent type theory, negation <code>¬p</code> is realized as <code>p → False</code></p>
+<p>You may understand <code>¬p</code> as “if <code>p</code> then absurd”, indicating that <code>p</code> cannot be true.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q : <span class="fu">Prop</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Not</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>this has a name <code>absurd</code> in Lean</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> absurd</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) (hnp : ¬p) : False <span class="op">:=</span> hnp hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> absurd</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) (hnp : ¬p) : False <span class="op">:=</span> hnp hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] contraposition</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (p → q) → (¬q → ¬p) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hpq hnq hp</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hnq (hpq hp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (p → q) → (¬q → ¬p) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hpq hnq hp</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hnq (hpq hp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>contrapose!</code> is a tactic that does exactly this. We shall discuss this later.</p>
 <p>[EXR]</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬True → False <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h True.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬True → False <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h True.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR]</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬False <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬False <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] double negation introduction</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → ¬¬p <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp hnp</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hnp hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → ¬¬p <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp hnp</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hnp hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><em>Double negation elimination</em> is not valid in intuitionistic logic. You’ll need <em>proof by contradiction</em> <code>Classical.byContradiction</code> to prove it. The tactic <code>by_contra</code> is created for this purpose. If the goal is <code>p</code>, then <code>by_contra hnp</code> changes the goal to <code>False</code>, and adds the hypothesis <code>hnp : ¬p</code> into the context.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Classical.byContradiction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Classical.byContradiction</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>double negation elimination</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬¬p → p <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hnnp</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">by_contra</span> hnp</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hnnp hnp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬¬p → p <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hnnp</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">by_contra</span> hnp</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hnnp hnp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can use the following command to check what axioms are used in the proof</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> <span class="kw">axioms</span> Classical.not_not <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> <span class="kw">axioms</span> Classical.not_not <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For logical lunatics:</p>
 <p>In Lean, <code>Classical.byContradiction</code> is proved by the fact that all propositions are <code>Decidable</code> in classical logic, which is a result of - the <em>axiom of choice</em> <code>Classical.choice</code> - the <em>law of excluded middle</em> <code>Classical.em</code>, which is a result of - the axiom of choice <code>Classical.choice</code> - <em>function extensionality</em> <code>funext</code>, which is a result of - the quotient axiom <code>Quot.sound</code> - <em>propositional extensionality</em> <code>propext</code></p>
 <p>You can always trace back like this in Lean, by ctrl-clicking the names. This is a reason why Lean is awesome for learning logic and mathematics.</p>
 <p>[EXR] another side of contraposition</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (¬q → ¬p) → (p → q) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hnqnp hp</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">by_contra</span> hnq</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hnqnp hnq hp</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>In fact above is equivalent to double negation elimination. This one use the <code>have</code> tactic, which allows us to state and prove a lemma in the middle of a proof. You don’t have to digest the proof. Just see how <code>have</code> is used.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hctp : (p q : <span class="fu">Prop</span>) → (¬q → ¬p) → (p → q)) : (p : <span class="fu">Prop</span>) → (¬¬p → p) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> p hnnp</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> h : (¬p → ¬True) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> hnp _</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hnnp hnp</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> hctp True p h</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trivial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (¬q → ¬p) → (p → q) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hnqnp hp</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">by_contra</span> hnq</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hnqnp hnq hp</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[IGNORE] In fact above is equivalent to double negation elimination. This one use the <code>have</code> tactic, which allows us to state and prove a lemma in the middle of a proof.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hctp : (p q : <span class="fu">Prop</span>) → (¬q → ¬p) → (p → q)) : (p : <span class="fu">Prop</span>) → (¬¬p → p) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> p hnnp</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> h : (¬p → ¬True) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> hnp _</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hnnp hnp</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> hctp True p h</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trivial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="pushing-negations" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="pushing-negations"><span class="header-section-number">2</span> Pushing negations</h2>
+<section id="pushing-negations" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="pushing-negations"><span class="header-section-number">3</span> Pushing negations</h2>
 <p>Some negation can be pushed within intuitionistic logic. Some cannot.</p>
-<section id="negation-with-and" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="negation-with-and"><span class="header-section-number">2.1</span> Negation with <code>∧</code> and <code>∨</code></h3>
-<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q r : <span class="fu">Prop</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="negation-with-and" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="negation-with-and"><span class="header-section-number">3.1</span> Negation with <code>∧</code> and <code>∨</code></h3>
+<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q r : <span class="fu">Prop</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Classical logic: case analysis</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hnpq : ¬p → q) : q <span class="op">:=</span> Or.elim (Classical.em p) hpq hnpq</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Classical.byCases <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hnpq : ¬p → q) : q <span class="op">:=</span> Or.elim (Classical.em p) hpq hnpq</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Classical.byCases <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We have a corresponding tactic: <code>by_cases</code></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hnpq : ¬p → q) : q <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">by_cases</span> hp : p</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exact</span> hpq hp</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exact</span> hnpq hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hnpq : ¬p → q) : q <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">by_cases</span> hp : p</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exact</span> hpq hp</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exact</span> hnpq hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Proof by cases would help us to obtain an equivalent characterization of <code>Or</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (p ∨ q) ↔ (¬p → q) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  · rintro (hp | hq)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hnp</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exfalso</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> hnp hp</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> _</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> hq</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hnpq  <span class="co">-- the direction of constructing `Or` needs classical logic</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">by_cases</span> h?p : p</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span>; <span class="fu">exact</span> h?p</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">right</span>; <span class="fu">exact</span> hnpq h?p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (p ∨ q) ↔ (¬p → q) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  · rintro (hp | hq)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hnp</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exfalso</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> hnp hp</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> _</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> hq</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hnpq  <span class="co">-- the direction of constructing `Or` needs classical logic</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">by_cases</span> h?p : p</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span>; <span class="fu">exact</span> h?p</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">right</span>; <span class="fu">exact</span> hnpq h?p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that this vividly illustrates the difference between classical logic and intuitionistic logic.</p>
 <p>In intuitionistic logic, <code>Or</code> means slightly stronger than in classical logic: by <code>p ∨ q</code> we mean that we know explicitly which one of <code>p</code> and <code>q</code> is true. We cannot do implications like <code>¬p → q</code> implying <code>p ∨ q</code>, because we don’t know exactly which one of <code>p</code> and <code>¬p</code> is true, and the introduction rules of <code>Or</code> are asking us to provide it explicitly. This is a reason why intuitionistic logic is considered to be computable.</p>
 <p>We also have an equivalent characterization of <code>And</code>. This is also done in classical logic.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (p ∧ q) ↔ ¬(p → ¬q) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> ⟨hp, hnq⟩ hpnq</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hpnq hp hnq</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hnpnq <span class="co">-- the direction of constructing `And` needs classical logic</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    contrapose hnpnq</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [Classical.not_not]</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> hp hq</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hnpnq ⟨hp, hq⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (p ∧ q) ↔ ¬(p → ¬q) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> ⟨hp, hnq⟩ hpnq</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hpnq hp hnq</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hnpnq <span class="co">-- the direction of constructing `And` needs classical logic</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    contrapose hnpnq</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [Classical.not_not]</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> hp hq</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hnpnq ⟨hp, hq⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] <code>→</code>–<code>∨</code> distribution</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (r → p ∨ q) ↔ ((r → p) ∨ (r → q)) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hrpq <span class="co">-- this direction needs classical logic</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">by_cases</span> h?r : r</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">rcases</span> hrpq h?r <span class="fu">with</span> (hp | hq)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>      · <span class="fu">left</span>; <span class="fu">intro</span> _; <span class="fu">exact</span> hp</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      · <span class="fu">right</span>; <span class="fu">intro</span> _; <span class="fu">exact</span> hq</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intro</span> hr</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exfalso</span>; <span class="fu">exact</span> h?r hr</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  · rintro (hrp | hrq)</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hr</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left</span>; <span class="fu">exact</span> hrp hr</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hr</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">right</span>; <span class="fu">exact</span> hrq hr</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> imp_or <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (r → p ∨ q) ↔ ((r → p) ∨ (r → q)) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hrpq <span class="co">-- this direction needs classical logic</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">by_cases</span> h?r : r</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">rcases</span> hrpq h?r <span class="fu">with</span> (hp | hq)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>      · <span class="fu">left</span>; <span class="fu">intro</span> _; <span class="fu">exact</span> hp</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>      · <span class="fu">right</span>; <span class="fu">intro</span> _; <span class="fu">exact</span> hq</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intro</span> hr</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exfalso</span>; <span class="fu">exact</span> h?r hr</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  · rintro (hrp | hrq)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hr</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left</span>; <span class="fu">exact</span> hrp hr</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hr</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">right</span>; <span class="fu">exact</span> hrq hr</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> imp_or <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] De Morgan’s laws</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬(p ∨ q) ↔ ¬p ∧ ¬q <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hnq</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hp</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> hnq</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left</span>; <span class="fu">exact</span> hp</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hq</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> hnq</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">right</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> hq</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  · rintro ⟨hnp, hnq⟩ (hp | hq)</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hnp hp</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hnq hq</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> not_or <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬(p ∨ q) ↔ ¬p ∧ ¬q <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hnq</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hp</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> hnq</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">left</span>; <span class="fu">exact</span> hp</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hq</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> hnq</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">right</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> hq</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  · rintro ⟨hnp, hnq⟩ (hp | hq)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hnp hp</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hnq hq</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> not_or <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] De Morgan’s laws</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬(p ∧ q) ↔ ¬p ∨ ¬q <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hnpq <span class="co">-- this direction needs classical logic</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">by_cases</span> h?p : p</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">right</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intro</span> hq</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> hnpq</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> ⟨h?p, hq⟩</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> h?p</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  · rintro (hnp | hnq) ⟨hp, hq⟩</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hnp hp</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hnq hq</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> not_and <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ¬(p ∧ q) ↔ ¬p ∨ ¬q <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hnpq <span class="co">-- this direction needs classical logic</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">by_cases</span> h?p : p</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">right</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intro</span> hq</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> hnpq</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> ⟨h?p, hq⟩</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> h?p</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  · rintro (hnp | hnq) ⟨hp, hq⟩</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hnp hp</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hnq hq</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> not_and <span class="co">-- above has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Introducing <code>push_neg</code> tactic: automatically proves all the above. It works in classical logic where <em>negation normal forms</em> exist.</p>
 <p><code>by_contra!</code>, <code>contrapose!</code> are <code>push_neg</code>-enhanced version of their non-<code>!</code> counterparts.</p>
 <p>For more exercises, see <a href="https://lean-lang.org/theorem_proving_in_lean4/Propositions-and-Proofs/#classical-logic">Propositions and Proofs - TPiL4</a></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="ignore-decidable" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="ignore-decidable"><span class="header-section-number">2.2</span> [IGNORE] <code>Decidable</code></h3>
+<section id="ignore-decidable" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="ignore-decidable"><span class="header-section-number">3.2</span> [IGNORE] <code>Decidable</code></h3>
 <p>It’s high time to introduce <code>Decidable</code> here for the first time.</p>
 <p>Mathematicians are often aware of intuitionistic logic. They know classical logic is equipped with <code>Classical.em</code>: <code>p ∨ ¬p</code> for any proposition <code>p</code>. Though rarely do they know the concept of <code>Decidable</code>, which more often appears in the theory of computation.</p>
 <p>For short, <code>Decidable p</code> means exactly the same as <code>p ∨ ¬p</code> in intuitionistic logic. It means that we know explicitly (or computationally) which one of <code>p</code> and <code>¬p</code> is true.</p>
@@ -405,37 +467,37 @@ MathJax = {
 <li><p>To mean exactly the same as <code>p ∨ ¬p</code> in intuitionistic logic, to make it computable.</p></li>
 <li><p>To allow you to just assume <code>p ∨ ¬p</code> for only some propositions, which is more flexible than a classical logic overkill.</p></li>
 </ul>
-<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q : <span class="fu">Prop</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Decidable</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Decidable.isTrue</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Decidable.isFalse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q : <span class="fu">Prop</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Decidable</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Decidable.isTrue</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Decidable.isFalse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>Decidable</code> enables computational reasoning to see if a proposition is true or false</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">#eval</span> True</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="at">#eval</span> True → False</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="at">#eval</span> False → (<span class="dv">1</span> + <span class="dv">1</span> = <span class="dv">3</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>#synth Decidable (False → (<span class="dv">1</span> + <span class="dv">1</span> = <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">#eval</span> True</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="at">#eval</span> True → False</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="at">#eval</span> False → (<span class="dv">1</span> + <span class="dv">1</span> = <span class="dv">3</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>#synth Decidable (False → (<span class="dv">1</span> + <span class="dv">1</span> = <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Manually proving <code>Decidable</code> to ensures a computable proof</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> : <span class="fu">D</span>ecidable (p → p ∨ q) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Decidable.isTrue <span class="co">-- explicit use of constructor</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>#synth Decidable (p → p ∨ q)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="at">#eval</span> (p q : <span class="fu">Prop</span>) → (p → (p ∨ q))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> : <span class="fu">D</span>ecidable (p → p ∨ q) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Decidable.isTrue <span class="co">-- explicit use of constructor</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>#synth Decidable (p → p ∨ q)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="at">#eval</span> (p q : <span class="fu">Prop</span>) → (p → (p ∨ q))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>Decidable</code> enables partial classical logic</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Classical.byContradiction <span class="co">-- we have done this before</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Classical.byContradiction <span class="co">-- we have done this before</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>proof by contradiction in intuitionistic logic with decidable hypothesis</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> [dp : Decidable p] : (¬p → False) → p <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hnpn</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> dp <span class="fu">with</span> (hnp | hp)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exfalso</span>; <span class="fu">exact</span> hnpn hnp</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exact</span> hp</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Decidable.byContradiction <span class="co">-- above has a name</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> [dp : Decidable p] : (¬p → False) → p <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hnpn</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> dp <span class="fu">with</span> (hnp | hp)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exfalso</span>; <span class="fu">exact</span> hnpn hnp</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exact</span> hp</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Decidable.byContradiction <span class="co">-- above has a name</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
