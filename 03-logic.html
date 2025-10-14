@@ -220,24 +220,16 @@ window.Quarto = {
   <ul>
   <li><a href="#logic-part-ii" id="toc-logic-part-ii" class="nav-link active" data-scroll-target="#logic-part-ii"><span class="header-section-number"></span> Logic (Part II)</a>
   <ul class="collapse">
-  <li><a href="#and-and-or" id="toc-and-and-or" class="nav-link" data-scroll-target="#and-and-or"><span class="header-section-number">1</span> <code>And</code> and <code>Or</code></a></li>
-  <li><a href="#and" id="toc-and" class="nav-link" data-scroll-target="#and"><span class="header-section-number">2</span> <code>And</code> (<code>∧</code>)</a>
+  <li><a href="#and-and-or" id="toc-and-and-or" class="nav-link" data-scroll-target="#and-and-or"><span class="header-section-number">1</span> <code>And</code> and <code>Or</code></a>
   <ul class="collapse">
-  <li><a href="#introducing-and" id="toc-introducing-and" class="nav-link" data-scroll-target="#introducing-and"><span class="header-section-number">2.1</span> Introducing <code>And</code></a></li>
-  <li><a href="#eliminating-and" id="toc-eliminating-and" class="nav-link" data-scroll-target="#eliminating-and"><span class="header-section-number">2.2</span> Eliminating <code>And</code></a></li>
-  <li><a href="#currification" id="toc-currification" class="nav-link" data-scroll-target="#currification"><span class="header-section-number">2.3</span> Currification</a></li>
-  <li><a href="#iff-first-visit" id="toc-iff-first-visit" class="nav-link" data-scroll-target="#iff-first-visit"><span class="header-section-number">2.4</span> <code>Iff</code> (<code>↔︎</code>), first visit</a></li>
-  <li><a href="#or" id="toc-or" class="nav-link" data-scroll-target="#or"><span class="header-section-number">2.5</span> <code>Or</code> (<code>∨</code>)</a></li>
-  <li><a href="#introducing-or" id="toc-introducing-or" class="nav-link" data-scroll-target="#introducing-or"><span class="header-section-number">2.6</span> Introducing <code>Or</code></a></li>
-  <li><a href="#eliminating-or" id="toc-eliminating-or" class="nav-link" data-scroll-target="#eliminating-or"><span class="header-section-number">2.7</span> Eliminating <code>Or</code></a></li>
+  <li><a href="#and" id="toc-and" class="nav-link" data-scroll-target="#and"><span class="header-section-number">1.1</span> <code>And</code> (<code>∧</code>)</a></li>
+  <li><a href="#iff-first-visit" id="toc-iff-first-visit" class="nav-link" data-scroll-target="#iff-first-visit"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>), first visit</a></li>
+  <li><a href="#or" id="toc-or" class="nav-link" data-scroll-target="#or"><span class="header-section-number">1.3</span> <code>Or</code> (<code>∨</code>)</a></li>
   </ul></li>
-  </ul></li>
-  <li><a href="#forall-and-exists" id="toc-forall-and-exists" class="nav-link" data-scroll-target="#forall-and-exists"><span class="header-section-number"></span> <code>Forall</code> and <code>Exists</code></a>
+  <li><a href="#forall-and-exists" id="toc-forall-and-exists" class="nav-link" data-scroll-target="#forall-and-exists"><span class="header-section-number">2</span> <code>Forall</code> and <code>Exists</code></a>
   <ul class="collapse">
-  <li><a href="#forall" id="toc-forall" class="nav-link" data-scroll-target="#forall"><span class="header-section-number">1</span> Forall (<code>∀</code>)</a></li>
-  <li><a href="#exists" id="toc-exists" class="nav-link" data-scroll-target="#exists"><span class="header-section-number">2</span> <code>Exists</code> (<code>∃</code>)</a>
-  <ul class="collapse">
-  <li><a href="#ignore-a-cosmological-remark" id="toc-ignore-a-cosmological-remark" class="nav-link" data-scroll-target="#ignore-a-cosmological-remark"><span class="header-section-number">2.1</span> [IGNORE] A cosmological remark</a></li>
+  <li><a href="#forall" id="toc-forall" class="nav-link" data-scroll-target="#forall"><span class="header-section-number">2.1</span> Forall (<code>∀</code>)</a></li>
+  <li><a href="#exists" id="toc-exists" class="nav-link" data-scroll-target="#exists"><span class="header-section-number">2.2</span> <code>Exists</code> (<code>∃</code>)</a></li>
   </ul></li>
   <li><a href="#ignore-a-cosmological-remark-continued" id="toc-ignore-a-cosmological-remark-continued" class="nav-link" data-scroll-target="#ignore-a-cosmological-remark-continued"><span class="header-section-number">3</span> [IGNORE] A cosmological remark, continued</a></li>
   <li><a href="#remainder" id="toc-remainder" class="nav-link" data-scroll-target="#remainder"><span class="header-section-number">4</span> Remainder</a></li>
@@ -282,11 +274,10 @@ window.Quarto = {
 <div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q r : <span class="fu">Prop</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="and" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="and"><span class="header-section-number">2</span> <code>And</code> (<code>∧</code>)</h2>
-<section id="introducing-and" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="introducing-and"><span class="header-section-number">2.1</span> Introducing <code>And</code></h3>
+<section id="and" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="and"><span class="header-section-number">1.1</span> <code>And</code> (<code>∧</code>)</h3>
+<section id="introducing-and" class="level4">
+<h4 class="anchored" data-anchor-id="introducing-and">Introducing <code>And</code></h4>
 <p>The only constructor of <code>And</code> is <code>And.intro</code>, which takes a proof of <code>p</code> and a proof of <code>q</code> to produce a proof of <code>p ∧ q</code>.</p>
 <p>It is self-evident. Regard this as the <em>universal property of the direct product</em> if you like.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> And.<span class="fu">intro</span></span>
@@ -327,8 +318,8 @@ window.Quarto = {
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hr</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> ⟨hrp hr, hrq hr⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="eliminating-and" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="eliminating-and"><span class="header-section-number">2.2</span> Eliminating <code>And</code></h3>
+<section id="eliminating-and" class="level4">
+<h4 class="anchored" data-anchor-id="eliminating-and">Eliminating <code>And</code></h4>
 <p><code>And.left</code> and <code>And.right</code> are among the elimination rules of <code>And</code>, which extract the proofs of <code>p</code> and <code>q</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> And.<span class="fu">left</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> And.<span class="fu">right</span></span>
@@ -359,8 +350,8 @@ window.Quarto = {
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hr</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> (hrpq hr).<span class="fu">right</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="currification" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="currification"><span class="header-section-number">2.3</span> Currification</h3>
+<section id="currification" class="level4">
+<h4 class="anchored" data-anchor-id="currification">Currification</h4>
 <p>The actual universal elimination rule of <code>And</code> is the so-called <em>decurrification</em>: From <code>(p → q → r)</code> we may deduce <code>(p ∧ q → r)</code>. This is actually a logical equivalence.</p>
 <p>Intuitively, requiring both <code>p</code> and <code>q</code> to deduce <code>r</code> is nothing but requiring <code>p</code> to deduce that <code>q</code> is sufficient to deduce <code>r</code>.</p>
 <p>[IGNORE] Decurrification is also self-evidently true in Lean’s dependent type theory.</p>
@@ -395,8 +386,9 @@ window.Quarto = {
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp _</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="iff-first-visit" class="level3" data-number="2.4">
-<h3 data-number="2.4" class="anchored" data-anchor-id="iff-first-visit"><span class="header-section-number">2.4</span> <code>Iff</code> (<code>↔︎</code>), first visit</h3>
+</section>
+<section id="iff-first-visit" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="iff-first-visit"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>), first visit</h3>
 <p>It’s high time to introduce <code>Iff</code> here for the first time.</p>
 <p><code>Iff</code> (<code>↔︎</code>) contains two side of implications: <code>Iff.mp</code> and <code>Iff.mpr</code>.</p>
 <p>Though it is defined as a distinct inductive type, <code>Iff</code> may be seen as a bundled version of <code>(p → q) ∧ (q → p)</code>. you may, somehow, even use it like a <code>(p → q) ∧ (q → p)</code>. The only major difference is the name of the two components.</p>
@@ -411,11 +403,10 @@ window.Quarto = {
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> ⟨hpq, hqp⟩</span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> ⟨hpq, hqp⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="or" class="level3" data-number="2.5">
-<h3 data-number="2.5" class="anchored" data-anchor-id="or"><span class="header-section-number">2.5</span> <code>Or</code> (<code>∨</code>)</h3>
-</section>
-<section id="introducing-or" class="level3" data-number="2.6">
-<h3 data-number="2.6" class="anchored" data-anchor-id="introducing-or"><span class="header-section-number">2.6</span> Introducing <code>Or</code></h3>
+<section id="or" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="or"><span class="header-section-number">1.3</span> <code>Or</code> (<code>∨</code>)</h3>
+<section id="introducing-or" class="level4">
+<h4 class="anchored" data-anchor-id="introducing-or">Introducing <code>Or</code></h4>
 <p><code>Or</code> has two constructors, <code>Or.inl</code> and <code>Or.inr</code>. Either a proof of <code>p</code> or a proof of <code>q</code> produces a proof of <code>p ∨ q</code>.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Or.inl</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Or.inr</span>
@@ -426,8 +417,8 @@ window.Quarto = {
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="eliminating-or" class="level3" data-number="2.7">
-<h3 data-number="2.7" class="anchored" data-anchor-id="eliminating-or"><span class="header-section-number">2.7</span> Eliminating <code>Or</code></h3>
+<section id="eliminating-or" class="level4">
+<h4 class="anchored" data-anchor-id="eliminating-or">Eliminating <code>Or</code></h4>
 <p>To prove <code>r</code> from <code>p ∨ q</code>, it suffices to prove both <code>p → r</code> and <code>q → r</code>. This is the elimination rule of <code>Or</code>, or the <em>universal property</em> of the direct sum.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Or.elim</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Or.rec <span class="co">-- [IGNORE]</span></span>
@@ -471,10 +462,10 @@ window.Quarto = {
 </section>
 </section>
 </section>
-<section id="forall-and-exists" class="level1" data-number="">
-<h1 data-number=""><span class="header-section-number"></span> <code>Forall</code> and <code>Exists</code></h1>
-<section id="forall" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="forall"><span class="header-section-number">1</span> Forall (<code>∀</code>)</h2>
+<section id="forall-and-exists" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="forall-and-exists"><span class="header-section-number">2</span> <code>Forall</code> and <code>Exists</code></h2>
+<section id="forall" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="forall"><span class="header-section-number">2.1</span> Forall (<code>∀</code>)</h3>
 <p>As you may have already noticed, <code>∀</code> is just an alternative way of writing <code>→</code>. Say <code>p</code> is a predicate on a type <code>X</code>, i.e.&nbsp;of type <code>X → Prop</code>, then <code>∀ x : X, p x</code> is exactly the same as <code>(x : X) → p x</code>.</p>
 <p>Though <code>→</code> is primitive in Lean’s dependent type theory, we may still (perhaps awkwardly) state the introduction and elimination rules of <code>∀</code>:</p>
 <ul>
@@ -492,12 +483,14 @@ window.Quarto = {
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hrs</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hrs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="exists" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="exists"><span class="header-section-number">2</span> <code>Exists</code> (<code>∃</code>)</h2>
+<section id="exists" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="exists"><span class="header-section-number">2.2</span> <code>Exists</code> (<code>∃</code>)</h3>
 <p><code>∃</code> is a bit more complicated.</p>
 <p>Slogan: <code>∀</code> is a dependent <code>→</code>, <code>∃</code> is a dependent <code>×</code> (or <code>∧</code> in <code>Prop</code> universe)</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∃</span> x : X, p x</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∃</span> x, p x <span class="co">-- Lean is smart enough to infer the type of `x`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="introducting-exists" class="level4">
+<h4 class="anchored" data-anchor-id="introducting-exists">Introducting <code>Exists</code></h4>
 <p><code>∃ x : X, p x</code> means that we have the following data:</p>
 <ul>
 <li>an element <code>a : X</code>;</li>
@@ -505,95 +498,99 @@ window.Quarto = {
 </ul>
 <p>So a pair <code>(a, h)</code> would suffice to construct a proof of <code>∃ x : X, p x</code>.</p>
 <p>This is the defining introduction rule of <code>Exists</code> as an inductive type.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Exists.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Exists.<span class="fu">intro</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a : X) (h : p a) : <span class="kw">∃</span> x, p x <span class="op">:=</span> Exists.<span class="fu">intro</span> a h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>As like <code>And</code>, you may use the anonymous constructor notation <code>⟨a, h⟩</code> to mean <code>Exists.intro a h</code>.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a : X) (h : p a) : <span class="kw">∃</span> x, p x <span class="op">:=</span> ⟨a, h⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In tactic mode, <code>use a</code> make use of <code>Exists.intro a</code> to reduce the goal <code>∃ x : X, p x</code> to <code>p a</code>.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a : X) (h : p a) : <span class="kw">∃</span> x, p x <span class="op">:=</span> Exists.<span class="fu">intro</span> a h</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a : X) (h : p a) : <span class="kw">∃</span> x, p x <span class="op">:=</span> ⟨a, h⟩</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a : X) (h : p a) : <span class="kw">∃</span> x, p x <span class="op">:=</span> <span class="kw">by</span> use a</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (x y z : ℕ) (hxy : x &lt; y) (hyz : y &lt; z) : <span class="kw">∃</span> w, x &lt; w ∧ w &lt; z <span class="op">:=</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  ⟨y, ⟨hxy, hyz⟩⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a : X) (h : p a) : <span class="kw">∃</span> x, p x <span class="op">:=</span> <span class="kw">by</span> use a</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (x y z : ℕ) (hxy : x &lt; y) (hyz : y &lt; z) : <span class="kw">∃</span> w, x &lt; w ∧ w &lt; z <span class="op">:=</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  ⟨y, ⟨hxy, hyz⟩⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that in the defining pair <code>(a, h)</code>, <code>h</code> is a proof of <code>p a</code>, whose type depends on <code>a</code>. Thus psychologically, you may view <code>∃ x : X, p x</code> as a dependent pair type <code>(x : X) × (p x)</code>.</p>
 <p>Have writing <code>Exists</code> as a dependent pair type reminded you of the currification process?</p>
-<p>Elimination rule: To construct the implication <code>(∃ x : X, p x) → q</code>, it suffices to have a proof of <code>(∀ x : X, p x → q)</code>, i.e.&nbsp;<code>(x : X) → p x → q</code>.</p>
+</section>
+<section id="eliminating-exists" class="level4">
+<h4 class="anchored" data-anchor-id="eliminating-exists">Eliminating <code>Exists</code></h4>
+<p>To construct the implication <code>(∃ x : X, p x) → q</code>, it suffices to have a proof of <code>(∀ x : X, p x → q)</code>, i.e.&nbsp;<code>(x : X) → p x → q</code>. <code>Exists.elim</code> does exactly above.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Exists.elim</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∀</span> x, p x → r) → ((<span class="kw">∃</span> x, p x) → r) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hf he</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> Exists.elim he hf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In tactic mode, <code>rcases h with ⟨a, ha⟩</code> make use of this elimination rule to break down a hypothesis <code>h : ∃ x : X, p x</code> into a witness <code>a : X</code> and a proof <code>ha : p a</code>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Exists.elim</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∀</span> x, p x → r) → ((<span class="kw">∃</span> x, p x) → r) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hf he</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> Exists.elim he hf</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∀</span> x, p x → r) → ((<span class="kw">∃</span> x, p x) → r) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hf he</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> he <span class="fu">with</span> ⟨a, hpa⟩</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hf a hpa</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∀</span> x, p x → r) → ((<span class="kw">∃</span> x, p x) → r) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h ⟨a, hpa⟩ <span class="co">-- you may also `rcases` explicitly</span></span>
-<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h a hpa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∀</span> x, p x → r) → ((<span class="kw">∃</span> x, p x) → r) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hf he</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> he <span class="fu">with</span> ⟨a, hpa⟩</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hf a hpa</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∀</span> x, p x → r) → ((<span class="kw">∃</span> x, p x) → r) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h ⟨a, hpa⟩ <span class="co">-- you may also `rcases` explicitly</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h a hpa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] reverse direction is also true</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> :  ((<span class="kw">∃</span> x, p x) → r) → (<span class="kw">∀</span> x, p x → r) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h a hpa</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> h</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  use a</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∃</span> x, r ∧ p x) → r ∧ (<span class="kw">∃</span> x, r ∧ p x) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ⟨a, ⟨hr, hpa⟩⟩</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> ⟨hr, ⟨a, ⟨hr, hpa⟩⟩⟩</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∃</span> x, p x ∨ q x) ↔ (<span class="kw">∃</span> x, p x) ∨ (<span class="kw">∃</span> x, q x) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>  · rintro ⟨a, (hpa | hqa)⟩</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span>; use a</span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">right</span>; use a</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>  · rintro (⟨a, hpa⟩ | ⟨a, hqa⟩)</span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>    · use a; <span class="fu">left</span>; <span class="fu">exact</span> hpa</span>
-<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>    · use a; <span class="fu">right</span>; <span class="fu">exact</span> hqa</span>
-<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="ignore-a-cosmological-remark" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="ignore-a-cosmological-remark"><span class="header-section-number">2.1</span> [IGNORE] A cosmological remark</h3>
+<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> :  ((<span class="kw">∃</span> x, p x) → r) → (<span class="kw">∀</span> x, p x → r) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h a hpa</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> h</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  use a</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∃</span> x, r ∧ p x) → r ∧ (<span class="kw">∃</span> x, r ∧ p x) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ⟨a, ⟨hr, hpa⟩⟩</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> ⟨hr, ⟨a, ⟨hr, hpa⟩⟩⟩</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∃</span> x, p x ∨ q x) ↔ (<span class="kw">∃</span> x, p x) ∨ (<span class="kw">∃</span> x, q x) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  · rintro ⟨a, (hpa | hqa)⟩</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span>; use a</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">right</span>; use a</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>  · rintro (⟨a, hpa⟩ | ⟨a, hqa⟩)</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>    · use a; <span class="fu">left</span>; <span class="fu">exact</span> hpa</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>    · use a; <span class="fu">right</span>; <span class="fu">exact</span> hqa</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="ignore-a-cosmological-remark" class="level4">
+<h4 class="anchored" data-anchor-id="ignore-a-cosmological-remark">[IGNORE] A cosmological remark</h4>
 <p>The pair <code>(a, h)</code> actually do not have type <code>(x : X) × (p x)</code>. The latter notation is actually for the <em>dependent pair type</em> (or <code>Sigma</code> type), which lives in <code>Type*</code> universe.</p>
 <p>But <code>Exists</code> should live in <code>Prop</code>, and in <code>Prop</code> universe we admit <em>proof-irrelevance</em>, i.e.&nbsp;we do not save data. So <code>Exists</code> forget the exact witness <code>a</code> once it is proved.</p>
 <p>This “forgetfulness” is revealed by the fact that there is no elimination rule <code>Exists.fst</code> to extract the witness <code>a</code> from a proof of <code>∃ x : X, p x</code>, as long as <code>X</code> lives in the <code>Type*</code> universe. (Note that <code>Exists.elim</code> can only produce propositions in <code>Prop</code>)</p>
 <p>But if <code>X</code> lives in <code>Prop</code> universe, then we do have <code>Exists.fst</code>:</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Exists.fst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Exists.fst</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Wait, wait, we never worked with <code>X : Prop</code> before. Say <code>p : r → Prop</code> and <code>r s : Prop</code>, what does <code>∃ hr : r, p hr</code> mean? It means that <code>r</code> and <code>p hr</code> are both true? [TODO] I don’t know how to explain this properly so far.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (r : <span class="fu">Prop</span>) (p : r → <span class="fu">Prop</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∃</span> hr : r, p hr</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Prove `Exists.fst` and `Exists.snd` by `Exists.elim`</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (he : <span class="kw">∃</span> hr : r, p hr) : r ∧ p he.fst <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Exists.elim he</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hr hpr</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> ⟨hr, hpr⟩</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (r : <span class="fu">Prop</span>) (p : r → <span class="fu">Prop</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∃</span> hr : r, p hr</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Prove `Exists.fst` and `Exists.snd` by `Exists.elim`</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (he : <span class="kw">∃</span> hr : r, p hr) : r ∧ p he.fst <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Exists.elim he</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hr hpr</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> ⟨hr, hpr⟩</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 </section>
 <section id="ignore-a-cosmological-remark-continued" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="ignore-a-cosmological-remark-continued"><span class="header-section-number">3</span> [IGNORE] A cosmological remark, continued</h2>
 <p>Same construction, different universes. Other examples are also shown below.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> And <span class="co">-- `×` in `Prop`</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Prod <span class="co">-- `×` in `Type*`</span></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Forall `∀`: dependent `∏` in `Prop`</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- dependent function type: dependent `∏` in `Type*`</span></span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Or <span class="co">-- `⊕` in `Prop`</span></span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Sum <span class="co">-- `⊕` in `Type*`</span></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Exists <span class="co">-- dependent `∑` in `Prop`</span></span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Sigma <span class="co">-- dependent `Σ` in `Type*`</span></span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Nonempty <span class="co">-- a proof of non-emptiness living in `Prop`</span></span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Inhabited <span class="co">-- an designated element living in `Sort*`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> And <span class="co">-- `×` in `Prop`</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Prod <span class="co">-- `×` in `Type*`</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Forall `∀`: dependent `∏` in `Prop`</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- dependent function type: dependent `∏` in `Type*`</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Or <span class="co">-- `⊕` in `Prop`</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Sum <span class="co">-- `⊕` in `Type*`</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Exists <span class="co">-- dependent `∑` in `Prop`</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Sigma <span class="co">-- dependent `Σ` in `Type*`</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Nonempty <span class="co">-- a proof of non-emptiness living in `Prop`</span></span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Inhabited <span class="co">-- an designated element living in `Sort*`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="remainder" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="remainder"><span class="header-section-number">4</span> Remainder</h2>
