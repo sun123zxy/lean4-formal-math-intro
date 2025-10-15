@@ -327,37 +327,37 @@ MathJax = {
 <p>Above tactics are minimal and sufficient for simple proofs.</p>
 <p>When proofs went more complicated, you may want more tactics that suit your needs.</p>
 <p>Remember your favorite tactics and use them accordingly.</p>
-<p>tactic: <code>suffices</code> Say our goal is <code>q</code>, <code>suffices hp : p from hq</code> changes the goal to <code>p</code>, as long as you can provide a proof <code>hq</code> of <code>q</code> from a proof <code>hp</code> of <code>p</code>. You may also switch to the tactic mode by <code>suffices hp : p by ...</code></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suffices</span> hq : q <span class="fu">from</span> hqr hq</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq hp</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suffices</span> hq : q <span class="kw">by</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> hqr</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hq</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>show</code> (it is not a tactic!) Sometimes you want to clarify what exactly you are giving a proof for. <code>show p from h</code> make sure that <code>h</code> is interpreted as a proof of <code>p</code>. <code>show p by ...</code> switches to the tactic mode to construct a proof of <code>p</code>.</p>
 <p>tactic: <code>specialize</code> If we have <code>hpq : p → q</code> and <code>hp : p</code>, then <code>specialize hpq hp</code> reassigns <code>hpq</code> to <code>hpq hp</code>, a proof of <code>q</code>.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) (hpq : p → q) : q <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hqr hpq</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hqr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) (hpq : p → q) : q <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hqr hpq</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hqr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>tactic: <code>have</code> <code>have</code> helps you to state and prove a lemma in the middle of a proof. <code>have h : p := hp</code> adds the hypothesis <code>h : p</code> into the context, where <code>hp</code> is a proof of <code>p</code> that you provide.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hq : q <span class="op">:=</span> hpq hp</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hr : r <span class="op">:=</span> <span class="kw">by</span> <span class="co">-- combine with `by` is also possible</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> hqr</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hq</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>tactic: <code>suffices</code> Say our goal is <code>q</code>, <code>suffices hp : p from hq</code> changes the goal to <code>p</code>, as long as you can provide a proof <code>hq</code> of <code>q</code> from a proof <code>hp</code> of <code>p</code>. You may also switch to the tactic mode by <code>suffices hp : p by ...</code></p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hq : q <span class="op">:=</span> hpq hp</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hr : r <span class="op">:=</span> <span class="kw">by</span> <span class="co">-- combine with `by` is also possible</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> hqr</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hq</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suffices</span> hq : q <span class="fu">from</span> hqr hq</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq hp</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suffices</span> hq : q <span class="kw">by</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> hqr</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hq</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hpq hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>show</code> (it is not a tactic!) Sometimes you want to clarify what exactly you are giving a proof for. <code>show p from h</code> make sure that <code>h</code> is interpreted as a proof of <code>p</code>. <code>show p by ...</code> switches to the tactic mode to construct a proof of <code>p</code>.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hqr (<span class="fu">show</span> q <span class="kw">by</span> <span class="fu">apply</span> hpq; <span class="fu">exact</span> hp)</span>
