@@ -477,7 +477,11 @@ window.Quarto = {
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {X : <span class="fu">Type</span>} (p q : X → <span class="fu">Prop</span>) (r s : <span class="fu">Prop</span>) (a b : X)</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∀</span> x : X, p x</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∀</span> x, p x <span class="co">-- Lean is smart enough to infer the type of `x`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∀</span> x, p x <span class="co">-- Lean is smart enough to infer the type of `x`</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∀</span> x : X, p x) → p a <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[IGNORE] Writing <code>∀</code> emphasizes that the arrow <code>→</code> is of dependent type, and the domain <code>X</code> is a type, not a proposition. But they are just purely psychological, as the following examples show.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (hrs : r → s) → (<span class="kw">∀</span> _ : r, s) <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hrs</span>
