@@ -302,6 +302,10 @@ variable {X : Type} (p q : X → Prop) (r s : Prop) (a b : X)
 #check ∀ x : X, p x
 #check ∀ x, p x -- Lean is smart enough to infer the type of `x`
 
+example : (∀ x : X, p x) → p a := by
+  intro h
+  exact h a
+
 /-
 [IGNORE]
 Writing `∀` emphasizes that the arrow `→` is of dependent type,
