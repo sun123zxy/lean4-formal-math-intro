@@ -173,7 +173,7 @@ example (h : p → q → r) : (p ∧ q → r) := by
 #check And.rec
 theorem decurrify (h : p → q → r) : (p ∧ q → r) := And.rec h
 
-/- [EXR] `And.left` is actually a consequence of decurrification -/
+/- `And.left` is actually a consequence of decurrification -/
 example : p ∧ q → p := by
   apply decurrify
   intro hp _

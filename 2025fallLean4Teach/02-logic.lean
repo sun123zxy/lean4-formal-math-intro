@@ -20,14 +20,18 @@ By the Curry--Howard correspondence, `hp : p` means that `hp` is a proof of the 
 
 #check 3
 #check ℕ
+
 #check ∀ x : ℝ, 0 ≤ x ^ 2
 #check sq_nonneg
+#check (sq_nonneg : ∀ x : ℝ, 0 ≤ x ^ 2)
 
 /-
-`:=` is used to define terms..
+`:=` is used to define terms.
 -/
 
 def myThree : ℕ := 3
+
+#check myThree
 
 /-
 `theorem` is just a definition in the `Prop` universe

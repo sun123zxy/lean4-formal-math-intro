@@ -1,5 +1,9 @@
 import Mathlib
 
+/-
+[TODO] Start from introducing absolute values, teach how to find theorems in Mathlib.
+-/
+
 def TendsTo (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| < ε
 
