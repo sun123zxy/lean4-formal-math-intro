@@ -92,6 +92,56 @@
     "text": "链接\n\nCourse materials:\n\ncourse repository\nonline documentation\n\nOnline compiler:\n\nLean 4 Web\n\nCommunity\n\nLean Zulip"
   },
   {
+    "objectID": "05-type.html",
+    "href": "05-type.html",
+    "title": "05-type.lean",
+    "section": "",
+    "text": "import Mathlib",
+    "crumbs": [
+      "05-type.lean"
+    ]
+  },
+  {
+    "objectID": "05-type.html#numbers",
+    "href": "05-type.html#numbers",
+    "title": "05-type.lean",
+    "section": "1 Numbers",
+    "text": "1 Numbers\nLean and Mathlib have many built-in types for numbers, including\n#check ℕ\n#check ℤ\n#check ℚ\n#check ℝ\n#check ℂ\nThere are some built-in ways to represent numbers. Lean interprets their types accordingly, like every programming language does.\n#check 3\n#check 3.14\n#check (22 / 7 : ℚ)\n#check Real.pi\n#check Complex.log (-1) / Complex.I\nDo note that numbers in different types work differently. Sometimes you need to explicitly specify the type you want.\n#eval 22 / 7\n#eval (22 : ℚ) / 7\n#eval (22 / 7 : ℚ)\nYou may not #eval (22 : ℝ) / 7 because ℝ is not computable. It’s defined using Cauchy sequences of rational numbers. For Float computation you may use Float type.\n#eval (22 : Float) / 7",
+    "crumbs": [
+      "05-type.lean"
+    ]
+  },
+  {
+    "objectID": "05-type.html#defining-terms-and-functions",
+    "href": "05-type.html#defining-terms-and-functions",
+    "title": "05-type.lean",
+    "section": "2 Defining terms and functions",
+    "text": "2 Defining terms and functions\nRecall that you may use def to define your own terms.\ndef myNTTNumber : ℕ := 998244353\n#check myNTTNumber\n\n-- Functions [TODO]",
+    "crumbs": [
+      "05-type.lean"
+    ]
+  },
+  {
+    "objectID": "05-type.html#universe-hierarchy",
+    "href": "05-type.html#universe-hierarchy",
+    "title": "05-type.lean",
+    "section": "3 Universe Hierarchy",
+    "text": "3 Universe Hierarchy\nIf everything has a type, what is the type of a type?\n#check 3\n#check Nat\n#check Type\n#check Type 1\n#check Type 2\n\n#check 1 + 2 = 3\n#check Prop\nLean has a hierarchy of universes:\n  ...\n   ↓\nType 3            = Sort 4\n   ↓\nType 2            = Sort 3\n   ↓\nType 1            = Sort 2\n   ↓\n Type   = Type 0  = Sort 1\n   ↓\n Prop   = Sort    = Sort 0\n\nProp is the universe of logical propositions.\nType is the universe of most of the mathematical objects.\n\nAt most times, you don’t need to care about universe levels above Type. But do recall the critical difference between Prop and Type:\nTerms in Prop, i.e. proofs, are proof-irrelevant, i.e. all proofs of the same proposition are considered equal, while terms in Type are distinguishable in general. This allows classical reasoning in Prop, and computation in Type.\nYou may explore more on this in the previous logic chapters.",
+    "crumbs": [
+      "05-type.lean"
+    ]
+  },
+  {
+    "objectID": "05-type.html#equality-eq-first-visit",
+    "href": "05-type.html#equality-eq-first-visit",
+    "title": "05-type.lean",
+    "section": "4 Equality Eq (=) (first visit)",
+    "text": "4 Equality Eq (=) (first visit)\nEquality is a fundamental notation in mathematics, but also a major victim of abuse of notation. Though trained experts can usually tell from context what kind of equality is meant, it is still hopelessly confusing.\n\nIn set theory, by axiom of extensionality, two sets are equal if and only if they have the same elements.\nIn Lean’s type theory, equality is defined as an inductive type, with propext and Quot.sound as extra axioms (funext is an corollary of propext).\n\nWe postpone the full discussion of equality to later chapters. We show here only the basic usage of = in Lean.\nEq takes two terms of the same type, and produces a proposition in Prop. For terms a b : α, the proposition a = b means that a and b are equal. Do note that types of a and b must be the same, i.e. definitionally equal.\n#check Eq\n#check 1 + 1 = 3\n-- #check 1 + 1 = Nat -- this won't compile\n#check (Real.sqrt 2) ^ 2 = (5 / 2 : ℕ)\nNote how the type of a number is interpreted and implicitly coerced in the last example.\nCoercions are automatic conversions between types. It somewhat allows us to abuse notations like mathematicians always do. Detailing coercions would be another ocean of knowledge. We shall stop here for now.\n-- Handling equality and inequality [TODO]\n\n-- Basic exercises [TODO]",
+    "crumbs": [
+      "05-type.lean"
+    ]
+  },
+  {
     "objectID": "03-logic.html",
     "href": "03-logic.html",
     "title": "03-logic.lean",
