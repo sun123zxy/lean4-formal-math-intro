@@ -53,6 +53,8 @@ def myNTTNumber : ℕ := 998244353
 
 -- Functions [TODO]
 
+-- `intro` for functions
+
 /-
 ## Universe Hierarchy
 
@@ -82,7 +84,7 @@ Type 1            = Sort 2
    ↓
  Type   = Type 0  = Sort 1
    ↓
- Prop   = Sort    = Sort 0
+ Prop   =  Sort   = Sort 0
 ```
 
 - `Prop` is the universe of logical propositions.
@@ -112,8 +114,10 @@ they have the same elements.
 with `propext` and `Quot.sound` as extra axioms (`funext` is an corollary of `propext`).
 
 We postpone the full discussion of equality to later chapters.
-We show here only the basic usage of `=` in Lean.
+We show here only the basic usage of `=` in Lean, mostly in tactic mode.
 -/
+
+section
 
 /-
 `Eq` takes two terms of the same type, and produces a proposition in `Prop`.
@@ -132,6 +136,129 @@ like mathematicians always do.
 Detailing coercions would be another ocean of knowledge. We shall stop here for now.
 -/
 
--- Handling equality and inequality [TODO]
+/- ### Handling equality -/
 
--- Basic exercises [TODO]
+variable (a b c : ℝ)
+
+/-
+The most basic way to show an equality is by tactic `rfl`:
+LHS is definitionally equal to RHS.
+-/
+example : a = a := by rfl
+
+/- `rw` is a tactic that rewrites a goal by a given equality. -/
+example (f : ℝ → ℝ) (hab : a = b) : f a = f b := by
+  rw [hab]
+
+/- sometimes you need to apply the equality in the reverse direction -/
+example (f : ℝ → ℝ) (hab : b = a) : f a = f b := by
+  rw [← hab]
+
+/- You may also use `symm` tactic to swap an equality -/
+example (f : ℝ → ℝ) (hab : b = a) : f a = f b := by
+  symm at hab
+  rw [hab]
+
+/- or swap at the goal -/
+example (f : ℝ → ℝ) (hab : b = a) : f a = f b := by
+  symm
+  rw [hab]
+
+/- You may also rewrite at a hypothesis. -/
+example (hab : a = b) (hbc : b = c) : a = c := by
+  rw [hbc] at hab
+  exact hab
+
+/-
+### Work in `CommRing`
+
+Let's do some basic rewrites in commutative rings, e.g. `ℝ`.
+-/
+
+/- #### Commutativity and associativity -/
+
+#check add_comm
+example : a + b = b + a := by rw [add_comm]
+
+#check add_assoc
+example : (a + b) + c = a + (b + c) := by rw [add_assoc]
+
+#check mul_comm
+example : a * b = b * a := by rw [mul_comm]
+
+#check mul_assoc
+example : (a * b) * c = a * (b * c) := by rw [mul_assoc]
+
+/- Sometimes you need to specify the arguments to narrow down possible targets for `rw`. -/
+example : (a + b) + c = (b + a) + c := by
+  rw [add_comm a b]
+
+/- [EXR] You may chain multiple rewrites in one `rw`. -/
+example : (a + b) + c = a + (c + b) := by
+  rw [add_assoc, add_comm b c]
+
+#check mul_add
+example : (a + b) * c = c * a + c * b := by
+  rw [mul_comm, mul_add]
+
+-- [EXR]
+example : (a + b) * (c + b) = a * c + a * b + b * c + b * b := by
+  rw [add_mul, mul_add, mul_add, ← add_assoc]
+
+/- #### Zero and one -/
+
+#check add_zero
+example : a + 0 = a := by rw [add_zero]
+#check zero_add
+example : 0 + a = a := by rw [zero_add]
+
+#check mul_one
+example : a * 1 = a := by rw [mul_one]
+#check one_mul
+example : 1 * a = a := by rw [one_mul]
+
+-- [EXR]
+example : 1 * a + (0 + b) * 1 = a + b := by
+   rw [one_mul, zero_add, mul_one]
+
+/- #### Subtraction -/
+
+-- [TODO]
+
+/-
+#### Automation
+
+Feel dumb to do these trivial rewrites by hand?
+
+`simp (at h)` tactic eliminates `0` and `1` automatically.
+-/
+example : c + a * (b + 0) = a * b + c := by
+  simp
+  rw [add_comm]
+
+/-
+`ring` tactic is even stronger: it reduces LHS and RHS to a canonical form
+(it exists in any commutative ring) to solve equalities automatically.
+`ring_nf (at h)` reduces the expression `h` to its canonical form.
+-/
+example : (a + 1) * (b + 2) = a * b + 2 * a + b + 2 := by
+  ring
+
+/-
+#### A remark on type classes
+
+Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for `ℝ`?
+Wondering how Lean knows `a * 1 = a` and has relevant lemmas for that?
+This is because Lean knows that `ℝ` is an commutative ring.
+This is because in Mathlib, `ℝ` has been registered as an instance of the typeclass `CommRing`.
+So that once you `import Mathlib`, Lean automatically knows about the `CommRing` structure of `ℝ`.
+We might learn about typeclasses later in this course.
+-/
+
+#synth CommRing ℝ -- Checkout the `CommRing` instance that Mathlib provides for `ℝ`
+
+end
+
+/- ## Inequality (first visit) -/
+
+-- [TODO]
