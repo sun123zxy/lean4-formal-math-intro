@@ -202,8 +202,10 @@ MathJax = {
   <li><a href="#universe-hierarchy" id="toc-universe-hierarchy" class="nav-link" data-scroll-target="#universe-hierarchy"><span class="header-section-number">3</span> Universe Hierarchy</a></li>
   <li><a href="#equality-eq-first-visit" id="toc-equality-eq-first-visit" class="nav-link" data-scroll-target="#equality-eq-first-visit"><span class="header-section-number">4</span> Equality <code>Eq</code> (<code>=</code>) (first visit)</a>
   <ul class="collapse">
-  <li><a href="#work-in-commring" id="toc-work-in-commring" class="nav-link" data-scroll-target="#work-in-commring"><span class="header-section-number">4.1</span> Work in <code>CommRing</code></a></li>
+  <li><a href="#handling-equality" id="toc-handling-equality" class="nav-link" data-scroll-target="#handling-equality"><span class="header-section-number">4.1</span> Handling equality</a></li>
+  <li><a href="#work-in-commring" id="toc-work-in-commring" class="nav-link" data-scroll-target="#work-in-commring"><span class="header-section-number">4.2</span> Work in <code>CommRing</code></a></li>
   </ul></li>
+  <li><a href="#inequality-first-visit" id="toc-inequality-first-visit" class="nav-link" data-scroll-target="#inequality-first-visit"><span class="header-section-number">5</span> Inequality (first visit)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -312,7 +314,8 @@ MathJax = {
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (Real.sqrt <span class="dv">2</span>) ^ <span class="dv">2</span> = (<span class="dv">5</span> / <span class="dv">2</span> : ℕ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note how the type of a number is interpreted and <em>implicitly coerced</em> in the last example.</p>
 <p><em>Coercions</em> are automatic conversions between types. It somewhat allows us to abuse notations like mathematicians always do. Detailing coercions would be another ocean of knowledge. We shall stop here for now.</p>
-<p>### Handling equality</p>
+<section id="handling-equality" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="handling-equality"><span class="header-section-number">4.1</span> Handling equality</h3>
 <div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (a b c : ℝ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The most basic way to show an equality is by tactic <code>rfl</code>: LHS is definitionally equal to RHS.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -334,10 +337,12 @@ MathJax = {
 <div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hab : a = b) (hbc : b = c) : a = c <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hbc] <span class="fu">at</span> hab</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="work-in-commring" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="work-in-commring"><span class="header-section-number">4.1</span> Work in <code>CommRing</code></h3>
+</section>
+<section id="work-in-commring" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="work-in-commring"><span class="header-section-number">4.2</span> Work in <code>CommRing</code></h3>
 <p>Let’s do some basic rewrites in commutative rings, e.g.&nbsp;<code>ℝ</code>.</p>
-<p>#### Commutativity and associativity</p>
+<section id="commutativity-and-associativity" class="level4">
+<h4 class="anchored" data-anchor-id="commutativity-and-associativity">Commutativity and associativity</h4>
 <div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_comm</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + b = b + a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [add_comm]</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -363,7 +368,9 @@ MathJax = {
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) * (c + b) = a * c + a * b + b * c + b * b <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_mul, mul_add, mul_add, ← add_assoc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>#### Zero and one</p>
+</section>
+<section id="zero-and-one" class="level4">
+<h4 class="anchored" data-anchor-id="zero-and-one">Zero and one</h4>
 <div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_zero</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + <span class="dv">0</span> = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [add_zero]</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> zero_add</span>
@@ -377,8 +384,11 @@ MathJax = {
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
 <span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">1</span> * a + (<span class="dv">0</span> + b) * <span class="dv">1</span> = a + b <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">rw</span> [one_mul, zero_add, mul_one]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>#### Subtraction</p>
+</section>
+<section id="subtraction" class="level4">
+<h4 class="anchored" data-anchor-id="subtraction">Subtraction</h4>
 <div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- [TODO]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 <section id="automation" class="level4">
 <h4 class="anchored" data-anchor-id="automation">Automation</h4>
 <p>Feel dumb to do these trivial rewrites by hand?</p>
@@ -396,12 +406,14 @@ MathJax = {
 <div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>#synth CommRing ℝ <span class="co">-- Checkout the `CommRing` instance that Mathlib provides for `ℝ`</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>## Inequality (first visit)</p>
+</section>
+</section>
+</section>
+<section id="inequality-first-visit" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="inequality-first-visit"><span class="header-section-number">5</span> Inequality (first visit)</h2>
 <div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- [TODO]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-</section>
-</section>
 </section>
 </section>
 
