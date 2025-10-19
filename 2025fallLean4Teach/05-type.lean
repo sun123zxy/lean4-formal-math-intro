@@ -136,7 +136,9 @@ like mathematicians always do.
 Detailing coercions would be another ocean of knowledge. We shall stop here for now.
 -/
 
-/- ### Handling equality -/
+/-
+### Handling equality
+-/
 
 variable (a b c : ℝ)
 
@@ -175,7 +177,9 @@ example (hab : a = b) (hbc : b = c) : a = c := by
 Let's do some basic rewrites in commutative rings, e.g. `ℝ`.
 -/
 
-/- #### Commutativity and associativity -/
+/-
+#### Commutativity and associativity
+-/
 
 #check add_comm
 example : a + b = b + a := by rw [add_comm]
@@ -205,7 +209,9 @@ example : (a + b) * c = c * a + c * b := by
 example : (a + b) * (c + b) = a * c + a * b + b * c + b * b := by
   rw [add_mul, mul_add, mul_add, ← add_assoc]
 
-/- #### Zero and one -/
+/-
+#### Zero and one
+-/
 
 #check add_zero
 example : a + 0 = a := by rw [add_zero]
@@ -221,7 +227,9 @@ example : 1 * a = a := by rw [one_mul]
 example : 1 * a + (0 + b) * 1 = a + b := by
    rw [one_mul, zero_add, mul_one]
 
-/- #### Subtraction -/
+/-
+#### Subtraction
+-/
 
 -- [TODO]
 
@@ -259,6 +267,8 @@ We might learn about typeclasses later in this course.
 
 end
 
-/- ## Inequality (first visit) -/
+/-
+## Inequality (first visit)
+-/
 
 -- [TODO]
