@@ -200,7 +200,10 @@ MathJax = {
   <li><a href="#numbers" id="toc-numbers" class="nav-link" data-scroll-target="#numbers"><span class="header-section-number">1</span> Numbers</a></li>
   <li><a href="#defining-terms-and-functions" id="toc-defining-terms-and-functions" class="nav-link" data-scroll-target="#defining-terms-and-functions"><span class="header-section-number">2</span> Defining terms and functions</a></li>
   <li><a href="#universe-hierarchy" id="toc-universe-hierarchy" class="nav-link" data-scroll-target="#universe-hierarchy"><span class="header-section-number">3</span> Universe Hierarchy</a></li>
-  <li><a href="#equality-eq-first-visit" id="toc-equality-eq-first-visit" class="nav-link" data-scroll-target="#equality-eq-first-visit"><span class="header-section-number">4</span> Equality <code>Eq</code> (<code>=</code>) (first visit)</a></li>
+  <li><a href="#equality-eq-first-visit" id="toc-equality-eq-first-visit" class="nav-link" data-scroll-target="#equality-eq-first-visit"><span class="header-section-number">4</span> Equality <code>Eq</code> (<code>=</code>) (first visit)</a>
+  <ul class="collapse">
+  <li><a href="#work-in-commring" id="toc-work-in-commring" class="nav-link" data-scroll-target="#work-in-commring"><span class="header-section-number">4.1</span> Work in <code>CommRing</code></a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -258,7 +261,9 @@ MathJax = {
 <div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yNTTNumber : ℕ <span class="op">:=</span> <span class="dv">998244353</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myNTTNumber</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Functions [TODO]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- Functions [TODO]</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- `intro` for functions</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="universe-hierarchy" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="universe-hierarchy"><span class="header-section-number">3</span> Universe Hierarchy</h2>
@@ -282,7 +287,7 @@ MathJax = {
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>   ↓</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a> Type   = Type 0  = Sort 1</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>   ↓</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a> Prop   = Sort    = Sort 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a> Prop   =  Sort   = Sort 0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ul>
 <li><code>Prop</code> is the universe of logical propositions.</li>
 <li><code>Type</code> is the universe of most of the mathematical objects.</li>
@@ -298,19 +303,105 @@ MathJax = {
 <li>In set theory, by axiom of extensionality, two sets are equal if and only if they have the same elements.</li>
 <li>In Lean’s type theory, equality is defined as an inductive type, with <code>propext</code> and <code>Quot.sound</code> as extra axioms (<code>funext</code> is an corollary of <code>propext</code>).</li>
 </ul>
-<p>We postpone the full discussion of equality to later chapters. We show here only the basic usage of <code>=</code> in Lean.</p>
+<p>We postpone the full discussion of equality to later chapters. We show here only the basic usage of <code>=</code> in Lean, mostly in tactic mode.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>Eq</code> takes two terms of the same type, and produces a proposition in <code>Prop</code>. For terms <code>a b : α</code>, the proposition <code>a = b</code> means that <code>a</code> and <code>b</code> are equal. Do note that types of <code>a</code> and <code>b</code> must be the same, i.e.&nbsp;definitionally equal.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Eq</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="dv">1</span> + <span class="dv">1</span> = <span class="dv">3</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- #check 1 + 1 = Nat -- this won't compile</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (Real.sqrt <span class="dv">2</span>) ^ <span class="dv">2</span> = (<span class="dv">5</span> / <span class="dv">2</span> : ℕ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Eq</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="dv">1</span> + <span class="dv">1</span> = <span class="dv">3</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- #check 1 + 1 = Nat -- this won't compile</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (Real.sqrt <span class="dv">2</span>) ^ <span class="dv">2</span> = (<span class="dv">5</span> / <span class="dv">2</span> : ℕ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note how the type of a number is interpreted and <em>implicitly coerced</em> in the last example.</p>
 <p><em>Coercions</em> are automatic conversions between types. It somewhat allows us to abuse notations like mathematicians always do. Detailing coercions would be another ocean of knowledge. We shall stop here for now.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Handling equality and inequality [TODO]</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- Basic exercises [TODO]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>### Handling equality</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (a b c : ℝ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The most basic way to show an equality is by tactic <code>rfl</code>: LHS is definitionally equal to RHS.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>rw</code> is a tactic that rewrites a goal by a given equality.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : a = b) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>sometimes you need to apply the equality in the reverse direction</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← hab]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You may also use <code>symm</code> tactic to swap an equality</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  symm <span class="fu">at</span> hab</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>or swap at the goal</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  symm</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You may also rewrite at a hypothesis.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hab : a = b) (hbc : b = c) : a = c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hbc] <span class="fu">at</span> hab</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="work-in-commring" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="work-in-commring"><span class="header-section-number">4.1</span> Work in <code>CommRing</code></h3>
+<p>Let’s do some basic rewrites in commutative rings, e.g.&nbsp;<code>ℝ</code>.</p>
+<p>#### Commutativity and associativity</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_comm</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + b = b + a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [add_comm]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_assoc</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) + c = a + (b + c) <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [add_assoc]</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_comm</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a * b = b * a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [mul_comm]</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_assoc</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a * b) * c = a * (b * c) <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [mul_assoc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Sometimes you need to specify the arguments to narrow down possible targets for <code>rw</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) + c = (b + a) + c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_comm a b]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[EXR] You may chain multiple rewrites in one <code>rw</code>.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) + c = a + (c + b) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_assoc, add_comm b c]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_add</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) * c = c * a + c * b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [mul_comm, mul_add]</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) * (c + b) = a * c + a * b + b * c + b * b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_mul, mul_add, mul_add, ← add_assoc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>#### Zero and one</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_zero</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + <span class="dv">0</span> = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [add_zero]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> zero_add</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">0</span> + a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [zero_add]</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_one</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a * <span class="dv">1</span> = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [mul_one]</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> one_mul</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">1</span> * a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [one_mul]</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">1</span> * a + (<span class="dv">0</span> + b) * <span class="dv">1</span> = a + b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">rw</span> [one_mul, zero_add, mul_one]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>#### Subtraction</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- [TODO]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="automation" class="level4">
+<h4 class="anchored" data-anchor-id="automation">Automation</h4>
+<p>Feel dumb to do these trivial rewrites by hand?</p>
+<p><code>simp (at h)</code> tactic eliminates <code>0</code> and <code>1</code> automatically.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : c + a * (b + <span class="dv">0</span>) = a * b + c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_comm]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>ring</code> tactic is even stronger: it reduces LHS and RHS to a canonical form (it exists in any commutative ring) to solve equalities automatically. <code>ring_nf (at h)</code> reduces the expression <code>h</code> to its canonical form.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + <span class="dv">1</span>) * (b + <span class="dv">2</span>) = a * b + <span class="dv">2</span> * a + b + <span class="dv">2</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="a-remark-on-type-classes" class="level4">
+<h4 class="anchored" data-anchor-id="a-remark-on-type-classes">A remark on type classes</h4>
+<p>Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for <code>ℝ</code>? Wondering how Lean knows <code>a * 1 = a</code> and has relevant lemmas for that? This is because Lean knows that <code>ℝ</code> is an commutative ring. This is because in Mathlib, <code>ℝ</code> has been registered as an instance of the typeclass <code>CommRing</code>. So that once you <code>import Mathlib</code>, Lean automatically knows about the <code>CommRing</code> structure of <code>ℝ</code>. We might learn about typeclasses later in this course.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>#synth CommRing ℝ <span class="co">-- Checkout the `CommRing` instance that Mathlib provides for `ℝ`</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>## Inequality (first visit)</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- [TODO]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
+</section>
 </section>
 </section>
 
