@@ -331,7 +331,7 @@ For more exercises, see
 end
 
 /-
-### [IGNORE] `Decidable`
+## [IGNORE] `Decidable`
 
 It's high time to introduce `Decidable` here for the first time.
 
