@@ -6,10 +6,7 @@ date: 2025/09/15
 lang: zh
 
 format:
-  html:
-    other-links:
-      - text: "Lean 4 tactics cheatsheet"
-        href: https://leanprover-community.github.io/papers/lean-tactics.pdf
+  html: default
   pdf: default
 ---
 
@@ -91,7 +88,6 @@ BICMR--Ubiquant AI4Math 数据标注团队实习经验
 - Courses
 
   - [Kevin Buzzard's 2024 course on formalising mathematics in the Lean theorem prover](https://github.com/ImperialCollegeLondon/formalising-mathematics-2024)
-  - BICMR--RUC 2025 代数与形式化暑期学校课程材料
 
 {{< pagebreak >}}
 
@@ -109,3 +105,7 @@ BICMR--Ubiquant AI4Math 数据标注团队实习经验
 - Community
 
   - [Lean Zulip](https://leanprover.zulipchat.com/)
+
+- Miscellaneous
+
+  - [Lean 4 tactics cheatsheet](https://leanprover-community.github.io/papers/lean-tactics.pdf)
