@@ -47,13 +47,27 @@ For `Float` computation you may use `Float` type.
 ## Defining terms and functions
 
 Recall that you may use `def` to define your own terms.
+Be open minded: you may even use tactic mode to define terms!
 -/
-def myNTTNumber : ℕ := 998244353
-#check myNTTNumber
+def myNumber : ℝ := 998244353
+#check myNumber
 
--- Functions [TODO]
+#check fun (x : ℝ) ↦ x * x
 
--- `intro` for functions
+def square (x : ℝ) : ℝ := x * x
+def square' : ℝ → ℝ := fun x ↦ x * x
+def square'' : ℝ → ℝ := by
+  intro x
+  exact x * x
+
+#print square
+#print square'
+#print square''
+
+def square_myNumber : ℝ := by
+  apply square
+  exact myNumber
+#print square_myNumber
 
 /-
 ## Universe Hierarchy
@@ -111,7 +125,8 @@ it is still hopelessly confusing.
 - In set theory, by axiom of extensionality, two sets are equal if and only if
 they have the same elements.
 - In Lean's type theory, equality is defined as an inductive type,
-with `propext` and `Quot.sound` as extra axioms (`funext` is an corollary of `propext`).
+  with `propext` and `Quot.sound` as extra axioms
+  (`funext` is an corollary of `Quot.sound`).
 
 We postpone the full discussion of equality to later chapters.
 We show here only the basic usage of `=` in Lean, mostly in tactic mode.
@@ -227,18 +242,30 @@ example : 1 * a = a := by rw [one_mul]
 example : 1 * a + (0 + b) * 1 = a + b := by
    rw [one_mul, zero_add, mul_one]
 
+/- [EXR] uniqueness of zero -/
+example (o : ℝ) (h : ∀ x : ℝ, x + o = x) : o = 0 := by
+  specialize h 0
+  rw [zero_add] at h
+  exact h
+
 /-
 #### Subtraction
 -/
 
--- [TODO]
+/- transposition -/
+#check add_sub_assoc
+#check sub_self
+#check add_zero
+example (h : c = a + b) : c - b = a := by
+  rw [h, add_sub_assoc, sub_self, add_zero]
 
 /-
 #### Automation
 
-Feel dumb to do these trivial rewrites by hand?
+Had enough of these tedious rewrites? Automation makes your life easier.
 
 `simp (at h)` tactic eliminates `0` and `1` automatically.
+`simp?` shows you what lemmas `simp` used.
 -/
 example : c + a * (b + 0) = a * b + c := by
   simp
@@ -251,6 +278,51 @@ example : c + a * (b + 0) = a * b + c := by
 -/
 example : (a + 1) * (b + 2) = a * b + 2 * a + b + 2 := by
   ring
+
+/-
+`apply_fun at h` tactic applies a function to both sides of an equality hypothesis `h`.
+Combined with `simp` and `ring`, it make transpotions easier.
+-/
+example (h : a + c = b + c) : a = b := by
+  apply_fun (fun x ↦ x - c) at h
+  simp at h
+  exact h
+
+/- [EXR] transposition again -/
+example (h : c = a + b) : c - b = a := by
+  apply_fun (fun x ↦ x - b) at h
+  simp at h
+  exact h
+
+/-
+#### `funext` and `propext`
+
+Functional extensionality states that two functions are equal
+if they give equal outputs for every input.
+
+It's a theorem in Lean's type theory, derived from the quotient axiom `Quot.sound`.
+-/
+#check funext
+example (f g : ℝ → ℝ) (h : ∀ x : ℝ, f x = g x) : f = g := funext h
+
+/- It has a tactic version `ext` / `funext` as well -/
+example (f g : ℝ → ℝ) (h : ∀ x : ℝ, f x = g x) : f = g := by
+  funext x
+  exact h x
+
+/-
+Though rarely used in practice, propositional extensionality states that two propositions
+are equal if they are logically equivalent. It's admitted as an axiom in Lean.
+
+[TODO] Discussions on it's necessity are welcome.
+-/
+#check propext
+example (P Q : Prop) (h : P ↔ Q) : P = Q := propext h
+
+/- It has a tactic version as well -/
+example (P Q : Prop) (mp : P → Q) (mpr : Q → P) : P = Q := by
+  ext
+  exact ⟨mp, mpr⟩
 
 /-
 #### A remark on type classes
@@ -269,6 +341,8 @@ end
 
 /-
 ## Inequality (first visit)
--/
 
--- [TODO]
+[TODO]. Personally I don't quite sure about the `α → α → Prop` definition yet.
+
+[TODO] `calc`
+-/
