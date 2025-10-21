@@ -182,14 +182,14 @@
     "href": "index.html#参考材料",
     "title": "形式化数学与 Lean 4 定理证明入门",
     "section": "参考材料",
-    "text": "参考材料\n\nIntroductory:\n\nCAV2024\nTerence Tao at IMO 2024: AI and Mathematics\nLean 的前世今生\nNatural Number Game\nComputational Trilogy - nLab\n\nBibles\n\nMathematics in Lean 4\nTheorem Proving in Lean 4\nLean Language Manual\nType Theory - nLab\nOther bibles\n\nCourses\n\nKevin Buzzard’s 2024 course on formalising mathematics in the Lean theorem prover\nBICMR–RUC 2025 代数与形式化暑期学校课程材料"
+    "text": "参考材料\n\nIntroductory:\n\nCAV2024\nTerence Tao at IMO 2024: AI and Mathematics\nLean 的前世今生\nNatural Number Game\nComputational Trilogy - nLab\n\nBibles\n\nMathematics in Lean 4\nTheorem Proving in Lean 4\nLean Language Manual\nType Theory - nLab\nOther bibles\n\nCourses\n\nKevin Buzzard’s 2024 course on formalising mathematics in the Lean theorem prover"
   },
   {
     "objectID": "index.html#链接",
     "href": "index.html#链接",
     "title": "形式化数学与 Lean 4 定理证明入门",
     "section": "链接",
-    "text": "链接\n\nCourse materials:\n\ncourse repository\nonline documentation\n\nOnline compiler:\n\nLean 4 Web\n\nCommunity\n\nLean Zulip"
+    "text": "链接\n\nCourse materials:\n\ncourse repository\nonline documentation\n\nOnline compiler:\n\nLean 4 Web\n\nCommunity\n\nLean Zulip\n\nMiscellaneous\n\nLean 4 tactics cheatsheet"
   },
   {
     "objectID": "01-intro.html",
