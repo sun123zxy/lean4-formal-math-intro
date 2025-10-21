@@ -206,8 +206,8 @@ MathJax = {
   <li><a href="#pushing-negations" id="toc-pushing-negations" class="nav-link" data-scroll-target="#pushing-negations"><span class="header-section-number">3</span> Pushing negations</a>
   <ul class="collapse">
   <li><a href="#negation-with-and" id="toc-negation-with-and" class="nav-link" data-scroll-target="#negation-with-and"><span class="header-section-number">3.1</span> Negation with <code>∧</code> and <code>∨</code></a></li>
-  <li><a href="#ignore-decidable" id="toc-ignore-decidable" class="nav-link" data-scroll-target="#ignore-decidable"><span class="header-section-number">3.2</span> [IGNORE] <code>Decidable</code></a></li>
   </ul></li>
+  <li><a href="#ignore-decidable" id="toc-ignore-decidable" class="nav-link" data-scroll-target="#ignore-decidable"><span class="header-section-number">4</span> [IGNORE] <code>Decidable</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -451,8 +451,9 @@ MathJax = {
 <p>For more exercises, see <a href="https://lean-lang.org/theorem_proving_in_lean4/Propositions-and-Proofs/#classical-logic">Propositions and Proofs - TPiL4</a></p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="ignore-decidable" class="level3" data-number="3.2">
-<h3 data-number="3.2" class="anchored" data-anchor-id="ignore-decidable"><span class="header-section-number">3.2</span> [IGNORE] <code>Decidable</code></h3>
+</section>
+<section id="ignore-decidable" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="ignore-decidable"><span class="header-section-number">4</span> [IGNORE] <code>Decidable</code></h2>
 <p>It’s high time to introduce <code>Decidable</code> here for the first time.</p>
 <p>Mathematicians are often aware of intuitionistic logic. They know classical logic is equipped with <code>Classical.em</code>: <code>p ∨ ¬p</code> for any proposition <code>p</code>. Though rarely do they know the concept of <code>Decidable</code>, which more often appears in the theory of computation.</p>
 <p>For short, <code>Decidable p</code> means exactly the same as <code>p ∨ ¬p</code> in intuitionistic logic. It means that we know explicitly (or computationally) which one of <code>p</code> and <code>¬p</code> is true.</p>
@@ -506,7 +507,6 @@ MathJax = {
 <span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-</section>
 </section>
 </section>
 
