@@ -70,7 +70,7 @@ def square_myNumber : ℝ := by
 #print square_myNumber
 
 /-
-## Universe Hierarchy
+## Universe hierarchy
 
 If everything has a type, what is the type of a type?
 -/
@@ -116,17 +116,39 @@ You may explore more on this in the previous logic chapters.
 -/
 
 /-
-## Equality `Eq` (`=`) (first visit)
+## Propositional equality `Eq` (`=`) (first visit)
 
 Equality is a fundamental notation in mathematics, but also a major victim of *abuse of notation*.
 Though trained experts can usually tell from context what kind of equality is meant,
 it is still hopelessly confusing.
 
-- In set theory, by axiom of extensionality, two sets are equal if and only if
+In set theory, by axiom of extensionality, two sets are equal if and only if
 they have the same elements.
-- In Lean's type theory, equality is defined as an inductive type,
-  with `propext` and `Quot.sound` as extra axioms
-  (`funext` is an corollary of `Quot.sound`).
+
+In Lean's type theory, we distinguish between different equalities.
+
+- Definitional equality is a meta-level concept, meaning that two terms are the same
+  by definition (i.e. they reduce to the same form).
+
+  - `def`, `theorem`-like commands
+  - Applications of functions
+
+  are examples of definitional equalities.
+
+  Type checking is determined up to definitional equality.
+  In fact, the only responsibility of the Lean compiler is to check definitional equalities.
+
+- Propositional equality is
+
+  - defined as the inductive type `Eq` (notation `=`),
+
+  - constructed by the constructor `rfl` (reflexivity, i.e. `a = a`),
+    with `propext` and `Quot.sound` as extra axioms
+    (`funext` is an corollary of `Quot.sound`),
+
+  - eliminated by the `rw` tactic (in practice).
+
+- Heterogeneous equality, which we shall not touch here.
 
 We postpone the full discussion of equality to later chapters.
 We show here only the basic usage of `=` in Lean, mostly in tactic mode.
@@ -135,7 +157,8 @@ We show here only the basic usage of `=` in Lean, mostly in tactic mode.
 section
 
 /-
-`Eq` takes two terms of the same type, and produces a proposition in `Prop`.
+`Eq` takes two terms of the same type (up to definitional equality),
+and produces a proposition in `Prop`.
 For terms `a b : α`, the proposition `a = b` means that `a` and `b` are equal.
 Do note that types of `a` and `b` must be the same, i.e. definitionally equal.
 -/
@@ -144,12 +167,28 @@ Do note that types of `a` and `b` must be the same, i.e. definitionally equal.
 -- #check 1 + 1 = Nat -- this won't compile
 #check (Real.sqrt 2) ^ 2 = (5 / 2 : ℕ)
 /-
-Note how the type of a number is interpreted and *implicitly coerced* in the last example.
+Strange as it may seem, the above type checks.
+Note how the type of a number is interpreted and *implicitly coerced*.
 
 *Coercions* are automatic conversions between types. It somewhat allows us to abuse notations
 like mathematicians always do.
 Detailing coercions would be another ocean of knowledge. We shall stop here for now.
 -/
+
+def myType := ℝ
+
+/- This won't compile, because Lean do not know a coercion of `ℕ → myType`. -/
+-- def myTypeNumber := (998244353 : myType)
+
+/-
+This passes the type check. because we manually build a bridge here:
+Lean knows the coercion `ℕ → ℝ` and that `myType` is definitionally equal to `ℝ`.
+-/
+def myTypeNumber : myType := (998244353 : ℝ)
+#check myTypeNumber
+
+/- This also passes the type check by the same reason. -/
+#check myTypeNumber = myNumber
 
 /-
 ### Handling equality
@@ -162,7 +201,17 @@ The most basic way to show an equality is by tactic `rfl`:
 LHS is definitionally equal to RHS.
 -/
 example : a = a := by rfl
+
+/- Note that `myNumber` is definitionally equal to `998244353`. -/
 example : myNumber = 998244353 := by rfl
+
+/-
+The type of `myNumber : ℕ` and `myTypeNumber : myType` are definitionally equal,
+thus the equality passes the type check.
+Their values are also definitionally equal, so you can prove their equality by `rfl`.
+-/
+example : myNumber = myTypeNumber := by rfl
+
 
 /- `rw` is a tactic that rewrites a goal by a given equality. -/
 example (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c := by
@@ -345,9 +394,9 @@ We might learn about typeclasses later in this course.
 end
 
 /-
-## Inequality (first visit)
+## Equality (second visit)
 
-[TODO]. Personally I don't quite sure about the `α → α → Prop` definition yet.
-
-[TODO] `calc`
+[TODO]
 -/
+#print Eq
+#print Equivalence
