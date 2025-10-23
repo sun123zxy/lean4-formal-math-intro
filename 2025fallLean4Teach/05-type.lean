@@ -329,7 +329,7 @@ We might learn about typeclasses later in this course.
 #synth CommRing ℝ -- Checkout the `CommRing` instance that Mathlib provides for `ℝ`
 
 /-
-#### `funext` and `propext`
+### `funext` and `propext`
 
 There are several ways to show a (propositional) equality other than `rfl` and `rw`.
 
@@ -361,7 +361,7 @@ example (P Q : Prop) (mp : P → Q) (mpr : Q → P) : P = Q := by
   exact ⟨mp, mpr⟩
 
 /-
-#### Definitional equality vs propositional equality
+### Definitional equality vs propositional equality
 
 - Definitional equality is a meta-level concept, meaning that two terms are the same
   by definition (i.e. they reduce to the same form).
