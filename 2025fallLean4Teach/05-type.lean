@@ -162,19 +162,20 @@ The most basic way to show an equality is by tactic `rfl`:
 LHS is definitionally equal to RHS.
 -/
 example : a = a := by rfl
+example : myNumber = 998244353 := by rfl
 
 /- `rw` is a tactic that rewrites a goal by a given equality. -/
-example (f : ℝ → ℝ) (hab : a = b) : f a = f b := by
-  rw [hab]
+example (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c := by
+  rw [hab, hbc]
 
-/- sometimes you need to apply the equality in the reverse direction -/
-example (f : ℝ → ℝ) (hab : b = a) : f a = f b := by
-  rw [← hab]
+/- you may also apply the equality in the reverse direction -/
+example (f : ℝ → ℝ) (hab : b = a) (hbc : b = c) : f a = f c := by
+  rw [← hab, hbc]
 
 /- You may also use `symm` tactic to swap an equality -/
-example (f : ℝ → ℝ) (hab : b = a) : f a = f b := by
+example (f : ℝ → ℝ) (hab : b = a) (hbc : b = c) : f a = f c := by
   symm at hab
-  rw [hab]
+  rw [hab, hbc]
 
 /- or swap at the goal -/
 example (f : ℝ → ℝ) (hab : b = a) : f a = f b := by
@@ -215,6 +216,10 @@ example : (a + b) + c = (b + a) + c := by
 /- [EXR] You may chain multiple rewrites in one `rw`. -/
 example : (a + b) + c = a + (c + b) := by
   rw [add_assoc, add_comm b c]
+
+-- [EXR]
+example : a + b + c = c + a + b := by
+  rw [add_comm, add_assoc]
 
 #check mul_add
 example : (a + b) * c = c * a + c * b := by
