@@ -80,6 +80,15 @@ def square_myNumber : ℝ := by
 #print square_myNumber
 
 /-
+To manually unfold a definition in the tactic mode,
+you may use the `unfold` tactic.
+-/
+example : square myNumber = 998244353 * 998244353 := by
+  unfold square
+  unfold myNumber
+  rfl
+
+/-
 ## Universe hierarchy
 
 If everything has a type, what is the type of a type?
