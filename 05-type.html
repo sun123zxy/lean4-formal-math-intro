@@ -204,6 +204,8 @@ MathJax = {
   <ul class="collapse">
   <li><a href="#handling-equality" id="toc-handling-equality" class="nav-link" data-scroll-target="#handling-equality"><span class="header-section-number">4.1</span> Handling equality</a></li>
   <li><a href="#work-in-commring" id="toc-work-in-commring" class="nav-link" data-scroll-target="#work-in-commring"><span class="header-section-number">4.2</span> Work in <code>CommRing</code></a></li>
+  <li><a href="#funext-and-propext" id="toc-funext-and-propext" class="nav-link" data-scroll-target="#funext-and-propext"><span class="header-section-number">4.3</span> <code>funext</code> and <code>propext</code></a></li>
+  <li><a href="#definitional-equality-vs-propositional-equality" id="toc-definitional-equality-vs-propositional-equality" class="nav-link" data-scroll-target="#definitional-equality-vs-propositional-equality"><span class="header-section-number">4.4</span> Definitional equality vs propositional equality</a></li>
   </ul></li>
   <li><a href="#equality-second-visit" id="toc-equality-second-visit" class="nav-link" data-scroll-target="#equality-second-visit"><span class="header-section-number">5</span> Equality (second visit)</a></li>
   </ul></li>
@@ -449,8 +451,9 @@ MathJax = {
 <p>Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for <code>ℝ</code>? Wondering how Lean knows <code>a * 1 = a</code> and has relevant lemmas for that? This is because Lean knows that <code>ℝ</code> is an commutative ring. This is because in Mathlib, <code>ℝ</code> has been registered as an instance of the typeclass <code>CommRing</code>. So that once you <code>import Mathlib</code>, Lean automatically knows about the <code>CommRing</code> structure of <code>ℝ</code>. We might learn about typeclasses later in this course.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>#synth CommRing ℝ <span class="co">-- Checkout the `CommRing` instance that Mathlib provides for `ℝ`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="funext-and-propext" class="level4">
-<h4 class="anchored" data-anchor-id="funext-and-propext"><code>funext</code> and <code>propext</code></h4>
+</section>
+<section id="funext-and-propext" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="funext-and-propext"><span class="header-section-number">4.3</span> <code>funext</code> and <code>propext</code></h3>
 <p>There are several ways to show a (propositional) equality other than <code>rfl</code> and <code>rw</code>.</p>
 <p>Functional extensionality <code>funext</code> states that two functions are equal if they give equal outputs for every input.</p>
 <p>It’s a theorem in Lean’s type theory, derived from the quotient axiom <code>Quot.sound</code>.</p>
@@ -469,8 +472,8 @@ MathJax = {
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  ext</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> ⟨mp, mpr⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="definitional-equality-vs-propositional-equality" class="level4">
-<h4 class="anchored" data-anchor-id="definitional-equality-vs-propositional-equality">Definitional equality vs propositional equality</h4>
+<section id="definitional-equality-vs-propositional-equality" class="level3" data-number="4.4">
+<h3 data-number="4.4" class="anchored" data-anchor-id="definitional-equality-vs-propositional-equality"><span class="header-section-number">4.4</span> Definitional equality vs propositional equality</h3>
 <ul>
 <li><p>Definitional equality is a meta-level concept, meaning that two terms are the same by definition (i.e.&nbsp;they reduce to the same form).</p>
 <ul>
@@ -504,7 +507,6 @@ MathJax = {
 <div class="sourceCode" id="cb44"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
 </section>
 </section>
 <section id="equality-second-visit" class="level2" data-number="5">
