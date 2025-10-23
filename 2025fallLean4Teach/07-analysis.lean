@@ -1,9 +1,5 @@
 import Mathlib
 
-/-
-[TODO] Start from introducing absolute values, teach how to find theorems in Mathlib.
--/
-
 def TendsTo (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| < ε
 
@@ -98,3 +94,54 @@ theorem tendsTo_unique (a : ℕ → ℝ) (s t : ℝ) (hs : TendsTo a s) (ht : Te
   rcases hst with ⟨n₀, hn₀⟩
   specialize hn₀ n₀ (by linarith)
   linarith
+
+def contAt (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
+  ∀ ε > 0, ∃ δ > 0, ∀ x, |x - x₀| < δ → |f x - f x₀| < ε
+
+def contAt_seq (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
+  ∀ a : ℕ → ℝ, TendsTo a x₀ → TendsTo (f ∘ a) (f x₀)
+
+/- sequential definition equivialence -/
+theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
+    contAt f x₀ ↔ contAt_seq f x₀ := by
+  constructor
+  · intro hf a ha
+    intro ε hε
+    rcases hf ε hε with ⟨δ, hδ, hδf⟩
+    rcases ha δ hδ with ⟨n₀, hn₀⟩
+    use n₀
+    intro n hn
+    specialize hn₀ n hn
+    specialize hδf (a n) hn₀
+    exact hδf
+  · contrapose
+    intro hnfcont hnfseq
+    unfold contAt at hnfcont
+    push_neg at hnfcont
+    rcases hnfcont with ⟨ε, hε, hnf⟩
+
+    sorry
+
+def cont (f : ℝ → ℝ) : Prop := ∀ x₀ : ℝ, contAt f x₀
+
+def uconv (f : ℕ → ℝ → ℝ) (f₀ : ℝ → ℝ) : Prop :=
+  ∀ ε > 0, ∃ N : ℕ, ∀ n ≥ N, ∀ x : ℝ, |f n x - f₀ x| < ε
+
+/-
+The uniform limit of a sequence of continuous functions is continuous.
+-/
+theorem cont_of_cont_of_uconv
+    (f : ℕ → ℝ → ℝ) (f_cont : ∀ n : ℕ, cont (f n))
+    (f₀ : ℝ → ℝ) (h_uconv : uconv f f₀) : cont f₀ := by
+  intro x₀ ε hε
+  rcases h_uconv (ε / 3) (by linarith [hε]) with ⟨N, hN⟩
+  specialize hN N (by linarith)
+  rcases f_cont N x₀ (ε / 3) (by linarith [hε]) with ⟨δ, hδ, hδf⟩
+  use δ, hδ
+  intro x hx
+  specialize hδf x hx
+  have hNx := hN x
+  have hNx₀ := hN x₀
+  rw [abs_lt] at hNx hNx₀ hδf ⊢
+  constructor
+  all_goals linarith [hNx, hNx₀, hδf]

@@ -184,7 +184,7 @@ example : a = a := by rfl
 example : myNumber = 998244353 := by rfl
 
 /-
-`rfl` can even solve this, because both sides reduce to `8`
+`rfl` can even solve simple evaluations, because both sides reduce to `8`
 by the (inductive) definition of arithmetic operations over `ℕ`.
 -/
 example : 5 + 3 = 2 * 2 * 2 := by rfl
@@ -211,6 +211,11 @@ example (f : ℝ → ℝ) (hab : b = a) : f a = f b := by
 example (hab : a = b) (hbc : b = c) : a = c := by
   rw [hbc] at hab
   exact hab
+
+/- `congr` tactic reduces the goal `f a = f b` to `a = b`. -/
+example (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c := by
+  congr
+  rw [hab, hbc]
 
 /-
 ### Work in `CommRing`

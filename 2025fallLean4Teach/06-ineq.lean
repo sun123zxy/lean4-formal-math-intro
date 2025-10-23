@@ -26,3 +26,7 @@ example : (a < b) = (b > a) := by rfl
 example : (a ≤ b) = (b ≥ a) := by rfl
 
 end
+
+/-
+[TODO] Start from introducing absolute values, teach how to find theorems in Mathlib.
+-/
