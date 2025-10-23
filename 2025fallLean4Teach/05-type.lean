@@ -43,25 +43,35 @@ For `Float` computation you may use `Float` type.
 -/
 #eval (22 : Float) / 7
 
+/- Strange as it may seem, this type checks. -/
+#check (Real.sqrt 2) ^ 2 = (5 / 2 : ℕ)
+/-
+Note how the type of a number is interpreted and *implicitly coerced*.
+
+*Coercions* are automatic conversions between types. It somewhat allows us to abuse notations
+like mathematicians always do.
+Detailing coercions would be another ocean of knowledge. We shall stop here for now.
+-/
+
 /-
 ## Defining terms and functions
 
 Recall that you may use `def` to define your own terms.
-Be open minded: you may even use tactic mode to define terms!
 -/
 def myNumber : ℝ := 998244353
 #check myNumber
 
+/- `def` can also define functions. -/
 #check fun (x : ℝ) ↦ x * x
-
 def square (x : ℝ) : ℝ := x * x
 def square' : ℝ → ℝ := fun x ↦ x * x
+#print square
+#print square'
+
+/- Be open minded: you may even use tactic mode to define terms! -/
 def square'' : ℝ → ℝ := by
   intro x
   exact x * x
-
-#print square
-#print square'
 #print square''
 
 def square_myNumber : ℝ := by
@@ -116,7 +126,7 @@ You may explore more on this in the previous logic chapters.
 -/
 
 /-
-## Propositional equality `Eq` (`=`) (first visit)
+## Equality `Eq` (`=`) (first visit)
 
 Equality is a fundamental notation in mathematics, but also a major victim of *abuse of notation*.
 Though trained experts can usually tell from context what kind of equality is meant,
@@ -125,33 +135,16 @@ it is still hopelessly confusing.
 In set theory, by axiom of extensionality, two sets are equal if and only if
 they have the same elements.
 
-In Lean's type theory, we distinguish between different equalities.
+In Lean's type theory, we distinguish between different equalities:
 
-- Definitional equality is a meta-level concept, meaning that two terms are the same
-  by definition (i.e. they reduce to the same form).
+- Definitional equality
+- Propositional equality (`Eq`, i.e. `=`)
+- Heterogeneous equality (We shall not touch this)
 
-  - `def`, `theorem`-like commands
-  - Applications of functions
-
-  are examples of definitional equalities.
-
-  Type checking is determined up to definitional equality.
-  In fact, the only responsibility of the Lean compiler is to check definitional equalities.
-
-- Propositional equality is
-
-  - defined as the inductive type `Eq` (notation `=`),
-
-  - constructed by the constructor `rfl` (reflexivity, i.e. `a = a`),
-    with `propext` and `Quot.sound` as extra axioms
-    (`funext` is an corollary of `Quot.sound`),
-
-  - eliminated by the `rw` tactic (in practice).
-
-- Heterogeneous equality, which we shall not touch here.
-
-We postpone the full discussion of equality to later chapters.
-We show here only the basic usage of `=` in Lean, mostly in tactic mode.
+We shall now show the basic usage of `=` in Lean, mostly in tactic mode.
+We detail a little on the difference between
+definitional and propositional equality afterwards.
+We postpone the real, full discussion of equality to later chapters.
 -/
 
 section
@@ -164,31 +157,7 @@ Do note that types of `a` and `b` must be the same, i.e. definitionally equal.
 -/
 #check Eq
 #check 1 + 1 = 3
--- #check 1 + 1 = Nat -- this won't compile
-#check (Real.sqrt 2) ^ 2 = (5 / 2 : ℕ)
-/-
-Strange as it may seem, the above type checks.
-Note how the type of a number is interpreted and *implicitly coerced*.
-
-*Coercions* are automatic conversions between types. It somewhat allows us to abuse notations
-like mathematicians always do.
-Detailing coercions would be another ocean of knowledge. We shall stop here for now.
--/
-
-def myType := ℝ
-
-/- This won't compile, because Lean do not know a coercion of `ℕ → myType`. -/
--- def myTypeNumber := (998244353 : myType)
-
-/-
-This passes the type check. because we manually build a bridge here:
-Lean knows the coercion `ℕ → ℝ` and that `myType` is definitionally equal to `ℝ`.
--/
-def myTypeNumber : myType := (998244353 : ℝ)
-#check myTypeNumber
-
-/- This also passes the type check by the same reason. -/
-#check myTypeNumber = myNumber
+-- #check 1 + 1 = Nat -- this won't compile. Eq requires both sides to have the same type.
 
 /-
 ### Handling equality
@@ -206,12 +175,10 @@ example : a = a := by rfl
 example : myNumber = 998244353 := by rfl
 
 /-
-The type of `myNumber : ℕ` and `myTypeNumber : myType` are definitionally equal,
-thus the equality passes the type check.
-Their values are also definitionally equal, so you can prove their equality by `rfl`.
+`rfl` can even solve this, because both sides reduce to `8`
+by the (inductive) definition of arithmetic operations over `ℕ`.
 -/
-example : myNumber = myTypeNumber := by rfl
-
+example : 5 + 3 = 2 * 2 * 2 := by rfl
 
 /- `rw` is a tactic that rewrites a goal by a given equality. -/
 example (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c := by
@@ -349,9 +316,24 @@ example (h : c = a + b) : c - b = a := by
   exact h
 
 /-
+#### A remark on type classes
+
+Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for `ℝ`?
+Wondering how Lean knows `a * 1 = a` and has relevant lemmas for that?
+This is because Lean knows that `ℝ` is an commutative ring.
+This is because in Mathlib, `ℝ` has been registered as an instance of the typeclass `CommRing`.
+So that once you `import Mathlib`, Lean automatically knows about the `CommRing` structure of `ℝ`.
+We might learn about typeclasses later in this course.
+-/
+
+#synth CommRing ℝ -- Checkout the `CommRing` instance that Mathlib provides for `ℝ`
+
+/-
 #### `funext` and `propext`
 
-Functional extensionality states that two functions are equal
+There are several ways to show a (propositional) equality other than `rfl` and `rw`.
+
+Functional extensionality `funext` states that two functions are equal
 if they give equal outputs for every input.
 
 It's a theorem in Lean's type theory, derived from the quotient axiom `Quot.sound`.
@@ -365,8 +347,8 @@ example (f g : ℝ → ℝ) (h : ∀ x : ℝ, f x = g x) : f = g := by
   exact h x
 
 /-
-Though rarely used in practice, propositional extensionality states that two propositions
-are equal if they are logically equivalent. It's admitted as an axiom in Lean.
+Though rarely used in practice, propositional extensionality `propext` states that
+two propositions are equal if they are logically equivalent. It's admitted as an axiom in Lean.
 
 [TODO] Discussions on it's necessity are welcome.
 -/
@@ -379,17 +361,64 @@ example (P Q : Prop) (mp : P → Q) (mpr : Q → P) : P = Q := by
   exact ⟨mp, mpr⟩
 
 /-
-#### A remark on type classes
+#### Definitional equality vs propositional equality
 
-Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for `ℝ`?
-Wondering how Lean knows `a * 1 = a` and has relevant lemmas for that?
-This is because Lean knows that `ℝ` is an commutative ring.
-This is because in Mathlib, `ℝ` has been registered as an instance of the typeclass `CommRing`.
-So that once you `import Mathlib`, Lean automatically knows about the `CommRing` structure of `ℝ`.
-We might learn about typeclasses later in this course.
+- Definitional equality is a meta-level concept, meaning that two terms are the same
+  by definition (i.e. they reduce to the same form).
+
+  - `def`, `theorem`-like commands
+  - Applications of functions
+
+  are examples of definitional equalities.
+
+  Type checking is determined up to definitional equality.
+  In fact, it's the sole responsibility of Lean's compiler to check definitional equalities.
+  `rfl` proves a definitional equality. (All? [TODO])
+
+- Propositional equality is
+
+  - defined as the inductive type `Eq` (notation `=`),
+
+  - constructed by the constructor `rfl` (reflexivity, i.e. `a = a`),
+    with `propext` and `Quot.sound` as extra axioms
+    (`funext` is an corollary of `Quot.sound`),
+
+  - eliminated by the `rw` tactic (in practice).
 -/
 
-#synth CommRing ℝ -- Checkout the `CommRing` instance that Mathlib provides for `ℝ`
+def myType := ℝ
+
+/- This won't compile, because Lean do not know a coercion of `ℕ → myType`. -/
+-- def myTypeNumber := (998244353 : myType)
+
+/-
+This passes the type check. because we manually build a bridge here:
+Lean knows the coercion `ℕ → ℝ` and that `myType` is definitionally equal to `ℝ`.
+-/
+def myTypeNumber : myType := (998244353 : ℝ)
+#check myTypeNumber
+
+/- This also passes the type check by the same reason. -/
+#check myTypeNumber = myNumber
+
+/-
+The type of `myNumber : ℕ` and `myTypeNumber : myType` are definitionally equal,
+thus the equality passes the type check.
+Their values are also definitionally equal, so you can prove their equality by `rfl`.
+-/
+example : myTypeNumber = myNumber := by rfl
+
+/-
+`abbrev` defines an abbreviation, which is like a `def`,
+but always expands when processed.
+This is useful for type synonyms.
+-/
+abbrev myAbbrev := ℝ
+def myAbbrevNumber : myAbbrev := 998244353
+#check myAbbrevNumber
+
+/- This won't compile. Propositional equality on types does not get the types check. -/
+-- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry
 
 end
 
@@ -398,5 +427,8 @@ end
 
 [TODO]
 -/
+
 #print Eq
 #print Equivalence
+#print Setoid
+#print PartialOrder
