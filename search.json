@@ -114,7 +114,7 @@
     "href": "05-type.html#defining-terms-and-functions",
     "title": "05-type.lean",
     "section": "2 Defining terms and functions",
-    "text": "2 Defining terms and functions\nRecall that you may use def to define your own terms.\ndef myNumber : ℝ := 998244353\n#check myNumber\ndef can also define functions.\n#check fun (x : ℝ) ↦ x * x\ndef square (x : ℝ) : ℝ := x * x\ndef square' : ℝ → ℝ := fun x ↦ x * x\n#print square\n#print square'\nBe open minded: you may even use tactic mode to define terms!\ndef square'' : ℝ → ℝ := by\n  intro x\n  exact x * x\n#print square''\n\ndef square_myNumber : ℝ := by\n  apply square\n  exact myNumber\n#print square_myNumber",
+    "text": "2 Defining terms and functions\nRecall that you may use def to define your own terms.\ndef myNumber : ℝ := 998244353\n#check myNumber\ndef can also define functions.\n#check fun (x : ℝ) ↦ x * x\ndef square (x : ℝ) : ℝ := x * x\ndef square' : ℝ → ℝ := fun x ↦ x * x\n#print square\n#print square'\nBe open minded: you may even use tactic mode to define terms!\ndef square'' : ℝ → ℝ := by\n  intro x\n  exact x * x\n#print square''\n\ndef square_myNumber : ℝ := by\n  apply square\n  exact myNumber\n#print square_myNumber\nTo manually unfold a definition in the tactic mode, you may use the unfold tactic.\nexample : square myNumber = 998244353 * 998244353 := by\n  unfold square\n  unfold myNumber\n  rfl",
     "crumbs": [
       "05-type.lean"
     ]
