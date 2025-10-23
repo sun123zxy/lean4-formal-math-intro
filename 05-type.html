@@ -331,17 +331,18 @@ MathJax = {
 <h3 data-number="4.1" class="anchored" data-anchor-id="handling-equality"><span class="header-section-number">4.1</span> Handling equality</h3>
 <div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (a b c : ℝ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The most basic way to show an equality is by tactic <code>rfl</code>: LHS is definitionally equal to RHS.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : myNumber = <span class="dv">998244353</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>rw</code> is a tactic that rewrites a goal by a given equality.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : a = b) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>sometimes you need to apply the equality in the reverse direction</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← hab]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab, hbc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>you may also apply the equality in the reverse direction</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← hab, hbc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You may also use <code>symm</code> tactic to swap an equality</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  symm <span class="fu">at</span> hab</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab, hbc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>or swap at the goal</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  symm</span>
@@ -374,13 +375,17 @@ MathJax = {
 <div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) + c = a + (c + b) <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_assoc, add_comm b c]</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_add</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) * c = c * a + c * b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [mul_comm, mul_add]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + b + c = c + a + b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_comm, add_assoc]</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) * (c + b) = a * c + a * b + b * c + b * b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_mul, mul_add, mul_add, ← add_assoc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_add</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) * c = c * a + c * b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [mul_comm, mul_add]</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + b) * (c + b) = a * c + a * b + b * c + b * b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_mul, mul_add, mul_add, ← add_assoc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="zero-and-one" class="level4">
 <h4 class="anchored" data-anchor-id="zero-and-one">Zero and one</h4>
