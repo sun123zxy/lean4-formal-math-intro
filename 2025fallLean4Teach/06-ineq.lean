@@ -5,7 +5,7 @@ import Mathlib
 
 - Inequality `PartialOrder`
 - `abs`, `min` and `max`
-- The Art of Theorem Finding (TAOTF) in Mathlib
+- The Art of Capturing Premises (TAOCP)
 - Wheelchair tactics
 
 ## Inequality
@@ -259,16 +259,16 @@ example (h : a + c ≤ b) : a ≤ b - c := by
 end
 
 /-
-## `abs`, `min`, `max` and The Art of Theorem Finding (TAOTF)
+## `abs`, `min`, `max` and TAOCP
 
-A mature for*malizer finds their theorems by themselves. TAOTF method includes:
+A mature formalizer finds their theorems by themselves.
+The art of capturing premises includes, but not limited to:
 
 - `exact?`
 - name guessing
 - natural language search engine: LeanSearch, LeanExplore, etc.
 - mathlib documentation
 - AI copilot completion
-- ...
 -/
 section
 
