@@ -5,6 +5,10 @@ import Mathlib
 
 In the previous chapter, we have seen that propositions are types in the `Prop` universe.
 In this chapter, we shall move up to the `Type` universe.
+
+- Numbers and Functions
+- Equality `Eq` (`=`) (first visit)
+- Arithmetic in `CommRing`
 -/
 
 /-
@@ -58,23 +62,23 @@ Detailing coercions would be another ocean of knowledge. We shall stop here for 
 
 Recall that you may use `def` to define your own terms.
 -/
-def myNumber : ℝ := 998244353
+def myNumber : ℚ := 998244353
 #check myNumber
 
 /- `def` can also define functions. -/
-#check fun (x : ℝ) ↦ x * x
-def square (x : ℝ) : ℝ := x * x
-def square' : ℝ → ℝ := fun x ↦ x * x
+#check fun (x : ℚ) ↦ x * x
+def square (x : ℚ) : ℚ := x * x
+def square' : ℚ → ℚ := fun x ↦ x * x
 #print square
 #print square'
 
 /- Be open minded: you may even use tactic mode to define terms! -/
-def square'' : ℝ → ℝ := by
+def square'' : ℚ → ℚ := by
   intro x
   exact x * x
 #print square''
 
-def square_myNumber : ℝ := by
+def square_myNumber : ℚ := by
   apply square
   exact myNumber
 #print square_myNumber
@@ -132,6 +136,39 @@ while terms in `Type` are distinguishable in general.
 This allows classical reasoning in `Prop`, and computation in `Type`.
 
 You may explore more on this in the previous logic chapters.
+
+### Remark
+
+Two questions arise naturally here:
+
+- Why `Prop` is separated from `Type`?
+
+  This is answered by the need of proof irrelevance.
+
+- Why `Prop` is at the bottom of the hierarchy?
+
+  We come up with two explanations ([TODO] discussions are welcome!):
+
+  - `Prop` is often compared to `Bool : Type`. This analogy validates the `Prop : Type` convention.
+
+    `Bool` has two values `true` and `false`, representing truth values, acting as a switch.
+    `Prop` may be viewed as a non-computatble version of `Bool`, switching by
+    whether a proposition is true or false.
+    e.g. In Mathlib, a subset of `α` is defined as a predicate `α → Prop`,
+    a relation on `α` is defined as `α → α → Prop`, etc.
+    But all of these are non-computable.
+    e.g. you cannot define a computable function by this switch.
+
+  - On determining universe levels of predicates and functions.
+
+    For a function `α → β` where `α : Type u` and `β : Type v`,
+    its should live in `Type (max u v)` naturally.
+    But recall `∀` and `∃` quantifiers from logic.
+    They eat `α → Prop` functions to produce propositions, living in `Prop`.
+    This means that `Prop` should be larger than any `Type u` to accommodate such functions.
+    As a convention, we put `Prop` at the bottom of the hierarchy to reflect this.
+    The true universe level of a function is `imax u v` if it maps from `Sort u` to `Sort v`,
+    where `imax` is the regular `max` except that `imax u 0 = imax 0 u = 0` for any `u`.
 -/
 
 /-
@@ -172,7 +209,7 @@ Do note that types of `a` and `b` must be the same, i.e. definitionally equal.
 ### Handling equality
 -/
 
-variable (a b c : ℝ)
+variable (a b c : ℚ)
 
 /-
 The most basic way to show an equality is by tactic `rfl`:
@@ -190,20 +227,20 @@ by the (inductive) definition of arithmetic operations over `ℕ`.
 example : 5 + 3 = 2 * 2 * 2 := by rfl
 
 /- `rw` is a tactic that rewrites a goal by a given equality. -/
-example (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c := by
+example (f : ℚ → ℚ) (hab : a = b) (hbc : b = c) : f a = f c := by
   rw [hab, hbc]
 
 /- you may also apply the equality in the reverse direction -/
-example (f : ℝ → ℝ) (hab : b = a) (hbc : b = c) : f a = f c := by
+example (f : ℚ → ℚ) (hab : b = a) (hbc : b = c) : f a = f c := by
   rw [← hab, hbc]
 
 /- You may also use `symm` tactic to swap an equality -/
-example (f : ℝ → ℝ) (hab : b = a) (hbc : b = c) : f a = f c := by
+example (f : ℚ → ℚ) (hab : b = a) (hbc : b = c) : f a = f c := by
   symm at hab
   rw [hab, hbc]
 
 /- or swap at the goal -/
-example (f : ℝ → ℝ) (hab : b = a) : f a = f b := by
+example (f : ℚ → ℚ) (hab : b = a) : f a = f b := by
   symm
   rw [hab]
 
@@ -213,14 +250,14 @@ example (hab : a = b) (hbc : b = c) : a = c := by
   exact hab
 
 /- `congr` tactic reduces the goal `f a = f b` to `a = b`. -/
-example (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c := by
+example (f : ℚ → ℚ) (hab : a = b) (hbc : b = c) : f a = f c := by
   congr
   rw [hab, hbc]
 
 /-
-### Work in `CommRing`
+### Working in `CommRing`
 
-Let's do some basic rewrites in commutative rings, e.g. `ℝ`.
+Let's do some basic rewrites in commutative rings, e.g. `ℚ`.
 -/
 
 /-
@@ -278,7 +315,7 @@ example : 1 * a + (0 + b) * 1 = a + b := by
    rw [one_mul, zero_add, mul_one]
 
 /- [EXR] uniqueness of zero -/
-example (o : ℝ) (h : ∀ x : ℝ, x + o = x) : o = 0 := by
+example (o : ℚ) (h : ∀ x : ℚ, x + o = x) : o = 0 := by
   specialize h 0
   rw [zero_add] at h
   exact h
@@ -311,6 +348,7 @@ example : c + a * (b + 0) = a * b + c := by
 (it exists in any commutative ring) to solve equalities automatically.
 `ring_nf (at h)` reduces the expression `h` to its canonical form.
 -/
+#help tactic ring -- check out the documentation
 example : (a + 1) * (b + 2) = a * b + 2 * a + b + 2 := by
   ring
 
@@ -332,15 +370,15 @@ example (h : c = a + b) : c - b = a := by
 /-
 #### A remark on type classes
 
-Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for `ℝ`?
+Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for `ℚ`?
 Wondering how Lean knows `a * 1 = a` and has relevant lemmas for that?
-This is because Lean knows that `ℝ` is an commutative ring.
-This is because in Mathlib, `ℝ` has been registered as an instance of the typeclass `CommRing`.
-So that once you `import Mathlib`, Lean automatically knows about the `CommRing` structure of `ℝ`.
+This is because Lean knows that `ℚ` is an commutative ring.
+This is because in Mathlib, `ℚ` has been registered as an instance of the typeclass `CommRing`.
+So that once you `import Mathlib`, Lean automatically knows about the `CommRing` structure of `ℚ`.
 We might learn about typeclasses later in this course.
 -/
 
-#synth CommRing ℝ -- Checkout the `CommRing` instance that Mathlib provides for `ℝ`
+#synth CommRing ℚ -- Checkout the `CommRing` instance that Mathlib provides for `ℚ`
 
 /-
 ### `funext` and `propext`
@@ -353,26 +391,28 @@ if they give equal outputs for every input.
 It's a theorem in Lean's type theory, derived from the quotient axiom `Quot.sound`.
 -/
 #check funext
-example (f g : ℝ → ℝ) (h : ∀ x : ℝ, f x = g x) : f = g := funext h
+example (f g : ℚ → ℚ) (h : ∀ x : ℚ, f x = g x) : f = g := funext h
 
 /- It has a tactic version `ext` / `funext` as well -/
-example (f g : ℝ → ℝ) (h : ∀ x : ℝ, f x = g x) : f = g := by
+example (f g : ℚ → ℚ) (h : ∀ x : ℚ, f x = g x) : f = g := by
   funext x
   exact h x
 
 /-
-Though rarely used in practice, propositional extensionality `propext` states that
-two propositions are equal if they are logically equivalent. It's admitted as an axiom in Lean.
-
-[TODO] Discussions on it's necessity are welcome.
+Propositional extensionality `propext` states that two propositions are equal
+if they are logically equivalent. It's admitted as an axiom in Lean.
 -/
 #check propext
 example (P Q : Prop) (h : P ↔ Q) : P = Q := propext h
 
-/- It has a tactic version as well -/
-example (P Q : Prop) (mp : P → Q) (mpr : Q → P) : P = Q := by
+/- It has a tactic version `ext` as well -/
+example (P Q : Prop) (h : P ↔ Q) : P = Q := by
   ext
-  exact ⟨mp, mpr⟩
+  exact h
+
+/- This allows you to `rw` an `iff` (`↔`) like an equality (`=`). -/
+example (P Q : Prop) (h : P ↔ Q) : P = Q := by
+  rw [h]
 
 /-
 ### Definitional equality vs propositional equality
@@ -400,23 +440,23 @@ example (P Q : Prop) (mp : P → Q) (mpr : Q → P) : P = Q := by
   - eliminated by the `rw` tactic (in practice).
 -/
 
-def myType := ℝ
+def myType := ℚ
 
 /- This won't compile, because Lean do not know a coercion of `ℕ → myType`. -/
 -- def myTypeNumber := (998244353 : myType)
 
 /-
 This passes the type check. because we manually build a bridge here:
-Lean knows the coercion `ℕ → ℝ` and that `myType` is definitionally equal to `ℝ`.
+Lean knows the coercion `ℕ → ℚ` and that `myType` is definitionally equal to `ℚ`.
 -/
-def myTypeNumber : myType := (998244353 : ℝ)
+def myTypeNumber : myType := (998244353 : ℚ)
 #check myTypeNumber
 
 /- This also passes the type check by the same reason. -/
 #check myTypeNumber = myNumber
 
 /-
-The type of `myNumber : ℕ` and `myTypeNumber : myType` are definitionally equal,
+The type of `myNumber : ℚ` and `myTypeNumber : myType` are definitionally equal,
 thus the equality passes the type check.
 Their values are also definitionally equal, so you can prove their equality by `rfl`.
 -/
@@ -427,7 +467,7 @@ example : myTypeNumber = myNumber := by rfl
 but always expands when processed.
 This is useful for type synonyms.
 -/
-abbrev myAbbrev := ℝ
+abbrev myAbbrev := ℚ
 def myAbbrevNumber : myAbbrev := 998244353
 #check myAbbrevNumber
 

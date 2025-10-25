@@ -220,8 +220,9 @@ tactic: `have`
 `have` helps you to state and prove a lemma in the middle of a proof.
 `have h : p := hp` adds the hypothesis `h : p` into the context,
 where `hp` is a proof of `p` that you provide.
--/
 
+`haveI` is similar to `have`, but it adds the hypothesis as `this`.
+-/
 example (hpq : p → q) (hqr : q → r) : p → r := by
   intro hp
   have hq : q := hpq hp

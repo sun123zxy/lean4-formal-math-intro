@@ -1,0 +1,10 @@
+---
+title: 05-type.lean
+
+number-sections: true
+
+format:
+  html: default
+---
+
+{{< lean-include ../2025fallLean4Teach/06-ineq.lean >}}

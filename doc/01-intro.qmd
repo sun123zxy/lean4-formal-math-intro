@@ -17,6 +17,9 @@ format:
 
 resources: 
   - 01-intro.lean
+
+aliases: 
+  - index.html
 ---
 
 # What is formalization
