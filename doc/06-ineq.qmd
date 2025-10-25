@@ -1,5 +1,5 @@
 ---
-title: 05-type.lean
+title: 06-ineq.lean
 
 number-sections: true
 

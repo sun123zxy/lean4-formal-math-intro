@@ -10,6 +10,8 @@ import Mathlib
 
 ## Inequality
 
+### Basics
+
 Inequality is determined by a partial order `PartialOrder`.
 A partial order is a relation with reflexivity, antisymmetry, and transitivity.
 In Lean, a relation means `α → α → Prop` for some type `α`,
@@ -62,17 +64,19 @@ example : a < b ↔ a ≤ b ∧ a ≠ b := by
       exact le_antisymm hab hba
 
 /-
-### Working in `[CommRing R] [LinearOrder R] [IsStrictOrderedRing R]`
-
 A linearly ordered commutative ring is a commutative ring
 with a total order s.t addition and multiplication are strictly monotone, e.g. `ℚ`.
+
+In Lean this reads `[CommRing R] [LinearOrder R] [IsStrictOrderedRing R]`.
+
+We will work with `ℚ` as an example afterwards.
 
 [TODO] For some reason, `LinearOrder ℚ` is constructed using classical logic.
 Don't be surprised if `#print axioms ...` shows some classical axioms.
 -/
 
 /-
-#### Pure order reasoning
+### Pure order reasoning
 -/
 
 /- `norm_num` tactic solves numerical equalities and inequalities automatically. -/
@@ -103,7 +107,7 @@ example (hab : a ≤ b) (hbc : b < c) : a < c := by
     _ < c := hbc
 
 /-
-#### Monotonicity of `+`
+### Monotonicity of `+`
 
 It's important to recognize that the (strict) monotonicity of `+` is a nontrivial theorem.
 That is a part of the meaning of `IsStrictOrderedRing`.
@@ -154,9 +158,14 @@ example (h : a + b < c + d) : a - d < c - b := by
   sorry
 
 /-
-#### Automation
+### Automation
 
 Tired of these? Use automation!
+-/
+
+/-
+#### `linarith`
+
 `linarith` is a powerful tactic that solves linear inequalities automatically.
 -/
 #help tactic linarith
@@ -210,6 +219,8 @@ example (hab : a < b) : ∃ c : ℚ, a < c ∧ c < b := by
   all_goals linarith
 
 /-
+#### `simp`
+
 `add_lt_add_iff_right`-like theorems are registered for `simp`,
 so sometimes `simp` can reduce things like:
 -/
@@ -218,6 +229,8 @@ example (h : a + b < c + b) : a < c := by
   exact h
 
 /-
+#### `apply_fun`
+
 Sometimes you would like to `apply_fun` at an inequality.
 This requires you to manually show the monotonicity of the function.
 -/
@@ -238,7 +251,7 @@ example (h : a + c ≤ b) : a ≤ b - c := by
     simp
 
 /-
-#### Monotonicity of `*`
+### Monotonicity of `*`
 
 [TODO] It's not needed in the course so far, so we skip it for now.
 -/
@@ -324,6 +337,10 @@ example : |(|a| - |b|)| ≤ |a + b| := by
     grw [this]
     ring_nf
     simp
+
+/-
+[TODO] `min`, `max`
+-/
 
 end
 
