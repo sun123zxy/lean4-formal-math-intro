@@ -151,6 +151,12 @@ MathJax = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./00-poster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">形式化数学与 Lean 4 定理证明入门</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Formal Mathematics with Lean 4</span></a>
   </div>
@@ -185,6 +191,18 @@ MathJax = {
  <span class="menu-text">05-type.lean</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-ineq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-type.lean</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-type.lean</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -199,11 +217,14 @@ MathJax = {
   <ul class="collapse">
   <li><a href="#numbers" id="toc-numbers" class="nav-link" data-scroll-target="#numbers"><span class="header-section-number">1</span> Numbers</a></li>
   <li><a href="#defining-terms-and-functions" id="toc-defining-terms-and-functions" class="nav-link" data-scroll-target="#defining-terms-and-functions"><span class="header-section-number">2</span> Defining terms and functions</a></li>
-  <li><a href="#universe-hierarchy" id="toc-universe-hierarchy" class="nav-link" data-scroll-target="#universe-hierarchy"><span class="header-section-number">3</span> Universe hierarchy</a></li>
+  <li><a href="#universe-hierarchy" id="toc-universe-hierarchy" class="nav-link" data-scroll-target="#universe-hierarchy"><span class="header-section-number">3</span> Universe hierarchy</a>
+  <ul class="collapse">
+  <li><a href="#remark" id="toc-remark" class="nav-link" data-scroll-target="#remark"><span class="header-section-number">3.1</span> Remark</a></li>
+  </ul></li>
   <li><a href="#equality-eq-first-visit" id="toc-equality-eq-first-visit" class="nav-link" data-scroll-target="#equality-eq-first-visit"><span class="header-section-number">4</span> Equality <code>Eq</code> (<code>=</code>) (first visit)</a>
   <ul class="collapse">
   <li><a href="#handling-equality" id="toc-handling-equality" class="nav-link" data-scroll-target="#handling-equality"><span class="header-section-number">4.1</span> Handling equality</a></li>
-  <li><a href="#work-in-commring" id="toc-work-in-commring" class="nav-link" data-scroll-target="#work-in-commring"><span class="header-section-number">4.2</span> Work in <code>CommRing</code></a></li>
+  <li><a href="#working-in-commring" id="toc-working-in-commring" class="nav-link" data-scroll-target="#working-in-commring"><span class="header-section-number">4.2</span> Working in <code>CommRing</code></a></li>
   <li><a href="#funext-and-propext" id="toc-funext-and-propext" class="nav-link" data-scroll-target="#funext-and-propext"><span class="header-section-number">4.3</span> <code>funext</code> and <code>propext</code></a></li>
   <li><a href="#definitional-equality-vs-propositional-equality" id="toc-definitional-equality-vs-propositional-equality" class="nav-link" data-scroll-target="#definitional-equality-vs-propositional-equality"><span class="header-section-number">4.4</span> Definitional equality vs propositional equality</a></li>
   </ul></li>
@@ -238,6 +259,11 @@ MathJax = {
 <section id="from-prop-to-type" class="level1" data-number="">
 <h1 data-number=""><span class="header-section-number"></span> From <code>Prop</code> to <code>Type</code></h1>
 <p>In the previous chapter, we have seen that propositions are types in the <code>Prop</code> universe. In this chapter, we shall move up to the <code>Type</code> universe.</p>
+<ul>
+<li>Numbers and Functions</li>
+<li>Equality <code>Eq</code> (<code>=</code>) (first visit)</li>
+<li>Arithmetic in <code>CommRing</code></li>
+</ul>
 <section id="numbers" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="numbers"><span class="header-section-number">1</span> Numbers</h2>
 <p>Lean and Mathlib have many built-in types for numbers, including</p>
@@ -266,21 +292,21 @@ MathJax = {
 <section id="defining-terms-and-functions" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="defining-terms-and-functions"><span class="header-section-number">2</span> Defining terms and functions</h2>
 <p>Recall that you may use <code>def</code> to define your own terms.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yNumber : ℝ <span class="op">:=</span> <span class="dv">998244353</span></span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yNumber : ℚ <span class="op">:=</span> <span class="dv">998244353</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>def</code> can also define functions.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">fun</span> (x : ℝ) ↦ x * x</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">s</span>quare (x : ℝ) : ℝ <span class="op">:=</span> x * x</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">s</span>quare' : ℝ → ℝ <span class="op">:=</span> <span class="kw">fun</span> x ↦ x * x</span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">fun</span> (x : ℚ) ↦ x * x</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">s</span>quare (x : ℚ) : ℚ <span class="op">:=</span> x * x</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">s</span>quare' : ℚ → ℚ <span class="op">:=</span> <span class="kw">fun</span> x ↦ x * x</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> square</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> square'</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Be open minded: you may even use tactic mode to define terms!</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">s</span>quare'' : ℝ → ℝ <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">s</span>quare'' : ℚ → ℚ <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> x * x</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> square''</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">s</span>quare_myNumber : ℝ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">s</span>quare_myNumber : ℚ <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> square</span>
 <span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> myNumber</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> square_myNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -320,6 +346,22 @@ MathJax = {
 <p>At most times, you don’t need to care about universe levels above <code>Type</code>. But do recall the critical difference between <code>Prop</code> and <code>Type</code>:</p>
 <p>Terms in <code>Prop</code>, i.e.&nbsp;proofs, are <em>proof-irrelevant</em>, i.e.&nbsp;all proofs of the same proposition are considered equal, while terms in <code>Type</code> are distinguishable in general. This allows classical reasoning in <code>Prop</code>, and computation in <code>Type</code>.</p>
 <p>You may explore more on this in the previous logic chapters.</p>
+<section id="remark" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="remark"><span class="header-section-number">3.1</span> Remark</h3>
+<p>Two questions arise naturally here:</p>
+<ul>
+<li><p>Why <code>Prop</code> is separated from <code>Type</code>?</p>
+<p>This is answered by the need of proof irrelevance.</p></li>
+<li><p>Why <code>Prop</code> is at the bottom of the hierarchy?</p>
+<p>We come up with two explanations ([TODO] discussions are welcome!):</p>
+<ul>
+<li><p><code>Prop</code> is often compared to <code>Bool : Type</code>. This analogy validates the <code>Prop : Type</code> convention.</p>
+<p><code>Bool</code> has two values <code>true</code> and <code>false</code>, representing truth values, acting as a switch. <code>Prop</code> may be viewed as a non-computatble version of <code>Bool</code>, switching by whether a proposition is true or false. e.g.&nbsp;In Mathlib, a subset of <code>α</code> is defined as a predicate <code>α → Prop</code>, a relation on <code>α</code> is defined as <code>α → α → Prop</code>, etc. But all of these are non-computable. e.g.&nbsp;you cannot define a computable function by this switch.</p></li>
+<li><p>On determining universe levels of predicates and functions.</p>
+<p>For a function <code>α → β</code> where <code>α : Type u</code> and <code>β : Type v</code>, its should live in <code>Type (max u v)</code> naturally. But recall <code>∀</code> and <code>∃</code> quantifiers from logic. They eat <code>α → Prop</code> functions to produce propositions, living in <code>Prop</code>. This means that <code>Prop</code> should be larger than any <code>Type u</code> to accommodate such functions. As a convention, we put <code>Prop</code> at the bottom of the hierarchy to reflect this. The true universe level of a function is <code>imax u v</code> if it maps from <code>Sort u</code> to <code>Sort v</code>, where <code>imax</code> is the regular <code>max</code> except that <code>imax u 0 = imax 0 u = 0</code> for any <code>u</code>.</p></li>
+</ul></li>
+</ul>
+</section>
 </section>
 <section id="equality-eq-first-visit" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="equality-eq-first-visit"><span class="header-section-number">4</span> Equality <code>Eq</code> (<code>=</code>) (first visit)</h2>
@@ -339,7 +381,7 @@ MathJax = {
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- #check 1 + 1 = Nat -- this won't compile. Eq requires both sides to have the same type.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="handling-equality" class="level3" data-number="4.1">
 <h3 data-number="4.1" class="anchored" data-anchor-id="handling-equality"><span class="header-section-number">4.1</span> Handling equality</h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (a b c : ℝ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (a b c : ℚ)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The most basic way to show an equality is by tactic <code>rfl</code>: LHS is definitionally equal to RHS.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note that <code>myNumber</code> is definitionally equal to <code>998244353</code>.</p>
@@ -347,17 +389,17 @@ MathJax = {
 <p><code>rfl</code> can even solve simple evaluations, because both sides reduce to <code>8</code> by the (inductive) definition of arithmetic operations over <code>ℕ</code>.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">5</span> + <span class="dv">3</span> = <span class="dv">2</span> * <span class="dv">2</span> * <span class="dv">2</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>rw</code> is a tactic that rewrites a goal by a given equality.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℚ → ℚ) (hab : a = b) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab, hbc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>you may also apply the equality in the reverse direction</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℚ → ℚ) (hab : b = a) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← hab, hbc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You may also use <code>symm</code> tactic to swap an equality</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℚ → ℚ) (hab : b = a) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  symm <span class="fu">at</span> hab</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab, hbc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>or swap at the goal</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : b = a) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℚ → ℚ) (hab : b = a) : f a = f b <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  symm</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You may also rewrite at a hypothesis.</p>
@@ -365,13 +407,13 @@ MathJax = {
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hbc] <span class="fu">at</span> hab</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>congr</code> tactic reduces the goal <code>f a = f b</code> to <code>a = b</code>.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℝ → ℝ) (hab : a = b) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f : ℚ → ℚ) (hab : a = b) (hbc : b = c) : f a = f c <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">congr</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [hab, hbc]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="work-in-commring" class="level3" data-number="4.2">
-<h3 data-number="4.2" class="anchored" data-anchor-id="work-in-commring"><span class="header-section-number">4.2</span> Work in <code>CommRing</code></h3>
-<p>Let’s do some basic rewrites in commutative rings, e.g.&nbsp;<code>ℝ</code>.</p>
+<section id="working-in-commring" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="working-in-commring"><span class="header-section-number">4.2</span> Working in <code>CommRing</code></h3>
+<p>Let’s do some basic rewrites in commutative rings, e.g.&nbsp;<code>ℚ</code>.</p>
 <section id="commutativity-and-associativity" class="level4">
 <h4 class="anchored" data-anchor-id="commutativity-and-associativity">Commutativity and associativity</h4>
 <div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_comm</span>
@@ -420,7 +462,7 @@ MathJax = {
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">1</span> * a + (<span class="dv">0</span> + b) * <span class="dv">1</span> = a + b <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>   <span class="fu">rw</span> [one_mul, zero_add, mul_one]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] uniqueness of zero</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (o : ℝ) (h : <span class="kw">∀</span> x : ℝ, x + o = x) : o = <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (o : ℚ) (h : <span class="kw">∀</span> x : ℚ, x + o = x) : o = <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> h <span class="dv">0</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [zero_add] <span class="fu">at</span> h</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -442,8 +484,9 @@ MathJax = {
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [add_comm]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>ring</code> tactic is even stronger: it reduces LHS and RHS to a canonical form (it exists in any commutative ring) to solve equalities automatically. <code>ring_nf (at h)</code> reduces the expression <code>h</code> to its canonical form.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + <span class="dv">1</span>) * (b + <span class="dv">2</span>) = a * b + <span class="dv">2</span> * a + b + <span class="dv">2</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">ring</span> <span class="co">-- check out the documentation</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a + <span class="dv">1</span>) * (b + <span class="dv">2</span>) = a * b + <span class="dv">2</span> * a + b + <span class="dv">2</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>apply_fun at h</code> tactic applies a function to both sides of an equality hypothesis <code>h</code>. Combined with <code>simp</code> and <code>ring</code>, it make transpotions easier.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + c = b + c) : a = b <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (<span class="kw">fun</span> x ↦ x - c) <span class="fu">at</span> h</span>
@@ -457,8 +500,8 @@ MathJax = {
 </section>
 <section id="a-remark-on-type-classes" class="level4">
 <h4 class="anchored" data-anchor-id="a-remark-on-type-classes">A remark on type classes</h4>
-<p>Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for <code>ℝ</code>? Wondering how Lean knows <code>a * 1 = a</code> and has relevant lemmas for that? This is because Lean knows that <code>ℝ</code> is an commutative ring. This is because in Mathlib, <code>ℝ</code> has been registered as an instance of the typeclass <code>CommRing</code>. So that once you <code>import Mathlib</code>, Lean automatically knows about the <code>CommRing</code> structure of <code>ℝ</code>. We might learn about typeclasses later in this course.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>#synth CommRing ℝ <span class="co">-- Checkout the `CommRing` instance that Mathlib provides for `ℝ`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Wondering how Lean knows that commutativity, associativity, distributivity, etc. hold for <code>ℚ</code>? Wondering how Lean knows <code>a * 1 = a</code> and has relevant lemmas for that? This is because Lean knows that <code>ℚ</code> is an commutative ring. This is because in Mathlib, <code>ℚ</code> has been registered as an instance of the typeclass <code>CommRing</code>. So that once you <code>import Mathlib</code>, Lean automatically knows about the <code>CommRing</code> structure of <code>ℚ</code>. We might learn about typeclasses later in this course.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>#synth CommRing ℚ <span class="co">-- Checkout the `CommRing` instance that Mathlib provides for `ℚ`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="funext-and-propext" class="level3" data-number="4.3">
@@ -467,19 +510,21 @@ MathJax = {
 <p>Functional extensionality <code>funext</code> states that two functions are equal if they give equal outputs for every input.</p>
 <p>It’s a theorem in Lean’s type theory, derived from the quotient axiom <code>Quot.sound</code>.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">funext</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f g : ℝ → ℝ) (h : <span class="kw">∀</span> x : ℝ, f x = g x) : f = g <span class="op">:=</span> <span class="fu">funext</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f g : ℚ → ℚ) (h : <span class="kw">∀</span> x : ℚ, f x = g x) : f = g <span class="op">:=</span> <span class="fu">funext</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It has a tactic version <code>ext</code> / <code>funext</code> as well</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f g : ℝ → ℝ) (h : <span class="kw">∀</span> x : ℝ, f x = g x) : f = g <span class="op">:=</span> <span class="kw">by</span></span>
+<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f g : ℚ → ℚ) (h : <span class="kw">∀</span> x : ℚ, f x = g x) : f = g <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">funext</span> x</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Though rarely used in practice, propositional extensionality <code>propext</code> states that two propositions are equal if they are logically equivalent. It’s admitted as an axiom in Lean.</p>
-<p>[TODO] Discussions on it’s necessity are welcome.</p>
+<p>Propositional extensionality <code>propext</code> states that two propositions are equal if they are logically equivalent. It’s admitted as an axiom in Lean.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">propext</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (P Q : <span class="fu">Prop</span>) (h : P ↔ Q) : P = Q <span class="op">:=</span> <span class="fu">propext</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>It has a tactic version as well</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (P Q : <span class="fu">Prop</span>) (mp : P → Q) (mpr : Q → P) : P = Q <span class="op">:=</span> <span class="kw">by</span></span>
+<p>It has a tactic version <code>ext</code> as well</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (P Q : <span class="fu">Prop</span>) (h : P ↔ Q) : P = Q <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  ext</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> ⟨mp, mpr⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This allows you to <code>rw</code> an <code>iff</code> (<code>↔︎</code>) like an equality (<code>=</code>).</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (P Q : <span class="fu">Prop</span>) (h : P ↔ Q) : P = Q <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [h]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="definitional-equality-vs-propositional-equality" class="level3" data-number="4.4">
 <h3 data-number="4.4" class="anchored" data-anchor-id="definitional-equality-vs-propositional-equality"><span class="header-section-number">4.4</span> Definitional equality vs propositional equality</h3>
@@ -498,33 +543,33 @@ MathJax = {
 <li><p>eliminated by the <code>rw</code> tactic (in practice).</p></li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb40"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yType <span class="op">:=</span> ℝ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yType <span class="op">:=</span> ℚ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This won’t compile, because Lean do not know a coercion of <code>ℕ → myType</code>.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- def myTypeNumber := (998244353 : myType)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This passes the type check. because we manually build a bridge here: Lean knows the coercion <code>ℕ → ℝ</code> and that <code>myType</code> is definitionally equal to <code>ℝ</code>.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yTypeNumber : myType <span class="op">:=</span> (<span class="dv">998244353</span> : ℝ)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- def myTypeNumber := (998244353 : myType)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This passes the type check. because we manually build a bridge here: Lean knows the coercion <code>ℕ → ℚ</code> and that <code>myType</code> is definitionally equal to <code>ℚ</code>.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yTypeNumber : myType <span class="op">:=</span> (<span class="dv">998244353</span> : ℚ)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This also passes the type check by the same reason.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber = myNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The type of <code>myNumber : ℕ</code> and <code>myTypeNumber : myType</code> are definitionally equal, thus the equality passes the type check. Their values are also definitionally equal, so you can prove their equality by <code>rfl</code>.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : myTypeNumber = myNumber <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber = myNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The type of <code>myNumber : ℚ</code> and <code>myTypeNumber : myType</code> are definitionally equal, thus the equality passes the type check. Their values are also definitionally equal, so you can prove their equality by <code>rfl</code>.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : myTypeNumber = myNumber <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>abbrev</code> defines an abbreviation, which is like a <code>def</code>, but always expands when processed. This is useful for type synonyms.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>abbrev myAbbrev <span class="op">:=</span> ℝ</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yAbbrevNumber : myAbbrev <span class="op">:=</span> <span class="dv">998244353</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myAbbrevNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>abbrev myAbbrev <span class="op">:=</span> ℚ</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yAbbrevNumber : myAbbrev <span class="op">:=</span> <span class="dv">998244353</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myAbbrevNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This won’t compile. Propositional equality on types does not get the types check.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="equality-second-visit" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="equality-second-visit"><span class="header-section-number">5</span> Equality (second visit)</h2>
 <p>[TODO]</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Eq</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Equivalence</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Setoid</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> PartialOrder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Eq</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Equivalence</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Setoid</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> PartialOrder</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

@@ -151,6 +151,12 @@ MathJax = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./00-poster.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">形式化数学与 Lean 4 定理证明入门</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction to Formal Mathematics with Lean 4</span></a>
   </div>
@@ -182,6 +188,18 @@ MathJax = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-type.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-type.lean</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-ineq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-type.lean</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">05-type.lean</span></a>
   </div>
 </li>
@@ -348,6 +366,7 @@ MathJax = {
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hqr hpq</span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hqr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>tactic: <code>have</code> <code>have</code> helps you to state and prove a lemma in the middle of a proof. <code>have h : p := hp</code> adds the hypothesis <code>h : p</code> into the context, where <code>hp</code> is a proof of <code>p</code> that you provide.</p>
+<p><code>haveI</code> is similar to <code>have</code>, but it adds the hypothesis as <code>this</code>.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hpq : p → q) (hqr : q → r) : p → r <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hp</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hq : q <span class="op">:=</span> hpq hp</span>
