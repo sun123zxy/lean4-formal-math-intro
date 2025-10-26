@@ -294,7 +294,7 @@
     "href": "02-logic.html",
     "title": "02-logic.lean",
     "section": "",
-    "text": "import Mathlib\nYou may skip the materials tagged with [IGNORE] for the first runthrough. Most of them are here to illustrate the nature of inductive types, which may be too advanced for beginners.\nMaterials tagged with [EXR] are recommended for you to try before looking at the solution.",
+    "text": "import Mathlib\nYou may skip the materials tagged with [IGNORE] for the first runthrough. Most of them are here to illustrate the nature of inductive types, which may be too advanced for beginners.\nMaterials tagged with [EXR] are recommended for you to try before looking at the solution.\nMaterials tagged with [TODO] means that I’m still working on it, or I’m not sure about the content yet. Feel free to give your suggestions!",
     "crumbs": [
       "02-logic.lean"
     ]
