@@ -167,6 +167,8 @@ Tired of these? Use automation!
 #### `linarith`
 
 `linarith` is a powerful tactic that solves linear inequalities automatically.
+It uses hypotheses in the context and basic properties of linear orders
+to deduce the goal.
 -/
 #help tactic linarith
 
@@ -368,3 +370,8 @@ Do try them when you feel tired of trivial steps.
 #help tactic aesop
 #help tactic grind
 #help tactic tauto
+
+/-
+A tactic cheatsheet is available at
+[lean-tactics.pdf](leanprover-community.github.io/papers/lean-tactics.pdf)
+-/

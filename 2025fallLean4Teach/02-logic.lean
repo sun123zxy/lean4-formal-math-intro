@@ -192,10 +192,8 @@ example (hpq : p → q) (hqr : q → r) : p → r := by
   exact hp
 
 /-
-Above tactics are minimal and sufficient for simple proofs.
-
+[IGNORE] Above tactics are minimal and sufficient for simple proofs.
 When proofs went more complicated, you may want more tactics that suit your needs.
-
 Remember your favorite tactics and use them accordingly.
 -/
 

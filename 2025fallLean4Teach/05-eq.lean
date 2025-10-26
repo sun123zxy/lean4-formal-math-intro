@@ -1,14 +1,18 @@
 import Mathlib
 
 /-
-# From `Prop` to `Type`
+# `Type*` and Equality
 
 In the previous chapter, we have seen that propositions are types in the `Prop` universe.
-In this chapter, we shall move up to the `Type` universe.
+In this chapter, we shall move up to the `Type*` universe,
+and see how the most fundamental notion in mathematics, equality, works there.
 
-- Numbers and Functions
+- Numbers
+- Universe hierarchy
 - Equality `Eq` (`=`) (first visit)
-- Arithmetic in `CommRing`
+  - Arithmetic in `CommRing`
+- Defining terms and functions
+  - Definitional equality vs propositional equality
 -/
 
 /-
@@ -56,41 +60,6 @@ Note how the type of a number is interpreted and *implicitly coerced*.
 like mathematicians always do.
 Detailing coercions would be another ocean of knowledge. We shall stop here for now.
 -/
-
-/-
-## Defining terms and functions
-
-Recall that you may use `def` to define your own terms.
--/
-def myNumber : ℚ := 998244353
-#check myNumber
-
-/- `def` can also define functions. -/
-#check fun (x : ℚ) ↦ x * x
-def square (x : ℚ) : ℚ := x * x
-def square' : ℚ → ℚ := fun x ↦ x * x
-#print square
-#print square'
-
-/- Be open minded: you may even use tactic mode to define terms! -/
-def square'' : ℚ → ℚ := by
-  intro x
-  exact x * x
-#print square''
-
-def square_myNumber : ℚ := by
-  apply square
-  exact myNumber
-#print square_myNumber
-
-/-
-To manually unfold a definition in the tactic mode,
-you may use the `unfold` tactic.
--/
-example : square myNumber = 998244353 * 998244353 := by
-  unfold square
-  unfold myNumber
-  rfl
 
 /-
 ## Universe hierarchy
@@ -176,16 +145,16 @@ Two questions arise naturally here:
 
 Equality is a fundamental notation in mathematics, but also a major victim of *abuse of notation*.
 Though trained experts can usually tell from context what kind of equality is meant,
-it is still hopelessly confusing.
+things still become hopelessly confusing from time to time.
 
 In set theory, by axiom of extensionality, two sets are equal if and only if
 they have the same elements.
 
 In Lean's type theory, we distinguish between different equalities:
 
-- Definitional equality
-- Propositional equality (`Eq`, i.e. `=`)
-- Heterogeneous equality (We shall not touch this)
+- *Definitional equality*
+- *Propositional equality* (`Eq`, i.e. `=`)
+- *Heterogeneous equality* (We shall not touch this)
 
 We shall now show the basic usage of `=` in Lean, mostly in tactic mode.
 We detail a little on the difference between
@@ -216,15 +185,11 @@ The most basic way to show an equality is by tactic `rfl`:
 LHS is definitionally equal to RHS.
 -/
 example : a = a := by rfl
-
-/- Note that `myNumber` is definitionally equal to `998244353`. -/
-example : myNumber = 998244353 := by rfl
-
 /-
-`rfl` can even solve simple evaluations, because both sides reduce to `8`
-by the (inductive) definition of arithmetic operations over `ℕ`.
+Note that `rfl` works for not only literally-the-same terms,
+but also definitionally equal terms.
+We'll detail definitional equality afterwards.
 -/
-example : 5 + 3 = 2 * 2 * 2 := by rfl
 
 /- `rw` is a tactic that rewrites a goal by a given equality. -/
 example (f : ℚ → ℚ) (hab : a = b) (hbc : b = c) : f a = f c := by
@@ -235,6 +200,7 @@ example (f : ℚ → ℚ) (hab : b = a) (hbc : b = c) : f a = f c := by
   rw [← hab, hbc]
 
 /- You may also use `symm` tactic to swap an equality -/
+#help tactic symm
 example (f : ℚ → ℚ) (hab : b = a) (hbc : b = c) : f a = f c := by
   symm at hab
   rw [hab, hbc]
@@ -250,6 +216,7 @@ example (hab : a = b) (hbc : b = c) : a = c := by
   exact hab
 
 /- `congr` tactic reduces the goal `f a = f b` to `a = b`. -/
+#help tactic congr
 example (f : ℚ → ℚ) (hab : a = b) (hbc : b = c) : f a = f c := by
   congr
   rw [hab, hbc]
@@ -339,6 +306,7 @@ Had enough of these tedious rewrites? Automation makes your life easier.
 `simp (at h)` tactic eliminates `0` and `1` automatically.
 `simp?` shows you what lemmas `simp` used.
 -/
+#help tactic simp
 example : c + a * (b + 0) = a * b + c := by
   simp
   rw [add_comm]
@@ -356,6 +324,7 @@ example : (a + 1) * (b + 2) = a * b + 2 * a + b + 2 := by
 `apply_fun at h` tactic applies a function to both sides of an equality hypothesis `h`.
 Combined with `simp` and `ring`, it make transpotions easier.
 -/
+#help tactic apply_fun
 example (h : a + c = b + c) : a = b := by
   apply_fun (fun x ↦ x - c) at h
   simp at h
@@ -394,6 +363,7 @@ It's a theorem in Lean's type theory, derived from the quotient axiom `Quot.soun
 example (f g : ℚ → ℚ) (h : ∀ x : ℚ, f x = g x) : f = g := funext h
 
 /- It has a tactic version `ext` / `funext` as well -/
+#help tactic funext
 example (f g : ℚ → ℚ) (h : ∀ x : ℚ, f x = g x) : f = g := by
   funext x
   exact h x
@@ -406,6 +376,7 @@ if they are logically equivalent. It's admitted as an axiom in Lean.
 example (P Q : Prop) (h : P ↔ Q) : P = Q := propext h
 
 /- It has a tactic version `ext` as well -/
+#help tactic ext
 example (P Q : Prop) (h : P ↔ Q) : P = Q := by
   ext
   exact h
@@ -415,29 +386,166 @@ example (P Q : Prop) (h : P ↔ Q) : P = Q := by
   rw [h]
 
 /-
+## Defining terms and functions
+
+We now come back to detail a little on the exact power of `rfl`,
+i.e. what is the meaning of definitional equality.
+
+First, we show how to define terms and functions in Lean.
+
+### Global definitions
+
+Recall that you may use `def` to define your own terms.
+-/
+def myNumber : ℚ := 998244353
+#check myNumber
+
+/- `def` can also define functions. -/
+#check fun (x : ℚ) ↦ x * x
+def square (x : ℚ) : ℚ := x * x
+def square' : ℚ → ℚ := fun x ↦ x * x
+#print square
+#print square'
+
+/- Be open minded: you may even use tactic mode to define terms! -/
+def square'' : ℚ → ℚ := by
+  intro x
+  exact x * x
+#print square''
+
+def square_myNumber : ℚ := by
+  apply square
+  exact myNumber
+#print square_myNumber
+
+/-
+### Local definitions
+
+You may also define local terms and functions using `let`.
+It may be used in both term mode and tactic mode.
+-/
+#help tactic let
+
+example : ℚ := by
+  let a : ℚ := 3
+  let b : ℚ := 4
+  exact square (a + b)
+
+example : ℚ :=
+  let a : ℚ := 3
+  let b : ℚ := 4
+  square (a + b)
+
+example : let a := 4; let b := 4; a = b := rfl
+
+/-
+Sometimes you want an alias for a complex term.
+`set` tactic is a variant of `let` that automatically replaces
+all occurrences of the defined term.
+-/
+#help tactic set
+
+example (a b c : ℕ) : 0 = a + b - (a + b) := by
+  set d := a + b
+  simp
+
+/-
+It's crucial to distinguish between `let` and `have`:
+`let` saves the term of the definition for later use,
+but `have` is "opaque": it won't let you unfold the definition later.
+Thus naturally, `let` is often used for `Type*`s, and `have` is used for `Prop`s.
+-/
+
+example : 3 = 3 := by
+  let a := 3
+  let b := 3
+  have h : a = b := rfl
+  exact h
+
+example : 3 = 3 := by
+  have a := 3
+  have b := 3
+  -- have h : a = b := rfl
+  sorry -- above won't compile
+
+/- [TODO] Explain why it works here. -/
+example : have a := 3; have b := 3; a = b := rfl
+
+/-
+### Unfolding definitions
+
+To manually unfold a definition in the tactic mode,
+you may use the `rw (at h)` tactic or the `unfold (at h)` tactic.
+-/
+#help tactic unfold
+example : square myNumber = 998244353 * 998244353 := by
+  rw [square]
+  unfold myNumber
+  rfl
+
+/-
+For local (non-`have`) definitions, you may use `unfold` as well.
+Though sadly `rw` does not work for local definitions for now.
+-/
+example (a b : ℕ): (a + b) - (a + b) = 0 := by
+  set d := a + b
+  unfold d
+  simp
+
+/-
+Luckily, `have`, `let` and `set` all allows you
+to obtain a propositional equality when defining.
+(Technically this is not an unfolding, though.)
+-/
+example (a b : ℕ) : (a + b) - (a + b) = 0 := by
+  let (eq := h1) d1 := a + b
+  have (eq := h2) d2 := a + b
+  set d3 := a + b with h3
+  simp
+
+/-
 ### Definitional equality vs propositional equality
 
-- Definitional equality is a meta-level concept, meaning that two terms are the same
-  by definition (i.e. they reduce to the same form).
+[IGNORE] Skip this if you find it confusing for the first time.
+You can recall this when we deal with quotient types.
 
-  - `def`, `theorem`-like commands
-  - Applications of functions
+Definitional equality means that two terms are the same
+by definition (i.e. they reduce to the same form).
 
-  are examples of definitional equalities.
+- `def`, `theorem`-like commands
+- Applications of functions
 
-  Type checking is determined up to definitional equality.
-  In fact, it's the sole responsibility of Lean's compiler to check definitional equalities.
-  `rfl` proves a definitional equality. (All? [TODO])
+are examples of definitional equalities.
 
-- Propositional equality is
+It is a meta-level concept, it cannot be stated as a proposition.
+-/
 
-  - defined as the inductive type `Eq` (notation `=`),
+/-
+#### `rfl`
 
-  - constructed by the constructor `rfl` (reflexivity, i.e. `a = a`),
-    with `propext` and `Quot.sound` as extra axioms
-    (`funext` is an corollary of `Quot.sound`),
+`rfl` proves a definitional equality. (All? [TODO])
+-/
 
-  - eliminated by the `rw` tactic (in practice).
+/- Note that `myNumber` is definitionally equal to `998244353`. -/
+example : myNumber = 998244353 := by rfl
+
+/-
+`rfl` can even solve simple evaluations, because both sides reduce to `8`
+by the (inductive) definition of arithmetic operations over `ℕ`.
+-/
+#help tactic rfl
+example : 5 + 3 = 2 * 2 * 2 := by rfl
+
+/-
+#### Type checking
+
+Type checking is determined up to definitional equality.
+
+In fact, it's the sole responsibility
+of Lean's compiler to check definitional equalities.
+
+An failure of definitional equality results in a type error.
+That is, it is regarded as invalid Lean code.
 -/
 
 def myType := ℚ
@@ -452,7 +560,7 @@ Lean knows the coercion `ℕ → ℚ` and that `myType` is definitionally equal 
 def myTypeNumber : myType := (998244353 : ℚ)
 #check myTypeNumber
 
-/- This also passes the type check by the same reason. -/
+/- This also passes the type check for the same reason. -/
 #check myTypeNumber = myNumber
 
 /-
@@ -471,7 +579,25 @@ abbrev myAbbrev := ℚ
 def myAbbrevNumber : myAbbrev := 998244353
 #check myAbbrevNumber
 
-/- This won't compile. Propositional equality on types does not get the types check. -/
+/-
+#### Propositional equality
+
+Propositional equality is
+
+- defined as the inductive type `Eq` (notation `=`),
+
+- constructed by the constructor `rfl` (reflexivity, i.e. `a = a`),
+  with `propext` and `Quot.sound` as extra axioms
+  (`funext` is an corollary of `Quot.sound`),
+
+- eliminated by the `rw` tactic (in practice).
+
+Propositional equality is not a meta-level concept.
+It's a proposition in `Prop` that may be proved or disproved.
+
+Propositional equality on types does not get the types check.
+For example, this won't compile.
+-/
 -- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry
 
 end
@@ -479,7 +605,7 @@ end
 /-
 ## Equality (second visit)
 
-[TODO]
+[TODO] (This section is for future chapters.)
 -/
 
 #print Eq
