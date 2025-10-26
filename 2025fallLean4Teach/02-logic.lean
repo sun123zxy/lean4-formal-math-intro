@@ -7,6 +7,9 @@ which may be too advanced for beginners.
 
 Materials tagged with [EXR] are recommended for you to try before looking at the solution.
 
+Materials tagged with [TODO] means that I'm still working on it,
+or I'm not sure about the content yet. Feel free to give your suggestions!
+
 # At the Very Beginning...
 
 There are some basic notions you should be familiar with.
