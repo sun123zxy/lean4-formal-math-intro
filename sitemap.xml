@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/00-poster.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/01-intro-code.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/04-logic.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/01-intro.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/07-analysis.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/06-ineq.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/05-type.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/03-logic.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
+    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/05-eq.html</loc>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
   </url>
   <url>
     <loc>https://sun123zxy.github.io/2025fall-lean4-teach/02-logic.html</loc>
-    <lastmod>2025-10-25T20:31:59.136Z</lastmod>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/03-logic.html</loc>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/01-intro.html</loc>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/07-analysis.html</loc>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/06-ineq.html</loc>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/04-logic.html</loc>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/01-intro-code.html</loc>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sun123zxy.github.io/2025fall-lean4-teach/00-poster.html</loc>
+    <lastmod>2025-10-26T08:46:28.870Z</lastmod>
   </url>
 </urlset>

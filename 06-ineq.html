@@ -187,8 +187,8 @@ MathJax = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">05-type.lean</span></a>
+  <a href="./05-eq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-eq.lean</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -384,7 +384,7 @@ MathJax = {
 <p>Tired of these? Use automation!</p>
 <section id="linarith" class="level4">
 <h4 class="anchored" data-anchor-id="linarith"><code>linarith</code></h4>
-<p><code>linarith</code> is a powerful tactic that solves linear inequalities automatically.</p>
+<p><code>linarith</code> is a powerful tactic that solves linear inequalities automatically. It uses hypotheses in the context and basic properties of linear orders to deduce the goal.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>#help tactic linarith</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a &lt; b ↔ a - c &lt; b - c <span class="op">:=</span> <span class="kw">by</span></span>
@@ -544,6 +544,7 @@ MathJax = {
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>#help tactic aesop</span>
 <span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>#help tactic grind</span>
 <span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>#help tactic tauto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A tactic cheatsheet is available at <a href="leanprover-community.github.io/papers/lean-tactics.pdf">lean-tactics.pdf</a></p>
 
 
 </section>

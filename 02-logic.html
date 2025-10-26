@@ -187,8 +187,8 @@ MathJax = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">05-type.lean</span></a>
+  <a href="./05-eq.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">05-eq.lean</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -352,9 +352,7 @@ MathJax = {
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> hqr</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> hpq</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Above tactics are minimal and sufficient for simple proofs.</p>
-<p>When proofs went more complicated, you may want more tactics that suit your needs.</p>
-<p>Remember your favorite tactics and use them accordingly.</p>
+<p>[IGNORE] Above tactics are minimal and sufficient for simple proofs. When proofs went more complicated, you may want more tactics that suit your needs. Remember your favorite tactics and use them accordingly.</p>
 <p>tactic: <code>specialize</code> If we have <code>hpq : p → q</code> and <code>hp : p</code>, then <code>specialize hpq hp</code> reassigns <code>hpq</code> to <code>hpq hp</code>, a proof of <code>q</code>.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hp : p) (hpq : p → q) : q <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hpq hp</span>
