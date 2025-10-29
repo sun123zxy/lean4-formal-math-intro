@@ -62,6 +62,7 @@ example : a < b ↔ a ≤ b ∧ a ≠ b := by
     · intro hba
       apply hnab
       exact le_antisymm hab hba
+#check lt_of_le_of_ne -- this have a related theorem
 
 /-
 A linearly ordered commutative ring is a commutative ring
@@ -76,7 +77,7 @@ Don't be surprised if `#print axioms ...` shows some classical axioms.
 -/
 
 /-
-### Pure order reasoning
+### Pure partial order reasoning
 -/
 
 /- `norm_num` tactic solves numerical equalities and inequalities automatically. -/
@@ -105,6 +106,26 @@ example (hab : a ≤ b) (hbc : b < c) : a < c := by
   calc
     a ≤ b := hab
     _ < c := hbc
+
+/-
+### Linear order reasoning
+
+A linear order is a partial order with `le_total`: either `a ≤ b` or `b ≤ a`.
+-/
+#check le_total
+
+/- [EXR] Use this to prove the trichotomy of `<` and `=`. -/
+example : a < b ∨ a = b ∨ a > b := by
+  rcases le_total a b with (hle | h)
+  · by_cases heq : a = b
+    · right; left; exact heq
+    · left
+      apply lt_of_le_of_ne
+      · exact hle
+      · exact heq
+  · -- do it similarly
+    sorry
+#check eq_or_lt_of_le -- this have a name
 
 /-
 ### Monotonicity of `+`
