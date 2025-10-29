@@ -522,8 +522,11 @@ MathJax = {
 <span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    grw [this]</span>
 <span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    ring_nf</span>
 <span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>[TODO] <code>min</code>, <code>max</code></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[EXR] Get familiar with <code>min</code>, <code>max</code> and solve the following by yourself.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : min a b ≤ a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> min_le_left a b</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : min a b + max a b = a + b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> min_add_max a b</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="wheelchair-tactics" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="wheelchair-tactics"><span class="header-section-number">3</span> Wheelchair tactics</h2>
