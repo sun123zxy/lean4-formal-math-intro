@@ -341,8 +341,11 @@ example : |(|a| - |b|)| ≤ |a + b| := by
     simp
 
 /-
-[TODO] `min`, `max`
+[EXR]
+Get familiar with `min`, `max` and solve the following by yourself.
 -/
+example : min a b ≤ a := by exact min_le_left a b
+example : min a b + max a b = a + b := by exact min_add_max a b
 
 end
 
