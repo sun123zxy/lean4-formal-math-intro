@@ -218,10 +218,11 @@ MathJax = {
   <li><a href="#inequality-1" id="toc-inequality-1" class="nav-link" data-scroll-target="#inequality-1"><span class="header-section-number">1</span> Inequality</a>
   <ul class="collapse">
   <li><a href="#basics" id="toc-basics" class="nav-link" data-scroll-target="#basics"><span class="header-section-number">1.1</span> Basics</a></li>
-  <li><a href="#pure-order-reasoning" id="toc-pure-order-reasoning" class="nav-link" data-scroll-target="#pure-order-reasoning"><span class="header-section-number">1.2</span> Pure order reasoning</a></li>
-  <li><a href="#monotonicity-of" id="toc-monotonicity-of" class="nav-link" data-scroll-target="#monotonicity-of"><span class="header-section-number">1.3</span> Monotonicity of <code>+</code></a></li>
-  <li><a href="#automation" id="toc-automation" class="nav-link" data-scroll-target="#automation"><span class="header-section-number">1.4</span> Automation</a></li>
-  <li><a href="#monotonicity-of" id="toc-monotonicity-of" class="nav-link" data-scroll-target="#monotonicity-of"><span class="header-section-number">1.5</span> Monotonicity of <code>*</code></a></li>
+  <li><a href="#pure-partial-order-reasoning" id="toc-pure-partial-order-reasoning" class="nav-link" data-scroll-target="#pure-partial-order-reasoning"><span class="header-section-number">1.2</span> Pure partial order reasoning</a></li>
+  <li><a href="#linear-order-reasoning" id="toc-linear-order-reasoning" class="nav-link" data-scroll-target="#linear-order-reasoning"><span class="header-section-number">1.3</span> Linear order reasoning</a></li>
+  <li><a href="#monotonicity-of" id="toc-monotonicity-of" class="nav-link" data-scroll-target="#monotonicity-of"><span class="header-section-number">1.4</span> Monotonicity of <code>+</code></a></li>
+  <li><a href="#automation" id="toc-automation" class="nav-link" data-scroll-target="#automation"><span class="header-section-number">1.5</span> Automation</a></li>
+  <li><a href="#monotonicity-of" id="toc-monotonicity-of" class="nav-link" data-scroll-target="#monotonicity-of"><span class="header-section-number">1.6</span> Monotonicity of <code>*</code></a></li>
   </ul></li>
   <li><a href="#abs-min-max-and-taocp" id="toc-abs-min-max-and-taocp" class="nav-link" data-scroll-target="#abs-min-max-and-taocp"><span class="header-section-number">2</span> <code>abs</code>, <code>min</code>, <code>max</code> and TAOCP</a></li>
   <li><a href="#wheelchair-tactics" id="toc-wheelchair-tactics" class="nav-link" data-scroll-target="#wheelchair-tactics"><span class="header-section-number">3</span> Wheelchair tactics</a></li>
@@ -304,14 +305,15 @@ MathJax = {
 <span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">exact</span> hab</span>
 <span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> hba</span>
 <span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> hnab</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> le_antisymm hab hba</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> le_antisymm hab hba</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> lt_of_le_of_ne <span class="co">-- this have a related theorem</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A linearly ordered commutative ring is a commutative ring with a total order s.t addition and multiplication are strictly monotone, e.g.&nbsp;<code>ℚ</code>.</p>
 <p>In Lean this reads <code>[CommRing R] [LinearOrder R] [IsStrictOrderedRing R]</code>.</p>
 <p>We will work with <code>ℚ</code> as an example afterwards.</p>
 <p>[TODO] For some reason, <code>LinearOrder ℚ</code> is constructed using classical logic. Don’t be surprised if <code>#print axioms ...</code> shows some classical axioms.</p>
 </section>
-<section id="pure-order-reasoning" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="pure-order-reasoning"><span class="header-section-number">1.2</span> Pure order reasoning</h3>
+<section id="pure-partial-order-reasoning" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="pure-partial-order-reasoning"><span class="header-section-number">1.2</span> Pure partial order reasoning</h3>
 <p><code>norm_num</code> tactic solves numerical equalities and inequalities automatically.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">norm_num</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="dv">22</span> / <span class="dv">7</span> : ℚ) &lt; <span class="dv">4</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">norm_num</span></span>
@@ -337,120 +339,137 @@ MathJax = {
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    a ≤ b <span class="op">:=</span> hab</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    _ &lt; c <span class="op">:=</span> hbc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="monotonicity-of" class="level3" data-number="1.3">
-<h3 data-number="1.3" class="anchored" data-anchor-id="monotonicity-of"><span class="header-section-number">1.3</span> Monotonicity of <code>+</code></h3>
+<section id="linear-order-reasoning" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="linear-order-reasoning"><span class="header-section-number">1.3</span> Linear order reasoning</h3>
+<p>A linear order is a partial order with <code>le_total</code>: either <code>a ≤ b</code> or <code>b ≤ a</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> le_total</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[EXR] Use this to prove the trichotomy of <code>&lt;</code> and <code>=</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a &lt; b ∨ a = b ∨ a &gt; b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> le_total a b <span class="fu">with</span> (hle | h)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">by_cases</span> heq : a = b</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">right</span>; <span class="fu">left</span>; <span class="fu">exact</span> heq</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">left</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> lt_of_le_of_ne</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>      · <span class="fu">exact</span> hle</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      · <span class="fu">exact</span> heq</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  · <span class="co">-- do it similarly</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="al">sorry</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> eq_or_lt_of_le <span class="co">-- this have a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="monotonicity-of" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="monotonicity-of"><span class="header-section-number">1.4</span> Monotonicity of <code>+</code></h3>
 <p>It’s important to recognize that the (strict) monotonicity of <code>+</code> is a nontrivial theorem. That is a part of the meaning of <code>IsStrictOrderedRing</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>#synth IsStrictOrderedRing ℚ</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_le_add_left</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_le_add_right</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_lt_add_left</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_lt_add_right</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>#synth IsStrictOrderedRing ℚ</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_le_add_left</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_le_add_right</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_lt_add_left</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_lt_add_right</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Luckily, <code>grw</code> recognizes these theorems and applies them automatically.</p>
 <p>transposition of <code>≤</code></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b ≤ c) : a ≤ c - b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  grw [← h]</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b ≤ c) : a ≤ c - b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  grw [← h]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>monotonicity of <code>+</code></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + c ≤ b + c ↔ a ≤ b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">calc</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      a = (a + c) - c <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      _ ≤ (b + c) - c <span class="op">:=</span> <span class="kw">by</span> grw [h]</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      _ = b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    grw [h]</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_le_add_iff_right <span class="co">-- this have a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + c ≤ b + c ↔ a ≤ b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">calc</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      a = (a + c) - c <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      _ ≤ (b + c) - c <span class="op">:=</span> <span class="kw">by</span> grw [h]</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>      _ = b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    grw [h]</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_le_add_iff_right <span class="co">-- this have a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>strict monotonicity of <code>+</code></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a &lt; b ↔ a + c &lt; b + c <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  · contrapose!</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> h</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [add_le_add_iff_right] <span class="fu">at</span> h</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> h</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  · contrapose!</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> h</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    grw [h]</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_lt_add_iff_right <span class="co">-- this have a name</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + d) : a - d &lt; c - b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a &lt; b ↔ a + c &lt; b + c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  · contrapose!</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> h</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [add_le_add_iff_right] <span class="fu">at</span> h</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> h</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  · contrapose!</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> h</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    grw [h]</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> add_lt_add_iff_right <span class="co">-- this have a name</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + d) : a - d &lt; c - b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="automation" class="level3" data-number="1.4">
-<h3 data-number="1.4" class="anchored" data-anchor-id="automation"><span class="header-section-number">1.4</span> Automation</h3>
+<section id="automation" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="automation"><span class="header-section-number">1.5</span> Automation</h3>
 <p>Tired of these? Use automation!</p>
 <section id="linarith" class="level4">
 <h4 class="anchored" data-anchor-id="linarith"><code>linarith</code></h4>
 <p><code>linarith</code> is a powerful tactic that solves linear inequalities automatically. It uses hypotheses in the context and basic properties of linear orders to deduce the goal.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>#help tactic linarith</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a &lt; b ↔ a - c &lt; b - c <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    linarith</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + d) : a - d &lt; c - b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  linarith</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a &gt; <span class="dv">0</span>) : (<span class="dv">2</span> / <span class="dv">3</span>) * a &gt; <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  linarith</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : (-<span class="dv">5</span> / <span class="dv">3</span>) * a &gt; <span class="dv">0</span>) : <span class="dv">4</span> * a &lt; <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>#help tactic linarith</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a &lt; b ↔ a - c &lt; b - c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    linarith</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + d) : a - d &lt; c - b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  linarith</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a &gt; <span class="dv">0</span>) : (<span class="dv">2</span> / <span class="dv">3</span>) * a &gt; <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  linarith</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : (-<span class="dv">5</span> / <span class="dv">3</span>) * a &gt; <span class="dv">0</span>) : <span class="dv">4</span> * a &lt; <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note the limitations of <code>linarith</code>.</p>
 <p>It only works for linear inequalities, not polynomial ones.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ^ <span class="dv">2</span> ≥ <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> <span class="al">sorry</span> <span class="co">-- linarith fails here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ^ <span class="dv">2</span> ≥ <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> <span class="al">sorry</span> <span class="co">-- linarith fails here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>though some of polynomial inequalities can be solved by <code>nlinarith</code></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>#help tactic nlinarith</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ^ <span class="dv">2</span> ≥ <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> nlinarith</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> sq_nonneg <span class="co">-- this have a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>#help tactic nlinarith</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ^ <span class="dv">2</span> ≥ <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> nlinarith</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> sq_nonneg <span class="co">-- this have a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It solve all inequalities in a dense linear order.</p>
 <p>It does solve some inequalities in discrete linear orders like <code>ℤ</code>, but no guarantee for all of them.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n m : ℤ) (h : n &lt; m) : n + <span class="dv">1</span> ≤ m <span class="op">:=</span> <span class="kw">by</span> linarith</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n m : ℤ) (h : n &lt; m) : n + (<span class="dv">1</span>/<span class="dv">2</span> : ℚ) ≤ m <span class="op">:=</span> <span class="kw">by</span> <span class="al">sorry</span> <span class="co">-- linarith fails here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n m : ℤ) (h : n &lt; m) : n + <span class="dv">1</span> ≤ m <span class="op">:=</span> <span class="kw">by</span> linarith</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n m : ℤ) (h : n &lt; m) : n + (<span class="dv">1</span>/<span class="dv">2</span> : ℚ) ≤ m <span class="op">:=</span> <span class="kw">by</span> <span class="al">sorry</span> <span class="co">-- linarith fails here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It won’t recognize inequalities involving <code>min</code>, <code>max</code>, <code>abs</code>, etc. It won’t recognize some basic <code>simp</code> transformations, either.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * (min <span class="dv">1</span> <span class="dv">2</span>) &gt; <span class="dv">0</span>) : (id a) ≥ <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> <span class="fu">at</span> *</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  linarith <span class="co">-- direct `linarith` will fail</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * (min <span class="dv">1</span> <span class="dv">2</span>) &gt; <span class="dv">0</span>) : (id a) ≥ <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> <span class="fu">at</span> *</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  linarith <span class="co">-- direct `linarith` will fail</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] ℚ admits a dense linear order</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hab : a &lt; b) : <span class="kw">∃</span> c : ℚ, a &lt; c ∧ c &lt; b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  use (a + b) / <span class="dv">2</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (hab : a &lt; b) : <span class="kw">∃</span> c : ℚ, a &lt; c ∧ c &lt; b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  use (a + b) / <span class="dv">2</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="simp" class="level4">
 <h4 class="anchored" data-anchor-id="simp"><code>simp</code></h4>
 <p><code>add_lt_add_iff_right</code>-like theorems are registered for <code>simp</code>, so sometimes <code>simp</code> can reduce things like:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + b) : a &lt; c <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> <span class="fu">at</span> h</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + b) : a &lt; c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> <span class="fu">at</span> h</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="apply_fun" class="level4">
 <h4 class="anchored" data-anchor-id="apply_fun"><code>apply_fun</code></h4>
 <p>Sometimes you would like to <code>apply_fun</code> at an inequality. This requires you to manually show the monotonicity of the function.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + d) : a - d &lt; c - b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· - b - d) <span class="fu">at</span> h</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  · ring_nf <span class="fu">at</span> *</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> h</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">unfold</span> StrictMono</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + d) : a - d &lt; c - b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· - b - d) <span class="fu">at</span> h</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  · ring_nf <span class="fu">at</span> *</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> h</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">unfold</span> StrictMono</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] Mimick the above example.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + c ≤ b) : a ≤ b - c <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· - c) <span class="fu">at</span> h</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  · ring_nf <span class="fu">at</span> *</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> h</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">unfold</span> Monotone</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + c ≤ b) : a ≤ b - c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· - c) <span class="fu">at</span> h</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  · ring_nf <span class="fu">at</span> *</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> h</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">unfold</span> Monotone</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="monotonicity-of" class="level3" data-number="1.5">
-<h3 data-number="1.5" class="anchored" data-anchor-id="monotonicity-of"><span class="header-section-number">1.5</span> Monotonicity of <code>*</code></h3>
+<section id="monotonicity-of" class="level3" data-number="1.6">
+<h3 data-number="1.6" class="anchored" data-anchor-id="monotonicity-of"><span class="header-section-number">1.6</span> Monotonicity of <code>*</code></h3>
 <p>[TODO] It’s not needed in the course so far, so we skip it for now.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="abs-min-max-and-taocp" class="level2" data-number="2">
@@ -463,90 +482,90 @@ MathJax = {
 <li>mathlib documentation</li>
 <li>AI copilot completion</li>
 </ul>
-<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (a b c : ℚ)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> abs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (a b c : ℚ)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> abs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] Find all the below by yourself</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a| ≥ <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_nonneg a</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |-a| = |a| <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_neg a</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a * b| = |a| * |b| <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_mul a b</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a + b| ≤ |a| + |b| <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_add_le a b</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a| - |b| ≤ |a - b| <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_sub_abs_le_abs_sub a b</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a| ≤ b ↔ -b ≤ a ∧ a ≤ b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_le</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a| ≥ b ↔ a ≤ -b ∨ b ≤ a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> le_abs'</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a ≥ <span class="dv">0</span>) : |a| = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_of_nonneg h</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a ≤ <span class="dv">0</span>) : |a| = -a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_of_nonpos h</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : b ≥ <span class="dv">0</span>) : |a| = b ↔ a = b ∨ a = -b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_eq h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a| ≥ <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_nonneg a</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |-a| = |a| <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_neg a</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a * b| = |a| * |b| <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_mul a b</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a + b| ≤ |a| + |b| <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_add_le a b</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a| - |b| ≤ |a - b| <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_sub_abs_le_abs_sub a b</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a| ≤ b ↔ -b ≤ a ∧ a ≤ b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_le</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a| ≥ b ↔ a ≤ -b ∨ b ≤ a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> le_abs'</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a ≥ <span class="dv">0</span>) : |a| = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_of_nonneg h</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a ≤ <span class="dv">0</span>) : |a| = -a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_of_nonpos h</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : b ≥ <span class="dv">0</span>) : |a| = b ↔ a = b ∨ a = -b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> abs_eq h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A mindless way to prove these linear inequalities involving <code>abs</code> is to eliminate all <code>abs</code> by casing on the sign of the arguments, then use <code>linarith</code>.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a - c| ≤ |a - b| + |b - c| <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> <span class="fu">rcases</span> le_total <span class="dv">0</span> (a - b) <span class="fu">with</span> h1 | h1</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h1]</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h1]</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> <span class="fu">rcases</span> le_total <span class="dv">0</span> (b - c) <span class="fu">with</span> h2 | h2</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h2]</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h2]</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> <span class="fu">rcases</span> le_total <span class="dv">0</span> (a - c) <span class="fu">with</span> h3 | h3</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h3]</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h3]</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |a - c| ≤ |a - b| + |b - c| <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> <span class="fu">rcases</span> le_total <span class="dv">0</span> (a - b) <span class="fu">with</span> h1 | h1</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h1]</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h1]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> <span class="fu">rcases</span> le_total <span class="dv">0</span> (b - c) <span class="fu">with</span> h2 | h2</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h2]</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h2]</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> <span class="fu">rcases</span> le_total <span class="dv">0</span> (a - c) <span class="fu">with</span> h3 | h3</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h3]</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h3]</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>combine brute-force method with theorem-finding</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |(|a| - |b|)| ≤ |a - b| <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> le_total <span class="dv">0</span> (|a| - |b|) <span class="fu">with</span> h1 | h1</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h1]</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h1]</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">apply</span> abs_sub_abs_le_abs_sub</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">simp</span> only [neg_sub] <span class="co">-- use `simp only` to supress unwanted lemmas</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    grw [abs_sub_abs_le_abs_sub]</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [← abs_neg]</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |(|a| - |b|)| ≤ |a + b| <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> le_total <span class="dv">0</span> (|a| - |b|) <span class="fu">with</span> h1 | h1</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h1]</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h1]</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  · haveI <span class="op">:=</span> abs_sub_abs_le_abs_sub a (-b)</span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> <span class="fu">at</span> *</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> this</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>  · haveI <span class="op">:=</span> abs_sub_abs_le_abs_sub b (-a)</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> <span class="fu">at</span> *</span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    grw [this]</span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    ring_nf</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |(|a| - |b|)| ≤ |a - b| <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> le_total <span class="dv">0</span> (|a| - |b|) <span class="fu">with</span> h1 | h1</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h1]</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h1]</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">apply</span> abs_sub_abs_le_abs_sub</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">simp</span> only [neg_sub] <span class="co">-- use `simp only` to supress unwanted lemmas</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    grw [abs_sub_abs_le_abs_sub]</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [← abs_neg]</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co">-- [EXR]</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : |(|a| - |b|)| ≤ |a + b| <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> le_total <span class="dv">0</span> (|a| - |b|) <span class="fu">with</span> h1 | h1</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonneg h1]</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">try</span> <span class="fu">rw</span> [abs_of_nonpos h1]</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  · haveI <span class="op">:=</span> abs_sub_abs_le_abs_sub a (-b)</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> <span class="fu">at</span> *</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> this</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  · haveI <span class="op">:=</span> abs_sub_abs_le_abs_sub b (-a)</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> <span class="fu">at</span> *</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    grw [this]</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    ring_nf</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] Get familiar with <code>min</code>, <code>max</code> and solve the following by yourself.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : min a b ≤ a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> min_le_left a b</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : min a b + max a b = a + b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> min_add_max a b</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : min a b ≤ a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> min_le_left a b</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : min a b + max a b = a + b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> min_add_max a b</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="wheelchair-tactics" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="wheelchair-tactics"><span class="header-section-number">3</span> Wheelchair tactics</h2>
 <p>You have seen some all-in-one tactics like <code>simp</code>, <code>ring</code> and <code>linarith</code>. There are even more powerful tactics that save your effort. Do try them when you feel tired of trivial steps.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">simp</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">dsimp</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>#help tactic simp_rw</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>#help tactic field_simp</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>#help tactic abel</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">ring</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>#help tactic module</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>#help tactic linarith</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>#help tactic nlinarith</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>#help tactic omega</span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>#help tactic aesop</span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>#help tactic grind</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>#help tactic tauto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">simp</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">dsimp</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>#help tactic simp_rw</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>#help tactic field_simp</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>#help tactic abel</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">ring</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>#help tactic module</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>#help tactic linarith</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>#help tactic nlinarith</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>#help tactic omega</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>#help tactic aesop</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>#help tactic grind</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>#help tactic tauto</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A tactic cheatsheet is available at <a href="leanprover-community.github.io/papers/lean-tactics.pdf">lean-tactics.pdf</a></p>
 
 
