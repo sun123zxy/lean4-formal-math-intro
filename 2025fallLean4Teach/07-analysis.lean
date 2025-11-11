@@ -13,7 +13,7 @@ import Mathlib
 def TendsTo (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| < ε
 
-/-- The limit of the constant sequence with value `c` is `c`. -/
+/- The limit of the constant sequence with value `c` is `c`. -/
 theorem tendsTo_const (c : ℝ) : TendsTo (fun _ ↦ c) c := by
   unfold TendsTo
   intro ε hε
@@ -21,7 +21,7 @@ theorem tendsTo_const (c : ℝ) : TendsTo (fun _ ↦ c) c := by
   intro n hn
   simp [hε]
 
-/-- If `a(n)` tends to `t` then `-a(n)` tends to `-t`. -/
+/- `-` commutes with `tendsTo` -/
 theorem tendsTo_neg {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fun n ↦ -a n) (-t) := by
   unfold TendsTo
   intro ε hε
@@ -38,6 +38,7 @@ theorem tendsTo_neg {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fu
   rw [← sub_eq_add_neg]
   exact hn₀
 
+/- `+` commutes with `tendsTo` -/
 theorem tendsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n => a n + b n) (A + B) := by
   intro ε hε
@@ -58,7 +59,7 @@ theorem tendsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (
   · linarith
   · linarith
 
--- [EXR]
+/- [EXR] `-` commutes with `tendsTo` -/
 theorem tendsTo_sub {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n => a n - b n) (A - B) := by
   haveI := tendsTo_add ha (tendsTo_neg hb)
@@ -66,12 +67,11 @@ theorem tendsTo_sub {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
   ring_nf at this
   exact this
 
-/-
-`≤` version of `TendsTo` is equivalent to the usual `TendsTo`.
--/
+/- `≤` version of `TendsTo` is equivalent to the usual `TendsTo`. -/
 def TendsTo_le (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| ≤ ε
 
+-- [EXR]
 theorem tendsTo_le_iff_TendsTo {a : ℕ → ℝ} {t : ℝ} : TendsTo_le a t ↔ TendsTo a t := by
   constructor
   · intro h ε hε
@@ -105,6 +105,7 @@ theorem tendsTo_εlt_iff_TendsTo {a : ℕ → ℝ} {t : ℝ} {l : ℝ} (l_gt_zer
     exact hn₀.left
   · exact fun h ε hε _ ↦ h ε hε
 
+/- `*` commutes with `tendsTo` -/
 theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n ↦ a n * b n) (A * B) := by
   rw [← tendsTo_εlt_iff_TendsTo (show 1 > 0 by linarith)]
@@ -150,11 +151,40 @@ theorem tendsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc 
   · linarith
   · linarith
 
+/- constant sequence tends to zero iff condition -/
+theorem tendsTo_zero_iff_lt_ε {x : ℝ} : TendsTo (fun _ ↦ x) 0 ↔ (∀ ε > 0, |x| < ε) := by
+  constructor
+  · intro h ε hε
+    specialize h ε hε
+    rcases h with ⟨n₀, hn₀⟩
+    specialize hn₀ n₀ (by linarith)
+    simp at hn₀; exact hn₀
+  · intro h
+    intro ε hε
+    specialize h ε hε
+    use 0
+    intro n hn
+    simp; exact h
+
+/- [EXR] zero sequence tends to x iff condition -/
+theorem zero_tendsTo_iff_lt_ε {x : ℝ} : TendsTo (fun _ ↦ 0) x ↔ (∀ ε > 0, |x| < ε) := by
+  constructor
+  · intro h
+    unfold TendsTo at h; simp at h
+    intro ε hε
+    specialize h ε hε
+    rcases h with ⟨n₀, hn₀⟩
+    specialize hn₀ n₀ (by linarith)
+    exact hn₀
+  · intro h
+    intro ε hε
+    use 0
+    intro n hn
+    simp
+    exact h ε hε
+
 /- uniqueness of limits -/
 theorem tendsTo_unique (a : ℕ → ℝ) (s t : ℝ) (hs : TendsTo a s) (ht : TendsTo a t) : s = t := by
-  have hst := tendsTo_sub hs ht
-  unfold TendsTo at hst
-  simp at hst
   by_contra! hneq
   have hstp : 0 < |t - s| := by
     rw [abs_pos]
@@ -163,9 +193,11 @@ theorem tendsTo_unique (a : ℕ → ℝ) (s t : ℝ) (hs : TendsTo a s) (ht : Te
     simp at hneq
     symm
     exact hneq
+  have hst := tendsTo_sub hs ht
+  simp at hst
+  rw [zero_tendsTo_iff_lt_ε] at hst
   specialize hst |t - s| hstp
-  rcases hst with ⟨n₀, hn₀⟩
-  specialize hn₀ n₀ (by linarith)
+  rw [abs_sub_comm] at hst
   linarith
 
 def contAt (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
@@ -186,7 +218,7 @@ def contAt_comp {f g : ℝ → ℝ} {x₀ : ℝ} (hf : contAt f (g x₀)) (hg : 
   specialize hf (g x) hg
   exact hf
 
--- [EXR]
+/- [EXR] continuity of function composition -/
 def cont_comp {f g : ℝ → ℝ} (hf : cont f) (hg : cont g) : cont (f ∘ g) := by
   intro x
   exact contAt_comp (hf (g x)) (hg x)
@@ -209,6 +241,7 @@ theorem cont_of_cont_of_uconv
   specialize hδf x hx
   have hNx := hN x
   have hNx₀ := hN x₀
+  -- brute force `linarith` argument
   rw [abs_lt] at hNx hNx₀ hδf ⊢
   constructor
   all_goals linarith [hNx, hNx₀, hδf]
@@ -219,7 +252,10 @@ The sequential definition of function continuity is equivalent to the epsilon-de
 def contAt_seq (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
   ∀ a : ℕ → ℝ, TendsTo a x₀ → TendsTo (f ∘ a) (f x₀)
 
-/- [TODO] I failed to solve it swiftly. You are welcome to optimize it! -/
+/- [TODO]
+I failed to solve it swiftly.
+You are welcome to optimize it!
+-/
 theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     contAt f x₀ ↔ contAt_seq f x₀ := by
   constructor
@@ -236,6 +272,7 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     intro hnfcont hnfseq
     unfold contAt at hnfcont
     push_neg at hnfcont
+    -- construct a sequence `a n` tending to `x₀`
     let a (n : ℕ) : ℝ := 1 / (n + 1)
     have a_gt_zero (n : ℕ) : a n > 0 := by simp [a]; linarith
     have a_TendsTo_zero : TendsTo a 0 := by
@@ -243,19 +280,22 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
       use Nat.ceil (1 / ε) -- ceiling function
       intro n hn
       rw [Nat.ceil_le] at hn
-      field_simp
+      simp
       rw [abs_of_pos (a_gt_zero n)]
       unfold a
       rw [div_lt_comm₀ (by linarith) hε]
       linarith
-
+    -- construct a diverging sequence `f x` with `x` tending to `x₀`
+    -- this requires us to extract `Type*` objects from an existence to form a function
+    -- may meet universe issues if done naively
+    -- we use `Classical.indefiniteDescription` here to extract such objects classically
     rcases hnfcont with ⟨ε, hε, hnf⟩
     let x_subtype (n : ℕ) := Classical.indefiniteDescription _ <| hnf (a n) (a_gt_zero n)
     let x (n : ℕ) : ℝ := (x_subtype n).val
-    let x_lt_a (n : ℕ) : |x n - x₀| < a n := by
+    have x_lt_a (n : ℕ) : |x n - x₀| < a n := by
       unfold x
       exact (x_subtype n).property.left
-    let fx_diverge (n : ℕ) : |f (x n) - f x₀| ≥ ε := by
+    have fx_diverge (n : ℕ) : |f (x n) - f x₀| ≥ ε := by
       unfold x
       exact (x_subtype n).property.right
 
@@ -272,7 +312,7 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
         haveI := x_lt_a n
         rw [abs_lt] at this
         linarith
-
+    -- but it is said that all such sequences converge
     haveI := hnfseq x x_tendsTo_x₀
     rcases this ε hε with ⟨n₀, hn₀⟩
     specialize hn₀ n₀ (by linarith); simp at hn₀
