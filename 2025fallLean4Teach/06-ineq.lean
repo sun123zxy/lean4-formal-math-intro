@@ -190,6 +190,8 @@ Tired of these? Use automation!
 `linarith` is a powerful tactic that solves linear inequalities automatically.
 It uses hypotheses in the context and basic properties of linear orders
 to deduce the goal.
+
+`linarith only [h1, h2, ...]` use only hypotheses `h1`, `h2`, ... to solve the goal.
 -/
 #help tactic linarith
 

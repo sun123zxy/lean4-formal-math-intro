@@ -47,23 +47,23 @@ theorem tendsTo_neg {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fu
 theorem tendsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n => a n + b n) (A + B) := by
   intro ε hε
-  specialize ha (ε / 2) (by linarith)
-  specialize hb (ε / 2) (by linarith)
+  specialize ha (ε / 2) (by linarith only [hε])
+  specialize hb (ε / 2) (by linarith only [hε])
   rcases ha with ⟨n₀, ha⟩
   rcases hb with ⟨m₀, hb⟩
   use max n₀ m₀
   intro n hn
   -- what theorems should I use?
   rw [max_le_iff] at hn
-  specialize ha n (by linarith)
-  specialize hb n (by linarith)
+  specialize ha n (by linarith only [hn.left])
+  specialize hb n (by linarith only [hn.right])
   simp
   -- common tactic: eliminate abs to make use of `linarith`
   -- what theorems should I use?
   rw [abs_lt] at ha hb ⊢
   constructor
-  · linarith
-  · linarith
+  · linarith only [ha, hb]
+  · linarith only [ha, hb]
 
 /- [EXR] `-` commutes with `tendsTo` -/
 theorem tendsTo_sub {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
@@ -86,12 +86,12 @@ theorem tendsTo_le_iff_TendsTo {a : ℕ → ℝ} {t : ℝ} : TendsTo_le a t ↔ 
     rcases h (ε / 2) (by linarith [hε]) with ⟨n₀, hn₀⟩
     use n₀
     intro n hn; specialize hn₀ n hn
-    linarith
+    linarith only [hn₀, hε]
   · intro h ε hε
     rcases h ε hε with ⟨n₀, hn₀⟩
     use n₀
     intro n hn; specialize hn₀ n hn
-    linarith
+    linarith only [hn₀, hε]
 
 /-
 a weaker version of `TendsTo` where we require `ε < l`.
@@ -106,7 +106,7 @@ theorem tendsTo_εlt_iff_TendsTo {a : ℕ → ℝ} {t : ℝ} {l : ℝ} (l_gt_zer
   · intro h ε hε
     specialize h (min ε (l / 2))
                  (by apply lt_min; all_goals linarith)
-                 (by apply min_lt_of_right_lt; linarith)
+                 (by apply min_lt_of_right_lt; linarith only [l_gt_zero])
     rcases h with ⟨n₀, hn₀⟩; use n₀
     intro n hn; specialize hn₀ n hn
     rw [lt_min_iff] at hn₀
@@ -144,13 +144,13 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
     field_simp
     rw [div_lt_iff₀]
     · ring_nf
-      linarith
+      linarith only [hε]
     · linarith only [abs_nonneg A]
   have h2 : |B| * (ε / (3 * (|B| + 1))) < ε / 3 := by
     field_simp
     rw [div_lt_iff₀]
     · ring_nf
-      linarith
+      linarith only [hε]
     · linarith only [abs_nonneg B]
   have h3 : ε / (3 * (|B| + 1)) * (ε / (3 * (|A| + 1))) < ε / 3 := by
     field_simp
@@ -161,10 +161,10 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
         _ = ε * ε := by ring
         _ ≤ 1 * ε := by grw [← hεlt1]
         _ = ε     := by ring
-        _ < ε * 3 := by linarith
+        _ < ε * 3 := by linarith only [hε]
     · repeat grw [← abs_nonneg]
       ring_nf
-      linarith
+      linarith only
   linarith only [h1, h2, h3]
 
 /- squeeze theorem for sequences -/
@@ -180,13 +180,13 @@ theorem tendsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc 
   intro n hn
   rw [max_le_iff] at hn
   specialize hab n
-  specialize hn₀ n (by linarith)
-  specialize hm₀ n (by linarith)
+  specialize hn₀ n (by linarith only [hn.left])
+  specialize hm₀ n (by linarith only [hn.right])
   specialize hbc n
   rw [abs_lt] at hn₀ hm₀ ⊢
   constructor
-  · linarith
-  · linarith
+  · linarith only [hn₀, hm₀, hbc, hab]
+  · linarith only [hn₀, hm₀, hbc, hab]
 
 /- constant sequence tends to zero iff condition -/
 theorem tendsTo_zero_iff_lt_ε {x : ℝ} : TendsTo (fun _ ↦ x) 0 ↔ (∀ ε > 0, |x| < ε) := by
@@ -194,7 +194,7 @@ theorem tendsTo_zero_iff_lt_ε {x : ℝ} : TendsTo (fun _ ↦ x) 0 ↔ (∀ ε >
   · intro h ε hε
     specialize h ε hε
     rcases h with ⟨n₀, hn₀⟩
-    specialize hn₀ n₀ (by linarith)
+    specialize hn₀ n₀ (by linarith only)
     simp at hn₀; exact hn₀
   · intro h
     intro ε hε
@@ -211,7 +211,7 @@ theorem zero_tendsTo_iff_lt_ε {x : ℝ} : TendsTo (fun _ ↦ 0) x ↔ (∀ ε >
     intro ε hε
     specialize h ε hε
     rcases h with ⟨n₀, hn₀⟩
-    specialize hn₀ n₀ (by linarith)
+    specialize hn₀ n₀ (by linarith only)
     exact hn₀
   · intro h
     intro ε hε
@@ -235,7 +235,7 @@ theorem tendsTo_unique (a : ℕ → ℝ) (s t : ℝ) (hs : TendsTo a s) (ht : Te
   rw [zero_tendsTo_iff_lt_ε] at hst
   specialize hst |t - s| hstp
   rw [abs_sub_comm] at hst
-  linarith
+  linarith only [hst]
 
 def contAt (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
   ∀ ε > 0, ∃ δ > 0, ∀ x, |x - x₀| < δ → |f x - f x₀| < ε
@@ -318,7 +318,7 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     push_neg at hnfcont
     -- construct a sequence `a n` tending to `x₀`
     let a (n : ℕ) : ℝ := 1 / (n + 1)
-    have a_gt_zero (n : ℕ) : a n > 0 := by simp [a]; linarith
+    have a_gt_zero (n : ℕ) : a n > 0 := by simp [a]; linarith only
     have a_TendsTo_zero : TendsTo a 0 := by
       intro ε hε
       use Nat.ceil (1 / ε) -- ceiling function
@@ -327,8 +327,8 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
       simp
       rw [abs_of_pos (a_gt_zero n)]
       unfold a
-      rw [div_lt_comm₀ (by linarith) hε]
-      linarith
+      rw [div_lt_comm₀ (by linarith only) hε]
+      linarith only [hn]
     -- construct a diverging sequence `f x` with `x` tending to `x₀`
     -- this requires us to extract `Type*` objects from an existence to form a function
     -- may meet universe issues if done naively
@@ -355,10 +355,10 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
         intro n
         haveI := x_lt_a n
         rw [abs_lt] at this
-        linarith
+        linarith only [this]
     -- but it is said that all such sequences converge
     haveI := hnfseq x x_tendsTo_x₀
     rcases this ε hε with ⟨n₀, hn₀⟩
-    specialize hn₀ n₀ (by linarith); simp at hn₀
+    specialize hn₀ n₀ (by linarith only); simp at hn₀
     specialize fx_diverge n₀
     linarith only [hn₀, fx_diverge]
