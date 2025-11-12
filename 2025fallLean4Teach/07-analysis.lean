@@ -6,6 +6,11 @@ In this file we show how to define limits of sequences and continuity of functio
 Of course it is just a toy version, far from the real Mathlib definitions.
 Nevertheless, that should be enough for you to get a taste of
 formalizing something that is not completely trivial.
+
+Since we haven't touch division quite much yet,
+you may find it's difficult to deal with multiplication and division.
+`field_simp` tactic may help you a lot in such cases. It won't break things up as `simp` does.
+Anyway, don't worry too much about it for now.
 -/
 
 import Mathlib
@@ -13,7 +18,7 @@ import Mathlib
 def TendsTo (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| < ε
 
-/- The limit of the constant sequence with value `c` is `c`. -/
+/- [EXR] The limit of the constant sequence with value `c` is `c`. -/
 theorem tendsTo_const (c : ℝ) : TendsTo (fun _ ↦ c) c := by
   unfold TendsTo
   intro ε hε
@@ -48,6 +53,7 @@ theorem tendsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (
   rcases hb with ⟨m₀, hb⟩
   use max n₀ m₀
   intro n hn
+  -- what theorems should I use?
   rw [max_le_iff] at hn
   specialize ha n (by linarith)
   specialize hb n (by linarith)
@@ -67,7 +73,9 @@ theorem tendsTo_sub {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
   ring_nf at this
   exact this
 
-/- `≤` version of `TendsTo` is equivalent to the usual `TendsTo`. -/
+/-
+`≤` version of `TendsTo` is equivalent to the usual `TendsTo`.
+-/
 def TendsTo_le (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| ≤ ε
 
@@ -105,7 +113,10 @@ theorem tendsTo_εlt_iff_TendsTo {a : ℕ → ℝ} {t : ℝ} {l : ℝ} (l_gt_zer
     exact hn₀.left
   · exact fun h ε hε _ ↦ h ε hε
 
-/- `*` commutes with `tendsTo` -/
+/-
+`*` commutes with `tendsTo`.
+[TODO] I meet difficulty in swiftly finishing the proof. Feel free to try it yourself!
+-/
 theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n ↦ a n * b n) (A * B) := by
   rw [← tendsTo_εlt_iff_TendsTo (show 1 > 0 by linarith)]
@@ -128,7 +139,7 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
   repeat grw [abs_add]
   repeat grw [abs_mul]
   grw [ha, hb]
-  sorry -- [TODO]
+  sorry
 
 /- squeeze theorem for sequences -/
 theorem tendsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)
@@ -223,6 +234,19 @@ def cont_comp {f g : ℝ → ℝ} (hf : cont f) (hg : cont g) : cont (f ∘ g) :
   intro x
   exact contAt_comp (hf (g x)) (hg x)
 
+/- [EXR] continuity implies sequential continuity -/
+def tendsTo_of_contAt {f : ℝ → ℝ} {x₀ : ℝ} (hf : contAt f x₀)
+    {a : ℕ → ℝ} (ha : TendsTo a x₀) : TendsTo (f ∘ a) (f x₀) := by
+  intro ε hε
+  rcases hf ε hε with ⟨δ, hδ, hδf⟩
+  specialize ha δ hδ
+  rcases ha with ⟨n₀, hn₀⟩
+  use n₀
+  intro n hn
+  specialize hn₀ n hn
+  specialize hδf (a n) hn₀
+  exact hδf
+
 /-
 The uniform limit of a sequence of continuous functions is continuous.
 -/
@@ -252,7 +276,8 @@ The sequential definition of function continuity is equivalent to the epsilon-de
 def contAt_seq (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
   ∀ a : ℕ → ℝ, TendsTo a x₀ → TendsTo (f ∘ a) (f x₀)
 
-/- [TODO]
+/-
+[TODO]
 I failed to solve it swiftly.
 You are welcome to optimize it!
 -/
@@ -260,14 +285,7 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     contAt f x₀ ↔ contAt_seq f x₀ := by
   constructor
   · intro hf a ha
-    intro ε hε
-    rcases hf ε hε with ⟨δ, hδ, hδf⟩
-    rcases ha δ hδ with ⟨n₀, hn₀⟩
-    use n₀
-    intro n hn
-    specialize hn₀ n hn
-    specialize hδf (a n) hn₀
-    exact hδf
+    exact tendsTo_of_contAt hf ha
   · contrapose
     intro hnfcont hnfseq
     unfold contAt at hnfcont
