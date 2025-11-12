@@ -338,11 +338,11 @@ MathJax = {
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ε hε hεlt1; <span class="fu">simp</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> ha (ε / (<span class="dv">3</span> * (|B| + <span class="dv">1</span>))) (<span class="kw">by</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> div_pos hε</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    linarith [abs_nonneg B])</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    linarith only [abs_nonneg B])</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> ha <span class="fu">with</span> ⟨n₁, ha⟩</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hb (ε / (<span class="dv">3</span> * (|A| + <span class="dv">1</span>))) (<span class="kw">by</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> div_pos hε</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    linarith [abs_nonneg A])</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    linarith only [abs_nonneg A])</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> hb <span class="fu">with</span> ⟨n₂, hb⟩</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  use max n₁ n₂</span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> n hn</span>
@@ -359,13 +359,13 @@ MathJax = {
 <span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [div_lt_iff₀]</span>
 <span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    · ring_nf</span>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>      linarith</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    · linarith [abs_nonneg A]</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    · linarith only [abs_nonneg A]</span>
 <span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> h2 : |B| * (ε / (<span class="dv">3</span> * (|B| + <span class="dv">1</span>))) &lt; ε / <span class="dv">3</span> <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    field_simp</span>
 <span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [div_lt_iff₀]</span>
 <span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    · ring_nf</span>
 <span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>      linarith</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    · linarith [abs_nonneg B]</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    · linarith only [abs_nonneg B]</span>
 <span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> h3 : ε / (<span class="dv">3</span> * (|B| + <span class="dv">1</span>)) * (ε / (<span class="dv">3</span> * (|A| + <span class="dv">1</span>))) &lt; ε / <span class="dv">3</span> <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    field_simp</span>
 <span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [div_lt_iff₀]</span>
@@ -379,7 +379,7 @@ MathJax = {
 <span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">repeat</span> grw [← abs_nonneg]</span>
 <span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>      ring_nf</span>
 <span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>      linarith</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  linarith [h1, h2, h3]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  linarith only [h1, h2, h3]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>squeeze theorem for sequences</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    (hab : <span class="kw">∀</span> n, a n ≤ b n) (hbc : <span class="kw">∀</span> n, b n ≤ c n) : TendsTo b L <span class="op">:=</span> <span class="kw">by</span></span>
@@ -487,9 +487,9 @@ MathJax = {
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    (f : ℕ → ℝ → ℝ) (f_cont : <span class="kw">∀</span> n : ℕ, cont (f n))</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    (f₀ : ℝ → ℝ) (h_uconv : uconv f f₀) : cont f₀ <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x₀ ε hε</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> h_uconv (ε / <span class="dv">3</span>) (<span class="kw">by</span> linarith [hε]) <span class="fu">with</span> ⟨N, hN⟩</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> h_uconv (ε / <span class="dv">3</span>) (<span class="kw">by</span> linarith only [hε]) <span class="fu">with</span> ⟨N, hN⟩</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hN N (<span class="kw">by</span> linarith)</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> f_cont N x₀ (ε / <span class="dv">3</span>) (<span class="kw">by</span> linarith [hε]) <span class="fu">with</span> ⟨δ, hδ, hδf⟩</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> f_cont N x₀ (ε / <span class="dv">3</span>) (<span class="kw">by</span> linarith only [hε]) <span class="fu">with</span> ⟨δ, hδ, hδf⟩</span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  use δ, hδ</span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x hx</span>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hδf x hx</span>
@@ -498,7 +498,7 @@ MathJax = {
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- brute force `linarith` argument</span></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [abs_lt] <span class="fu">at</span> hNx hNx₀ hδf ⊢</span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith [hNx, hNx₀, hδf]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith only [hNx, hNx₀, hδf]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The sequential definition of function continuity is equivalent to the epsilon-delta definition.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">c</span>ontAt_seq (f : ℝ → ℝ) (x₀ : ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> a : ℕ → ℝ, TendsTo a x₀ → TendsTo (f ∘ a) (f x₀)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -557,7 +557,7 @@ MathJax = {
 <span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> this ε hε <span class="fu">with</span> ⟨n₀, hn₀⟩</span>
 <span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> hn₀ n₀ (<span class="kw">by</span> linarith); <span class="fu">simp</span> <span class="fu">at</span> hn₀</span>
 <span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> fx_diverge n₀</span>
-<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    linarith [hn₀, fx_diverge]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    linarith only [hn₀, fx_diverge]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
