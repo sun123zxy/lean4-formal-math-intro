@@ -331,30 +331,55 @@ MathJax = {
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [lt_min_iff] <span class="fu">at</span> hn₀</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hn₀.<span class="fu">left</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exact</span> <span class="kw">fun</span> h ε hε _ ↦ h ε hε</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>*</code> commutes with <code>tendsTo</code>. [TODO] I meet difficulty in swiftly finishing the proof. Feel free to try it yourself!</p>
+<p><code>*</code> commutes with <code>tendsTo</code>. [TODO] I failed to finish the proof swiftly. You are welcome to optimize it!</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    TendsTo (<span class="kw">fun</span> n ↦ a n * b n) (A * B) <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← tendsTo_εlt_iff_TendsTo (<span class="fu">show</span> <span class="dv">1</span> &gt; <span class="dv">0</span> <span class="kw">by</span> linarith)]</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ε hε hεlt1; <span class="fu">simp</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> ha (ε / (<span class="dv">3</span> * (|B| + <span class="dv">1</span>))) (<span class="kw">by</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> div_pos hε</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    linarith [abs_nonneg B])</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> ha <span class="fu">with</span> ⟨n₁, ha⟩</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hb (ε / (<span class="dv">3</span> * (|A| + <span class="dv">1</span>))) (<span class="kw">by</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> div_pos hε</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    linarith [abs_nonneg A])</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> hb <span class="fu">with</span> ⟨n₂, hb⟩</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  use max n₁ n₂</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> n hn</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [max_le_iff] <span class="fu">at</span> hn</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> ha n hn.<span class="fu">left</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hb n hn.<span class="fu">right</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [<span class="fu">show</span> a n * b n - A * B = (a n - A) * (b n - B) + A * (b n - B) + B * (a n - A) <span class="kw">by</span> <span class="fu">ring</span>]</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">repeat</span> grw [abs_add]</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">repeat</span> grw [abs_mul]</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  grw [ha, hb]</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ε hε hεlt1; <span class="fu">simp</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> ha (ε / (<span class="dv">3</span> * (|B| + <span class="dv">1</span>))) (<span class="kw">by</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> div_pos hε</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    linarith [abs_nonneg B])</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> ha <span class="fu">with</span> ⟨n₁, ha⟩</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hb (ε / (<span class="dv">3</span> * (|A| + <span class="dv">1</span>))) (<span class="kw">by</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> div_pos hε</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    linarith [abs_nonneg A])</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> hb <span class="fu">with</span> ⟨n₂, hb⟩</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  use max n₁ n₂</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> n hn</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [max_le_iff] <span class="fu">at</span> hn</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> ha n hn.<span class="fu">left</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hb n hn.<span class="fu">right</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [<span class="fu">show</span> a n * b n - A * B = (a n - A) * (b n - B) + A * (b n - B) + B * (a n - A) <span class="kw">by</span> <span class="fu">ring</span>]</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">repeat</span> grw [abs_add]</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">repeat</span> grw [abs_mul]</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  grw [ha, hb]</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- sometimes you have no choice but add some manual steps</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> h1 : |A| * (ε / (<span class="dv">3</span> * (|A| + <span class="dv">1</span>))) &lt; ε / <span class="dv">3</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    field_simp</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [div_lt_iff₀]</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    · ring_nf</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>      linarith</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    · linarith [abs_nonneg A]</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> h2 : |B| * (ε / (<span class="dv">3</span> * (|B| + <span class="dv">1</span>))) &lt; ε / <span class="dv">3</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    field_simp</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [div_lt_iff₀]</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    · ring_nf</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>      linarith</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    · linarith [abs_nonneg B]</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> h3 : ε / (<span class="dv">3</span> * (|B| + <span class="dv">1</span>)) * (ε / (<span class="dv">3</span> * (|A| + <span class="dv">1</span>))) &lt; ε / <span class="dv">3</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    field_simp</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [div_lt_iff₀]</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">repeat</span> grw [← abs_nonneg]</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>      ring_nf</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>      <span class="kw">calc</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>        _ = ε * ε <span class="op">:=</span> <span class="kw">by</span> <span class="fu">ring</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>        _ ≤ <span class="dv">1</span> * ε <span class="op">:=</span> <span class="kw">by</span> grw [← hεlt1]</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>        _ = ε     <span class="op">:=</span> <span class="kw">by</span> <span class="fu">ring</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>        _ &lt; ε * <span class="dv">3</span> <span class="op">:=</span> <span class="kw">by</span> linarith</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">repeat</span> grw [← abs_nonneg]</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>      ring_nf</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>      linarith</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  linarith [h1, h2, h3]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>squeeze theorem for sequences</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    (hab : <span class="kw">∀</span> n, a n ≤ b n) (hbc : <span class="kw">∀</span> n, b n ≤ c n) : TendsTo b L <span class="op">:=</span> <span class="kw">by</span></span>
