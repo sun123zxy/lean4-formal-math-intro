@@ -404,6 +404,7 @@ MathJax = {
 <section id="linarith" class="level4">
 <h4 class="anchored" data-anchor-id="linarith"><code>linarith</code></h4>
 <p><code>linarith</code> is a powerful tactic that solves linear inequalities automatically. It uses hypotheses in the context and basic properties of linear orders to deduce the goal.</p>
+<p><code>linarith only [h1, h2, ...]</code> use only hypotheses <code>h1</code>, <code>h2</code>, … to solve the goal.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>#help tactic linarith</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a &lt; b ↔ a - c &lt; b - c <span class="op">:=</span> <span class="kw">by</span></span>
