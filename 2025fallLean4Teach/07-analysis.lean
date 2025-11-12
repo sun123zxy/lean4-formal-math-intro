@@ -115,12 +115,12 @@ theorem tendsTo_εlt_iff_TendsTo {a : ℕ → ℝ} {t : ℝ} {l : ℝ} (l_gt_zer
 
 /-
 `*` commutes with `tendsTo`.
-[TODO] I meet difficulty in swiftly finishing the proof. Feel free to try it yourself!
+[TODO] I failed to finish the proof swiftly.
+You are welcome to optimize it!
 -/
 theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n ↦ a n * b n) (A * B) := by
   rw [← tendsTo_εlt_iff_TendsTo (show 1 > 0 by linarith)]
-
   intro ε hε hεlt1; simp
   specialize ha (ε / (3 * (|B| + 1))) (by
     apply div_pos hε
@@ -139,7 +139,33 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
   repeat grw [abs_add]
   repeat grw [abs_mul]
   grw [ha, hb]
-  sorry
+  -- sometimes you have no choice but add some manual steps
+  have h1 : |A| * (ε / (3 * (|A| + 1))) < ε / 3 := by
+    field_simp
+    rw [div_lt_iff₀]
+    · ring_nf
+      linarith
+    · linarith [abs_nonneg A]
+  have h2 : |B| * (ε / (3 * (|B| + 1))) < ε / 3 := by
+    field_simp
+    rw [div_lt_iff₀]
+    · ring_nf
+      linarith
+    · linarith [abs_nonneg B]
+  have h3 : ε / (3 * (|B| + 1)) * (ε / (3 * (|A| + 1))) < ε / 3 := by
+    field_simp
+    rw [div_lt_iff₀]
+    · repeat grw [← abs_nonneg]
+      ring_nf
+      calc
+        _ = ε * ε := by ring
+        _ ≤ 1 * ε := by grw [← hεlt1]
+        _ = ε     := by ring
+        _ < ε * 3 := by linarith
+    · repeat grw [← abs_nonneg]
+      ring_nf
+      linarith
+  linarith [h1, h2, h3]
 
 /- squeeze theorem for sequences -/
 theorem tendsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)
