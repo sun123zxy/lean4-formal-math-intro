@@ -242,11 +242,12 @@ MathJax = {
 <section id="mathematical-analysis" class="level1" data-number="">
 <h1 data-number=""><span class="header-section-number"></span> Mathematical Analysis</h1>
 <p>Finally some real math in Lean! In this file we show how to define limits of sequences and continuity of functions in Lean. Of course it is just a toy version, far from the real Mathlib definitions. Nevertheless, that should be enough for you to get a taste of formalizing something that is not completely trivial.</p>
+<p>Since we haven’t touch division quite much yet, you may find it’s difficult to deal with multiplication and division. <code>field_simp</code> tactic may help you a lot in such cases. It won’t break things up as <code>simp</code> does. Anyway, don’t worry too much about it for now.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">T</span>endsTo (a : ℕ → ℝ) (t : ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> ε &gt; <span class="dv">0</span>, <span class="kw">∃</span> n₀ : ℕ, <span class="kw">∀</span> n, n₀ ≤ n → |a n - t| &lt; ε</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The limit of the constant sequence with value <code>c</code> is <code>c</code>.</p>
+<p>[EXR] The limit of the constant sequence with value <code>c</code> is <code>c</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_const (c : ℝ) : TendsTo (<span class="kw">fun</span> _ ↦ c) c <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unfold</span> TendsTo</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ε hε</span>
@@ -279,16 +280,17 @@ MathJax = {
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> hb <span class="fu">with</span> ⟨m₀, hb⟩</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  use max n₀ m₀</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> n hn</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [max_le_iff] <span class="fu">at</span> hn</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> ha n (<span class="kw">by</span> linarith)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hb n (<span class="kw">by</span> linarith)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- common tactic: eliminate abs to make use of `linarith`</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- what theorems should I use?</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [abs_lt] <span class="fu">at</span> ha hb ⊢</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  · linarith</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  · linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- what theorems should I use?</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [max_le_iff] <span class="fu">at</span> hn</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> ha n (<span class="kw">by</span> linarith)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hb n (<span class="kw">by</span> linarith)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- common tactic: eliminate abs to make use of `linarith`</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- what theorems should I use?</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [abs_lt] <span class="fu">at</span> ha hb ⊢</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  · linarith</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  · linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] <code>-</code> commutes with <code>tendsTo</code></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_sub {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    TendsTo (<span class="kw">fun</span> n =&gt; a n - b n) (A - B) <span class="op">:=</span> <span class="kw">by</span></span>
@@ -329,7 +331,7 @@ MathJax = {
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [lt_min_iff] <span class="fu">at</span> hn₀</span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hn₀.<span class="fu">left</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">exact</span> <span class="kw">fun</span> h ε hε _ ↦ h ε hε</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>*</code> commutes with <code>tendsTo</code></p>
+<p><code>*</code> commutes with <code>tendsTo</code>. [TODO] I meet difficulty in swiftly finishing the proof. Feel free to try it yourself!</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    TendsTo (<span class="kw">fun</span> n ↦ a n * b n) (A * B) <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← tendsTo_εlt_iff_TendsTo (<span class="fu">show</span> <span class="dv">1</span> &gt; <span class="dv">0</span> <span class="kw">by</span> linarith)]</span>
@@ -352,7 +354,7 @@ MathJax = {
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">repeat</span> grw [abs_add]</span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">repeat</span> grw [abs_mul]</span>
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  grw [ha, hb]</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span> <span class="co">-- [TODO]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>squeeze theorem for sequences</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    (hab : <span class="kw">∀</span> n, a n ≤ b n) (hbc : <span class="kw">∀</span> n, b n ≤ c n) : TendsTo b L <span class="op">:=</span> <span class="kw">by</span></span>
@@ -440,92 +442,97 @@ MathJax = {
 <div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">c</span>ont_comp {f g : ℝ → ℝ} (hf : cont f) (hg : cont g) : cont (f ∘ g) <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> contAt_comp (hf (g x)) (hg x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[EXR] continuity implies sequential continuity</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">t</span>endsTo_of_contAt {f : ℝ → ℝ} {x₀ : ℝ} (hf : contAt f x₀)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    {a : ℕ → ℝ} (ha : TendsTo a x₀) : TendsTo (f ∘ a) (f x₀) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ε hε</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> hf ε hε <span class="fu">with</span> ⟨δ, hδ, hδf⟩</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> ha δ hδ</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> ha <span class="fu">with</span> ⟨n₀, hn₀⟩</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  use n₀</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> n hn</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hn₀ n hn</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hδf (a n) hn₀</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hδf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The uniform limit of a sequence of continuous functions is continuous.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">u</span>conv (f : ℕ → ℝ → ℝ) (f₀ : ℝ → ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> ε &gt; <span class="dv">0</span>, <span class="kw">∃</span> N : ℕ, <span class="kw">∀</span> n ≥ N, <span class="kw">∀</span> x : ℝ, |f n x - f₀ x| &lt; ε</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">c</span>ont_of_cont_of_uconv</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    (f : ℕ → ℝ → ℝ) (f_cont : <span class="kw">∀</span> n : ℕ, cont (f n))</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    (f₀ : ℝ → ℝ) (h_uconv : uconv f f₀) : cont f₀ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x₀ ε hε</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> h_uconv (ε / <span class="dv">3</span>) (<span class="kw">by</span> linarith [hε]) <span class="fu">with</span> ⟨N, hN⟩</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hN N (<span class="kw">by</span> linarith)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> f_cont N x₀ (ε / <span class="dv">3</span>) (<span class="kw">by</span> linarith [hε]) <span class="fu">with</span> ⟨δ, hδ, hδf⟩</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  use δ, hδ</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x hx</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hδf x hx</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hNx <span class="op">:=</span> hN x</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hNx₀ <span class="op">:=</span> hN x₀</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- brute force `linarith` argument</span></span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [abs_lt] <span class="fu">at</span> hNx hNx₀ hδf ⊢</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith [hNx, hNx₀, hδf]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">u</span>conv (f : ℕ → ℝ → ℝ) (f₀ : ℝ → ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> ε &gt; <span class="dv">0</span>, <span class="kw">∃</span> N : ℕ, <span class="kw">∀</span> n ≥ N, <span class="kw">∀</span> x : ℝ, |f n x - f₀ x| &lt; ε</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">c</span>ont_of_cont_of_uconv</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    (f : ℕ → ℝ → ℝ) (f_cont : <span class="kw">∀</span> n : ℕ, cont (f n))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    (f₀ : ℝ → ℝ) (h_uconv : uconv f f₀) : cont f₀ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x₀ ε hε</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> h_uconv (ε / <span class="dv">3</span>) (<span class="kw">by</span> linarith [hε]) <span class="fu">with</span> ⟨N, hN⟩</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hN N (<span class="kw">by</span> linarith)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> f_cont N x₀ (ε / <span class="dv">3</span>) (<span class="kw">by</span> linarith [hε]) <span class="fu">with</span> ⟨δ, hδ, hδf⟩</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  use δ, hδ</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x hx</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> hδf x hx</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hNx <span class="op">:=</span> hN x</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">have</span> hNx₀ <span class="op">:=</span> hN x₀</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- brute force `linarith` argument</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [abs_lt] <span class="fu">at</span> hNx hNx₀ hδf ⊢</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith [hNx, hNx₀, hδf]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The sequential definition of function continuity is equivalent to the epsilon-delta definition.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">c</span>ontAt_seq (f : ℝ → ℝ) (x₀ : ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> a : ℕ → ℝ, TendsTo a x₀ → TendsTo (f ∘ a) (f x₀)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">c</span>ontAt_seq (f : ℝ → ℝ) (x₀ : ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> a : ℕ → ℝ, TendsTo a x₀ → TendsTo (f ∘ a) (f x₀)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[TODO] I failed to solve it swiftly. You are welcome to optimize it!</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">c</span>ontAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    contAt f x₀ ↔ contAt_seq f x₀ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hf a ha</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> ε hε</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hf ε hε <span class="fu">with</span> ⟨δ, hδ, hδf⟩</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> ha δ hδ <span class="fu">with</span> ⟨n₀, hn₀⟩</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    use n₀</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> n hn</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> hn₀ n hn</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> hδf (a n) hn₀</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> hδf</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  · contrapose</span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> hnfcont hnfseq</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unfold</span> contAt <span class="fu">at</span> hnfcont</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    push_neg <span class="fu">at</span> hnfcont</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- construct a sequence `a n` tending to `x₀`</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> a (n : ℕ) : ℝ <span class="op">:=</span> <span class="dv">1</span> / (n + <span class="dv">1</span>)</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> a_gt_zero (n : ℕ) : a n &gt; <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span> [a]; linarith</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> a_TendsTo_zero : TendsTo a <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intro</span> ε hε</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>      use Nat.ceil (<span class="dv">1</span> / ε) <span class="co">-- ceiling function</span></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intro</span> n hn</span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [Nat.ceil_le] <span class="fu">at</span> hn</span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">simp</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [abs_of_pos (a_gt_zero n)]</span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unfold</span> a</span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [div_lt_comm₀ (<span class="kw">by</span> linarith) hε]</span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>      linarith</span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- construct a diverging sequence `f x` with `x` tending to `x₀`</span></span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- this requires us to extract `Type*` objects from an existence to form a function</span></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- may meet universe issues if done naively</span></span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- we use `Classical.indefiniteDescription` here to extract such objects classically</span></span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hnfcont <span class="fu">with</span> ⟨ε, hε, hnf⟩</span>
-<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x_subtype (n : ℕ) <span class="op">:=</span> Classical.indefiniteDescription _ &lt;| hnf (a n) (a_gt_zero n)</span>
-<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x (n : ℕ) : ℝ <span class="op">:=</span> (x_subtype n).val</span>
-<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> x_lt_a (n : ℕ) : |x n - x₀| &lt; a n <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unfold</span> x</span>
-<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> (x_subtype n).property.<span class="fu">left</span></span>
-<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> fx_diverge (n : ℕ) : |f (x n) - f x₀| ≥ ε <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unfold</span> x</span>
-<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> (x_subtype n).property.<span class="fu">right</span></span>
-<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> x_tendsTo_x₀ : TendsTo x x₀ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>      <span class="fu">suffices</span> TendsTo (<span class="kw">fun</span> n ↦ x n - x₀) <span class="dv">0</span> <span class="kw">by</span></span>
-<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>        <span class="fu">have</span> h_add <span class="op">:=</span> tendsTo_add this (tendsTo_const x₀)</span>
-<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>        <span class="fu">simp</span> <span class="fu">at</span> h_add; <span class="fu">exact</span> h_add</span>
-<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>      <span class="fu">refine</span> tendsTo_sandwich (?_ : TendsTo (<span class="kw">fun</span> n ↦ -a n) <span class="dv">0</span>) (?_ : TendsTo (<span class="kw">fun</span> n ↦ a n) <span class="dv">0</span>) ?_ ?_</span>
-<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>      · haveI <span class="op">:=</span> tendsTo_neg a_TendsTo_zero</span>
-<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>        <span class="fu">simp</span> <span class="fu">at</span> this; <span class="fu">exact</span> this</span>
-<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>      · <span class="fu">exact</span> a_TendsTo_zero</span>
-<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>      <span class="fu">all_goals</span></span>
-<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>        <span class="fu">intro</span> n</span>
-<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>        haveI <span class="op">:=</span> x_lt_a n</span>
-<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rw</span> [abs_lt] <span class="fu">at</span> this</span>
-<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>        linarith</span>
-<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- but it is said that all such sequences converge</span></span>
-<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>    haveI <span class="op">:=</span> hnfseq x x_tendsTo_x₀</span>
-<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> this ε hε <span class="fu">with</span> ⟨n₀, hn₀⟩</span>
-<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> hn₀ n₀ (<span class="kw">by</span> linarith); <span class="fu">simp</span> <span class="fu">at</span> hn₀</span>
-<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> fx_diverge n₀</span>
-<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>    linarith [hn₀, fx_diverge]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">c</span>ontAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    contAt f x₀ ↔ contAt_seq f x₀ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hf a ha</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> tendsTo_of_contAt hf ha</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  · contrapose</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> hnfcont hnfseq</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unfold</span> contAt <span class="fu">at</span> hnfcont</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    push_neg <span class="fu">at</span> hnfcont</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- construct a sequence `a n` tending to `x₀`</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> a (n : ℕ) : ℝ <span class="op">:=</span> <span class="dv">1</span> / (n + <span class="dv">1</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> a_gt_zero (n : ℕ) : a n &gt; <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span> [a]; linarith</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> a_TendsTo_zero : TendsTo a <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intro</span> ε hε</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>      use Nat.ceil (<span class="dv">1</span> / ε) <span class="co">-- ceiling function</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">intro</span> n hn</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [Nat.ceil_le] <span class="fu">at</span> hn</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">simp</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [abs_of_pos (a_gt_zero n)]</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unfold</span> a</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [div_lt_comm₀ (<span class="kw">by</span> linarith) hε]</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>      linarith</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- construct a diverging sequence `f x` with `x` tending to `x₀`</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- this requires us to extract `Type*` objects from an existence to form a function</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- may meet universe issues if done naively</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- we use `Classical.indefiniteDescription` here to extract such objects classically</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hnfcont <span class="fu">with</span> ⟨ε, hε, hnf⟩</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x_subtype (n : ℕ) <span class="op">:=</span> Classical.indefiniteDescription _ &lt;| hnf (a n) (a_gt_zero n)</span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x (n : ℕ) : ℝ <span class="op">:=</span> (x_subtype n).val</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> x_lt_a (n : ℕ) : |x n - x₀| &lt; a n <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unfold</span> x</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> (x_subtype n).property.<span class="fu">left</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> fx_diverge (n : ℕ) : |f (x n) - f x₀| ≥ ε <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">unfold</span> x</span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">exact</span> (x_subtype n).property.<span class="fu">right</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> x_tendsTo_x₀ : TendsTo x x₀ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">suffices</span> TendsTo (<span class="kw">fun</span> n ↦ x n - x₀) <span class="dv">0</span> <span class="kw">by</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>        <span class="fu">have</span> h_add <span class="op">:=</span> tendsTo_add this (tendsTo_const x₀)</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>        <span class="fu">simp</span> <span class="fu">at</span> h_add; <span class="fu">exact</span> h_add</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">refine</span> tendsTo_sandwich (?_ : TendsTo (<span class="kw">fun</span> n ↦ -a n) <span class="dv">0</span>) (?_ : TendsTo (<span class="kw">fun</span> n ↦ a n) <span class="dv">0</span>) ?_ ?_</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>      · haveI <span class="op">:=</span> tendsTo_neg a_TendsTo_zero</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>        <span class="fu">simp</span> <span class="fu">at</span> this; <span class="fu">exact</span> this</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>      · <span class="fu">exact</span> a_TendsTo_zero</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>      <span class="fu">all_goals</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>        <span class="fu">intro</span> n</span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>        haveI <span class="op">:=</span> x_lt_a n</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rw</span> [abs_lt] <span class="fu">at</span> this</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>        linarith</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    <span class="co">-- but it is said that all such sequences converge</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    haveI <span class="op">:=</span> hnfseq x x_tendsTo_x₀</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> this ε hε <span class="fu">with</span> ⟨n₀, hn₀⟩</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> hn₀ n₀ (<span class="kw">by</span> linarith); <span class="fu">simp</span> <span class="fu">at</span> hn₀</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> fx_diverge n₀</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    linarith [hn₀, fx_diverge]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
