@@ -124,11 +124,11 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
   intro ε hε hεlt1; simp
   specialize ha (ε / (3 * (|B| + 1))) (by
     apply div_pos hε
-    linarith [abs_nonneg B])
+    linarith only [abs_nonneg B])
   rcases ha with ⟨n₁, ha⟩
   specialize hb (ε / (3 * (|A| + 1))) (by
     apply div_pos hε
-    linarith [abs_nonneg A])
+    linarith only [abs_nonneg A])
   rcases hb with ⟨n₂, hb⟩
   use max n₁ n₂
   intro n hn
@@ -145,13 +145,13 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
     rw [div_lt_iff₀]
     · ring_nf
       linarith
-    · linarith [abs_nonneg A]
+    · linarith only [abs_nonneg A]
   have h2 : |B| * (ε / (3 * (|B| + 1))) < ε / 3 := by
     field_simp
     rw [div_lt_iff₀]
     · ring_nf
       linarith
-    · linarith [abs_nonneg B]
+    · linarith only [abs_nonneg B]
   have h3 : ε / (3 * (|B| + 1)) * (ε / (3 * (|A| + 1))) < ε / 3 := by
     field_simp
     rw [div_lt_iff₀]
@@ -165,7 +165,7 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
     · repeat grw [← abs_nonneg]
       ring_nf
       linarith
-  linarith [h1, h2, h3]
+  linarith only [h1, h2, h3]
 
 /- squeeze theorem for sequences -/
 theorem tendsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)
@@ -283,9 +283,9 @@ theorem cont_of_cont_of_uconv
     (f : ℕ → ℝ → ℝ) (f_cont : ∀ n : ℕ, cont (f n))
     (f₀ : ℝ → ℝ) (h_uconv : uconv f f₀) : cont f₀ := by
   intro x₀ ε hε
-  rcases h_uconv (ε / 3) (by linarith [hε]) with ⟨N, hN⟩
+  rcases h_uconv (ε / 3) (by linarith only [hε]) with ⟨N, hN⟩
   specialize hN N (by linarith)
-  rcases f_cont N x₀ (ε / 3) (by linarith [hε]) with ⟨δ, hδ, hδf⟩
+  rcases f_cont N x₀ (ε / 3) (by linarith only [hε]) with ⟨δ, hδ, hδf⟩
   use δ, hδ
   intro x hx
   specialize hδf x hx
@@ -294,7 +294,7 @@ theorem cont_of_cont_of_uconv
   -- brute force `linarith` argument
   rw [abs_lt] at hNx hNx₀ hδf ⊢
   constructor
-  all_goals linarith [hNx, hNx₀, hδf]
+  all_goals linarith only [hNx, hNx₀, hδf]
 
 /-
 The sequential definition of function continuity is equivalent to the epsilon-delta definition.
@@ -361,4 +361,4 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     rcases this ε hε with ⟨n₀, hn₀⟩
     specialize hn₀ n₀ (by linarith); simp at hn₀
     specialize fx_diverge n₀
-    linarith [hn₀, fx_diverge]
+    linarith only [hn₀, fx_diverge]
