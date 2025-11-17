@@ -385,6 +385,7 @@ Do try them when you feel tired of trivial steps.
 #help tactic simp_rw
 #help tactic field_simp
 
+#help tactic group
 #help tactic abel
 #help tactic ring
 #help tactic module
