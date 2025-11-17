@@ -174,7 +174,7 @@
     "href": "06-ineq.html#wheelchair-tactics",
     "title": "06-ineq.lean",
     "section": "3 Wheelchair tactics",
-    "text": "3 Wheelchair tactics\nYou have seen some all-in-one tactics like simp, ring and linarith. There are even more powerful tactics that save your effort. Do try them when you feel tired of trivial steps.\n#help tactic simp\n#help tactic dsimp\n#help tactic simp_rw\n#help tactic field_simp\n\n#help tactic abel\n#help tactic ring\n#help tactic module\n\n#help tactic linarith\n#help tactic nlinarith\n\n#help tactic omega\n#help tactic aesop\n#help tactic grind\n#help tactic tauto\nA tactic cheatsheet is available at lean-tactics.pdf",
+    "text": "3 Wheelchair tactics\nYou have seen some all-in-one tactics like simp, ring and linarith. There are even more powerful tactics that save your effort. Do try them when you feel tired of trivial steps.\n#help tactic simp\n#help tactic dsimp\n#help tactic simp_rw\n#help tactic field_simp\n\n#help tactic group\n#help tactic abel\n#help tactic ring\n#help tactic module\n\n#help tactic linarith\n#help tactic nlinarith\n\n#help tactic omega\n#help tactic aesop\n#help tactic grind\n#help tactic tauto\nA tactic cheatsheet is available at lean-tactics.pdf",
     "crumbs": [
       "06-ineq.lean"
     ]
