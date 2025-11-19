@@ -286,12 +286,13 @@ example : f (a⁻¹) = (f a)⁻¹ := by
 #check map_inv -- this has a name
 
 /-
-`MonoidHom` requires one to show preservation of `1`.
+[EXR] `MonoidHom` requires one to show preservation of `1`.
 But this is redundant for group homomorphisms.
 -/
 example (φ : G₁ →ₙ* G₂) : φ 1 = 1 := by
   haveI : φ 1 * φ 1 = φ 1 * 1 := by rw [← map_mul, mul_one, mul_one]
   exact mul_left_cancel this
+
 /-
 Hence in the case of groups,
 Mathlib provides a constructor `MonoidHom.mk'` that only requires
