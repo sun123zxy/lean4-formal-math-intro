@@ -1,5 +1,5 @@
 ---
-title: 08-algebra.lean
+title: 08-groups.lean
 
 number-sections: true
 
