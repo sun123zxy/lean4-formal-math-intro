@@ -242,41 +242,41 @@
   {
     "objectID": "08-groups.html",
     "href": "08-groups.html",
-    "title": "08-algebra.lean",
+    "title": "08-groups.lean",
     "section": "",
     "text": "import Mathlib",
     "crumbs": [
-      "08-algebra.lean"
+      "08-groups.lean"
     ]
   },
   {
     "objectID": "08-groups.html#semigroups",
     "href": "08-groups.html#semigroups",
-    "title": "08-algebra.lean",
+    "title": "08-groups.lean",
     "section": "1 Semigroups",
     "text": "1 Semigroups\n\n1.1 Objects\nA Semigroup is a type with an associative binary operation *.\nsection\n\n#check Semigroup\nvariable (G : Type*) [Semigroup G] (a b c : G)\nexample : a * (b * c) = (a * b) * c := by rw [mul_assoc]\nAn AddSemigroup is exactly the same as Semigroup, only with additive + notation.\nvariable (A : Type*) [AddSemigroup A] (a b c : A)\nexample : a + (b + c) = (a + b) + c := by rw [add_assoc]\nNote that using the notation of + does not necessarily mean that the operation is commutative. To this end, we have CommSemigroup and AddCommSemigroup.\n#check CommSemigroup\n#check mul_comm\n\n#check AddCommSemigroup\n#check add_comm\n\nend\n\n\n1.2 Morphisms\nA MulHom is a morphism between two semigroups that preserves the multiplication. The notation for this is G₁ →ₙ* G₂. Strictly speaking, this definition does not require the * operation to be associative on G₁ or G₂.\nsection\n\n#check MulHom\nvariable {G₁ G₂ G₃ : Type*} [Semigroup G₁] [Semigroup G₂] [Semigroup G₃]\n         (f : G₁ →ₙ* G₂) (g : G₂ →ₙ* G₃) (a b : G₁)\nexample : f (a * b) = f a * f b := by rw [map_mul]\nAdditive version of MulHom is AddHom (→ₙ+).\n#check AddHom\nThe definition of MulHom is a bundle of:\n\na function f : G₁ → G₂\na proof that f preserves multiplication\n\nHence creating a new MulHom requires providing these data.\n#check MulHom.mk\nexample : ℕ →ₙ+ ℕ := ⟨(· * 2), by intros; ring⟩\nComposition of MulHoms as functions preserves multiplication\nexample : G₁ →ₙ* G₃ := ⟨g ∘ f, by intros; dsimp; rw [map_mul, map_mul]⟩\nTo avoid manually constructing MulHom every time when composing, We may use MulHom.comp g f. The dot convention g.comp f is used here for convenience.\nexample : (g.comp f) (a * b) = (g.comp f) a * (g.comp f) b := by simp\nAbove shows the bundled definition of MulHom, how to create it, and how to compose them. The same philosophy is adopted for other morphism-like structures in Mathlib, such as MonoidHom.\nend",
     "crumbs": [
-      "08-algebra.lean"
+      "08-groups.lean"
     ]
   },
   {
     "objectID": "08-groups.html#monoids",
     "href": "08-groups.html#monoids",
-    "title": "08-algebra.lean",
+    "title": "08-groups.lean",
     "section": "2 Monoids",
     "text": "2 Monoids\n\n2.1 Objects\nA Monoid is a Semigroup with an identity element 1 s.t. a * 1 = a and 1 * a = a.\nsection\n\n#check Monoid\nvariable (G : Type*) [Monoid G] (a b c : G)\nexample : a * 1 = a := by rw [mul_one]\nexample : 1 * a = a := by rw [one_mul]\n[EXR] characterization of the identity element\nexample (h : ∀ x : G, x * a = x) : a = 1 := by\n  specialize h 1\n  rw [one_mul] at h\n  exact h\nMonoid additionaly enables power notation a ^ n for natural number n.\n#check Monoid.npow\nexample : a ^ 0 = 1 := by rw [pow_zero]\nexample (n : ℕ) : a ^ (n + 1) = a ^ n * a := by rw [pow_succ]\nWe are not prepared to prove this until we talk about induction.\n#check one_pow\nAddMonoid is the additive version of Monoid.\nvariable (A : Type*) [AddMonoid A] (a b c : A)\nexample : a + 0 = a := by rw [add_zero]\nexample : 0 + a = a := by rw [zero_add]\nexample : 0 • a = 0 := by rw [zero_smul]\nexample (n : ℕ) : (n + 1) • a = n • a + a := by rw [succ_nsmul]\nFor commutative monoids, we have CommMonoid and AddCommMonoid.\n#check CommMonoid\n#check AddCommMonoid\n\nend\n\n\n2.2 Morphisms\nA MonoidHom is a morphism between two monoids that preserves the multiplication and the identity. The notation for this is G →* H.\nsection\n\n#check MonoidHom\nvariable {G₁ G₂ G₃ : Type*} [Monoid G₁] [Monoid G₂] [Monoid G₃]\n         (f : G₁ →* G₂) (g : G₂ →* G₃) (a b : G₁)\nexample : f (a * b) = f a * f b := by rw [map_mul]\nexample : f 1 = 1 := by rw [map_one]\nAdditive version of MonoidHom is AddMonoidHom (→+).\n#check AddMonoidHom\nMonoidHom need additional data to MulHom: preservation of 1.\n#check MonoidHom.mk\nexample : ℕ →+ ℕ := ⟨⟨(· * 2), by simp⟩, by intros; ring⟩\n\nend",
     "crumbs": [
-      "08-algebra.lean"
+      "08-groups.lean"
     ]
   },
   {
     "objectID": "08-groups.html#groups",
     "href": "08-groups.html#groups",
-    "title": "08-algebra.lean",
+    "title": "08-groups.lean",
     "section": "3 Groups",
     "text": "3 Groups\n\n3.1 Objects\nIn Mathlib, a Group is defined to be a Monoid where every element a has an left inverse a⁻¹ s.t. a⁻¹ * a = 1.\nsection\n\n#check Group\nvariable (G : Type*) [Group G] (a b c : G)\n#check a⁻¹\nexample : a⁻¹ * a = 1 := by rw [inv_mul_cancel]\nThe following exercises lead to a proof of: In a group, a left inverse is also a right inverse. This recovers the usual definition of a group.\n[EXR] left multiplication is injective\nexample (h : a * b = a * c) : b = c := by\n  apply_fun (a⁻¹ * ·) at h\n  rw [← mul_assoc, ← mul_assoc, inv_mul_cancel, one_mul, one_mul] at h\n  exact h\n#check mul_left_cancel -- this has a name\n[EXR] a left inverse actually also a right inverse\nexample : a * a⁻¹ = 1 := by\n  apply_fun (a⁻¹ * ·)\n  · dsimp\n    rw [← mul_assoc, inv_mul_cancel, one_mul, mul_one]\n  · apply mul_left_cancel\n#check mul_inv_cancel -- this has a name\nThe following prove that G is a DivisionMonoid. You don’t need to know what this means for now.\n#synth DivisionMonoid G\n[EXR] characterization of a right inverse\nexample (h : a * b = 1) : b = a⁻¹ := by\n  apply_fun (a⁻¹ * ·) at h\n  rw [← mul_assoc, inv_mul_cancel, one_mul, mul_one] at h\n  exact h\n#check eq_inv_of_mul_eq_one_right -- this has a name\n[EXR] characterization of a left inverse\nexample (h : a * b = 1) : a = b⁻¹ := by\n  apply_fun (· * b⁻¹) at h\n  rw [mul_assoc, mul_inv_cancel, mul_one, one_mul] at h\n  exact h\n#check eq_inv_of_mul_eq_one_left -- this has a name\n[EXR] involutivity of the inverse\nexample : (a⁻¹)⁻¹ = a := by\n  symm; apply eq_inv_of_mul_eq_one_right\n  exact inv_mul_cancel a\n#check inv_inv -- this has a name\n[EXR] inverse of a product\nexample : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by\n  apply inv_eq_of_mul_eq_one_left\n  rw [← mul_assoc, mul_assoc b⁻¹, inv_mul_cancel, mul_one, inv_mul_cancel]\n#check mul_inv_rev -- this has a name\nsome other injectivity\n[EXR] inverse is injective\nexample (h : a⁻¹ = b⁻¹) : a = b := by\n  apply_fun (·⁻¹) at h\n  rw [inv_inv a, inv_inv b] at h\n  exact h\n#check inv_injective -- this has a name\n[EXR] right multiplication is injective\nexample (h : b * a = c * a) : b = c := by\n  apply_fun (· * a⁻¹) at h\n  rw [mul_assoc, mul_assoc, mul_inv_cancel, mul_one, mul_one] at h\n  exact h\n#check mul_right_cancel -- this has a name\nwheelchair tactic for groups\n#help tactic group\nexample : (a ^ 3 * b⁻¹)⁻¹ = b * a⁻¹ * (a ^ 2)⁻¹  := by\n  group\n[TODO] DivInvMonoid enables zpow notation for integer powers a ^ n where n : ℤ. [IGNORE] see the library note [forgetful inheritance] for the philosophy of this definition.\nAdditive and commutative versions of groups are as usual.\n#check AddGroup\n#check CommGroup\n#check AddCommGroup\n\nend\n\n\n3.2 Morphisms\nMonoidHom It is also used for group homomorphisms.\nsection\n\nvariable {G₁ G₂ G₃ : Type*} [Group G₁] [Group G₂] [Group G₃]\n         (f : G₁ →* G₂) (g : G₂ →* G₃) (a b : G₁)\n[EXR] Monoid homomorphisms preserve inverses\nexample : f (a⁻¹) = (f a)⁻¹ := by\n  apply eq_inv_of_mul_eq_one_right\n  rw [← map_mul, mul_inv_cancel, map_one]\n#check map_inv -- this has a name\n[EXR] MonoidHom requires one to show preservation of 1. But this is redundant for group homomorphisms.\nexample (φ : G₁ →ₙ* G₂) : φ 1 = 1 := by\n  haveI : φ 1 * φ 1 = φ 1 * 1 := by rw [← map_mul, mul_one, mul_one]\n  exact mul_left_cancel this\nHence in the case of groups, Mathlib provides a constructor MonoidHom.mk' that only requires the preservation of multiplication to build a MonoidHom.\n#check MonoidHom.mk'\n\nend",
     "crumbs": [
-      "08-algebra.lean"
+      "08-groups.lean"
     ]
   },
   {
