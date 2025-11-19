@@ -398,14 +398,13 @@ MathJax = {
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [← mul_assoc, inv_mul_cancel, one_mul, mul_one]</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">apply</span> mul_left_cancel</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_inv_cancel <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The following prove that <code>G</code> is a <code>DivisionMonoid</code>. You don’t need to know what this means for now.</p>
+<p>The following proves that <code>G</code> is a <code>DivisionMonoid</code>. You don’t need to know what this means for now.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>#synth DivisionMonoid G</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] characterization of a right inverse</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * b = <span class="dv">1</span>) : b = a⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (a⁻¹ * ·) <span class="fu">at</span> h</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← mul_assoc, inv_mul_cancel, one_mul, mul_one] <span class="fu">at</span> h</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> eq_inv_of_mul_eq_one_right <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- if you does not want to use `apply_fun`</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← one_mul b, ← inv_mul_cancel a, mul_assoc, h, mul_one]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> eq_inv_of_mul_eq_one_right <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] characterization of a left inverse</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * b = <span class="dv">1</span>) : a = b⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· * b⁻¹) <span class="fu">at</span> h</span>
