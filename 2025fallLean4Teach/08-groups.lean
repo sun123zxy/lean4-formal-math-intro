@@ -201,16 +201,15 @@ example : a * a⁻¹ = 1 := by
 #check mul_inv_cancel -- this has a name
 
 /-
-The following prove that `G` is a `DivisionMonoid`.
+The following proves that `G` is a `DivisionMonoid`.
 You don't need to know what this means for now.
 -/
 #synth DivisionMonoid G
 
 /- [EXR] characterization of a right inverse -/
 example (h : a * b = 1) : b = a⁻¹ := by
-  apply_fun (a⁻¹ * ·) at h
-  rw [← mul_assoc, inv_mul_cancel, one_mul, mul_one] at h
-  exact h
+  -- if you does not want to use `apply_fun`
+  rw [← one_mul b, ← inv_mul_cancel a, mul_assoc, h, mul_one]
 #check eq_inv_of_mul_eq_one_right -- this has a name
 
 /- [EXR] characterization of a left inverse -/
