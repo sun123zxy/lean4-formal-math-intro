@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>08-groups.lean – 2025 Fall Lean 4 Teach</title>
+<title>08-group.lean – 2025 Fall Lean 4 Teach</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -124,7 +124,7 @@ MathJax = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-groups.html">08-groups.lean</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./08-group.html">08-group.lean</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -205,8 +205,14 @@ MathJax = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./08-groups.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">08-groups.lean</span></a>
+  <a href="./08-group.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">08-group.lean</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-subgroup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">08-group.lean</span></a>
   </div>
 </li>
     </ul>
@@ -245,7 +251,7 @@ MathJax = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">08-groups.lean</h1>
+<h1 class="title">08-group.lean</h1>
 </div>
 
 
@@ -268,9 +274,8 @@ MathJax = {
 <p>In this file, we illustrate how Mathlib develops the theory of everyday algebraic structures, starting from semigroups, monoids, groups, and their morphisms.</p>
 <p>By “illustrate”, we do not mean to reconstruct these structures from scratch, as we haven’t yet covered how to define structures and type classes in Lean.</p>
 <p>Instead, we accept the Mathlib definitions and axioms, but reprove some of their consequences manually, with mention of the relevant theorems in Mathlib.</p>
-<p>Hopefully, this will help you know how to build the theory mathematically and get you familiar with the Mathlib library.</p>
-<p>For a more complete treatment, read <a href="https://leanprover-community.github.io/mathematics_in_lean/">MiL</a>.</p>
-<p>[TODO] Sub-objects and quotients</p>
+<p>Hopefully, this will help you focus on building up the theory mathematically while getting familiar with the Mathlib API. Be advised that you can always ctrl+click on any name to see its actual definition in Mathlib.</p>
+<p>For a more complete treatment (especially on the philosophy behind API design), read <a href="https://leanprover-community.github.io/mathematics_in_lean/">MiL</a> chapter 7 and 9.</p>
 <section id="semigroups" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="semigroups"><span class="header-section-number">1</span> Semigroups</h2>
 <section id="objects" class="level3" data-number="1.1">
@@ -295,7 +300,13 @@ MathJax = {
 </section>
 <section id="morphisms" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">1.2</span> Morphisms</h3>
-<p>A <code>MulHom</code> is a morphism between two semigroups that preserves the multiplication. The notation for this is <code>G₁ →ₙ* G₂</code>. Strictly speaking, this definition does not require the <code>*</code> operation to be associative on <code>G₁</code> or <code>G₂</code>.</p>
+<p>A <code>MulHom</code> is a morphism between two semigroups that preserves the multiplication. The notation for this is <code>G₁ →ₙ* G₂</code>.</p>
+<p>It’s a bundle of:</p>
+<ul>
+<li>a function <code>f : G₁ → G₂</code></li>
+<li>a proof that <code>f</code> preserves multiplication.</li>
+</ul>
+<p>Strictly speaking, this definition does not require the <code>*</code> operation to be associative on <code>G₁</code> or <code>G₂</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MulHom</span>
@@ -304,20 +315,23 @@ MathJax = {
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f (a * b) = f a * f b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [map_mul]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Additive version of <code>MulHom</code> is <code>AddHom</code> (<code>→ₙ+</code>).</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddHom</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The definition of <code>MulHom</code> is a bundle of:</p>
-<ul>
-<li>a function <code>f : G₁ → G₂</code></li>
-<li>a proof that <code>f</code> preserves multiplication</li>
-</ul>
-<p>Hence creating a new <code>MulHom</code> requires providing these data.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MulHom.mk</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ℕ →ₙ+ ℕ <span class="op">:=</span> ⟨(· * <span class="dv">2</span>), <span class="kw">by</span> <span class="fu">intros</span>; ring⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Composition of <code>MulHom</code>s as functions preserves multiplication</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : G₁ →ₙ* G₃ <span class="op">:=</span> ⟨g ∘ f, <span class="kw">by</span> <span class="fu">intros</span>; <span class="fu">dsimp</span>; <span class="fu">rw</span> [map_mul, map_mul]⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You might already notice that a <code>MulHom</code> can be used just like a function. This is because Mathlib has instantiated the <code>FunLike</code> type class to <code>MulHom</code>, which provides the function coercion.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>#synth FunLike (MulHom G₁ G₂) G₁ G₂</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Creating a new <code>MulHom</code> requires providing all the data needed.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MulHom.mk</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ℕ →ₙ+ ℕ <span class="op">:=</span> ⟨(· * <span class="dv">2</span>), <span class="kw">by</span> <span class="fu">intros</span>; ring⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Composition of <code>MulHom</code>s as functions preserves multiplication.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : G₁ →ₙ* G₃ <span class="op">:=</span> ⟨g ∘ f, <span class="kw">by</span> <span class="fu">intros</span>; <span class="fu">dsimp</span>; <span class="fu">rw</span> [map_mul, map_mul]⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To avoid manually constructing <code>MulHom</code> every time when composing, We may use <code>MulHom.comp g f</code>. The dot convention <code>g.comp f</code> is used here for convenience.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (g.comp f) (a * b) = (g.comp f) a * (g.comp f) b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (g.comp f) (a * b) = (g.comp f) a * (g.comp f) b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A <code>MulHom</code> is determined by the underlying function.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MulHom.ext</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f₁ : G₁ →ₙ* G₂) (f₂ : G₁ →ₙ* G₂) (h : f₁.toFun = f₂.toFun) : f₁ = f₂ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  ext x</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  change f₁.toFun x = f₂.toFun x</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [h]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Above shows the bundled definition of <code>MulHom</code>, how to create it, and how to compose them. The same philosophy is adopted for other morphism-like structures in Mathlib, such as <code>MonoidHom</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="monoids" class="level2" data-number="2">
@@ -325,52 +339,52 @@ MathJax = {
 <section id="objects" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">2.1</span> Objects</h3>
 <p>A <code>Monoid</code> is a <code>Semigroup</code> with an identity element <code>1</code> s.t. <code>a * 1 = a</code> and <code>1 * a = a</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Monoid</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Monoid G] (a b c : G)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a * <span class="dv">1</span> = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [mul_one]</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">1</span> * a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [one_mul]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Monoid</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Monoid G] (a b c : G)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a * <span class="dv">1</span> = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [mul_one]</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">1</span> * a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [one_mul]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] characterization of the identity element</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : <span class="kw">∀</span> x : G, x * a = x) : a = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> h <span class="dv">1</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [one_mul] <span class="fu">at</span> h</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : <span class="kw">∀</span> x : G, x * a = x) : a = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specialize</span> h <span class="dv">1</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [one_mul] <span class="fu">at</span> h</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>Monoid</code> additionaly enables power notation <code>a ^ n</code> for natural number <code>n</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Monoid.npow</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ^ <span class="dv">0</span> = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [pow_zero]</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n : ℕ) : a ^ (n + <span class="dv">1</span>) = a ^ n * a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [pow_succ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Monoid.npow</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ^ <span class="dv">0</span> = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [pow_zero]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n : ℕ) : a ^ (n + <span class="dv">1</span>) = a ^ n * a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [pow_succ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We are not prepared to prove this until we talk about induction.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> one_pow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> one_pow</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>AddMonoid</code> is the additive version of <code>Monoid</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (A : <span class="fu">Type</span>*) [AddMonoid A] (a b c : A)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + <span class="dv">0</span> = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [add_zero]</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">0</span> + a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [zero_add]</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">0</span> • a = <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [zero_smul]</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n : ℕ) : (n + <span class="dv">1</span>) • a = n • a + a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [succ_nsmul]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (A : <span class="fu">Type</span>*) [AddMonoid A] (a b c : A)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a + <span class="dv">0</span> = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [add_zero]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">0</span> + a = a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [zero_add]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="dv">0</span> • a = <span class="dv">0</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [zero_smul]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n : ℕ) : (n + <span class="dv">1</span>) • a = n • a + a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [succ_nsmul]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For commutative monoids, we have <code>CommMonoid</code> and <code>AddCommMonoid</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> CommMonoid</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddCommMonoid</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> CommMonoid</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddCommMonoid</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="morphisms" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">2.2</span> Morphisms</h3>
 <p>A <code>MonoidHom</code> is a morphism between two monoids that preserves the multiplication and the identity. The notation for this is <code>G →* H</code>.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G₁ G₂ G₃ : <span class="fu">Type</span>*} [Monoid G₁] [Monoid G₂] [Monoid G₃]</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>         (f : G₁ →* G₂) (g : G₂ →* G₃) (a b : G₁)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f (a * b) = f a * f b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [map_mul]</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f <span class="dv">1</span> = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [map_one]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G₁ G₂ G₃ : <span class="fu">Type</span>*} [Monoid G₁] [Monoid G₂] [Monoid G₃]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>         (f : G₁ →* G₂) (g : G₂ →* G₃) (a b : G₁)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f (a * b) = f a * f b <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [map_mul]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f <span class="dv">1</span> = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [map_one]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Additive version of <code>MonoidHom</code> is <code>AddMonoidHom</code> (<code>→+</code>).</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddMonoidHom</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddMonoidHom</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>MonoidHom</code> need additional data to <code>MulHom</code>: preservation of <code>1</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mk</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ℕ →+ ℕ <span class="op">:=</span> ⟨⟨(· * <span class="dv">2</span>), <span class="kw">by</span> simp⟩, <span class="kw">by</span> <span class="fu">intros</span>; ring⟩</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mk</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ℕ →+ ℕ <span class="op">:=</span> ⟨⟨(· * <span class="dv">2</span>), <span class="kw">by</span> simp⟩, <span class="kw">by</span> <span class="fu">intros</span>; ring⟩</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="groups" class="level2" data-number="3">
@@ -378,94 +392,95 @@ MathJax = {
 <section id="objects" class="level3" data-number="3.1">
 <h3 data-number="3.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">3.1</span> Objects</h3>
 <p>In Mathlib, a <code>Group</code> is defined to be a <code>Monoid</code> where every element <code>a</code> has an left inverse <code>a⁻¹</code> s.t. <code>a⁻¹ * a = 1</code>.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Group</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Group G] (a b c : G)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> a⁻¹</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a⁻¹ * a = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [inv_mul_cancel]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Group</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Group G] (a b c : G)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> a⁻¹</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a⁻¹ * a = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [inv_mul_cancel]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The following exercises lead to a proof of: In a group, a left inverse is also a right inverse. This recovers the usual definition of a group.</p>
 <p>[EXR] left multiplication is injective</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * b = a * c) : b = c <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (a⁻¹ * ·) <span class="fu">at</span> h</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← mul_assoc, ← mul_assoc, inv_mul_cancel, one_mul, one_mul] <span class="fu">at</span> h</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_left_cancel <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * b = a * c) : b = c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (a⁻¹ * ·) <span class="fu">at</span> h</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← mul_assoc, ← mul_assoc, inv_mul_cancel, one_mul, one_mul] <span class="fu">at</span> h</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_left_cancel <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] a left inverse actually also a right inverse</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a * a⁻¹ = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (a⁻¹ * ·)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">dsimp</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [← mul_assoc, inv_mul_cancel, one_mul, mul_one]</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">apply</span> mul_left_cancel</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_inv_cancel <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a * a⁻¹ = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (a⁻¹ * ·)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">dsimp</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [← mul_assoc, inv_mul_cancel, one_mul, mul_one]</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">apply</span> mul_left_cancel</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_inv_cancel <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The following proves that <code>G</code> is a <code>DivisionMonoid</code>. You don’t need to know what this means for now.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>#synth DivisionMonoid G</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>#synth DivisionMonoid G</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] characterization of a right inverse</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * b = <span class="dv">1</span>) : b = a⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- if you does not want to use `apply_fun`</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← one_mul b, ← inv_mul_cancel a, mul_assoc, h, mul_one]</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> eq_inv_of_mul_eq_one_right <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * b = <span class="dv">1</span>) : b = a⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">-- if you does not want to use `apply_fun`</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← one_mul b, ← inv_mul_cancel a, mul_assoc, h, mul_one]</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> eq_inv_of_mul_eq_one_right <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] characterization of a left inverse</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * b = <span class="dv">1</span>) : a = b⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· * b⁻¹) <span class="fu">at</span> h</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [mul_assoc, mul_inv_cancel, mul_one, one_mul] <span class="fu">at</span> h</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> eq_inv_of_mul_eq_one_left <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a * b = <span class="dv">1</span>) : a = b⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· * b⁻¹) <span class="fu">at</span> h</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [mul_assoc, mul_inv_cancel, mul_one, one_mul] <span class="fu">at</span> h</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> eq_inv_of_mul_eq_one_left <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] involutivity of the inverse</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a⁻¹)⁻¹ = a <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  symm; <span class="fu">apply</span> eq_inv_of_mul_eq_one_right</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> inv_mul_cancel a</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> inv_inv <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a⁻¹)⁻¹ = a <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  symm; <span class="fu">apply</span> eq_inv_of_mul_eq_one_right</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> inv_mul_cancel a</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> inv_inv <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] inverse of a product</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a * b)⁻¹ = b⁻¹ * a⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> inv_eq_of_mul_eq_one_left</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← mul_assoc, mul_assoc b⁻¹, inv_mul_cancel, mul_one, inv_mul_cancel]</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_inv_rev <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a * b)⁻¹ = b⁻¹ * a⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> inv_eq_of_mul_eq_one_left</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← mul_assoc, mul_assoc b⁻¹, inv_mul_cancel, mul_one, inv_mul_cancel]</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_inv_rev <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>some other injectivity</p>
 <p>[EXR] inverse is injective</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a⁻¹ = b⁻¹) : a = b <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (·⁻¹) <span class="fu">at</span> h</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [inv_inv a, inv_inv b] <span class="fu">at</span> h</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> inv_injective <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a⁻¹ = b⁻¹) : a = b <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (·⁻¹) <span class="fu">at</span> h</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [inv_inv a, inv_inv b] <span class="fu">at</span> h</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> inv_injective <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] right multiplication is injective</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : b * a = c * a) : b = c <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· * a⁻¹) <span class="fu">at</span> h</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [mul_assoc, mul_assoc, mul_inv_cancel, mul_one, mul_one] <span class="fu">at</span> h</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_right_cancel <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : b * a = c * a) : b = c <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· * a⁻¹) <span class="fu">at</span> h</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [mul_assoc, mul_assoc, mul_inv_cancel, mul_one, mul_one] <span class="fu">at</span> h</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> mul_right_cancel <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>wheelchair tactic for groups</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>#help tactic group</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a ^ <span class="dv">3</span> * b⁻¹)⁻¹ = b * a⁻¹ * (a ^ <span class="dv">2</span>)⁻¹  <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  group</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>[TODO] <code>DivInvMonoid</code> enables <code>zpow</code> notation for integer powers <code>a ^ n</code> where <code>n : ℤ</code>. [IGNORE] see the library note [forgetful inheritance] for the philosophy of this definition.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>#help tactic group</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a ^ <span class="dv">3</span> * b⁻¹)⁻¹ = b * a⁻¹ * (a ^ <span class="dv">2</span>)⁻¹  <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  group</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[TODO] <code>DivInvMonoid</code> enables <code>zpow</code> notation for integer powers <code>a ^ n</code> where <code>n : ℤ</code>.</p>
+<p>[IGNORE] It extends <code>npow</code> for monoids. See the library note [forgetful inheritance] for the philosophy of this definition.</p>
 <p>Additive and commutative versions of groups are as usual.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddGroup</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> CommGroup</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddCommGroup</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddGroup</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> CommGroup</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddCommGroup</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="morphisms" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">3.2</span> Morphisms</h3>
 <p><code>MonoidHom</code> It is also used for group homomorphisms.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G₁ G₂ G₃ : <span class="fu">Type</span>*} [Group G₁] [Group G₂] [Group G₃]</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>         (f : G₁ →* G₂) (g : G₂ →* G₃) (a b : G₁)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G₁ G₂ G₃ : <span class="fu">Type</span>*} [Group G₁] [Group G₂] [Group G₃]</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>         (f : G₁ →* G₂) (g : G₂ →* G₃) (a b : G₁)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] Monoid homomorphisms preserve inverses</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f (a⁻¹) = (f a)⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> eq_inv_of_mul_eq_one_right</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← map_mul, mul_inv_cancel, map_one]</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> map_inv <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f (a⁻¹) = (f a)⁻¹ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> eq_inv_of_mul_eq_one_right</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [← map_mul, mul_inv_cancel, map_one]</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> map_inv <span class="co">-- this has a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] <code>MonoidHom</code> requires one to show preservation of <code>1</code>. But this is redundant for group homomorphisms.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (φ : G₁ →ₙ* G₂) : φ <span class="dv">1</span> = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  haveI : φ <span class="dv">1</span> * φ <span class="dv">1</span> = φ <span class="dv">1</span> * <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [← map_mul, mul_one, mul_one]</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> mul_left_cancel this</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (φ : G₁ →ₙ* G₂) : φ <span class="dv">1</span> = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  haveI : φ <span class="dv">1</span> * φ <span class="dv">1</span> = φ <span class="dv">1</span> * <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [← map_mul, mul_one, mul_one]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> mul_left_cancel this</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Hence in the case of groups, Mathlib provides a constructor <code>MonoidHom.mk'</code> that only requires the preservation of multiplication to build a <code>MonoidHom</code>.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mk'</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mk'</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
