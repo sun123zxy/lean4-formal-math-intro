@@ -14,12 +14,12 @@ Instead, we accept the Mathlib definitions and axioms,
 but reprove some of their consequences manually,
 with mention of the relevant theorems in Mathlib.
 
-Hopefully, this will help you know how to build the theory mathematically
-and get you familiar with the Mathlib library.
+Hopefully, this will help you focus on building up the theory mathematically
+while getting familiar with the Mathlib API.
+Be advised that you can always ctrl+click on any name to see its actual definition in Mathlib.
 
-For a more complete treatment, read [MiL](https://leanprover-community.github.io/mathematics_in_lean/).
-
-[TODO] Sub-objects and quotients
+For a more complete treatment (especially on the philosophy behind API design),
+read [MiL](https://leanprover-community.github.io/mathematics_in_lean/) chapter 7 and 9.
 -/
 
 /-
@@ -58,6 +58,12 @@ end
 
 A `MulHom` is a morphism between two semigroups that preserves the multiplication.
 The notation for this is `G₁ →ₙ* G₂`.
+
+It's a bundle of:
+
+- a function `f : G₁ → G₂`
+- a proof that `f` preserves multiplication.
+
 Strictly speaking, this definition does not require
 the `*` operation to be associative on `G₁` or `G₂`.
 -/
@@ -72,24 +78,32 @@ example : f (a * b) = f a * f b := by rw [map_mul]
 #check AddHom
 
 /-
-The definition of `MulHom` is a bundle of:
-
-- a function `f : G₁ → G₂`
-- a proof that `f` preserves multiplication
-
-Hence creating a new `MulHom` requires providing these data.
+You might already notice that
+a `MulHom` can be used just like a function. This is because Mathlib has instantiated
+the `FunLike` type class to `MulHom`, which provides the function coercion.
 -/
+#synth FunLike (MulHom G₁ G₂) G₁ G₂
+
+/- Creating a new `MulHom` requires providing all the data needed. -/
 #check MulHom.mk
 example : ℕ →ₙ+ ℕ := ⟨(· * 2), by intros; ring⟩
 
-/- Composition of `MulHom`s as functions preserves multiplication -/
+/- Composition of `MulHom`s as functions preserves multiplication. -/
 example : G₁ →ₙ* G₃ := ⟨g ∘ f, by intros; dsimp; rw [map_mul, map_mul]⟩
+
 /-
 To avoid manually constructing `MulHom` every time when composing,
 We may use `MulHom.comp g f`.
 The dot convention `g.comp f` is used here for convenience.
 -/
 example : (g.comp f) (a * b) = (g.comp f) a * (g.comp f) b := by simp
+
+/- A `MulHom` is determined by the underlying function. -/
+#check MulHom.ext
+example (f₁ : G₁ →ₙ* G₂) (f₂ : G₁ →ₙ* G₂) (h : f₁.toFun = f₂.toFun) : f₁ = f₂ := by
+  ext x
+  change f₁.toFun x = f₂.toFun x
+  rw [h]
 
 /-
 Above shows the bundled definition of `MulHom`, how to create it, and how to compose them.
@@ -256,7 +270,10 @@ example : (a ^ 3 * b⁻¹)⁻¹ = b * a⁻¹ * (a ^ 2)⁻¹  := by
 
 /-
 [TODO] `DivInvMonoid` enables `zpow` notation for integer powers `a ^ n` where `n : ℤ`.
-[IGNORE] see the library note [forgetful inheritance] for the philosophy of this definition.
+
+[IGNORE]
+It extends `npow` for monoids.
+See the library note [forgetful inheritance] for the philosophy of this definition.
 -/
 
 /-
