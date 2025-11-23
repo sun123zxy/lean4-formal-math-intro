@@ -282,51 +282,51 @@
   {
     "objectID": "09-subgroup.html",
     "href": "09-subgroup.html",
-    "title": "08-group.lean",
+    "title": "09-subgroup.lean",
     "section": "",
     "text": "import Mathlib",
     "crumbs": [
-      "08-group.lean"
+      "09-subgroup.lean"
     ]
   },
   {
     "objectID": "09-subgroup.html#subsets",
     "href": "09-subgroup.html#subsets",
-    "title": "08-group.lean",
+    "title": "09-subgroup.lean",
     "section": "1 Subsets",
     "text": "1 Subsets\n\n1.1 Objects\nIn the previous lectures, we regarded types as sets intuitively. This is not flexible when one wishes to restrict to only a fraction of the elements of a type. It’s also hard to implement unions and intersections of sets this way. Mathlib provides a dedicated type Set α, consists of all the subsets of a type α.\nsection\n\nvariable (α : Type*) (s t u : Set α) (a : α)\n\n#print Set\nYou can see that Set α is defined as α → Prop.\nThis means a subset s : Set α tells you, for each a : α, whether a belongs to s or not. This proposition is denoted by a ∈ s, Set.mem s a, or s.Mem a.\nNote that you are not supposed to write s a directly. The function definition of Set α should be regarded as an implementation detail.\n#check a ∈ s\n#check s.Mem a\nA subset can be constructed using the set-builder notation {x : α | p x} or setOf p, where p : α → Prop is a predicate on α.\n#check setOf (fun x ↦ x = a)\nexample : Set α := {x : α | x = a} \nThe same as above\nexample : Set α := Set.singleton a \nThe same as above\nexample : Set ℕ := {n | n &gt; 514}\n\n#check (∅ : Set α) \nThe empty subset\nexample : ∅ = {x : α | False} := by rfl\nexample : a ∈ (∅ : Set α) ↔ False := by rfl\n#check Set.mem_empty_iff_false -- corresponding [@simp] lemma\n\n#check (Set.univ : Set α) \nThe universal subset\nexample : Set.univ = {x : α | True} := by rfl\nexample : a ∈ Set.univ := by trivial\n#check Set.mem_univ -- corresponding [@simp] lemma\n\n#check sᶜ \nThe complement of a subset Set.compl s\nexample : sᶜ = {x | x ∉ s} := by rfl\nexample : a ∈ sᶜ ↔ a ∉ s := by rfl\n#check Set.mem_compl -- corresponding [@simp] lemma\n\n#check s ⊆ t \nSubset relation Set.Subset s t\nexample : s ⊆ t ↔ ∀ x : α, x ∈ s → x ∈ t := by rfl\nexample (ha : a ∈ s) (hst : s ⊆ t) : a ∈ t := hst ha\n\n#check s ∩ t \nIntersection of two subsets Set.inter s t\nexample : a ∈ s ∩ t ↔ a ∈ s ∧ a ∈ t := by rfl\n\n#check s ∪ t \nUnion of two subsets Set.union s t\nexample : a ∈ s ∪ t ↔ a ∈ s ∨ a ∈ t := by rfl\next tactic reduces subset equality to element membership. Fundamentally this is implimented using function & propositional extensionality.\n#check Set.ext\nexample : s ∩ t = t ∩ s := by ext x; simp [and_comm]\n[EXR] De Morgan’s law for sets\nexample : s ∩ (t ∪ u) = (s ∩ t) ∪ (s ∩ u) := by tauto_set\n#help tactic tauto_set -- Wheelchair tactic for set equations\n\nend\n\n\n1.2 Morphisms\nFunctions between types induce functions between subsets.\nsection\n\nvariable {α β : Type*} (f : α → β) (s : Set α) (t : Set β) (a : α) (b : β)\n\n#check Set.range f\nexample : Set.range f = {y | ∃ x, f x = y} := by rfl\nexample : b ∈ Set.range f ↔ ∃ x, f x = b := by rfl\n#check Set.mem_range -- corresponding [@simp] lemma\n\n#check f '' s \nImage of a subset Set.image f s\n#check Set.image f s\nexample : f '' s = {y | ∃ x ∈ s, f x = y} := by rfl\nexample : f '' s = {f x | x ∈ s} := by rfl -- set-builder notation for image\nexample : b ∈ f '' s ↔ ∃ x ∈ s, f x = b := by rfl\n#check Set.mem_image -- corresponding [@simp] lemma\n\n#check f ⁻¹' t \nPreimage of a subset Set.preimage f t\n#check Set.preimage f t\nexample : f ⁻¹' t = {x | f x ∈ t} := by rfl\nexample : a ∈ f ⁻¹' t ↔ f a ∈ t := by rfl\n#check Set.mem_preimage -- corresponding [@simp] lemma\nThe so-called Galois connection between image and preimage.\nexample : f '' s ⊆ t ↔ s ⊆ f ⁻¹' t := by\n  constructor\n  · intro h x hx\n    simp only [Set.mem_preimage]\n    apply h\n    simp only [Set.mem_image]\n    use x\n  · intro h y hy\n    rcases hy with ⟨x, hxs, hxy⟩\n    specialize h hxs\n    simp only [Set.mem_preimage] at h\n    rw [hxy] at h; exact h\n#check Set.image_subset_iff -- corresponding [@simp] lemma\nWe recall some definitions about functions.\n#check Function.comp\n#check Function.Injective\n#check Function.Surjective\n#check Function.Bijective\nFor those seeking a more challenging exercise, try proving the Bernstein–Schroeder theorem. See MiL chapter 3 for an answer.\n#check Function.Embedding.schroeder_bernstein\n\nend",
     "crumbs": [
-      "08-group.lean"
+      "09-subgroup.lean"
     ]
   },
   {
     "objectID": "09-subgroup.html#subsemigroups",
     "href": "09-subgroup.html#subsemigroups",
-    "title": "08-group.lean",
+    "title": "09-subgroup.lean",
     "section": "2 Subsemigroups",
     "text": "2 Subsemigroups\n\n2.1 Objects\nA Subsemigroup G is a subset of a Semigroup G that is closed under the multiplication.\nIt’s actually a bundled structure consisting of a subset and a proof of closure. To use it like a subset, Mathlib registers Subsemigroup G as an instance of SetLike G. It provides coercion from Subsemigroup G to Set G, so for H : Subsemigroup G, you can use a ∈ H to mean a belongs to the underlying subset of H.\nsection\n\nvariable (G : Type*) [Semigroup G]\nvariable (H₁ H₂ : Subsemigroup G) (a b : G)\nexample (ha : a ∈ H₁) (hb : b ∈ H₁) : a * b ∈ H₁ := mul_mem ha hb\nthe whole semigroup as a subgroup\n#check (⊤ : Subsemigroup G)\nexample : (⊤ : Subsemigroup G) = ⟨Set.univ, by simp⟩ := by rfl\n#synth Top (Subsemigroup G)\nthe empty subset as a subgroup\n#check (⊥ : Subsemigroup G)\nexample : (⊥ : Subsemigroup G) = ⟨∅, by simp⟩ := by rfl\n#synth Bot (Subsemigroup G)\nThe partial order structure on subsemigroups is inherited from subset relation of subsets.\nexample : H₁ ≤ H₂ ↔ H₁.carrier ⊆ H₂.carrier := by rfl\nintersection of two subsemigroups\n#check H₁ ⊓ H₂\n#synth Min (Subsemigroup G)\n\nexample : H₁ ⊓ H₂ = ⟨H₁ ∩ H₂, by\n    intro a b ha hb\n    rcases ha with ⟨ha₁, ha₂⟩\n    rcases hb with ⟨hb₁, hb₂⟩\n    constructor\n    all_goals apply mul_mem\n    all_goals assumption\n    ⟩ :=\n  by rfl\nproduct of two subsemigroups.\n#check H₁ ⊔ H₂\n#synth Max (Subsemigroup G)\nDefinition of H₁ ⊔ H₂ is more involved, relying the lattice structure of Subsemigroup G. it is defined as the infimum of all subsemigroups containing both H₁ and H₂, where the infimum is given by intersection.\n#synth CompleteLattice (Subsemigroup G)\nThis is characterized by the following properties.\n#synth SemilatticeSup (Subsemigroup G)\nexample : H₁ ≤ H₁ ⊔ H₂ := by apply le_sup_left\nexample : H₂ ≤ H₁ ⊔ H₂ := by apply le_sup_right\nexample (K : Subsemigroup G) (h1 : H₁ ≤ K) (h2 : H₂ ≤ K) : H₁ ⊔ H₂ ≤ K :=\n  sup_le h1 h2\n\nend\n\n\n2.2 Morphisms\nLet’s see how MulHom interacts with Subsemigroup.\nsection\n\nvariable {G₁ G₂ : Type*} [Semigroup G₁] [Semigroup G₂]\n         (f : G₁ →ₙ* G₂) (H₁ : Subsemigroup G₁) (H₂ : Subsemigroup G₂)\nThe image of a subsemigroup under a MulHom is also a subsemigroup.\n#check Subsemigroup.map f H₁\n#check H₁.map f\n\nexample : Subsemigroup.map f H₁ = ⟨f '' H₁, by\n    rintro x y ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩\n    use a * b, H₁.mul_mem ha hb\n    rw [map_mul]\n    ⟩ :=\n  by rfl\nThe preimage of a subsemigroup under a MulHom is also a subsemigroup.\n#check Subsemigroup.comap\n#check H₂.comap f\n\nexample : Subsemigroup.comap f H₂ = ⟨f ⁻¹' H₂, by\n    intro x y hx hy\n    simp only [Set.mem_preimage] at hx hy ⊢\n    rw [map_mul]\n    exact H₂.mul_mem hx hy\n    ⟩ :=\n  by rfl\n\nend",
     "crumbs": [
-      "08-group.lean"
+      "09-subgroup.lean"
     ]
   },
   {
     "objectID": "09-subgroup.html#submonoids",
     "href": "09-subgroup.html#submonoids",
-    "title": "08-group.lean",
+    "title": "09-subgroup.lean",
     "section": "3 Submonoids",
     "text": "3 Submonoids\nA Submonoid M is a subsemigroup of a Monoid M that contains the identity element.\nsection\n\nvariable (G : Type*) [Monoid G]\nvariable (H₁ H₂ : Submonoid G) (a b : G)\n\nexample : a ∈ H₁ → b ∈ H₁ → a * b ∈ H₁ := by apply mul_mem\nexample : (1 : G) ∈ H₁ := by apply one_mem\nThe whole monoid as a submonoid. Note the use of with, to extend the underlying Subsemigroup with the proof of containing 1.\n#check (⊤ : Submonoid G)\nexample : (⊤ : Submonoid G) = {(⊤ : Subsemigroup G) with\n    one_mem' := by\n      change 1 ∈ (⊤ : Set G)\n      apply Set.mem_univ\n    } := by rfl\n#synth Top (Submonoid G)\nThe trivial submonoid consisting of only the identity element. Note the difference from ⊥ : Subsemigroup G, which is the empty set.\n#check (⊥ : Submonoid G)\nexample : (⊥ : Submonoid G) = {\n    carrier := {1}\n    one_mem' := by rfl\n    mul_mem' := by\n      rintro x y hx hy\n      simp only [Set.mem_singleton_iff] at hx hy ⊢\n      rw [hx, hy, one_mul]\n    } := by rfl\n#synth Bot (Submonoid G)\nWe don’t repeat tedious parts similar to those for Subsemigroup. The lattice structure on Submonoid G is similar. The MonoidHom interaction with Submonoid is similar too.\n#synth CompleteLattice (Submonoid G)\n#check Submonoid.map\n#check Submonoid.comap\n\nend\nAs an exercise, let’s define addition on AddSubmonoid A with the intrinsic definition, and show that it coincides with the supremum.\nsection\n\nvariable {A : Type*} [AddCommMonoid A]\n\ninstance : Add (AddSubmonoid A) := ⟨fun B₁ B₂ ↦ {\n  carrier := {x | ∃ b₁ ∈ B₁, ∃ b₂ ∈ B₂, x = b₁ + b₂}\n  zero_mem' := ⟨0, B₁.zero_mem, 0, B₂.zero_mem, by rw [add_zero]⟩\n  add_mem' := by\n    rintro x y ⟨b₁, hb₁, b₂, hb₂, rfl⟩ ⟨c₁, hc₁, c₂, hc₂, rfl⟩\n    use b₁ + c₁, B₁.add_mem hb₁ hc₁\n    use b₂ + c₂, B₂.add_mem hb₂ hc₂\n    abel\n}⟩\n\nexample (B₁ B₂ : AddSubmonoid A) : B₁ ⊔ B₂ = B₁ + B₂ := by\n  apply le_antisymm\n  · apply sup_le\n    · intro x hx\n      use x, hx, 0, B₂.zero_mem\n      rw [add_zero]\n    · intro x hx\n      use 0, B₁.zero_mem, x, hx\n      rw [zero_add]\n  · intro x hx\n    rcases hx with ⟨b₁, hb₁, b₂, hb₂, rfl⟩\n    haveI : B₁ ≤ B₁ ⊔ B₂ := le_sup_left\n    replace hb₁ : b₁ ∈ B₁ ⊔ B₂ := this hb₁\n    haveI : B₂ ≤ B₁ ⊔ B₂ := le_sup_right\n    replace hb₂ : b₂ ∈ B₁ ⊔ B₂ := this hb₂\n    exact add_mem hb₁ hb₂\n\nend",
     "crumbs": [
-      "08-group.lean"
+      "09-subgroup.lean"
     ]
   },
   {
     "objectID": "09-subgroup.html#subgroups",
     "href": "09-subgroup.html#subgroups",
-    "title": "08-group.lean",
+    "title": "09-subgroup.lean",
     "section": "4 Subgroups",
     "text": "4 Subgroups\n[TODO]\nsection\n\nend\n[TODO]\n\nIndexed infimum and supremum of substructures\nxxxClass for substructures as canonical maps",
     "crumbs": [
-      "08-group.lean"
+      "09-subgroup.lean"
     ]
   },
   {
