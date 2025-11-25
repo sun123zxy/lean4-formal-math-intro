@@ -384,6 +384,7 @@ With the presence of identity element, we can define the kernel of a `MonoidHom`
 -/
 #check MonoidHom.mker
 example : MonoidHom.mker f = (⊥ : Submonoid G₂).comap f := by rfl
+
 /- [EXR] manual definition of `mker` -/
 example : MonoidHom.mker f = {
       carrier := {x | f x = 1}
@@ -393,6 +394,7 @@ example : MonoidHom.mker f = {
         simp only [Set.mem_setOf] at hx hy ⊢
         rw [map_mul, hx, hy, one_mul]
     } := by rfl
+
 example (x : G₁) : x ∈ MonoidHom.mker f ↔ f x = 1 := by rfl
 #check MonoidHom.mem_mker -- corresponding Mathlib theorem
 
