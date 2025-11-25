@@ -291,6 +291,9 @@ example : MulHom.srange f = ⟨Set.range f, by
     rw [map_mul]
     ⟩ := by rfl
 
+example (x : G₂) : x ∈ MulHom.srange f ↔ x ∈ Set.range f := by rfl
+#check MulHom.mem_srange -- corresponding Mathlib theorem
+
 end
 
 /-
@@ -373,6 +376,8 @@ example : Submonoid.comap f H₂ = { Subsemigroup.comap f.toMulHom H₂.toSubsem
 
 /- Range is also specially handled as `MulHom.range`. -/
 #check MonoidHom.mrange
+example (x : G₂) : x ∈ MonoidHom.mrange f ↔ x ∈ Set.range f := by rfl
+#check MonoidHom.mem_mrange -- corresponding Mathlib theorem
 
 /-
 With the presence of identity element, we can define the kernel of a `MonoidHom`.
@@ -388,6 +393,8 @@ example : MonoidHom.mker f = {
         simp only [Set.mem_setOf] at hx hy ⊢
         rw [map_mul, hx, hy, one_mul]
     } := by rfl
+example (x : G₁) : x ∈ MonoidHom.mker f ↔ f x = 1 := by rfl
+#check MonoidHom.mem_mker -- corresponding Mathlib theorem
 
 end
 
@@ -488,17 +495,32 @@ For later discussions on quotient groups, we introduce normal subgroups here.
 -/
 section
 
-variable {G : Type*} [Group G] (H : Subgroup G)
-
 #check Subgroup.Normal
 
 /- `Subgroup.Normal` is a bundled structure consisting of a proof of normality. -/
-example : H.Normal ↔ ∀ h ∈ H, ∀ g : G, g * h * g⁻¹ ∈ H := by
+example {G : Type*} [Group G] (H : Subgroup G) :
+    H.Normal ↔ ∀ h ∈ H, ∀ g : G, g * h * g⁻¹ ∈ H := by
   constructor
   · intro ⟨h⟩
     exact h
   · intro h
     exact ⟨h⟩
+
+/- The kernel of a group homomorphism is a normal subgroup. -/
+example {G₁ G₂ : Type*} [Group G₁] [Group G₂]
+    (f : G₁ →* G₂) : (f.ker).Normal := by
+  constructor
+  intro x hx y
+  rw [MonoidHom.mem_ker]
+  rw [map_mul, map_mul, hx, map_inv, mul_one, mul_inv_cancel]
+
+/-
+Actually, Mathlib contains an instance for kernels, so that Lean
+automatically recognizes the normality of kernels.
+-/
+#check MonoidHom.normal_ker
+example {G₁ G₂ : Type*} [Group G₁] [Group G₂]
+    (f : G₁ →* G₂) : (f.ker).Normal := inferInstance
 
 end
 
