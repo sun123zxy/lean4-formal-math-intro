@@ -237,8 +237,17 @@ MathJax = {
   <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects"><span class="header-section-number">2.1</span> Objects</a></li>
   <li><a href="#morphisms" id="toc-morphisms" class="nav-link" data-scroll-target="#morphisms"><span class="header-section-number">2.2</span> Morphisms</a></li>
   </ul></li>
-  <li><a href="#submonoids" id="toc-submonoids" class="nav-link" data-scroll-target="#submonoids"><span class="header-section-number">3</span> Submonoids</a></li>
-  <li><a href="#subgroups" id="toc-subgroups" class="nav-link" data-scroll-target="#subgroups"><span class="header-section-number">4</span> Subgroups</a></li>
+  <li><a href="#submonoids" id="toc-submonoids" class="nav-link" data-scroll-target="#submonoids"><span class="header-section-number">3</span> Submonoids</a>
+  <ul class="collapse">
+  <li><a href="#morphisms" id="toc-morphisms" class="nav-link" data-scroll-target="#morphisms"><span class="header-section-number">3.1</span> Morphisms</a></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">3.2</span> Exercise</a></li>
+  </ul></li>
+  <li><a href="#subgroups" id="toc-subgroups" class="nav-link" data-scroll-target="#subgroups"><span class="header-section-number">4</span> Subgroups</a>
+  <ul class="collapse">
+  <li><a href="#objects" id="toc-objects" class="nav-link" data-scroll-target="#objects"><span class="header-section-number">4.1</span> Objects</a></li>
+  <li><a href="#morphisms" id="toc-morphisms" class="nav-link" data-scroll-target="#morphisms"><span class="header-section-number">4.2</span> Morphisms</a></li>
+  <li><a href="#normal-subgroups" id="toc-normal-subgroups" class="nav-link" data-scroll-target="#normal-subgroups"><span class="header-section-number">4.3</span> Normal Subgroups</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -310,8 +319,9 @@ MathJax = {
 <div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : sᶜ = {x | x ∉ s} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ sᶜ ↔ a ∉ s <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_compl <span class="co">-- corresponding [@simp] lemma</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ⊆ t </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">rfl</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ⊆ t </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Subset relation <code>Set.Subset s t</code></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : s ⊆ t ↔ <span class="kw">∀</span> x : α, x ∈ s → x ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (ha : a ∈ s) (hst : s ⊆ t) : a ∈ t <span class="op">:=</span> hst ha</span>
@@ -358,29 +368,35 @@ MathJax = {
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f ⁻¹' t = {x | f x ∈ t} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ f ⁻¹' t ↔ f a ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_preimage <span class="co">-- corresponding [@simp] lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Note the following is not a definitional equality. The last step invokes <code>propext</code>, which destroys definitional equality. It has some unfortunate consequences in later discussions, when additional structure is involved.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f '' Set.univ = Set.range f <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  ext x</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [Set.mem_range, Set.mem_image]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> only [Set.mem_univ, true_and]</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.image_univ <span class="co">-- corresponding [@simp] lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The so-called Galois connection between image and preimage.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f '' s ⊆ t ↔ s ⊆ f ⁻¹' t <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h x hx</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_preimage]</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> h</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_image]</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    use x</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h y hy</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hy <span class="fu">with</span> ⟨x, hxs, hxy⟩</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> h hxs</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_preimage] <span class="fu">at</span> h</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [hxy] <span class="fu">at</span> h; <span class="fu">exact</span> h</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.image_subset_iff <span class="co">-- corresponding [@simp] lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : f '' s ⊆ t ↔ s ⊆ f ⁻¹' t <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h x hx</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_preimage]</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> h</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_image]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    use x</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h y hy</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hy <span class="fu">with</span> ⟨x, hxs, hxy⟩</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> h hxs</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_preimage] <span class="fu">at</span> h</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [hxy] <span class="fu">at</span> h; <span class="fu">exact</span> h</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.image_subset_iff <span class="co">-- corresponding [@simp] lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We recall some definitions about functions.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.comp</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.Injective</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.Surjective</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.Bijective</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.comp</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.Injective</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.Surjective</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.Bijective</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For those seeking a more challenging exercise, try proving the Bernstein–Schroeder theorem. See MiL chapter 3 for an answer.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.Embedding.schroeder_bernstein</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Function.Embedding.schroeder_bernstein</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="subsemigroups" class="level2" data-number="2">
@@ -389,155 +405,267 @@ MathJax = {
 <h3 data-number="2.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">2.1</span> Objects</h3>
 <p>A <code>Subsemigroup G</code> is a subset of a <code>Semigroup G</code> that is closed under the multiplication.</p>
 <p>It’s actually a bundled structure consisting of a subset and a proof of closure. To use it like a subset, Mathlib registers <code>Subsemigroup G</code> as an instance of <code>SetLike G</code>. It provides coercion from <code>Subsemigroup G</code> to <code>Set G</code>, so for <code>H : Subsemigroup G</code>, you can use <code>a ∈ H</code> to mean <code>a</code> belongs to the underlying subset of <code>H</code>.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Semigroup G]</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (H₁ H₂ : Subsemigroup G) (a b : G)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (ha : a ∈ H₁) (hb : b ∈ H₁) : a * b ∈ H₁ <span class="op">:=</span> mul_mem ha hb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Semigroup G]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (H₁ H₂ : Subsemigroup G) (a b : G)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (ha : a ∈ H₁) (hb : b ∈ H₁) : a * b ∈ H₁ <span class="op">:=</span> mul_mem ha hb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>the whole semigroup as a subgroup</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊤ : Subsemigroup G)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊤ : Subsemigroup G) = ⟨Set.univ, <span class="kw">by</span> simp⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>#synth Top (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊤ : Subsemigroup G)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊤ : Subsemigroup G) = ⟨Set.univ, <span class="kw">by</span> simp⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>#synth Top (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>the empty subset as a subgroup</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊥ : Subsemigroup G)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊥ : Subsemigroup G) = ⟨∅, <span class="kw">by</span> simp⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>#synth Bot (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊥ : Subsemigroup G)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊥ : Subsemigroup G) = ⟨∅, <span class="kw">by</span> simp⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>#synth Bot (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The partial order structure on subsemigroups is inherited from subset relation of subsets.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₁ ≤ H₂ ↔ H₁.carrier ⊆ H₂.carrier <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₁ ≤ H₂ ↔ H₁.carrier ⊆ H₂.carrier <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>intersection of two subsemigroups</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₁ ⊓ H₂</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>#synth Min (Subsemigroup G)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₁ ⊓ H₂ = ⟨H₁ ∩ H₂, <span class="kw">by</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a b ha hb</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> ha <span class="fu">with</span> ⟨ha₁, ha₂⟩</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hb <span class="fu">with</span> ⟨hb₁, hb₂⟩</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_goals</span> <span class="fu">apply</span> mul_mem</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_goals</span> <span class="fu">assumption</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₁ ⊓ H₂</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>#synth Min (Subsemigroup G)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₁ ⊓ H₂ = ⟨H₁ ∩ H₂, <span class="kw">by</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a b ha hb</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> ha <span class="fu">with</span> ⟨ha₁, ha₂⟩</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hb <span class="fu">with</span> ⟨hb₁, hb₂⟩</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_goals</span> <span class="fu">apply</span> mul_mem</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_goals</span> <span class="fu">assumption</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>product of two subsemigroups.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₁ ⊔ H₂</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>#synth Max (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₁ ⊔ H₂</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>#synth Max (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Definition of <code>H₁ ⊔ H₂</code> is more involved, relying the lattice structure of <code>Subsemigroup G</code>. it is defined as the infimum of all subsemigroups containing both <code>H₁</code> and <code>H₂</code>, where the infimum is given by intersection.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>#synth CompleteLattice (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>#synth CompleteLattice (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This is characterized by the following properties.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>#synth SemilatticeSup (Subsemigroup G)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₁ ≤ H₁ ⊔ H₂ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> le_sup_left</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₂ ≤ H₁ ⊔ H₂ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> le_sup_right</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (K : Subsemigroup G) (h1 : H₁ ≤ K) (h2 : H₂ ≤ K) : H₁ ⊔ H₂ ≤ K <span class="op">:=</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  sup_le h1 h2</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>#synth SemilatticeSup (Subsemigroup G)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₁ ≤ H₁ ⊔ H₂ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> le_sup_left</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₂ ≤ H₁ ⊔ H₂ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> le_sup_right</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (K : Subsemigroup G) (h1 : H₁ ≤ K) (h2 : H₂ ≤ K) : H₁ ⊔ H₂ ≤ K <span class="op">:=</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  sup_le h1 h2</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="morphisms" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">2.2</span> Morphisms</h3>
 <p>Let’s see how <code>MulHom</code> interacts with <code>Subsemigroup</code>.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G₁ G₂ : <span class="fu">Type</span>*} [Semigroup G₁] [Semigroup G₂]</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>         (f : G₁ →ₙ* G₂) (H₁ : Subsemigroup G₁) (H₂ : Subsemigroup G₂)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G₁ G₂ : <span class="fu">Type</span>*} [Semigroup G₁] [Semigroup G₂]</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>         (f : G₁ →ₙ* G₂) (H₁ : Subsemigroup G₁) (H₂ : Subsemigroup G₂)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The image of a subsemigroup under a <code>MulHom</code> is also a subsemigroup.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Subsemigroup.map f H₁</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₁.map f</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Subsemigroup.map f H₁ = ⟨f '' H₁, <span class="kw">by</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    rintro x y ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    use a * b, H₁.mul_mem ha hb</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [map_mul]</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The preimage of a subsemigroup under a <code>MulHom</code> is also a subsemigroup.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Subsemigroup.comap</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₂.comap f</span>
+<div class="sourceCode" id="cb31"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Subsemigroup.map f H₁</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₁.map f</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Subsemigroup.comap f H₂ = ⟨f ⁻¹' H₂, <span class="kw">by</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> x y hx hy</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_preimage] <span class="fu">at</span> hx hy ⊢</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Subsemigroup.map f H₁ = ⟨f '' H₁, <span class="kw">by</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    rintro x y ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    use a * b, H₁.mul_mem ha hb</span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [map_mul]</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> H₂.mul_mem hx hy</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The preimage of a subsemigroup under a <code>MulHom</code> is also a subsemigroup.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Subsemigroup.comap</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₂.comap f</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Subsemigroup.comap f H₂ = ⟨f ⁻¹' H₂, <span class="kw">by</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> x y hx hy</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_preimage] <span class="fu">at</span> hx hy ⊢</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [map_mul]</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> H₂.mul_mem hx hy</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To define the range of a <code>f : G₁ →ₙ* G₂</code>, a common idea is to adopt <code>(⊤ : Subsemigroup G₁).map f</code>. Unfortunately, this makes the underlying set being <code>f '' (univ : Set G₁)</code>, which is not definitionally equal to <code>Set.range f</code>. It will also cause <code>x ∈ ⊤</code> conditions in later proofs, redundant and annoying.</p>
+<p>Hencee Mathlib define the range with some refinement: They manually replace the underlying set of <code>(⊤ : Subsemigroup G₁).map f</code> with <code>Set.range f</code>.</p>
+<p>See Note <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Submonoid/Operations.html#MonoidHom.Mathlib.LibraryNote.%C2%ABrange%20copy%20pattern%C2%BB">range copy pattern</a> for an official explanation.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MulHom.srange</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>the desired definitional equality</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MulHom.srange f = ⟨Set.range f, <span class="kw">by</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    rintro x y ⟨a, rfl⟩ ⟨b, rfl⟩</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    use a * b</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [map_mul]</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (x : G₂) : x ∈ MulHom.srange f ↔ x ∈ Set.range f <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MulHom.mem_srange <span class="co">-- corresponding Mathlib theorem</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="submonoids" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="submonoids"><span class="header-section-number">3</span> Submonoids</h2>
 <p>A <code>Submonoid M</code> is a subsemigroup of a <code>Monoid M</code> that contains the identity element.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Monoid G]</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (H₁ H₂ : Submonoid G) (a b : G)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ H₁ → b ∈ H₁ → a * b ∈ H₁ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> mul_mem</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="dv">1</span> : G) ∈ H₁ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> one_mem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Monoid G]</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (H₁ H₂ : Submonoid G) (a b : G)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ H₁ → b ∈ H₁ → a * b ∈ H₁ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> mul_mem</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="dv">1</span> : G) ∈ H₁ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> one_mem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The whole monoid as a submonoid. Note the use of <code>with</code>, to extend the underlying <code>Subsemigroup</code> with the proof of containing <code>1</code>.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊤ : Submonoid G)</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊤ : Submonoid G) = {(⊤ : Subsemigroup G) <span class="fu">with</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    one_mem' <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>      change <span class="dv">1</span> ∈ (⊤ : Set G)</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> Set.mem_univ</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>#synth Top (Submonoid G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊤ : Submonoid G)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊤ : Submonoid G) = {(⊤ : Subsemigroup G) <span class="fu">with</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    one_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>      change <span class="dv">1</span> ∈ (⊤ : Set G)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> Set.mem_univ</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>#synth Top (Submonoid G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The trivial submonoid consisting of only the identity element. Note the difference from <code>⊥ : Subsemigroup G</code>, which is the empty set.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊥ : Submonoid G)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊥ : Submonoid G) = {</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    carrier <span class="op">:=</span> {<span class="dv">1</span>}</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    mul_mem' <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>      rintro x y hx hy</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">simp</span> only [Set.mem_singleton_iff] <span class="fu">at</span> hx hy ⊢</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [hx, hy, one_mul]</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>#synth Bot (Submonoid G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We don’t repeat tedious parts similar to those for <code>Subsemigroup</code>. The lattice structure on <code>Submonoid G</code> is similar. The <code>MonoidHom</code> interaction with <code>Submonoid</code> is similar too.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>#synth CompleteLattice (Submonoid G)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Submonoid.map</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Submonoid.comap</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊥ : Submonoid G)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊥ : Submonoid G) = {</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    carrier <span class="op">:=</span> {<span class="dv">1</span>}</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    mul_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>      rintro x y hx hy</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">simp</span> only [Set.mem_singleton_iff] <span class="fu">at</span> hx hy ⊢</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [hx, hy, one_mul]</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>#synth Bot (Submonoid G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We don’t repeat tedious lattice structure part, which is similar to those for <code>Subsemigroup</code>.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>#synth CompleteLattice (Submonoid G)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="morphisms" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">3.1</span> Morphisms</h3>
+<p><code>MonoidHom</code> interacts with <code>Submonoid</code> similarly to <code>MulHom</code> and <code>Subsemigroup</code>.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G₁ G₂ : <span class="fu">Type</span>*} [Monoid G₁] [Monoid G₂]</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>         (f : G₁ →* G₂) (H₁ : Submonoid G₁) (H₂ : Submonoid G₂)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We still have image and preimage of submonoids, which can be built on top of those for subsemigroups, with extra care to verify the identity element membership.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Submonoid.map</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Submonoid.map f H₁ = { Subsemigroup.map f.toMulHom H₁.toSubsemigroup <span class="fu">with</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>      one_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">simp</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>        use <span class="dv">1</span>, H₁.one_mem</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rw</span> [map_one]</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Submonoid.comap</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Submonoid.comap f H₂ = { Subsemigroup.comap f.toMulHom H₂.toSubsemigroup <span class="fu">with</span></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>      one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Range is also specially handled as <code>MulHom.range</code>.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mrange</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (x : G₂) : x ∈ MonoidHom.mrange f ↔ x ∈ Set.range f <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mem_mrange <span class="co">-- corresponding Mathlib theorem</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With the presence of identity element, we can define the kernel of a <code>MonoidHom</code>.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mker</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.mker f = (⊥ : Submonoid G₂).comap f <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[EXR] manual definition of <code>mker</code></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.mker f = {</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>      carrier <span class="op">:=</span> {x | f x = <span class="dv">1</span>}</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>      one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [Set.mem_setOf, map_one]</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>      mul_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        rintro x y hx hy</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">simp</span> only [Set.mem_setOf] <span class="fu">at</span> hx hy ⊢</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rw</span> [map_mul, hx, hy, one_mul]</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (x : G₁) : x ∈ MonoidHom.mker f ↔ f x = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mem_mker <span class="co">-- corresponding Mathlib theorem</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="exercise" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="exercise"><span class="header-section-number">3.2</span> Exercise</h3>
 <p>As an exercise, let’s define addition on <code>AddSubmonoid A</code> with the intrinsic definition, and show that it coincides with the supremum.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {A : <span class="fu">Type</span>*} [AddCommMonoid A]</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> : <span class="fu">A</span>dd (AddSubmonoid A) <span class="op">:=</span> ⟨fun B₁ B₂ ↦ {</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  carrier <span class="op">:=</span> {x | <span class="kw">∃</span> b₁ ∈ B₁, <span class="kw">∃</span> b₂ ∈ B₂, x = b₁ + b₂}</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  zero_mem' <span class="op">:=</span> ⟨<span class="dv">0</span>, B₁.zero_mem, <span class="dv">0</span>, B₂.zero_mem, <span class="kw">by</span> <span class="fu">rw</span> [add_zero]⟩</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  add_mem' <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    rintro x y ⟨b₁, hb₁, b₂, hb₂, rfl⟩ ⟨c₁, hc₁, c₂, hc₂, rfl⟩</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    use b₁ + c₁, B₁.add_mem hb₁ hc₁</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    use b₂ + c₂, B₂.add_mem hb₂ hc₂</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    abel</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>}⟩</span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (B₁ B₂ : AddSubmonoid A) : B₁ ⊔ B₂ = B₁ + B₂ <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> le_antisymm</span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">apply</span> sup_le</span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> x hx</span>
-<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>      use x, hx, <span class="dv">0</span>, B₂.zero_mem</span>
-<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [add_zero]</span>
-<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> x hx</span>
-<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>      use <span class="dv">0</span>, B₁.zero_mem, x, hx</span>
-<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [zero_add]</span>
-<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> x hx</span>
-<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hx <span class="fu">with</span> ⟨b₁, hb₁, b₂, hb₂, rfl⟩</span>
-<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>    haveI : B₁ ≤ B₁ ⊔ B₂ <span class="op">:=</span> le_sup_left</span>
-<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace</span> hb₁ : b₁ ∈ B₁ ⊔ B₂ <span class="op">:=</span> this hb₁</span>
-<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>    haveI : B₂ ≤ B₁ ⊔ B₂ <span class="op">:=</span> le_sup_right</span>
-<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace</span> hb₂ : b₂ ∈ B₁ ⊔ B₂ <span class="op">:=</span> this hb₂</span>
-<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> add_mem hb₁ hb₂</span>
-<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {A : <span class="fu">Type</span>*} [AddCommMonoid A]</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> : <span class="fu">A</span>dd (AddSubmonoid A) <span class="op">:=</span> ⟨fun B₁ B₂ ↦ {</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  carrier <span class="op">:=</span> {x | <span class="kw">∃</span> b₁ ∈ B₁, <span class="kw">∃</span> b₂ ∈ B₂, x = b₁ + b₂}</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  zero_mem' <span class="op">:=</span> ⟨<span class="dv">0</span>, B₁.zero_mem, <span class="dv">0</span>, B₂.zero_mem, <span class="kw">by</span> <span class="fu">rw</span> [add_zero]⟩</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  add_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    rintro x y ⟨b₁, hb₁, b₂, hb₂, rfl⟩ ⟨c₁, hc₁, c₂, hc₂, rfl⟩</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    use b₁ + c₁, B₁.add_mem hb₁ hc₁</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    use b₂ + c₂, B₂.add_mem hb₂ hc₂</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    abel</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>}⟩</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (B₁ B₂ : AddSubmonoid A) : B₁ ⊔ B₂ = B₁ + B₂ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> le_antisymm</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">apply</span> sup_le</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> x hx</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>      use x, hx, <span class="dv">0</span>, B₂.zero_mem</span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [add_zero]</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>    · <span class="fu">intro</span> x hx</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>      use <span class="dv">0</span>, B₁.zero_mem, x, hx</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [zero_add]</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> x hx</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hx <span class="fu">with</span> ⟨b₁, hb₁, b₂, hb₂, rfl⟩</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>    haveI : B₁ ≤ B₁ ⊔ B₂ <span class="op">:=</span> le_sup_left</span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace</span> hb₁ : b₁ ∈ B₁ ⊔ B₂ <span class="op">:=</span> this hb₁</span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>    haveI : B₂ ≤ B₁ ⊔ B₂ <span class="op">:=</span> le_sup_right</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace</span> hb₂ : b₂ ∈ B₁ ⊔ B₂ <span class="op">:=</span> this hb₂</span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> add_mem hb₁ hb₂</span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 </section>
 <section id="subgroups" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="subgroups"><span class="header-section-number">4</span> Subgroups</h2>
-<p>[TODO]</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="objects" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">4.1</span> Objects</h3>
+<p>There’s nothing new about <code>Subgroup G</code> of a <code>Group G</code> compared to <code>Subsemigroup</code> and <code>Submonoid</code>. It just adds the closure under taking inverses.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Group G]</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (H₁ H₂ : Subgroup G) (a b : G)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ H₁ → b ∈ H₁ → a * b ∈ H₁ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> mul_mem</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="dv">1</span> : G) ∈ H₁ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> one_mem</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ H₁ → a⁻¹ ∈ H₁ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">apply</span> inv_mem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We skip the lattice structure again.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="morphisms" class="level3" data-number="4.2">
+<h3 data-number="4.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">4.2</span> Morphisms</h3>
+<p><code>MonoidHom</code> works for <code>Subgroup</code> as well.</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G₁ G₂ : <span class="fu">Type</span>*} [Group G₁] [Group G₂]</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>         (f : G₁ →* G₂) (H₁ : Subgroup G₁) (H₂ : Subgroup G₂)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Image and preimage of subgroups, upgraded to show closure under inverses.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Subgroup.map</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Subgroup.comap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For groups, <code>mker</code> and <code>mrange</code> has been upgraded to <code>ker</code> and <code>range</code> respectively.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.ker</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.range</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.ker f = (⊥ : Subgroup G₂).comap f <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.ker f = {MonoidHom.mker f <span class="fu">with</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>      inv_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="normal-subgroups" class="level3" data-number="4.3">
+<h3 data-number="4.3" class="anchored" data-anchor-id="normal-subgroups"><span class="header-section-number">4.3</span> Normal Subgroups</h3>
+<p>For later discussions on quotient groups, we introduce normal subgroups here.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Subgroup.Normal</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>Subgroup.Normal</code> is a bundled structure consisting of a proof of normality.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> {G : <span class="fu">Type</span>*} [Group G] (H : Subgroup G) :</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>    H.Normal ↔ <span class="kw">∀</span> h ∈ H, <span class="kw">∀</span> g : G, g * h * g⁻¹ ∈ H <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> ⟨h⟩</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> h</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> h</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> ⟨h⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The kernel of a group homomorphism is a normal subgroup.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> {G₁ G₂ : <span class="fu">Type</span>*} [Group G₁] [Group G₂]</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    (f : G₁ →* G₂) : (f.ker).Normal <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x hx y</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [MonoidHom.mem_ker]</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [map_mul, map_mul, hx, map_inv, mul_one, mul_inv_cancel]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Actually, Mathlib contains an instance for kernels, so that Lean automatically recognizes the normality of kernels.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.normal_ker</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> {G₁ G₂ : <span class="fu">Type</span>*} [Group G₁] [Group G₂]</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    (f : G₁ →* G₂) : (f.ker).Normal <span class="op">:=</span> inferInstance</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[TODO]</p>
 <ul>
 <li>Indexed infimum and supremum of substructures</li>
@@ -545,6 +673,7 @@ MathJax = {
 </ul>
 
 
+</section>
 </section>
 </section>
 
