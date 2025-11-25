@@ -184,7 +184,7 @@ variable (a b c : ℚ)
 The most basic way to show an equality is by tactic `rfl`:
 LHS is definitionally equal to RHS.
 -/
-example : a = a := by rfl
+example : a = a := rfl
 /-
 Note that `rfl` works for not only literally-the-same terms,
 but also definitionally equal terms.
@@ -523,18 +523,34 @@ It is a meta-level concept, it cannot be stated as a proposition.
 /-
 #### `rfl`
 
-`rfl` proves a definitional equality. (All? [TODO])
+As the sole constructor of propositional equality,
+`rfl` proves a definitional equality.
 -/
+#check rfl
 
 /- Note that `myNumber` is definitionally equal to `998244353`. -/
-example : myNumber = 998244353 := by rfl
+example : myNumber = 998244353 := rfl
 
 /-
 `rfl` can even solve simple evaluations, because both sides reduce to `8`
 by the (inductive) definition of arithmetic operations over `ℕ`.
 -/
+example : 5 + 3 = 2 * 2 * 2 := rfl
+
+/-
+`rfl` also has a tactic version.
+This tactic works for logical equivalences (`↔`) as well, as `Iff.rfl` does.
+-/
 #help tactic rfl
-example : 5 + 3 = 2 * 2 * 2 := by rfl
+
+example : True ↔ True := by rfl
+
+/-
+These are some non-examples for definitional equality.
+They are only propositionally equal, by `propext` and logical equivalence.
+-/
+-- example (p : Prop) : True ↔ (p → True) := by rfl
+-- example True ↔ ¬ False := by rfl
 
 /-
 #### Type checking
@@ -568,7 +584,7 @@ The type of `myNumber : ℚ` and `myTypeNumber : myType` are definitionally equa
 thus the equality passes the type check.
 Their values are also definitionally equal, so you can prove their equality by `rfl`.
 -/
-example : myTypeNumber = myNumber := by rfl
+example : myTypeNumber = myNumber := rfl
 
 /-
 `abbrev` defines an abbreviation, which is like a `def`,

@@ -64,6 +64,7 @@ example : a ∈ Set.univ := by trivial
 example : sᶜ = {x | x ∉ s} := by rfl
 example : a ∈ sᶜ ↔ a ∉ s := by rfl
 #check Set.mem_compl -- corresponding [@simp] lemma
+#check rfl
 
 #check s ⊆ t /- Subset relation `Set.Subset s t` -/
 example : s ⊆ t ↔ ∀ x : α, x ∈ s → x ∈ t := by rfl
@@ -114,6 +115,18 @@ example : b ∈ f '' s ↔ ∃ x ∈ s, f x = b := by rfl
 example : f ⁻¹' t = {x | f x ∈ t} := by rfl
 example : a ∈ f ⁻¹' t ↔ f a ∈ t := by rfl
 #check Set.mem_preimage -- corresponding [@simp] lemma
+
+/-
+Note the following is not a definitional equality.
+The last step invokes `propext`, which destroys definitional equality.
+It has some unfortunate consequences in later discussions,
+when additional structure is involved.
+-/
+example : f '' Set.univ = Set.range f := by
+  ext x
+  rw [Set.mem_range, Set.mem_image]
+  simp only [Set.mem_univ, true_and]
+#check Set.image_univ -- corresponding [@simp] lemma
 
 /-
 The so-called Galois connection between image and preimage.
@@ -195,7 +208,7 @@ example : H₁ ⊓ H₂ = ⟨H₁ ∩ H₂, by
     all_goals apply mul_mem
     all_goals assumption
     ⟩ :=
-  by rfl
+  rfl
 
 /- product of two subsemigroups. -/
 #check H₁ ⊔ H₂
@@ -240,7 +253,7 @@ example : Subsemigroup.map f H₁ = ⟨f '' H₁, by
     use a * b, H₁.mul_mem ha hb
     rw [map_mul]
     ⟩ :=
-  by rfl
+  rfl
 
 /-
 The preimage of a subsemigroup under a `MulHom` is also a subsemigroup.
@@ -254,7 +267,29 @@ example : Subsemigroup.comap f H₂ = ⟨f ⁻¹' H₂, by
     rw [map_mul]
     exact H₂.mul_mem hx hy
     ⟩ :=
-  by rfl
+  rfl
+
+/-
+To define the range of a `f : G₁ →ₙ* G₂`,
+a common idea is to adopt `(⊤ : Subsemigroup G₁).map f`.
+Unfortunately, this makes the underlying set being `f '' (univ : Set G₁)`,
+which is not definitionally equal to `Set.range f`.
+It will also cause `x ∈ ⊤` conditions in later proofs, redundant and annoying.
+
+Hencee Mathlib define the range with some refinement:
+They manually replace the underlying set of `(⊤ : Subsemigroup G₁).map f` with `Set.range f`.
+
+See Note [range copy pattern](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Submonoid/Operations.html#MonoidHom.Mathlib.LibraryNote.%C2%ABrange%20copy%20pattern%C2%BB)
+for an official explanation.
+-/
+#check MulHom.srange
+
+/- the desired definitional equality -/
+example : MulHom.srange f = ⟨Set.range f, by
+    rintro x y ⟨a, rfl⟩ ⟨b, rfl⟩
+    use a * b
+    rw [map_mul]
+    ⟩ := by rfl
 
 end
 
@@ -301,17 +336,64 @@ example : (⊥ : Submonoid G) = {
 #synth Bot (Submonoid G)
 
 /-
-We don't repeat tedious parts similar to those for `Subsemigroup`.
-The lattice structure on `Submonoid G` is similar.
-The `MonoidHom` interaction with `Submonoid` is similar too.
+We don't repeat tedious lattice structure part, which is similar to those for `Subsemigroup`.
 -/
 #synth CompleteLattice (Submonoid G)
-#check Submonoid.map
-#check Submonoid.comap
 
 end
 
 /-
+### Morphisms
+
+`MonoidHom` interacts with `Submonoid` similarly to `MulHom` and `Subsemigroup`.
+-/
+section
+
+variable {G₁ G₂ : Type*} [Monoid G₁] [Monoid G₂]
+         (f : G₁ →* G₂) (H₁ : Submonoid G₁) (H₂ : Submonoid G₂)
+
+/-
+We still have image and preimage of submonoids,
+which can be built on top of those for subsemigroups,
+with extra care to verify the identity element membership.
+-/
+
+#check Submonoid.map
+example : Submonoid.map f H₁ = { Subsemigroup.map f.toMulHom H₁.toSubsemigroup with
+      one_mem' := by
+        simp
+        use 1, H₁.one_mem
+        rw [map_one]
+    } := by rfl
+
+#check Submonoid.comap
+example : Submonoid.comap f H₂ = { Subsemigroup.comap f.toMulHom H₂.toSubsemigroup with
+      one_mem' := by simp
+    } := by rfl
+
+/- Range is also specially handled as `MulHom.range`. -/
+#check MonoidHom.mrange
+
+/-
+With the presence of identity element, we can define the kernel of a `MonoidHom`.
+-/
+#check MonoidHom.mker
+example : MonoidHom.mker f = (⊥ : Submonoid G₂).comap f := by rfl
+/- [EXR] manual definition of `mker` -/
+example : MonoidHom.mker f = {
+      carrier := {x | f x = 1}
+      one_mem' := by rw [Set.mem_setOf, map_one]
+      mul_mem' := by
+        rintro x y hx hy
+        simp only [Set.mem_setOf] at hx hy ⊢
+        rw [map_mul, hx, hy, one_mul]
+    } := by rfl
+
+end
+
+/-
+### Exercise
+
 As an exercise,
 let's define addition on `AddSubmonoid A` with the intrinsic definition,
 and show that it coincides with the supremum.
@@ -352,9 +434,71 @@ end
 /-
 ## Subgroups
 
-[TODO]
+### Objects
+
+There's nothing new about `Subgroup G` of a `Group G` compared to `Subsemigroup` and `Submonoid`.
+It just adds the closure under taking inverses.
 -/
 section
+
+variable (G : Type*) [Group G]
+variable (H₁ H₂ : Subgroup G) (a b : G)
+example : a ∈ H₁ → b ∈ H₁ → a * b ∈ H₁ := by apply mul_mem
+example : (1 : G) ∈ H₁ := by apply one_mem
+example : a ∈ H₁ → a⁻¹ ∈ H₁ := by apply inv_mem
+
+/-
+We skip the lattice structure again.
+-/
+end
+
+/-
+### Morphisms
+
+`MonoidHom` works for `Subgroup` as well.
+-/
+section
+
+variable {G₁ G₂ : Type*} [Group G₁] [Group G₂]
+         (f : G₁ →* G₂) (H₁ : Subgroup G₁) (H₂ : Subgroup G₂)
+
+/-
+Image and preimage of subgroups, upgraded to show closure under inverses.
+-/
+#check Subgroup.map
+#check Subgroup.comap
+
+/-
+For groups, `mker` and `mrange` has been upgraded to `ker` and `range` respectively.
+-/
+#check MonoidHom.ker
+#check MonoidHom.range
+
+example : MonoidHom.ker f = (⊥ : Subgroup G₂).comap f := by rfl
+example : MonoidHom.ker f = {MonoidHom.mker f with
+      inv_mem' := by simp
+    } := by rfl
+
+end
+
+/-
+### Normal Subgroups
+
+For later discussions on quotient groups, we introduce normal subgroups here.
+-/
+section
+
+variable {G : Type*} [Group G] (H : Subgroup G)
+
+#check Subgroup.Normal
+
+/- `Subgroup.Normal` is a bundled structure consisting of a proof of normality. -/
+example : H.Normal ↔ ∀ h ∈ H, ∀ g : G, g * h * g⁻¹ ∈ H := by
+  constructor
+  · intro ⟨h⟩
+    exact h
+  · intro h
+    exact ⟨h⟩
 
 end
 
