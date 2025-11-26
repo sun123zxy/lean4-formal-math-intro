@@ -31,7 +31,8 @@ variable (α : Type*) (s t u : Set α) (a : α)
 /-
 You can see that `Set α` is defined as `α → Prop`.
 
-This means a subset `s : Set α` tells you, for each `a : α`, whether `a` belongs to `s` or not.
+This means a subset `s : Set α` tells you, for each `a : α`,
+whether `a` belongs to `s` or not.
 This proposition is denoted by `a ∈ s`, `Set.mem s a`, or `s.Mem a`.
 
 Note that you are not supposed to write `s a` directly.
@@ -41,14 +42,18 @@ The function definition of `Set α` should be regarded as an implementation deta
 #check s.Mem a
 
 /-
-A subset can be constructed using the set-builder notation `{x : α | p x}` or `setOf p`,
+A subset can be constructed using the set-builder notation
+`{x : α | p x}` or `setOf p`,
 where `p : α → Prop` is a predicate on `α`.
 -/
 #check setOf (fun x ↦ x = a)
 example : Set α := {x : α | x = a} /- The same as above -/
+example : Set α := {a} /- The same as above -/
 example : Set α := Set.singleton a /- The same as above -/
+/- [TODO] Are they definitionally equal? -/
 
 example : Set ℕ := {n | n > 514}
+example (n : ℕ) : n ∈ {x | x > 514} ↔ n > 514 := by rfl
 
 #check (∅ : Set α) /- The empty subset -/
 example : ∅ = {x : α | False} := by rfl
@@ -64,11 +69,11 @@ example : a ∈ Set.univ := by trivial
 example : sᶜ = {x | x ∉ s} := by rfl
 example : a ∈ sᶜ ↔ a ∉ s := by rfl
 #check Set.mem_compl -- corresponding [@simp] lemma
-#check rfl
 
 #check s ⊆ t /- Subset relation `Set.Subset s t` -/
 example : s ⊆ t ↔ ∀ x : α, x ∈ s → x ∈ t := by rfl
 example (ha : a ∈ s) (hst : s ⊆ t) : a ∈ t := hst ha
+#check Subset -- [TODO] the implicit {x : α}
 
 #check s ∩ t /- Intersection of two subsets `Set.inter s t` -/
 example : a ∈ s ∩ t ↔ a ∈ s ∧ a ∈ t := by rfl
@@ -84,7 +89,17 @@ Fundamentally this is implimented using function & propositional extensionality.
 example : s ∩ t = t ∩ s := by ext x; simp [and_comm]
 
 /- [EXR] De Morgan's law for sets -/
-example : s ∩ (t ∪ u) = (s ∩ t) ∪ (s ∩ u) := by tauto_set
+example : s ∩ (t ∪ u) = (s ∩ t) ∪ (s ∩ u) := by
+  ext x
+  constructor
+  · intro ⟨h₁, h₂⟩
+    rcases h₂ with (h₂ | h₂)
+    · left
+      exact ⟨h₁, h₂⟩
+    · right
+      exact ⟨h₁, h₂⟩
+  · tauto_set
+
 #help tactic tauto_set -- Wheelchair tactic for set equations
 
 end
@@ -100,6 +115,7 @@ variable {α β : Type*} (f : α → β) (s : Set α) (t : Set β) (a : α) (b :
 
 #check Set.range f
 example : Set.range f = {y | ∃ x, f x = y} := by rfl
+example : Set.range f = {f x | x : α} := by rfl -- set-builder notation for range
 example : b ∈ Set.range f ↔ ∃ x, f x = b := by rfl
 #check Set.mem_range -- corresponding [@simp] lemma
 
@@ -166,10 +182,13 @@ end
 
 ### Objects
 
-A `Subsemigroup G` is a subset of a `Semigroup G` that is closed under the multiplication.
+A `Subsemigroup G` is a subset of a `Semigroup G`
+that is closed under the multiplication.
 
-It's actually a bundled structure consisting of a subset and a proof of closure.
-To use it like a subset, Mathlib registers `Subsemigroup G` as an instance of `SetLike G`.
+It's actually a bundled structure consisting of a
+subset and a proof of closure.
+To use it like a subset,
+Mathlib registers `Subsemigroup G` as an instance of `SetLike G`.
 It provides coercion from `Subsemigroup G` to `Set G`,
 so for `H : Subsemigroup G`,
 you can use `a ∈ H` to mean `a` belongs to the underlying subset of `H`.
@@ -252,8 +271,7 @@ example : Subsemigroup.map f H₁ = ⟨f '' H₁, by
     rintro x y ⟨a, ha, rfl⟩ ⟨b, hb, rfl⟩
     use a * b, H₁.mul_mem ha hb
     rw [map_mul]
-    ⟩ :=
-  rfl
+    ⟩ := by rfl
 
 /-
 The preimage of a subsemigroup under a `MulHom` is also a subsemigroup.
@@ -265,9 +283,8 @@ example : Subsemigroup.comap f H₂ = ⟨f ⁻¹' H₂, by
     intro x y hx hy
     simp only [Set.mem_preimage] at hx hy ⊢
     rw [map_mul]
-    exact H₂.mul_mem hx hy
-    ⟩ :=
-  rfl
+    exact mul_mem hx hy
+    ⟩ := by rfl
 
 /-
 To define the range of a `f : G₁ →ₙ* G₂`,
