@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>01-intro.lean – 2025 Fall Lean 4 Teach</title>
+<title>10-quotient.lean – 2025 Fall Lean 4 Teach</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -124,7 +124,7 @@ MathJax = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-code.html">01-intro.lean</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10-quotient.html">10-quotient.lean</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -163,7 +163,7 @@ MathJax = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-intro-code.html" class="sidebar-item-text sidebar-link active">
+  <a href="./01-intro-code.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">01-intro.lean</span></a>
   </div>
 </li>
@@ -217,7 +217,7 @@ MathJax = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./10-quotient.html" class="sidebar-item-text sidebar-link">
+  <a href="./10-quotient.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">10-quotient.lean</span></a>
   </div>
 </li>
@@ -226,15 +226,24 @@ MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#quotients" id="toc-quotients" class="nav-link active" data-scroll-target="#quotients"><span class="header-section-number"></span> Quotients</a>
+  <ul class="collapse">
+  <li><a href="#quotient-sets" id="toc-quotient-sets" class="nav-link" data-scroll-target="#quotient-sets"><span class="header-section-number">1</span> Quotient Sets</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="10-quotient.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">01-intro.lean</h1>
+<h1 class="title">10-quotient.lean</h1>
 </div>
 
 
@@ -252,29 +261,44 @@ MathJax = {
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Fermat’s Last Theorem: if n &gt; 2, then there are no positive integer solutions to a^n + b^n = c^n.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">FLT</span> (n : ℕ) (hn : n &gt; <span class="dv">2</span>) (a b c : ℕ) : a ≠ <span class="dv">0</span> → b ≠ <span class="dv">0</span> → c ≠ <span class="dv">0</span> → a^n + b^n ≠ c^n <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">T</span>endsTo (a : ℕ → ℝ) (t : ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> ε &gt; <span class="dv">0</span>, <span class="kw">∃</span> n₀ : ℕ, <span class="kw">∀</span> n, n₀ ≤ n → |a n - t| &lt; ε</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : TendsTo (<span class="kw">fun</span> _ ↦ <span class="dv">998244353</span>) <span class="dv">998244353</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unfold</span> TendsTo</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ε hε</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  use <span class="dv">19260817</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> n hn</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> [hε]</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    TendsTo (<span class="kw">fun</span> n =&gt; a n + b n) (A + B) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    (hab : <span class="kw">∀</span> n, a n ≤ b n) (hbc : <span class="kw">∀</span> n, b n ≤ c n) : TendsTo b L <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="quotients" class="level1" data-number="">
+<h1 data-number=""><span class="header-section-number"></span> Quotients</h1>
+<p>After building up the theory of groups, homorphisms, and subgroups, we are now ready to define quotient groups.</p>
+<p>In fact, quotients are so fundamental that Lean makes them a primitive way of constructing new types.</p>
+<p>We shall first illustrate the general quotient construction in Lean, and then specialize it to quotient groups.</p>
+<p>At the end of the journey, we show the first isomorphism theorem for groups as promised.</p>
+<section id="quotient-sets" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="quotient-sets"><span class="header-section-number">1</span> Quotient Sets</h2>
+<p>We still build up the theory from sets. First, we need to define equivalence relations on a type <code>α</code>. As you can guess, a binary relation <code>r</code> is just a <code>α → α → Prop</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {α : <span class="fu">Type</span>*} {r : α → α → <span class="fu">Prop</span>} (a b c : α)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>Equivalence r</code> is a bundled structure that packages the three properties:</p>
+<ul>
+<li>reflexivity of <code>r</code></li>
+<li>symmetry of <code>r</code></li>
+<li>transitivity of <code>r</code></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (r_equiv : Equivalence r)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.<span class="fu">refl</span> _</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a b → r b a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.symm</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a b → r b c → r a c <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.trans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In mathmatics we often denote equivalence relations by <code>~</code>. In Lean, we can also use <code>≈</code> as notation for equivalence relations, once we register the <code>Setoid</code> instance for <code>α</code>.</p>
+<p>The <code>Setoid</code> typeclass is a bundle of</p>
+<ul>
+<li>an equivalence relation <code>r</code> on <code>α</code></li>
+<li>the proof that <code>r</code> is an equivalence relation.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="fu">r</span>_setoid : Setoid α where</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  r <span class="op">:=</span> r</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  iseqv <span class="op">:=</span> r_equiv</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
