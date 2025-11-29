@@ -445,8 +445,9 @@ toc: true # 开启目录
 ### 我不想给 section 编号 / 我要改 section 编号格式！
 
 ```yaml
-number-sections: true # section 编号开关
-number-depth: 3 # section 编号深度
+number-sections: true # section 编号开关，默认关闭
+number-depth: 3 # 从 chapter / 一级标题计起的编号深度．此时 chapter, section, subsection 被编号
+toc-depth: 3 # 目录显示深度，相对最浅标题层级计算
 ```
 
 该设置全局 / 特定格式下均生效．
@@ -463,7 +464,9 @@ format:
       numbered-alike: true # 开启后不同类型的定理将共享编号
 ```
 
-注意使用 ´numbered-within´ 前请先开启 ´number-sections´．
+默认开启 `numbered-alike`，不相对任何标题层级编号．在输出 Book 时，默认相对于 chapter 编号．
+
+注意使用 `numbered-within` 前请先开启 `number-sections`．
 
 ### 我要改引用格式！
 
@@ -537,7 +540,23 @@ format:
 
 #### 标题应该用多少个 `#`？
 
-一般文档建议从二级标题开始编号（[相关讨论](https://community.rstudio.com/t/why-do-default-r-markdown-quarto-templates-use-second-level-headings-instead-of-first-level-ones/162127)）；Beamer 的 `slide-level` 可自适应标题级数，但其分节固定从一级标题开始，见 Pandoc 文档．
+一级标题被视为整个文档的大标题（即 Book 中的 chapter title），文档头标题和一级标题不应同时出现．
+
+二级标题对应 section，三级标题对应 subsection．Beamer 中四级标题对应 slide．在 Pandoc 中，这对应着
+
+```yaml
+shift-heading-level-by: -1
+slide-level: 4
+```
+
+Quarto 对标题层级的处理比较混乱——例如，Book 项目中 Quarto 似乎会额外对标题层级进行 -1 处理；`shift-heading-level-by` 会让小节编号系统无法正常工作．我们做了很多 ad-hoc 的调整（例如 `_assets/promote-h1.lua` 将正文一级标题强制提升至 metadata 标题），因此不建议您再修改这些设置．
+
+参见：
+
+- [相关讨论](https://community.rstudio.com/t/why-do-default-r-markdown-quarto-templates-use-second-level-headings-instead-of-first-level-ones/162127)
+- [Pandoc `--shift-heading-level-by` 文档](https://pandoc.org/MANUAL.html#option--shift-heading-level-by)
+- [Pandoc `slide-level` 文档](https://pandoc.org/MANUAL.html#structuring-the-slide-show)
+- [Quarto Issue #12048](https://github.com/quarto-dev/quarto-cli/issues/12048)
 
 #### 分页符
 
