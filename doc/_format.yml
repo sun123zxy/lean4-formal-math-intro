@@ -1,10 +1,16 @@
 # --- format defaults ---
-csl: "./_assets/ieee.csl"
+csl: _assets/ieee.csl
 syntax-definitions: 
-  - "./_assets/lean.xml"
+  - _assets/lean.xml
+
+number-depth: 3 # number sections, subsections
+
+cap-location: bottom
+fig-align: center
+
 format:
   html:
-    theme: "./_assets/custom.scss"
+    theme: _assets/custom.scss
     linestretch: 1.7
     code-fold: true
     html-math-method: mathjax
@@ -14,7 +20,7 @@ format:
     link-external-newwindow: true
     toc: true
     include-in-header:
-      - file: "./_assets/html-preset.html"
+      - file: _assets/html-preset.html
   pdf:
     # keep-tex: true
     pdf-engine: xelatex
@@ -22,15 +28,15 @@ format:
     execute:
       echo: false
     fig-pos: false
-    template: "./_assets/suntemp-art.tex"
+    template: _assets/suntemp-art.tex
     include-in-header:
       text: ""
     # toc: true
-    # custom-theorem:
-      # numbered-within: section
-      # numbered-alike: true
+    custom-theorem:
+#     numbered-within: section
+      numbered-alike: true
   docx:
-    reference-doc: "./_assets/suntemp-art.docx"
+    reference-doc: _assets/suntemp-art.docx
   gfm:
     wrap: preserve
   beamer:
@@ -41,15 +47,15 @@ format:
     execute:
       echo: false
     fig-pos: false
-    template: "./_assets/suntemp-pre.tex"
+    template: _assets/suntemp-pre.tex
     include-in-header:
       text: ""
     custom-color:
-      define: "\\definecolor{blueblk}{HTML}{1874D0}"
-      main: "green!40!black"
-      theorem: "green!32!black"
-      example: "blueblk!50!black"
-      remark: "white!15!black"
-      link: "lime!85!black"
+      define: \definecolor{blueblk}{HTML}{1874D0}
+      main: green!40!black
+      theorem: green!32!black
+      example: blueblk!50!black
+      remark: white!15!black
+      link: lime!85!black
   # revealjs: default
   # pptx: default

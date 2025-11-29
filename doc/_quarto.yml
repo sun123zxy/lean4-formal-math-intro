@@ -1,8 +1,11 @@
 project:
-  title: 2025 Fall Lean 4 Teach
+  title: SunQuarTeX
   output-dir: _output
 
+profile:
+  group: 
+    - [project, website, book]
+
 metadata-files: 
-  - "./_format.yml"
-  - "./_article.yml"
-  - "./_filter.yml"
+  - _format.yml
+  - _filter.yml

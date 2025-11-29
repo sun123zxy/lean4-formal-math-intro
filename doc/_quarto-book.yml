@@ -1,0 +1,31 @@
+project:
+  type: book
+
+book:
+  title: Introduction to Formal Mathematics with Lean 4
+  author: 钟星宇
+  date: 2025/11/29
+  chapters:
+    - index.qmd
+    - part: Introduction
+      - 00-poster.qmd
+      - 01-introduction.qmd
+    - part: Lectures
+      - 02-logic.qmd
+      - 03-logic.qmd
+      - 04-logic.qmd
+      - 05-type.qmd
+      - 06-ineq.qmd
+      - 07-analysis.qmd
+      - 08-group.qmd
+      - 09-subgroup.qmd
+      - 10-quotient.qmd
+
+bibliography: examples/bibliography.bib
+
+format:
+  pdf:
+    documentclass: book
+    custom-theorem:
+      numbered-within: chapter
+      numbered-alike: true
