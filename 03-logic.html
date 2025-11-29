@@ -263,28 +263,14 @@ window.Quarto = {
   <ul>
   <li><a href="#and-and-or" id="toc-and-and-or" class="nav-link active" data-scroll-target="#and-and-or"><span class="header-section-number">1</span> <code>And</code> and <code>Or</code></a>
   <ul class="collapse">
-  <li><a href="#and" id="toc-and" class="nav-link" data-scroll-target="#and"><span class="header-section-number">1.1</span> <code>And</code> (<code>∧</code>)</a>
-  <ul class="collapse">
-  <li><a href="#introducing-and" id="toc-introducing-and" class="nav-link" data-scroll-target="#introducing-and">Introducing <code>And</code></a></li>
-  <li><a href="#eliminating-and" id="toc-eliminating-and" class="nav-link" data-scroll-target="#eliminating-and">Eliminating <code>And</code></a></li>
-  <li><a href="#currification" id="toc-currification" class="nav-link" data-scroll-target="#currification">Currification</a></li>
-  </ul></li>
+  <li><a href="#and" id="toc-and" class="nav-link" data-scroll-target="#and"><span class="header-section-number">1.1</span> <code>And</code> (<code>∧</code>)</a></li>
   <li><a href="#iff-first-visit" id="toc-iff-first-visit" class="nav-link" data-scroll-target="#iff-first-visit"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>), first visit</a></li>
-  <li><a href="#or" id="toc-or" class="nav-link" data-scroll-target="#or"><span class="header-section-number">1.3</span> <code>Or</code> (<code>∨</code>)</a>
-  <ul class="collapse">
-  <li><a href="#introducing-or" id="toc-introducing-or" class="nav-link" data-scroll-target="#introducing-or">Introducing <code>Or</code></a></li>
-  <li><a href="#eliminating-or" id="toc-eliminating-or" class="nav-link" data-scroll-target="#eliminating-or">Eliminating <code>Or</code></a></li>
-  </ul></li>
+  <li><a href="#or" id="toc-or" class="nav-link" data-scroll-target="#or"><span class="header-section-number">1.3</span> <code>Or</code> (<code>∨</code>)</a></li>
   </ul></li>
   <li><a href="#forall-and-exists" id="toc-forall-and-exists" class="nav-link" data-scroll-target="#forall-and-exists"><span class="header-section-number">2</span> <code>Forall</code> and <code>Exists</code></a>
   <ul class="collapse">
   <li><a href="#forall" id="toc-forall" class="nav-link" data-scroll-target="#forall"><span class="header-section-number">2.1</span> Forall (<code>∀</code>)</a></li>
-  <li><a href="#exists" id="toc-exists" class="nav-link" data-scroll-target="#exists"><span class="header-section-number">2.2</span> <code>Exists</code> (<code>∃</code>)</a>
-  <ul class="collapse">
-  <li><a href="#introducting-exists" id="toc-introducting-exists" class="nav-link" data-scroll-target="#introducting-exists">Introducting <code>Exists</code></a></li>
-  <li><a href="#eliminating-exists" id="toc-eliminating-exists" class="nav-link" data-scroll-target="#eliminating-exists">Eliminating <code>Exists</code></a></li>
-  <li><a href="#ignore-a-cosmological-remark" id="toc-ignore-a-cosmological-remark" class="nav-link" data-scroll-target="#ignore-a-cosmological-remark">[IGNORE] A cosmological remark</a></li>
-  </ul></li>
+  <li><a href="#exists" id="toc-exists" class="nav-link" data-scroll-target="#exists"><span class="header-section-number">2.2</span> <code>Exists</code> (<code>∃</code>)</a></li>
   </ul></li>
   <li><a href="#ignore-a-cosmological-remark-continued" id="toc-ignore-a-cosmological-remark-continued" class="nav-link" data-scroll-target="#ignore-a-cosmological-remark-continued"><span class="header-section-number">3</span> [IGNORE] A cosmological remark, continued</a></li>
   <li><a href="#remainder" id="toc-remainder" class="nav-link" data-scroll-target="#remainder"><span class="header-section-number">4</span> Remainder</a></li>
@@ -323,8 +309,8 @@ window.Quarto = {
 <li><code>And</code> and <code>Or</code></li>
 <li><code>Forall</code> and <code>Exists</code></li>
 </ul>
-<section id="and-and-or" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> <code>And</code> and <code>Or</code></h1>
+<section id="and-and-or" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="and-and-or"><span class="header-section-number">1</span> <code>And</code> and <code>Or</code></h2>
 <p>In Lean’s dependent type theory, <code>∧</code> and <code>∨</code> serve as the <em>direct product</em> and the <em>direct sum</em> in the universe of <code>Prop</code>.</p>
 <p>Eagle-eyed readers may notice that <code>∧</code> and <code>∨</code> act similarly to Cartesian product and disjoint union in set theory.</p>
 <p>They are also constructed as inductive types.</p>
@@ -333,10 +319,10 @@ window.Quarto = {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q r : <span class="fu">Prop</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="and" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="and"><span class="header-section-number">1.1</span> <code>And</code> (<code>∧</code>)</h2>
-<section id="introducing-and" class="level3">
-<h3 class="anchored" data-anchor-id="introducing-and">Introducing <code>And</code></h3>
+<section id="and" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="and"><span class="header-section-number">1.1</span> <code>And</code> (<code>∧</code>)</h3>
+<section id="introducing-and" class="level4">
+<h4 class="anchored" data-anchor-id="introducing-and">Introducing <code>And</code></h4>
 <p>The only constructor of <code>And</code> is <code>And.intro</code>, which takes a proof of <code>p</code> and a proof of <code>q</code> to produce a proof of <code>p ∧ q</code>.</p>
 <p>It is self-evident. Regard this as the <em>universal property of the direct product</em> if you like.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> And.<span class="fu">intro</span></span>
@@ -377,8 +363,8 @@ window.Quarto = {
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hr</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> ⟨hrp hr, hrq hr⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="eliminating-and" class="level3">
-<h3 class="anchored" data-anchor-id="eliminating-and">Eliminating <code>And</code></h3>
+<section id="eliminating-and" class="level4">
+<h4 class="anchored" data-anchor-id="eliminating-and">Eliminating <code>And</code></h4>
 <p><code>And.left</code> and <code>And.right</code> are among the elimination rules of <code>And</code>, which extract the proofs of <code>p</code> and <code>q</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> And.<span class="fu">left</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> And.<span class="fu">right</span></span>
@@ -409,8 +395,8 @@ window.Quarto = {
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> hr</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> (hrpq hr).<span class="fu">right</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="currification" class="level3">
-<h3 class="anchored" data-anchor-id="currification">Currification</h3>
+<section id="currification" class="level4">
+<h4 class="anchored" data-anchor-id="currification">Currification</h4>
 <p>The actual universal elimination rule of <code>And</code> is the so-called <em>decurrification</em>: From <code>(p → q → r)</code> we may deduce <code>(p ∧ q → r)</code>. This is actually a logical equivalence.</p>
 <p>Intuitively, requiring both <code>p</code> and <code>q</code> to deduce <code>r</code> is nothing but requiring <code>p</code> to deduce that <code>q</code> is sufficient to deduce <code>r</code>.</p>
 <p>[IGNORE] Decurrification is also self-evidently true in Lean’s dependent type theory.</p>
@@ -446,8 +432,8 @@ window.Quarto = {
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="iff-first-visit" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="iff-first-visit"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>), first visit</h2>
+<section id="iff-first-visit" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="iff-first-visit"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>), first visit</h3>
 <p>It’s high time to introduce <code>Iff</code> here for the first time.</p>
 <p><code>Iff</code> (<code>↔︎</code>) contains two side of implications: <code>Iff.mp</code> and <code>Iff.mpr</code>.</p>
 <p>Though it is defined as a distinct inductive type, <code>Iff</code> may be seen as a bundled version of <code>(p → q) ∧ (q → p)</code>. you may, somehow, even use it like a <code>(p → q) ∧ (q → p)</code>. The only major difference is the name of the two components.</p>
@@ -462,10 +448,10 @@ window.Quarto = {
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> ⟨hpq, hqp⟩</span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> ⟨hpq, hqp⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="or" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="or"><span class="header-section-number">1.3</span> <code>Or</code> (<code>∨</code>)</h2>
-<section id="introducing-or" class="level3">
-<h3 class="anchored" data-anchor-id="introducing-or">Introducing <code>Or</code></h3>
+<section id="or" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="or"><span class="header-section-number">1.3</span> <code>Or</code> (<code>∨</code>)</h3>
+<section id="introducing-or" class="level4">
+<h4 class="anchored" data-anchor-id="introducing-or">Introducing <code>Or</code></h4>
 <p><code>Or</code> has two constructors, <code>Or.inl</code> and <code>Or.inr</code>. Either a proof of <code>p</code> or a proof of <code>q</code> produces a proof of <code>p ∨ q</code>.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Or.inl</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Or.inr</span>
@@ -476,8 +462,8 @@ window.Quarto = {
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hq</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="eliminating-or" class="level3">
-<h3 class="anchored" data-anchor-id="eliminating-or">Eliminating <code>Or</code></h3>
+<section id="eliminating-or" class="level4">
+<h4 class="anchored" data-anchor-id="eliminating-or">Eliminating <code>Or</code></h4>
 <p>To prove <code>r</code> from <code>p ∨ q</code>, it suffices to prove both <code>p → r</code> and <code>q → r</code>. This is the elimination rule of <code>Or</code>, or the <em>universal property</em> of the direct sum.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Or.elim</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Or.rec <span class="co">-- [IGNORE]</span></span>
@@ -521,10 +507,10 @@ window.Quarto = {
 </section>
 </section>
 </section>
-<section id="forall-and-exists" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> <code>Forall</code> and <code>Exists</code></h1>
-<section id="forall" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="forall"><span class="header-section-number">2.1</span> Forall (<code>∀</code>)</h2>
+<section id="forall-and-exists" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="forall-and-exists"><span class="header-section-number">2</span> <code>Forall</code> and <code>Exists</code></h2>
+<section id="forall" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="forall"><span class="header-section-number">2.1</span> Forall (<code>∀</code>)</h3>
 <p>As you may have already noticed, <code>∀</code> is just an alternative way of writing <code>→</code>. Say <code>p</code> is a predicate on a type <code>X</code>, i.e.&nbsp;of type <code>X → Prop</code>, then <code>∀ x : X, p x</code> is exactly the same as <code>(x : X) → p x</code>.</p>
 <p>Though <code>→</code> is primitive in Lean’s dependent type theory, we may still (perhaps awkwardly) state the introduction and elimination rules of <code>∀</code>:</p>
 <ul>
@@ -546,14 +532,14 @@ window.Quarto = {
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> hrs</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hrs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="exists" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="exists"><span class="header-section-number">2.2</span> <code>Exists</code> (<code>∃</code>)</h2>
+<section id="exists" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="exists"><span class="header-section-number">2.2</span> <code>Exists</code> (<code>∃</code>)</h3>
 <p><code>∃</code> is a bit more complicated.</p>
 <p>Slogan: <code>∀</code> is a dependent <code>→</code>, <code>∃</code> is a dependent <code>×</code> (or <code>∧</code> in <code>Prop</code> universe)</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∃</span> x : X, p x</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∃</span> x, p x <span class="co">-- Lean is smart enough to infer the type of `x`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="introducting-exists" class="level3">
-<h3 class="anchored" data-anchor-id="introducting-exists">Introducting <code>Exists</code></h3>
+<section id="introducting-exists" class="level4">
+<h4 class="anchored" data-anchor-id="introducting-exists">Introducting <code>Exists</code></h4>
 <p><code>∃ x : X, p x</code> means that we have the following data:</p>
 <ul>
 <li>an element <code>a : X</code>;</li>
@@ -574,8 +560,8 @@ window.Quarto = {
 <p>Note that in the defining pair <code>(a, h)</code>, <code>h</code> is a proof of <code>p a</code>, whose type depends on <code>a</code>. Thus psychologically, you may view <code>∃ x : X, p x</code> as a dependent pair type <code>(x : X) × (p x)</code>.</p>
 <p>Have writing <code>Exists</code> as a dependent pair type reminded you of the currification process?</p>
 </section>
-<section id="eliminating-exists" class="level3">
-<h3 class="anchored" data-anchor-id="eliminating-exists">Eliminating <code>Exists</code></h3>
+<section id="eliminating-exists" class="level4">
+<h4 class="anchored" data-anchor-id="eliminating-exists">Eliminating <code>Exists</code></h4>
 <p>To construct the implication <code>(∃ x : X, p x) → q</code>, it suffices to have a proof of <code>(∀ x : X, p x → q)</code>, i.e.&nbsp;<code>(x : X) → p x → q</code>. <code>Exists.elim</code> does exactly above.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Exists.elim</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -614,8 +600,8 @@ window.Quarto = {
 <span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="ignore-a-cosmological-remark" class="level3">
-<h3 class="anchored" data-anchor-id="ignore-a-cosmological-remark">[IGNORE] A cosmological remark</h3>
+<section id="ignore-a-cosmological-remark" class="level4">
+<h4 class="anchored" data-anchor-id="ignore-a-cosmological-remark">[IGNORE] A cosmological remark</h4>
 <p>The pair <code>(a, h)</code> actually do not have type <code>(x : X) × (p x)</code>. The latter notation is actually for the <em>dependent pair type</em> (or <code>Sigma</code> type), which lives in <code>Type*</code> universe.</p>
 <p>But <code>Exists</code> should live in <code>Prop</code>, and in <code>Prop</code> universe we admit <em>proof-irrelevance</em>, i.e.&nbsp;we do not save data. So <code>Exists</code> forget the exact witness <code>a</code> once it is proved.</p>
 <p>This “forgetfulness” is revealed by the fact that there is no elimination rule <code>Exists.fst</code> to extract the witness <code>a</code> from a proof of <code>∃ x : X, p x</code>, as long as <code>X</code> lives in the <code>Type*</code> universe. (Note that <code>Exists.elim</code> can only produce propositions in <code>Prop</code>)</p>
@@ -637,8 +623,8 @@ window.Quarto = {
 </section>
 </section>
 </section>
-<section id="ignore-a-cosmological-remark-continued" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> [IGNORE] A cosmological remark, continued</h1>
+<section id="ignore-a-cosmological-remark-continued" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="ignore-a-cosmological-remark-continued"><span class="header-section-number">3</span> [IGNORE] A cosmological remark, continued</h2>
 <p>Same construction, different universes. Other examples are also shown below.</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> And <span class="co">-- `×` in `Prop`</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Prod <span class="co">-- `×` in `Type*`</span></span>
@@ -655,8 +641,8 @@ window.Quarto = {
 <span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Nonempty <span class="co">-- a proof of non-emptiness living in `Prop`</span></span>
 <span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Inhabited <span class="co">-- an designated element living in `Sort*`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="remainder" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Remainder</h1>
+<section id="remainder" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="remainder"><span class="header-section-number">4</span> Remainder</h2>
 <p><code>Iff</code> (<code>↔︎</code>), second visit, bundled and unbundled version</p>
 <p>we do it with <code>Eq</code>? <code>Eq</code> is hard. Maybe a second visit when touching inductive types.</p>
 

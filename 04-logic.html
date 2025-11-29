@@ -284,8 +284,8 @@ MathJax = {
 <p>3 is recommended for those who wants to have some exercises. For lazy ones, you may only remember the tactics introduced there.</p>
 <p>4, 5 are optional and left for logical lunatics.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="true-false-and-not" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> <code>True</code>, <code>False</code> and <code>Not</code></h1>
+<section id="true-false-and-not" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="true-false-and-not"><span class="header-section-number">1</span> <code>True</code>, <code>False</code> and <code>Not</code></h2>
 <p>In Lean’s dependent type theory, <code>True</code> and <code>False</code> are propositions serving as the <em>terminal and initial objects</em> in the universe of <code>Prop</code>.</p>
 <p>Eagle-eyed readers may notice that <code>True</code> and <code>False</code> act similarly to singleton sets and empty sets in set theory.</p>
 <p>They are constructed as <em>inductive types</em>.</p>
@@ -293,8 +293,8 @@ MathJax = {
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q : <span class="fu">Prop</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="true" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="true"><span class="header-section-number">1.1</span> <code>True</code> (<code>⊤</code>)</h2>
+<section id="true" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="true"><span class="header-section-number">1.1</span> <code>True</code> (<code>⊤</code>)</h3>
 <p><code>True</code> has a single constructor <code>True.intro</code>, which produces the unique proof of <code>True</code>. <code>True</code> is self-evidently true by <code>True.intro</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> True.<span class="fu">intro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>True</code> as the terminal object</p>
@@ -314,8 +314,8 @@ MathJax = {
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> htp</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trivial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="false" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="false"><span class="header-section-number">1.2</span> <code>False</code> (<code>⊥</code>)</h2>
+<section id="false" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="false"><span class="header-section-number">1.2</span> <code>False</code> (<code>⊥</code>)</h3>
 <p><code>False</code> has no constructors, meaning that there is no way to construct a proof of <code>False</code>. This means that <code>False</code> is always false.</p>
 <p><code>False.elim</code> is the eliminator of <code>False</code>, serve as the “principle of explosion”, which allows us to derive anything from a falsehood. <code>False.elim</code> is self-evidently true in Lean’s dependent type theory.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> False.elim</span>
@@ -338,8 +338,8 @@ MathJax = {
 <div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="not" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> <code>Not</code> (<code>¬</code>)</h1>
+<section id="not" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="not"><span class="header-section-number">2</span> <code>Not</code> (<code>¬</code>)</h2>
 <p>In Lean’s dependent type theory, negation <code>¬p</code> is realized as <code>p → False</code></p>
 <p>You may understand <code>¬p</code> as “if <code>p</code> then absurd”, indicating that <code>p</code> cannot be true.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
@@ -395,11 +395,11 @@ MathJax = {
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> hctp True p h</span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">trivial</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="pushing-negations" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Pushing negations</h1>
+<section id="pushing-negations" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="pushing-negations"><span class="header-section-number">3</span> Pushing negations</h2>
 <p>Some negation can be pushed within intuitionistic logic. Some cannot.</p>
-<section id="negation-with-and" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="negation-with-and"><span class="header-section-number">3.1</span> Negation with <code>∧</code> and <code>∨</code></h2>
+<section id="negation-with-and" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="negation-with-and"><span class="header-section-number">3.1</span> Negation with <code>∧</code> and <code>∨</code></h3>
 <div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (p q r : <span class="fu">Prop</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -490,8 +490,8 @@ MathJax = {
 <div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="ignore-decidable" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> [IGNORE] <code>Decidable</code></h1>
+<section id="ignore-decidable" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="ignore-decidable"><span class="header-section-number">4</span> [IGNORE] <code>Decidable</code></h2>
 <p>It’s high time to introduce <code>Decidable</code> here for the first time.</p>
 <p>Mathematicians are often aware of intuitionistic logic. They know classical logic is equipped with <code>Classical.em</code>: <code>p ∨ ¬p</code> for any proposition <code>p</code>. Though rarely do they know the concept of <code>Decidable</code>, which more often appears in the theory of computation.</p>
 <p>For short, <code>Decidable p</code> means exactly the same as <code>p ∨ ¬p</code> in intuitionistic logic. It means that we know explicitly (or computationally) which one of <code>p</code> and <code>¬p</code> is true.</p>

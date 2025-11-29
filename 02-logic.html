@@ -265,8 +265,8 @@ MathJax = {
 </header>
 
 
-<section id="implication" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Implication <code>→</code></h1>
+<section id="implication" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="implication"><span class="header-section-number">1</span> Implication <code>→</code></h2>
 <p>Implication <code>→</code> is the most fundamental way of constructing new types in Lean’s dependent type theory. It’s one of the first-class citizens in Lean.</p>
 <p>In the universe of <code>Prop</code>, for propositions <code>p</code> and <code>q</code>, the implication <code>p → q</code> means “if <code>p</code> then <code>q</code>”.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
@@ -293,8 +293,8 @@ MathJax = {
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → (p → q) → q <span class="op">:=</span> <span class="kw">fun</span> (hp : p) (hpq : p → q) ↦ hpq hp</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : p → (p → q) → q <span class="op">:=</span> <span class="kw">fun</span> hp hpq ↦ hpq hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="tactic-mode" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Tactic Mode</h1>
+<section id="tactic-mode" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="tactic-mode"><span class="header-section-number">2</span> Tactic Mode</h2>
 <p>Construct proofs using explicit terms is called <em>term-style proof</em>. This can be tedious for complicated proofs.</p>
 <p>Fortunately, Lean provides the <em>tactic mode</em> to help us construct proofs interactively.</p>
 <p><code>by</code> activates the tactic mode.</p>

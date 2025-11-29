@@ -284,10 +284,10 @@ MathJax = {
 <p>Hopefully, this will help you focus on building up the theory mathematically while getting familiar with the Mathlib API. Be advised that you can always ctrl+click on any name to see its actual definition in Mathlib.</p>
 <p>For a more complete treatment (especially on the philosophy behind API design), read <a href="https://leanprover-community.github.io/mathematics_in_lean/">MiL</a> chapter 7 and 9.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="semigroups" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Semigroups</h1>
-<section id="objects" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">1.1</span> Objects</h2>
+<section id="semigroups" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="semigroups"><span class="header-section-number">1</span> Semigroups</h2>
+<section id="objects" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">1.1</span> Objects</h3>
 <p>A <code>Semigroup</code> is a type with an associative binary operation <code>*</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -306,8 +306,8 @@ MathJax = {
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="morphisms" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">1.2</span> Morphisms</h2>
+<section id="morphisms" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">1.2</span> Morphisms</h3>
 <p>A <code>MulHom</code> is a morphism between two semigroups that preserves the multiplication. The notation for this is <code>G₁ →ₙ* G₂</code>.</p>
 <p>It’s a bundle of:</p>
 <ul>
@@ -342,10 +342,10 @@ MathJax = {
 <div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="monoids" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Monoids</h1>
-<section id="objects" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">2.1</span> Objects</h2>
+<section id="monoids" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="monoids"><span class="header-section-number">2</span> Monoids</h2>
+<section id="objects" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">2.1</span> Objects</h3>
 <p>A <code>Monoid</code> is a <code>Semigroup</code> with an identity element <code>1</code> s.t. <code>a * 1 = a</code> and <code>1 * a = a</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -376,8 +376,8 @@ MathJax = {
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="morphisms" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">2.2</span> Morphisms</h2>
+<section id="morphisms" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">2.2</span> Morphisms</h3>
 <p>A <code>MonoidHom</code> is a morphism between two monoids that preserves the multiplication and the identity. The notation for this is <code>G →* H</code>.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -395,10 +395,10 @@ MathJax = {
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="groups" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Groups</h1>
-<section id="objects" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">3.1</span> Objects</h2>
+<section id="groups" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="groups"><span class="header-section-number">3</span> Groups</h2>
+<section id="objects" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="objects"><span class="header-section-number">3.1</span> Objects</h3>
 <p>In Mathlib, a <code>Group</code> is defined to be a <code>Monoid</code> where every element <code>a</code> has an left inverse <code>a⁻¹</code> s.t. <code>a⁻¹ * a = 1</code>.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -469,8 +469,8 @@ MathJax = {
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="morphisms" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">3.2</span> Morphisms</h2>
+<section id="morphisms" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="morphisms"><span class="header-section-number">3.2</span> Morphisms</h3>
 <p><code>MonoidHom</code> It is also used for group homomorphisms.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>

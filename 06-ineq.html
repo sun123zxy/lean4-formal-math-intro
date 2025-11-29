@@ -238,12 +238,7 @@ MathJax = {
   <li><a href="#pure-partial-order-reasoning" id="toc-pure-partial-order-reasoning" class="nav-link" data-scroll-target="#pure-partial-order-reasoning"><span class="header-section-number">1.2</span> Pure partial order reasoning</a></li>
   <li><a href="#linear-order-reasoning" id="toc-linear-order-reasoning" class="nav-link" data-scroll-target="#linear-order-reasoning"><span class="header-section-number">1.3</span> Linear order reasoning</a></li>
   <li><a href="#monotonicity-of" id="toc-monotonicity-of" class="nav-link" data-scroll-target="#monotonicity-of"><span class="header-section-number">1.4</span> Monotonicity of <code>+</code></a></li>
-  <li><a href="#automation" id="toc-automation" class="nav-link" data-scroll-target="#automation"><span class="header-section-number">1.5</span> Automation</a>
-  <ul class="collapse">
-  <li><a href="#linarith" id="toc-linarith" class="nav-link" data-scroll-target="#linarith"><code>linarith</code></a></li>
-  <li><a href="#simp" id="toc-simp" class="nav-link" data-scroll-target="#simp"><code>simp</code></a></li>
-  <li><a href="#apply_fun" id="toc-apply_fun" class="nav-link" data-scroll-target="#apply_fun"><code>apply_fun</code></a></li>
-  </ul></li>
+  <li><a href="#automation" id="toc-automation" class="nav-link" data-scroll-target="#automation"><span class="header-section-number">1.5</span> Automation</a></li>
   <li><a href="#monotonicity-of" id="toc-monotonicity-of" class="nav-link" data-scroll-target="#monotonicity-of"><span class="header-section-number">1.6</span> Monotonicity of <code>*</code></a></li>
   </ul></li>
   <li><a href="#abs-min-max-and-taocp" id="toc-abs-min-max-and-taocp" class="nav-link" data-scroll-target="#abs-min-max-and-taocp"><span class="header-section-number">2</span> <code>abs</code>, <code>min</code>, <code>max</code> and TAOCP</a></li>
@@ -286,10 +281,10 @@ MathJax = {
 <li>Wheelchair tactics</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="inequality" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Inequality</h1>
-<section id="basics" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="basics"><span class="header-section-number">1.1</span> Basics</h2>
+<section id="inequality" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="inequality"><span class="header-section-number">1</span> Inequality</h2>
+<section id="basics" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="basics"><span class="header-section-number">1.1</span> Basics</h3>
 <p>Inequality is determined by a partial order <code>PartialOrder</code>. A partial order is a relation with reflexivity, antisymmetry, and transitivity. In Lean, a relation means <code>α → α → Prop</code> for some type <code>α</code>, capturing the fact that each <code>a ≤ b</code> gives a proposition.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -337,8 +332,8 @@ MathJax = {
 <p>We will work with <code>ℚ</code> as an example afterwards.</p>
 <p>[TODO] For some reason, <code>LinearOrder ℚ</code> is constructed using classical logic. Don’t be surprised if <code>#print axioms ...</code> shows some classical axioms.</p>
 </section>
-<section id="pure-partial-order-reasoning" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="pure-partial-order-reasoning"><span class="header-section-number">1.2</span> Pure partial order reasoning</h2>
+<section id="pure-partial-order-reasoning" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="pure-partial-order-reasoning"><span class="header-section-number">1.2</span> Pure partial order reasoning</h3>
 <p><code>norm_num</code> tactic solves numerical equalities and inequalities automatically.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">norm_num</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="dv">22</span> / <span class="dv">7</span> : ℚ) &lt; <span class="dv">4</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">norm_num</span></span>
@@ -364,8 +359,8 @@ MathJax = {
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    a ≤ b <span class="op">:=</span> hab</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    _ &lt; c <span class="op">:=</span> hbc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="linear-order-reasoning" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="linear-order-reasoning"><span class="header-section-number">1.3</span> Linear order reasoning</h2>
+<section id="linear-order-reasoning" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="linear-order-reasoning"><span class="header-section-number">1.3</span> Linear order reasoning</h3>
 <p>A linear order is a partial order with <code>le_total</code>: either <code>a ≤ b</code> or <code>b ≤ a</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> le_total</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] Use this to prove the trichotomy of <code>&lt;</code> and <code>=</code>.</p>
@@ -381,8 +376,8 @@ MathJax = {
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="al">sorry</span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> eq_or_lt_of_le <span class="co">-- this have a name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="monotonicity-of" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="monotonicity-of"><span class="header-section-number">1.4</span> Monotonicity of <code>+</code></h2>
+<section id="monotonicity-of" class="level3" data-number="1.4">
+<h3 data-number="1.4" class="anchored" data-anchor-id="monotonicity-of"><span class="header-section-number">1.4</span> Monotonicity of <code>+</code></h3>
 <p>It’s important to recognize that the (strict) monotonicity of <code>+</code> is a nontrivial theorem. That is a part of the meaning of <code>IsStrictOrderedRing</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>#synth IsStrictOrderedRing ℚ</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -423,11 +418,11 @@ MathJax = {
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + d) : a - d &lt; c - b <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="automation" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="automation"><span class="header-section-number">1.5</span> Automation</h2>
+<section id="automation" class="level3" data-number="1.5">
+<h3 data-number="1.5" class="anchored" data-anchor-id="automation"><span class="header-section-number">1.5</span> Automation</h3>
 <p>Tired of these? Use automation!</p>
-<section id="linarith" class="level3">
-<h3 class="anchored" data-anchor-id="linarith"><code>linarith</code></h3>
+<section id="linarith" class="level4">
+<h4 class="anchored" data-anchor-id="linarith"><code>linarith</code></h4>
 <p><code>linarith</code> is a powerful tactic that solves linear inequalities automatically. It uses hypotheses in the context and basic properties of linear orders to deduce the goal.</p>
 <p><code>linarith only [h1, h2, ...]</code> use only hypotheses <code>h1</code>, <code>h2</code>, … to solve the goal.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>#help tactic linarith</span>
@@ -467,15 +462,15 @@ MathJax = {
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> linarith</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="simp" class="level3">
-<h3 class="anchored" data-anchor-id="simp"><code>simp</code></h3>
+<section id="simp" class="level4">
+<h4 class="anchored" data-anchor-id="simp"><code>simp</code></h4>
 <p><code>add_lt_add_iff_right</code>-like theorems are registered for <code>simp</code>, so sometimes <code>simp</code> can reduce things like:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + b) : a &lt; c <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> <span class="fu">at</span> h</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="apply_fun" class="level3">
-<h3 class="anchored" data-anchor-id="apply_fun"><code>apply_fun</code></h3>
+<section id="apply_fun" class="level4">
+<h4 class="anchored" data-anchor-id="apply_fun"><code>apply_fun</code></h4>
 <p>Sometimes you would like to <code>apply_fun</code> at an inequality. This requires you to manually show the monotonicity of the function.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (h : a + b &lt; c + d) : a - d &lt; c - b <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  apply_fun (· - b - d) <span class="fu">at</span> h</span>
@@ -492,14 +487,14 @@ MathJax = {
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="monotonicity-of" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="monotonicity-of"><span class="header-section-number">1.6</span> Monotonicity of <code>*</code></h2>
+<section id="monotonicity-of" class="level3" data-number="1.6">
+<h3 data-number="1.6" class="anchored" data-anchor-id="monotonicity-of"><span class="header-section-number">1.6</span> Monotonicity of <code>*</code></h3>
 <p>[TODO] It’s not needed in the course so far, so we skip it for now.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="abs-min-max-and-taocp" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> <code>abs</code>, <code>min</code>, <code>max</code> and TAOCP</h1>
+<section id="abs-min-max-and-taocp" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="abs-min-max-and-taocp"><span class="header-section-number">2</span> <code>abs</code>, <code>min</code>, <code>max</code> and TAOCP</h2>
 <p>A mature formalizer finds their theorems by themselves. The art of capturing premises includes, but not limited to:</p>
 <ul>
 <li><code>exact?</code></li>
@@ -573,8 +568,8 @@ MathJax = {
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="wheelchair-tactics" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Wheelchair tactics</h1>
+<section id="wheelchair-tactics" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="wheelchair-tactics"><span class="header-section-number">3</span> Wheelchair tactics</h2>
 <p>You have seen some all-in-one tactics like <code>simp</code>, <code>ring</code> and <code>linarith</code>. There are even more powerful tactics that save your effort. Do try them when you feel tired of trivial steps.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">simp</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">dsimp</span></span>
