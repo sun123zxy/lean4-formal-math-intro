@@ -1,5 +1,6 @@
 ---
 title: Quotients and Quotient Groups
+author: Xingyu Zhong
 
 number-sections: true
 

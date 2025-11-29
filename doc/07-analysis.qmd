@@ -1,5 +1,6 @@
 ---
 title: Mathematical Analysis
+author: Xingyu Zhong
 
 number-sections: true
 

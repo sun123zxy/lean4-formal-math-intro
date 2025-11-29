@@ -1,5 +1,6 @@
 ---
 title: Logic (Part I)
+author: Xingyu Zhong
 
 number-sections: true
 

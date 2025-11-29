@@ -1,5 +1,6 @@
 ---
 title: Type and Equality
+author: Xingyu Zhong
 
 number-sections: true
 

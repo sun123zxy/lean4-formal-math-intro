@@ -1,5 +1,6 @@
 ---
 title: Substructures and Subgroups
+author: Xingyu Zhong
 
 number-sections: true
 

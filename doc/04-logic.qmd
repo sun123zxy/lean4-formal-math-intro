@@ -1,5 +1,6 @@
 ---
 title: Logic (Part III)
+author: Xingyu Zhong
 
 number-sections: true
 

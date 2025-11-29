@@ -1,5 +1,6 @@
 ---
 title: Groups and Homomorphisms
+author: Xingyu Zhong
 
 number-sections: true
 
