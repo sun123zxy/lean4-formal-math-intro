@@ -9,7 +9,7 @@
 <meta name="author" content="Xingyu Zhong">
 <meta name="dcterms.date" content="2025-09-17">
 
-<title>What is formalization – SunQuarTeX</title>
+<title>Introduction to Formal Mathematics with Lean 4 – 2025 Fall Lean 4 Teach</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -135,7 +135,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">SunQuarTeX</a> 
+      <a href="./">2025 Fall Lean 4 Teach</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -227,24 +227,36 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#natural-language-vs.-formal-language" id="toc-natural-language-vs.-formal-language" class="nav-link active" data-scroll-target="#natural-language-vs.-formal-language">Natural language vs.&nbsp;formal language</a></li>
+  <li><a href="#what-is-formalization" id="toc-what-is-formalization" class="nav-link active" data-scroll-target="#what-is-formalization">What is formalization</a>
+  <ul class="collapse">
+  <li><a href="#natural-language-vs.-formal-language" id="toc-natural-language-vs.-formal-language" class="nav-link" data-scroll-target="#natural-language-vs.-formal-language">Natural language vs.&nbsp;formal language</a></li>
   <li><a href="#mathematical-proofs-vs.-computer-programs" id="toc-mathematical-proofs-vs.-computer-programs" class="nav-link" data-scroll-target="#mathematical-proofs-vs.-computer-programs">Mathematical proofs vs.&nbsp;Computer programs</a></li>
   <li><a href="#set-theory-vs.-type-theory" id="toc-set-theory-vs.-type-theory" class="nav-link" data-scroll-target="#set-theory-vs.-type-theory">Set theory vs.&nbsp;Type theory</a></li>
   <li><a href="#what-is-lean-4" id="toc-what-is-lean-4" class="nav-link" data-scroll-target="#what-is-lean-4">What is Lean 4</a></li>
   <li><a href="#leans-dependent-type-theory" id="toc-leans-dependent-type-theory" class="nav-link" data-scroll-target="#leans-dependent-type-theory">Lean’s dependent type theory</a></li>
   <li><a href="#an-example-lean-4-code" id="toc-an-example-lean-4-code" class="nav-link" data-scroll-target="#an-example-lean-4-code">An example Lean 4 code</a></li>
+  </ul></li>
+  <li><a href="#why-formalize" id="toc-why-formalize" class="nav-link" data-scroll-target="#why-formalize">Why formalize</a>
+  <ul class="collapse">
   <li><a href="#the-rise-of-ai" id="toc-the-rise-of-ai" class="nav-link" data-scroll-target="#the-rise-of-ai">The rise of AI</a></li>
   <li><a href="#rigor-matters" id="toc-rigor-matters" class="nav-link" data-scroll-target="#rigor-matters">Rigor matters</a></li>
   <li><a href="#mathematical-engineering" id="toc-mathematical-engineering" class="nav-link" data-scroll-target="#mathematical-engineering">“Mathematical engineering”</a></li>
   <li><a href="#formalization-as-learning" id="toc-formalization-as-learning" class="nav-link" data-scroll-target="#formalization-as-learning">Formalization as learning</a></li>
+  </ul></li>
+  <li><a href="#why-now-formalize" id="toc-why-now-formalize" class="nav-link" data-scroll-target="#why-now-formalize">Why now formalize</a>
+  <ul class="collapse">
   <li><a href="#formalization-becomes-more-accessible" id="toc-formalization-becomes-more-accessible" class="nav-link" data-scroll-target="#formalization-becomes-more-accessible">Formalization becomes more accessible</a></li>
   <li><a href="#mathlib-4-is-expanding-explosively" id="toc-mathlib-4-is-expanding-explosively" class="nav-link" data-scroll-target="#mathlib-4-is-expanding-explosively">Mathlib 4 is expanding explosively</a></li>
+  </ul></li>
+  <li><a href="#how-to-formalize" id="toc-how-to-formalize" class="nav-link" data-scroll-target="#how-to-formalize">How to formalize</a>
+  <ul class="collapse">
   <li><a href="#the-goal" id="toc-the-goal" class="nav-link" data-scroll-target="#the-goal">The goal</a></li>
   <li><a href="#how-will-we-learn" id="toc-how-will-we-learn" class="nav-link" data-scroll-target="#how-will-we-learn">How will we learn</a></li>
   <li><a href="#what-we-wont-cover" id="toc-what-we-wont-cover" class="nav-link" data-scroll-target="#what-we-wont-cover">What we won’t cover</a></li>
   <li><a href="#disclaimer" id="toc-disclaimer" class="nav-link" data-scroll-target="#disclaimer">Disclaimer</a></li>
   <li><a href="#if-these-do-not-scare-you-away" id="toc-if-these-do-not-scare-you-away" class="nav-link" data-scroll-target="#if-these-do-not-scare-you-away">If these do not scare you away…</a></li>
   <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slide.pdf"><i class="bi bi-file-pdf"></i>Beamer</a></li></ul></div><div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="01-intro.lean"><i class="bi bi-link-45deg"></i>Lean 4 code</a></li></ul></div></nav>
     </div>
@@ -253,7 +265,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">What is formalization</h1>
+<h1 class="title">Introduction to Formal Mathematics with Lean 4</h1>
 <p class="subtitle lead">For newcomers to formalization methods</p>
 </div>
 
@@ -290,8 +302,10 @@ window.Quarto = {
 </header>
 
 
-<section id="natural-language-vs.-formal-language" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="natural-language-vs.-formal-language">Natural language vs.&nbsp;formal language</h2>
+<section id="what-is-formalization" class="level1 page-columns page-full">
+<h1>What is formalization</h1>
+<section id="natural-language-vs.-formal-language" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="natural-language-vs.-formal-language">Natural language vs.&nbsp;formal language</h3>
 <ul>
 <li><p>ambiguity in natural language</p>
 <ul>
@@ -306,8 +320,8 @@ window.Quarto = {
 </ul></li>
 </ul>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Knowledgable audience may recognize them as examples of natural isomorphisms in category theory.</p></div></div></section>
-<section id="mathematical-proofs-vs.-computer-programs" class="level2">
-<h2 class="anchored" data-anchor-id="mathematical-proofs-vs.-computer-programs">Mathematical proofs vs.&nbsp;Computer programs<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></h2>
+<section id="mathematical-proofs-vs.-computer-programs" class="level3">
+<h3 class="anchored" data-anchor-id="mathematical-proofs-vs.-computer-programs">Mathematical proofs vs.&nbsp;Computer programs<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></h3>
 <table width="1,1" class="table">
 <caption>Curry–Howard correspondence</caption>
 <thead>
@@ -364,8 +378,8 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;see also <a href="https://ncatlab.org/nlab/show/computational+trilogy">Computational Trilogy</a>, with category theory as the third vertex</p></div></div><section id="set-theory-vs.-type-theory" class="level2">
-<h2 class="anchored" data-anchor-id="set-theory-vs.-type-theory">Set theory vs.&nbsp;Type theory</h2>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;see also <a href="https://ncatlab.org/nlab/show/computational+trilogy">Computational Trilogy</a>, with category theory as the third vertex</p></div></div><section id="set-theory-vs.-type-theory" class="level3">
+<h3 class="anchored" data-anchor-id="set-theory-vs.-type-theory">Set theory vs.&nbsp;Type theory</h3>
 <ul>
 <li><p>Mathematicians choose axiomatic set theory (with first-order logic) as the foundation of mathematics.</p>
 <ul>
@@ -396,8 +410,8 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
-<section id="what-is-lean-4" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-lean-4">What is Lean 4</h2>
+<section id="what-is-lean-4" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-lean-4">What is Lean 4</h3>
 <ul>
 <li>A modern functional programming language designed for theorem proving</li>
 </ul>
@@ -405,8 +419,8 @@ window.Quarto = {
 <p>“Lean is based on a version of dependent type theory known as the <em>Calculus of Constructions</em>, with a countable hierarchy of non-cumulative universes and inductive types.” — <a href="https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/">Theorem Proving in Lean 4</a></p>
 </blockquote>
 </section>
-<section id="leans-dependent-type-theory" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="leans-dependent-type-theory">Lean’s dependent type theory</h2>
+<section id="leans-dependent-type-theory" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="leans-dependent-type-theory">Lean’s dependent type theory</h3>
 <ul>
 <li><p>Dependent type theory is a powerful extension of type theory where</p>
 <ul>
@@ -446,16 +460,18 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
-<section id="an-example-lean-4-code" class="level2">
-<h2 class="anchored" data-anchor-id="an-example-lean-4-code">An example Lean 4 code</h2>
+<section id="an-example-lean-4-code" class="level3">
+<h3 class="anchored" data-anchor-id="an-example-lean-4-code">An example Lean 4 code</h3>
 <ul>
 <li>FLT</li>
 <li>TendsTo</li>
 </ul>
-<p>Why formalize</p>
 </section>
-<section id="the-rise-of-ai" class="level2">
-<h2 class="anchored" data-anchor-id="the-rise-of-ai">The rise of AI</h2>
+</section>
+<section id="why-formalize" class="level1">
+<h1>Why formalize</h1>
+<section id="the-rise-of-ai" class="level3">
+<h3 class="anchored" data-anchor-id="the-rise-of-ai">The rise of AI</h3>
 <p>AI excels in Python. Why not Lean?</p>
 <ul>
 <li><p>Automated theorem proving</p>
@@ -483,8 +499,8 @@ window.Quarto = {
 </ul></li>
 </ul>
 </section>
-<section id="rigor-matters" class="level2">
-<h2 class="anchored" data-anchor-id="rigor-matters">Rigor matters</h2>
+<section id="rigor-matters" class="level3">
+<h3 class="anchored" data-anchor-id="rigor-matters">Rigor matters</h3>
 <ul>
 <li><p>It’s the foundation of mathematics</p></li>
 <li><p>Imprecise natural language often leads to misunderstandings and glitches</p>
@@ -504,8 +520,8 @@ window.Quarto = {
 </ul></li>
 </ul>
 </section>
-<section id="mathematical-engineering" class="level2">
-<h2 class="anchored" data-anchor-id="mathematical-engineering">“Mathematical engineering”</h2>
+<section id="mathematical-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="mathematical-engineering">“Mathematical engineering”</h3>
 <ul>
 <li><p>manipulating tons of theorems and proofs with mature software engineering techniques</p></li>
 <li><p>referencing existing theorems as dependencies</p></li>
@@ -515,8 +531,8 @@ window.Quarto = {
 <p>The beauty of the system: you do not have to understand the whole proof of FLT in order to contribute. The blueprint breaks down the proof into many many small lemmas, and if you can formalise a proof of just one of those lemmas then I am eagerly awaiting your pull request. — <a href="https://leanprover-community.github.io/blog/posts/FLT-announcement/">Kevin Buzzard on the FLT Project</a></p>
 </blockquote>
 </section>
-<section id="formalization-as-learning" class="level2">
-<h2 class="anchored" data-anchor-id="formalization-as-learning">Formalization as learning</h2>
+<section id="formalization-as-learning" class="level3">
+<h3 class="anchored" data-anchor-id="formalization-as-learning">Formalization as learning</h3>
 <ul>
 <li><p>proofs with infinite detail</p>
 <ul>
@@ -535,10 +551,12 @@ window.Quarto = {
 </ul></li>
 </ul></li>
 </ul>
-<p>Why now formalize</p>
 </section>
-<section id="formalization-becomes-more-accessible" class="level2">
-<h2 class="anchored" data-anchor-id="formalization-becomes-more-accessible">Formalization becomes more accessible</h2>
+</section>
+<section id="why-now-formalize" class="level1 page-columns page-full">
+<h1>Why now formalize</h1>
+<section id="formalization-becomes-more-accessible" class="level3">
+<h3 class="anchored" data-anchor-id="formalization-becomes-more-accessible">Formalization becomes more accessible</h3>
 <p>Mathematician-friendly languages, interfaces, tools and community emerges:</p>
 <ul>
 <li><p>Lean 4 with VSCode extension, modern interactive theorem prover made for mathematicians</p></li>
@@ -552,8 +570,8 @@ window.Quarto = {
 <li><p>computer scientists and volunteering mathematicians run Lean 4 community collaboratively</p></li>
 </ul>
 </section>
-<section id="mathlib-4-is-expanding-explosively" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="mathlib-4-is-expanding-explosively">Mathlib 4 is expanding explosively</h2>
+<section id="mathlib-4-is-expanding-explosively" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="mathlib-4-is-expanding-explosively">Mathlib 4 is expanding explosively</h3>
 <p>By the time of 2025/09/16, Mathlib 4 has<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;Statistics fetched from <a href="https://leanprover-community.github.io/mathlib_stats.html">Mathlib statistics</a></p></div></div><table width="1,1,1,1" class="table">
 <thead>
@@ -576,10 +594,12 @@ window.Quarto = {
 <ul>
 <li>undergraduate may contribute: some low-hanging fruits</li>
 </ul>
-<p>How to formalize</p>
 </section>
-<section id="the-goal" class="level2">
-<h2 class="anchored" data-anchor-id="the-goal">The goal</h2>
+</section>
+<section id="how-to-formalize" class="level1">
+<h1>How to formalize</h1>
+<section id="the-goal" class="level3">
+<h3 class="anchored" data-anchor-id="the-goal">The goal</h3>
 <p>The goal, at the end of this course, is</p>
 <ul>
 <li>to get used to think formally</li>
@@ -590,16 +610,16 @@ window.Quarto = {
 <li>(optimistically) to set up a Lean 4 formalization club at BIT!</li>
 </ul>
 </section>
-<section id="how-will-we-learn" class="level2">
-<h2 class="anchored" data-anchor-id="how-will-we-learn">How will we learn</h2>
+<section id="how-will-we-learn" class="level3">
+<h3 class="anchored" data-anchor-id="how-will-we-learn">How will we learn</h3>
 <p>As mathematicians, we learn Lean 4 to formalizing mathematics. We learn by practice.</p>
 <ul>
 <li><p>Dozens of Lean files packed with well-organized examples and exercises suffice to get you started, suitable for both guided study and self study. Most lectures will be given in this style.</p></li>
 <li><p>This style of teaching is inspired by <a href="https://github.com/ImperialCollegeLondon/formalising-mathematics-2024">Kevin Buzzard’s 2024 course on formalising mathematics in the Lean theorem prover</a> and <a href="https://leanprover-community.github.io/teaching/courses.html">many other courses</a>.</p></li>
 </ul>
 </section>
-<section id="what-we-wont-cover" class="level2">
-<h2 class="anchored" data-anchor-id="what-we-wont-cover">What we won’t cover</h2>
+<section id="what-we-wont-cover" class="level3">
+<h3 class="anchored" data-anchor-id="what-we-wont-cover">What we won’t cover</h3>
 <p>Due to the limited time, my personal inability and the design of this course, we might not be able to cover:</p>
 <ul>
 <li><p>a deep discussion into dependent type theory or Lean as a programming language itself</p>
@@ -618,8 +638,8 @@ window.Quarto = {
 </ul></li>
 </ul>
 </section>
-<section id="disclaimer" class="level2">
-<h2 class="anchored" data-anchor-id="disclaimer">Disclaimer</h2>
+<section id="disclaimer" class="level3">
+<h3 class="anchored" data-anchor-id="disclaimer">Disclaimer</h3>
 <ul>
 <li><p>Formalization is tedious in its nature, Lean is no exception</p></li>
 <li><p>Type conversions can be an extra burden (exclusive for type-theory-based systems)</p></li>
@@ -627,18 +647,19 @@ window.Quarto = {
 <li><p>Different people may formalize the same thing in different ways</p></li>
 </ul>
 </section>
-<section id="if-these-do-not-scare-you-away" class="level2">
-<h2 class="anchored" data-anchor-id="if-these-do-not-scare-you-away">If these do not scare you away…</h2>
+<section id="if-these-do-not-scare-you-away" class="level3">
+<h3 class="anchored" data-anchor-id="if-these-do-not-scare-you-away">If these do not scare you away…</h3>
 <p>Welcome aboard. Have fun formalizing mathematics!</p>
 </section>
-<section id="resources" class="level2">
-<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<section id="resources" class="level3">
+<h3 class="anchored" data-anchor-id="resources">Resources</h3>
 <ul>
 <li><a href="https://github.com/sun123zxy/2025fall-lean4-teach">course repository</a></li>
 <li><a href="https://sun123zxy.github.io/2025fall-lean4-teach/">online documentation</a></li>
 </ul>
 
 
+</section>
 </section>
 
 
