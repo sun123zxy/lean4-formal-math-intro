@@ -1,7 +1,6 @@
 ---
 format:
   html: default
-  pdf: default
 ---
 
 # README {.unnumbered}
