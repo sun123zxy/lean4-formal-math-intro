@@ -2,7 +2,6 @@
 title: 形式化数学与 Lean 4 定理证明入门
 subtitle: Introduction to Formal Mathematics with Lean 4
 author: 钟星宇 \quad 北京理工大学
-date: 2025/09/15
 lang: zh
 
 format:
@@ -24,41 +23,46 @@ AI4Math 是将人工智能技术应用于数学研究的跨学科领域。其目
 
 本课程原则上不要求任何编程或数学背景，但建议具备至少一侧的常识。我们建议有意动手实操的同学携带电脑，并提前配置好网络、Git、VSCode 等相关环境。
 
-:::{layout="[4,6]"}
+:::::{layout="[4,6]"}
 
-![课程群](res/wechat.png){#fig-wechat height=180px}
-
-**时间**：1--12 周周三 18:30--20:05，首次课程 9 月 17 日  
+:::{}
+**时间**：1--12 周周三 18:30--20:05  
 **地点**：文萃楼 F502  
-**主讲人**：[钟星宇](https://scholar.sun123zxy.top/)  
+**主讲人**：[钟星宇](https://scholar.sun123zxy.top/)
+:::
+
+:::{}
 北京理工大学 2022 级强基数学专业本科生  
 Mathlib 4 Contributor  
 ICPC Regional Silver Medalist  
 2025 BICMR--RUC 代数与形式化暑期学校学员  
-BICMR--Ubiquant AI4Math 数据标注团队实习经验  
+BICMR--Ubiquant AI4Math 数据标注团队实习经验
 :::
+:::::
 
 {{< pagebreak >}}
 
-## 课程大纲（供参考）
+## 课程大纲
+
+Main topics:
 
 - Introduction to Formal Mathematics with Lean 4
 
-- Hello World
+- Logic and Proofs
 
-- Logic
+- The `Type` Universe and Equality
 
-- Numbers, Functions and Sets
-
-- Dependent Type Theory in Lean 4
+- Inequalities
 
 - Mathematical Analysis: Taking Limits on the Real Numbers
 
-- Random Lean 4 Tips
+- Abstract Algebra: Groups and Homomorphisms
 
-- Abstract Algebra: Group, Rings and Fields
+- Substructures and Subgroups
 
-- Quotient Types and Universal Properties
+- Quotient Types and Quotient Groups
+
+If time permits:
 
 - Inductive Types and Induction Methods
 
