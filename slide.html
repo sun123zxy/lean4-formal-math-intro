@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Xingyu Zhong">
+<meta name="dcterms.date" content="2025-09-17">
 
-<title>At the Very Beginning – SunQuarTeX</title>
+<title>What is formalization – SunQuarTeX</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -112,10 +79,39 @@ MathJax = {
 };
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -124,7 +120,7 @@ MathJax = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro.html">At the Very Beginning</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./slide.html">Introduction to Formal Mathematics with Lean 4</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -151,7 +147,7 @@ MathJax = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01-intro.html" class="sidebar-item-text sidebar-link active">
+  <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">At the Very Beginning</span></a>
   </div>
 </li>
@@ -217,7 +213,7 @@ MathJax = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./slide.html" class="sidebar-item-text sidebar-link">
+  <a href="./slide.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Introduction to Formal Mathematics with Lean 4</span></a>
   </div>
 </li>
@@ -231,24 +227,60 @@ MathJax = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#a-first-glance" id="toc-a-first-glance" class="nav-link active" data-scroll-target="#a-first-glance"><span class="header-section-number">1</span> A First Glance</a></li>
-  <li><a href="#at-the-very-beginning" id="toc-at-the-very-beginning" class="nav-link" data-scroll-target="#at-the-very-beginning"><span class="header-section-number">2</span> At the Very Beginning…</a></li>
+  <li><a href="#natural-language-vs.-formal-language" id="toc-natural-language-vs.-formal-language" class="nav-link active" data-scroll-target="#natural-language-vs.-formal-language">Natural language vs.&nbsp;formal language</a></li>
+  <li><a href="#mathematical-proofs-vs.-computer-programs" id="toc-mathematical-proofs-vs.-computer-programs" class="nav-link" data-scroll-target="#mathematical-proofs-vs.-computer-programs">Mathematical proofs vs.&nbsp;Computer programs</a></li>
+  <li><a href="#set-theory-vs.-type-theory" id="toc-set-theory-vs.-type-theory" class="nav-link" data-scroll-target="#set-theory-vs.-type-theory">Set theory vs.&nbsp;Type theory</a></li>
+  <li><a href="#what-is-lean-4" id="toc-what-is-lean-4" class="nav-link" data-scroll-target="#what-is-lean-4">What is Lean 4</a></li>
+  <li><a href="#leans-dependent-type-theory" id="toc-leans-dependent-type-theory" class="nav-link" data-scroll-target="#leans-dependent-type-theory">Lean’s dependent type theory</a></li>
+  <li><a href="#an-example-lean-4-code" id="toc-an-example-lean-4-code" class="nav-link" data-scroll-target="#an-example-lean-4-code">An example Lean 4 code</a></li>
+  <li><a href="#the-rise-of-ai" id="toc-the-rise-of-ai" class="nav-link" data-scroll-target="#the-rise-of-ai">The rise of AI</a></li>
+  <li><a href="#rigor-matters" id="toc-rigor-matters" class="nav-link" data-scroll-target="#rigor-matters">Rigor matters</a></li>
+  <li><a href="#mathematical-engineering" id="toc-mathematical-engineering" class="nav-link" data-scroll-target="#mathematical-engineering">“Mathematical engineering”</a></li>
+  <li><a href="#formalization-as-learning" id="toc-formalization-as-learning" class="nav-link" data-scroll-target="#formalization-as-learning">Formalization as learning</a></li>
+  <li><a href="#formalization-becomes-more-accessible" id="toc-formalization-becomes-more-accessible" class="nav-link" data-scroll-target="#formalization-becomes-more-accessible">Formalization becomes more accessible</a></li>
+  <li><a href="#mathlib-4-is-expanding-explosively" id="toc-mathlib-4-is-expanding-explosively" class="nav-link" data-scroll-target="#mathlib-4-is-expanding-explosively">Mathlib 4 is expanding explosively</a></li>
+  <li><a href="#the-goal" id="toc-the-goal" class="nav-link" data-scroll-target="#the-goal">The goal</a></li>
+  <li><a href="#how-will-we-learn" id="toc-how-will-we-learn" class="nav-link" data-scroll-target="#how-will-we-learn">How will we learn</a></li>
+  <li><a href="#what-we-wont-cover" id="toc-what-we-wont-cover" class="nav-link" data-scroll-target="#what-we-wont-cover">What we won’t cover</a></li>
+  <li><a href="#disclaimer" id="toc-disclaimer" class="nav-link" data-scroll-target="#disclaimer">Disclaimer</a></li>
+  <li><a href="#if-these-do-not-scare-you-away" id="toc-if-these-do-not-scare-you-away" class="nav-link" data-scroll-target="#if-these-do-not-scare-you-away">If these do not scare you away…</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
   </ul>
-</nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="slide.pdf"><i class="bi bi-file-pdf"></i>Beamer</a></li></ul></div><div class="quarto-other-links"><h2>Other Links</h2><ul><li><a href="01-intro.lean"><i class="bi bi-link-45deg"></i>Lean 4 code</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">At the Very Beginning</h1>
+<h1 class="title">What is formalization</h1>
+<p class="subtitle lead">For newcomers to formalization methods</p>
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Xingyu Zhong </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Beijing Institute of Technology
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 17, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -258,69 +290,357 @@ MathJax = {
 </header>
 
 
-<p>You may skip the materials tagged with [IGNORE] for the first runthrough. Most of them are here to illustrate the nature of inductive types, which may be too advanced for beginners.</p>
-<p>Materials tagged with [EXR] are recommended for you to try before looking at the solution.</p>
-<p>Materials tagged with [TODO] means that I’m still working on it, or I’m not sure about the content yet. Feel free to give your suggestions!</p>
-<section id="a-first-glance" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> A First Glance</h1>
-<p>Have a look at the sample Lean code below. Can you understand what it means, without any prior knowledge of Lean?</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">FLT</span> (n : ℕ) (hn : n &gt; <span class="dv">2</span>) (a b c : ℕ) :</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    a ≠ <span class="dv">0</span> → b ≠ <span class="dv">0</span> → c ≠ <span class="dv">0</span> → a^n + b^n ≠ c^n <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">T</span>endsTo (a : ℕ → ℝ) (t : ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> ε &gt; <span class="dv">0</span>, <span class="kw">∃</span> n₀ : ℕ, <span class="kw">∀</span> n, n₀ ≤ n → |a n - t| &lt; ε</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : TendsTo (<span class="kw">fun</span> _ ↦ <span class="dv">998244353</span>) <span class="dv">998244353</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unfold</span> TendsTo</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ε hε</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  use <span class="dv">19260817</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> n hn</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> [hε]</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    TendsTo (<span class="kw">fun</span> n =&gt; a n + b n) (A + B) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    (hab : <span class="kw">∀</span> n, a n ≤ b n) (hbc : <span class="kw">∀</span> n, b n ≤ c n) : TendsTo b L <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="at-the-very-beginning" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> At the Very Beginning…</h1>
-<p>There are some basic notions you should be familiar with: <code>:</code> and <code>:=</code>.</p>
-<p><code>3 : ℕ</code> means that <code>3</code> is a term of type <code>ℕ</code>.</p>
-<p>By the Curry–Howard correspondence, <code>hp : p</code> means that <code>hp</code> is a proof of the proposition <code>p</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="dv">3</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> ℕ</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="kw">∀</span> x : ℝ, <span class="dv">0</span> ≤ x ^ <span class="dv">2</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> sq_nonneg</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (sq_nonneg : <span class="kw">∀</span> x : ℝ, <span class="dv">0</span> ≤ x ^ <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>:=</code> is used to define terms.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yThree : ℕ <span class="op">:=</span> <span class="dv">3</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myThree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>theorem</code> is just a definition in the <code>Prop</code> universe By the Curry–Howard correspondence, for <code>theorem</code>, behind <code>:</code>, the theorem statement follows; behind <code>:=</code>, a proof should be given.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>hm_sq_nonneg : <span class="kw">∀</span> x : ℝ, <span class="dv">0</span> ≤ x ^ <span class="dv">2</span> <span class="op">:=</span> sq_nonneg</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- `example` is just an anonymous theorem</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : <span class="kw">∀</span> x : ℝ, <span class="dv">0</span> ≤ x ^ <span class="dv">2</span> <span class="op">:=</span> thm_sq_nonneg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We shall work out the basic logic in Lean’s dependent type theory.</p>
-<p>In this part, we cover:</p>
+<section id="natural-language-vs.-formal-language" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="natural-language-vs.-formal-language">Natural language vs.&nbsp;formal language</h2>
 <ul>
-<li>Implication
+<li><p>ambiguity in natural language</p>
 <ul>
-<li>Syntax for defining functions / theorems</li>
+<li>implicit assumptions</li>
+<li>skipping details: “It’s clear that we have…”</li>
+<li>“viewed as” arguments: <span class="math inline">\(V^{**} = V\)</span>, <span class="math inline">\((A \times B) \times C = A \times (B \times C)\)</span> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
+<li>abuses of notation: <span class="math inline">\(3 \in \mathbb Z / 5 \mathbb Z\)</span>, <span class="math inline">\(\mathbb C \subseteq \mathbb C[x]\)</span></li>
 </ul></li>
-<li>Tactic Mode</li>
+<li><p>precision in formal language</p>
+<ul>
+<li>computer programs are formal languages</li>
+</ul></li>
 </ul>
-<p>[IGNORE] You may notice along the way that except <code>→</code>, all other logical connectives are defined as <em>inductive types</em>. And they have their own <em>self-evident</em> <em>introduction rules</em> and <em>elimination rules</em>. We shall discuss inductive types later in this course. These logical connectives serve as good examples.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Knowledgable audience may recognize them as examples of natural isomorphisms in category theory.</p></div></div></section>
+<section id="mathematical-proofs-vs.-computer-programs" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-proofs-vs.-computer-programs">Mathematical proofs vs.&nbsp;Computer programs<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></h2>
+<table width="1,1" class="table">
+<caption>Curry–Howard correspondence</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Logic</th>
+<th style="text-align: center;">Programming</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">proposition</td>
+<td style="text-align: center;">type</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">proof</td>
+<td style="text-align: center;">term</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">proposition is true</td>
+<td style="text-align: center;">type has a term</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">proposition is false</td>
+<td style="text-align: center;">type doesn’t have a term</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">logical constant <code>TRUE</code></td>
+<td style="text-align: center;">unit type</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">logical constant <code>FALSE</code></td>
+<td style="text-align: center;">empty type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">implication <span class="math inline">\(\to\)</span></td>
+<td style="text-align: center;">function type</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">conjunction <span class="math inline">\(\land\)</span></td>
+<td style="text-align: center;">product type <span class="math inline">\(\prod\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">disjunction <span class="math inline">\(\lor\)</span></td>
+<td style="text-align: center;">sum type <span class="math inline">\(\sum\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">universal quantification <span class="math inline">\(\forall\)</span></td>
+<td style="text-align: center;">dependent product type <span class="math inline">\(\prod\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">existential quantification <span class="math inline">\(\exists\)</span></td>
+<td style="text-align: center;">dependent sum type <span class="math inline">\(\sum\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;see also <a href="https://ncatlab.org/nlab/show/computational+trilogy">Computational Trilogy</a>, with category theory as the third vertex</p></div></div><section id="set-theory-vs.-type-theory" class="level2">
+<h2 class="anchored" data-anchor-id="set-theory-vs.-type-theory">Set theory vs.&nbsp;Type theory</h2>
+<ul>
+<li><p>Mathematicians choose axiomatic set theory (with first-order logic) as the foundation of mathematics.</p>
+<ul>
+<li>naive set theory fits human’s intuition well</li>
+</ul></li>
+<li><p>Type theory is an alternative foundation that is equally expressive, but more suitable for computer formalization.</p></li>
+</ul>
+<table width="1,1" class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Set Theory</th>
+<th style="text-align: center;">Type Theory</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">everything is a set</td>
+<td style="text-align: center;">everything has a type</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\(3 \in \mathbb R\)</span> is a proposition</td>
+<td style="text-align: center;"><span class="math inline">\((3 : \mathbb R)\)</span> is a typing judgment</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\mathbb Q \subseteq \mathbb R\)</span> is an inclusion</td>
+<td style="text-align: center;"><span class="math inline">\(\mathbb Q \to \mathbb R\)</span> is a type conversion</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="what-is-lean-4" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-lean-4">What is Lean 4</h2>
+<ul>
+<li>A modern functional programming language designed for theorem proving</li>
+</ul>
+<blockquote class="blockquote">
+<p>“Lean is based on a version of dependent type theory known as the <em>Calculus of Constructions</em>, with a countable hierarchy of non-cumulative universes and inductive types.” — <a href="https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/">Theorem Proving in Lean 4</a></p>
+</blockquote>
+</section>
+<section id="leans-dependent-type-theory" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="leans-dependent-type-theory">Lean’s dependent type theory</h2>
+<ul>
+<li><p>Dependent type theory is a powerful extension of type theory where</p>
+<ul>
+<li>types may depend on terms “given before” them</li>
+<li>first-order logic can be implemented in dependent type theory</li>
+</ul></li>
+<li><p>functions, inductive types and quotient types<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> are the basic methods to construct new types.</p></li>
+</ul>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;Though seemingly <a href="https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/Part_B/threekindsoftypes.html">redundant</a>, there are reasons for making quotient types as a fundamental constructing method. <a href="https://lean-lang.org/doc/reference/latest/The-Type-System/Quotients/#quotient-funext">funext</a> <a href="https://ncatlab.org/nlab/files/Li-QuotientTypes.pdf">thesis</a></p></div></div><table width="1,1" class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Set Theory</th>
+<th style="text-align: center;">Lean’s dependent type theory</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><p><span class="math inline">\(\forall x \in \mathbb R,\, x^2 \geq 0\)</span></p></td>
+<td style="text-align: center;"><p>has type <span class="math inline">\((x : \mathbb R) \to (x^2 \geq 0)\)</span></p></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><p><span class="math inline">\((n \in \mathbb N) \mapsto (1,0,\dots,0) \in \mathbb R^n\)</span></p></td>
+<td style="text-align: center;"><p>has type <span class="math inline">\((n : \mathbb N) \to \mathbb R^n\)</span></p></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\(\{ 0,1 \} = 2\)</span> is a set equality</td>
+<td style="text-align: center;">make no sense</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">cardinality is an equivalence class</td>
+<td style="text-align: center;">is a quotient type</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Russell’s paradox</td>
+<td style="text-align: center;"><a href="https://en.wikipedia.org/wiki/System_U#Girard's_paradox">Girard’s paradox</a></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="an-example-lean-4-code" class="level2">
+<h2 class="anchored" data-anchor-id="an-example-lean-4-code">An example Lean 4 code</h2>
+<ul>
+<li>FLT</li>
+<li>TendsTo</li>
+</ul>
+<p>Why formalize</p>
+</section>
+<section id="the-rise-of-ai" class="level2">
+<h2 class="anchored" data-anchor-id="the-rise-of-ai">The rise of AI</h2>
+<p>AI excels in Python. Why not Lean?</p>
+<ul>
+<li><p>Automated theorem proving</p>
+<ul>
+<li><p>especially those “abstract nonsense”</p></li>
+<li><p>full-auto (create a proof without human interaction)</p></li>
+<li><p>semi-auto (suggest tactics)</p>
+<ul>
+<li><code>exact?</code>, Github Copilot, …</li>
+</ul></li>
+</ul></li>
+<li><p>Natural language to formal language</p>
+<ul>
+<li><p>automatically transplanting textbooks and papers into Lean</p></li>
+<li><p>full-auto (translate without human interaction)</p></li>
+<li><p>bolt-action (search for existing theorems)</p>
+<ul>
+<li><a href="https://leansearch.net/">LeanSearch</a>, <a href="https://www.leanexplore.com/">LeanExplore</a>, …</li>
+</ul></li>
+<li><p>Converse? Already happening!</p></li>
+</ul></li>
+<li><p>Proposing conjectures</p>
+<ul>
+<li>on which facts should we care about</li>
+</ul></li>
+</ul>
+</section>
+<section id="rigor-matters" class="level2">
+<h2 class="anchored" data-anchor-id="rigor-matters">Rigor matters</h2>
+<ul>
+<li><p>It’s the foundation of mathematics</p></li>
+<li><p>Imprecise natural language often leads to misunderstandings and glitches</p>
+<ul>
+<li>Especially when proofs get longer and longer</li>
+</ul></li>
+<li><p>formalization fully confirms the correctness of a theorem</p>
+<ul>
+<li><p>things that are too “technical” (boring) or simply impossible to verify by oneself</p>
+<ul>
+<li><p>e.g.&nbsp;classification of finite simple groups</p></li>
+<li><p>e.g.&nbsp;“technical”</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>“I spent much of 2019 obsessed with the proof of this theorem, almost getting crazy over it. In the end, we were able to get an argument pinned down on paper, but I think nobody else has dared to look at the details of this, and so I still have some small lingering doubts.” — <a href="https://www.nature.com/articles/d41586-021-01627-2">Peter Scholze</a></p>
+</blockquote></li>
+</ul></li>
+</ul>
+</section>
+<section id="mathematical-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="mathematical-engineering">“Mathematical engineering”</h2>
+<ul>
+<li><p>manipulating tons of theorems and proofs with mature software engineering techniques</p></li>
+<li><p>referencing existing theorems as dependencies</p></li>
+<li><p>collaborative work across the globe</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>The beauty of the system: you do not have to understand the whole proof of FLT in order to contribute. The blueprint breaks down the proof into many many small lemmas, and if you can formalise a proof of just one of those lemmas then I am eagerly awaiting your pull request. — <a href="https://leanprover-community.github.io/blog/posts/FLT-announcement/">Kevin Buzzard on the FLT Project</a></p>
+</blockquote>
+</section>
+<section id="formalization-as-learning" class="level2">
+<h2 class="anchored" data-anchor-id="formalization-as-learning">Formalization as learning</h2>
+<ul>
+<li><p>proofs with infinite detail</p>
+<ul>
+<li>intuitive textbooks, rigorous formalization</li>
+</ul></li>
+<li><p>makes us understand things better</p>
+<ul>
+<li><p>Global: How to build natural numbers from scratch?</p>
+<ul>
+<li><a href="https://adam.math.hhu.de/#/g/leanprover-community/nng4">natural number game</a></li>
+<li><a href="https://github.com/riccardobrasca/Numbers">A journey to the world of numbers, by Riccardo Brasca</a></li>
+</ul></li>
+<li><p>Local: reducing the cognitive load</p>
+<ul>
+<li>(With good organization at the beginning) you can focus on small parts of the proof at a time</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Why now formalize</p>
+</section>
+<section id="formalization-becomes-more-accessible" class="level2">
+<h2 class="anchored" data-anchor-id="formalization-becomes-more-accessible">Formalization becomes more accessible</h2>
+<p>Mathematician-friendly languages, interfaces, tools and community emerges:</p>
+<ul>
+<li><p>Lean 4 with VSCode extension, modern interactive theorem prover made for mathematicians</p></li>
+<li><p>formalization becomes more and more fashionable</p></li>
+<li><p>big names works on formalization:</p>
+<ul>
+<li><a href="https://profiles.imperial.ac.uk/k.buzzard">Kevin Buzzard</a> works on formalizing FLT</li>
+<li><a href="https://www.nature.com/articles/d41586-021-01627-2">Peter Scholze</a>’s work on condensed mathematics has been formalized</li>
+<li><a href="https://terrytao.wordpress.com/">Terrence Tao</a> gave <a href="https://www.youtube.com/watch?v=e049IoFBnLA">a talk</a> on formalization in IMO 2024 and wrote a Lean 4 companion of his book “Analysis I” recently</li>
+</ul></li>
+<li><p>computer scientists and volunteering mathematicians run Lean 4 community collaboratively</p></li>
+</ul>
+</section>
+<section id="mathlib-4-is-expanding-explosively" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="mathlib-4-is-expanding-explosively">Mathlib 4 is expanding explosively</h2>
+<p>By the time of 2025/09/16, Mathlib 4 has<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;Statistics fetched from <a href="https://leanprover-community.github.io/mathlib_stats.html">Mathlib statistics</a></p></div></div><table width="1,1,1,1" class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Lines of code</th>
+<th style="text-align: center;">Definitions</th>
+<th style="text-align: center;">Theorems</th>
+<th style="text-align: center;">Contributors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1950000</td>
+<td style="text-align: center;">115438</td>
+<td style="text-align: center;">232204</td>
+<td style="text-align: center;">653</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>undergraduate may contribute: some low-hanging fruits</li>
+</ul>
+<p>How to formalize</p>
+</section>
+<section id="the-goal" class="level2">
+<h2 class="anchored" data-anchor-id="the-goal">The goal</h2>
+<p>The goal, at the end of this course, is</p>
+<ul>
+<li>to get used to think formally</li>
+<li>to migrate from set theory to dependent type theory</li>
+<li>to practice basic skills to translate statements and proofs into Lean 4</li>
+<li>to know how to find existing theorems, how the community works</li>
+<li>to acquire enough common senses to read the bibles (MiL, TPiL, Mathlib 4 Doc, etc.) by yourself for future formalization projects</li>
+<li>(optimistically) to set up a Lean 4 formalization club at BIT!</li>
+</ul>
+</section>
+<section id="how-will-we-learn" class="level2">
+<h2 class="anchored" data-anchor-id="how-will-we-learn">How will we learn</h2>
+<p>As mathematicians, we learn Lean 4 to formalizing mathematics. We learn by practice.</p>
+<ul>
+<li><p>Dozens of Lean files packed with well-organized examples and exercises suffice to get you started, suitable for both guided study and self study. Most lectures will be given in this style.</p></li>
+<li><p>This style of teaching is inspired by <a href="https://github.com/ImperialCollegeLondon/formalising-mathematics-2024">Kevin Buzzard’s 2024 course on formalising mathematics in the Lean theorem prover</a> and <a href="https://leanprover-community.github.io/teaching/courses.html">many other courses</a>.</p></li>
+</ul>
+</section>
+<section id="what-we-wont-cover" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-wont-cover">What we won’t cover</h2>
+<p>Due to the limited time, my personal inability and the design of this course, we might not be able to cover:</p>
+<ul>
+<li><p>a deep discussion into dependent type theory or Lean as a programming language itself</p>
+<ul>
+<li>Read <a href="https://lean-lang.org/theorem_proving_in_lean4/">TPiL</a> for a Lean 4 tutorial that emphasizes on type theory.</li>
+<li>Read <a href="https://lean-lang.org/functional_programming_in_lean/">FPiL</a> for a Lean 4 tutorial that focuses more on functional programming.</li>
+<li>Refer to <a href="https://leanprover.github.io/lean4/doc/index.html">Lean Language Manual</a> for precise specifications.</li>
+</ul></li>
+<li><p>systematic exposition of how a particular branch of mathematics is formalized in Mathlib 4</p>
+<ul>
+<li>Read <a href="https://leanprover-community.github.io/mathematics_in_lean/">MiL</a> for this purpose.</li>
+</ul></li>
+<li><p>how to organize a massive formalization project from scratch, i.e.&nbsp;project management</p>
+<ul>
+<li>somewhat subtle, might can only be learned by reading Mathlib codes and practical experience</li>
+</ul></li>
+</ul>
+</section>
+<section id="disclaimer" class="level2">
+<h2 class="anchored" data-anchor-id="disclaimer">Disclaimer</h2>
+<ul>
+<li><p>Formalization is tedious in its nature, Lean is no exception</p></li>
+<li><p>Type conversions can be an extra burden (exclusive for type-theory-based systems)</p></li>
+<li><p>Knowledge needs to be re-learned before being referenced</p></li>
+<li><p>Different people may formalize the same thing in different ways</p></li>
+</ul>
+</section>
+<section id="if-these-do-not-scare-you-away" class="level2">
+<h2 class="anchored" data-anchor-id="if-these-do-not-scare-you-away">If these do not scare you away…</h2>
+<p>Welcome aboard. Have fun formalizing mathematics!</p>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/sun123zxy/2025fall-lean4-teach">course repository</a></li>
+<li><a href="https://sun123zxy.github.io/2025fall-lean4-teach/">online documentation</a></li>
+</ul>
 
 
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

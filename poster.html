@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.7.34">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="钟星宇 北京理工大学">
 
-<title>01-intro.lean – 2025 Fall Lean 4 Teach</title>
+<title>形式化数学与 Lean 4 定理证明入门 – SunQuarTeX</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -89,17 +55,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
   }
 }</script>
 <script>
@@ -121,13 +87,13 @@ MathJax = {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-intro-code.html">01-intro.lean</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./poster.html">形式化数学与 Lean 4 定理证明入门</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="搜索" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -139,86 +105,86 @@ MathJax = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">2025 Fall Lean 4 Teach</a> 
+      <a href="./">SunQuarTeX</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="搜索"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./00-poster.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">形式化数学与 Lean 4 定理证明入门</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./01-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction to Formal Mathematics with Lean 4</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./01-intro-code.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">01-intro.lean</span></a>
+ <span class="menu-text">At the Very Beginning</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02-logic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">02-logic.lean</span></a>
+ <span class="menu-text">Logic (Part I)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03-logic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">03-logic.lean</span></a>
+ <span class="menu-text">Logic (Part II)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./04-logic.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">04-logic.lean</span></a>
+ <span class="menu-text">Logic (Part III)</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./05-type.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">05-type.lean</span></a>
+ <span class="menu-text">Type and Equality</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./06-ineq.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">06-ineq.lean</span></a>
+ <span class="menu-text">Inequality</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./07-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">07-analysis.lean</span></a>
+ <span class="menu-text">Mathematical Analysis</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-group.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">08-group.lean</span></a>
+ <span class="menu-text">Groups and Homomorphisms</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-subgroup.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">09-subgroup.lean</span></a>
+ <span class="menu-text">Substructures and Subgroups</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-quotient.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">10-quotient.lean</span></a>
+ <span class="menu-text">Quotients and Quotient Groups</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./poster.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">形式化数学与 Lean 4 定理证明入门</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./slide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to Formal Mathematics with Lean 4</span></a>
   </div>
 </li>
     </ul>
@@ -226,21 +192,38 @@ MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">该页面内容</h2>
+   
+  <ul>
+  <li><a href="#背景简介" id="toc-背景简介" class="nav-link active" data-scroll-target="#背景简介">背景简介</a></li>
+  <li><a href="#课程信息" id="toc-课程信息" class="nav-link" data-scroll-target="#课程信息">课程信息</a></li>
+  <li><a href="#课程大纲" id="toc-课程大纲" class="nav-link" data-scroll-target="#课程大纲">课程大纲</a></li>
+  <li><a href="#参考材料" id="toc-参考材料" class="nav-link" data-scroll-target="#参考材料">参考材料</a></li>
+  <li><a href="#链接" id="toc-链接" class="nav-link" data-scroll-target="#链接">链接</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>其他格式</h2><ul><li><a href="poster.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">01-intro.lean</h1>
+<h1 class="title">形式化数学与 Lean 4 定理证明入门</h1>
+<p class="subtitle lead">Introduction to Formal Mathematics with Lean 4</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p>钟星宇 北京理工大学 </p>
+          </div>
+  </div>
     
   
     
@@ -251,30 +234,104 @@ MathJax = {
 </header>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Fermat’s Last Theorem: if n &gt; 2, then there are no positive integer solutions to a^n + b^n = c^n.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">FLT</span> (n : ℕ) (hn : n &gt; <span class="dv">2</span>) (a b c : ℕ) : a ≠ <span class="dv">0</span> → b ≠ <span class="dv">0</span> → c ≠ <span class="dv">0</span> → a^n + b^n ≠ c^n <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">T</span>endsTo (a : ℕ → ℝ) (t : ℝ) : <span class="fu">Prop</span> <span class="op">:=</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">∀</span> ε &gt; <span class="dv">0</span>, <span class="kw">∃</span> n₀ : ℕ, <span class="kw">∀</span> n, n₀ ≤ n → |a n - t| &lt; ε</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : TendsTo (<span class="kw">fun</span> _ ↦ <span class="dv">998244353</span>) <span class="dv">998244353</span> <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unfold</span> TendsTo</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ε hε</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  use <span class="dv">19260817</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> n hn</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> [hε]</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    TendsTo (<span class="kw">fun</span> n =&gt; a n + b n) (A + B) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">theorem</span> <span class="fu">t</span>endsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc : TendsTo c L)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    (hab : <span class="kw">∀</span> n, a n ≤ b n) (hbc : <span class="kw">∀</span> n, b n ≤ c n) : TendsTo b L <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="背景简介" class="level1">
+<h1>背景简介</h1>
+<p>形式化数学是将数学定义、定理和证明转化为计算机可验证的精确形式的过程。可以认为，数学形式化 = 编写程序，而正确的证明 = 代码通过编译。严谨性是数学研究的基石，形式化数学通过严格的逻辑框架和程序语言确保数学结论的正确性和可复用性，在现代数学体系日渐庞大复杂的背景下具有重要意义。</p>
+<p>Lean 4 是一个专为形式化数学设计的编程语言和证明助手，支持数学家将数学定理转化为计算机可验证的代码。它具备高效的编译器和灵活的类型系统，适合构建复杂的数学证明；其数学库 Mathlib 正在飞速扩展，目前已覆盖本科数学大部分内容。Lean 4 已成为目前数学形式化工作的主流选择。</p>
+<p>AI4Math 是将人工智能技术应用于数学研究的跨学科领域。其目标是通过机器学习、大语言模型等方法，简化形式化过程中的繁重代码编写工作，辅助数学家进行数学形式化、定理证明乃至提出猜想。AI4Math 或将在将来大幅提高数学形式化和数学研究的效率。</p>
+</section>
+<section id="课程信息" class="level1">
+<h1>课程信息</h1>
+<p>本兴趣课程旨在向数学或计算机相关专业学生普及形式化数学的基本概念和方法，掌握 Lean 4 定理证明的基本技能，并了解 AI4Math 的最新进展，为后续更深入的探索做好引导。课程设计为 2025 秋季学期范洋宇老师《抽象代数》的配套课余活动，欢迎感兴趣的同学参与。</p>
+<p>本课程原则上不要求任何编程或数学背景，但建议具备至少一侧的常识。我们建议有意动手实操的同学携带电脑，并提前配置好网络、Git、VSCode 等相关环境。</p>
+<div class="quarto-layout-panel" data-layout="[4,6]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
+<p><strong>时间</strong>：1–12 周周三 18:30–20:05<br>
+<strong>地点</strong>：文萃楼 F502<br>
+<strong>主讲人</strong>：<a href="https://scholar.sun123zxy.top/">钟星宇</a></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 60.0%;justify-content: flex-start;">
+<p>北京理工大学 2022 级强基数学专业本科生<br>
+Mathlib 4 Contributor<br>
+ICPC Regional Silver Medalist<br>
+2025 BICMR–RUC 代数与形式化暑期学校学员<br>
+BICMR–Ubiquant AI4Math 数据标注团队实习经验</p>
+</div>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="课程大纲" class="level1">
+<h1>课程大纲</h1>
+<p>Main topics:</p>
+<ul>
+<li><p>Introduction to Formal Mathematics with Lean 4</p></li>
+<li><p>Logic and Proofs</p></li>
+<li><p>The Type Universe and Equality</p></li>
+<li><p>Inequalities</p></li>
+<li><p>Mathematical Analysis: Taking Limits on the Real Numbers</p></li>
+<li><p>Abstract Algebra: Groups and Homomorphisms</p></li>
+<li><p>Substructures and Subgroups</p></li>
+<li><p>Quotient Types and Quotient Groups</p></li>
+</ul>
+<p>If time permits:</p>
+<ul>
+<li><p>Inductive Types and Induction Methods</p></li>
+<li><p>Classes and Instances</p></li>
+<li><p>Coercions</p></li>
+</ul>
+</section>
+<section id="参考材料" class="level1">
+<h1>参考材料</h1>
+<ul>
+<li><p>Introductory:</p>
+<ul>
+<li><a href="https://leodemoura.github.io/files/CAV2024.pdf">CAV2024</a></li>
+<li><a href="https://www.youtube.com/watch?v=e049IoFBnLA">Terence Tao at IMO 2024: AI and Mathematics</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/183902909">Lean 的前世今生</a></li>
+<li><a href="https://adam.math.hhu.de/#/g/leanprover-community/nng4">Natural Number Game</a></li>
+<li><a href="https://ncatlab.org/nlab/show/computational+trilogy">Computational Trilogy - nLab</a></li>
+</ul></li>
+<li><p>Bibles</p>
+<ul>
+<li><p><a href="https://leanprover-community.github.io/mathematics_in_lean/">Mathematics in Lean 4</a></p></li>
+<li><p><a href="https://leanprover.github.io/theorem_proving_in_lean4/">Theorem Proving in Lean 4</a></p></li>
+<li><p><a href="https://leanprover.github.io/lean4/doc/index.html">Lean Language Manual</a></p></li>
+<li><p><a href="https://ncatlab.org/nlab/show/type+theory">Type Theory - nLab</a></p></li>
+<li><p><a href="https://lakesare.brick.do/all-lean-books-and-where-to-find-them-x2nYwjM3AwBQ">Other bibles</a></p></li>
+</ul></li>
+<li><p>Courses</p>
+<ul>
+<li><a href="https://github.com/ImperialCollegeLondon/formalising-mathematics-2024">Kevin Buzzard’s 2024 course on formalising mathematics in the Lean theorem prover</a></li>
+</ul></li>
+</ul>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="链接" class="level1">
+<h1>链接</h1>
+<ul>
+<li><p>Course materials:</p>
+<ul>
+<li><a href="https://github.com/sun123zxy/2025fall-lean4-teach">course repository</a></li>
+<li><a href="https://sun123zxy.github.io/2025fall-lean4-teach/">online documentation</a></li>
+</ul></li>
+<li><p>Online compiler:</p>
+<ul>
+<li><a href="https://live.lean-lang.org/">Lean 4 Web</a></li>
+</ul></li>
+<li><p>Community</p>
+<ul>
+<li><a href="https://leanprover.zulipchat.com/">Lean Zulip</a></li>
+</ul></li>
+<li><p>Miscellaneous</p>
+<ul>
+<li><a href="https://leanprover-community.github.io/papers/lean-tactics.pdf">Lean 4 tactics cheatsheet</a></li>
+</ul></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -302,12 +359,12 @@ MathJax = {
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "已复制");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "已复制");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
@@ -349,7 +406,7 @@ MathJax = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/sun123zxy\.github\.io\/2025fall-lean4-teach\/");
+        var filterRegex = new RegExp("https:\/\/sun123zxy\.github\.io\/sunquartex\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
