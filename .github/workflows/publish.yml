@@ -41,12 +41,12 @@ jobs:
           tlmgr path add
           dvisvgm --help
       
-      # From https://github.com/actions/setup-python
-      - name: Setup Python
-        uses: actions/setup-python@v3
+      # # From https://github.com/actions/setup-python
+      # - name: Setup Python
+      #   uses: actions/setup-python@v3
 
-      - name: Setup Python dependencies
-        run: python3 -m pip install doc/.
+      # - name: Setup Python dependencies
+      #   run: python3 -m pip install doc/.
 
       # - name: Render Quarto Project
       #   uses: quarto-dev/quarto-actions/render@v2
