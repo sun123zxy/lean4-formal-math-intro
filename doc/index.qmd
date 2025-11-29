@@ -1,3 +1,9 @@
+---
+format:
+  html: default
+  pdf: default
+---
+
 # README {.unnumbered}
 
 {{< include ../README.md >}}

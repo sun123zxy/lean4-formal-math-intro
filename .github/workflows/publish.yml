@@ -32,6 +32,7 @@ jobs:
       - name: Set up TinyTeX via Quarto manually
         run: |
           quarto install tinytex --update-path
+        working-directory: ./doc/
 
       # To ensure dvisvgm installed
       - name: Install dvisvgm via TinyTeX
@@ -40,13 +41,15 @@ jobs:
           tlmgr install dvisvgm
           tlmgr path add
           dvisvgm --help
+        working-directory: ./doc/
       
       # # From https://github.com/actions/setup-python
       # - name: Setup Python
       #   uses: actions/setup-python@v3
 
       # - name: Setup Python dependencies
-      #   run: python3 -m pip install doc/.
+      #   run: python3 -m pip install .
+      #   working-directory: ./app
 
       # - name: Render Quarto Project
       #   uses: quarto-dev/quarto-actions/render@v2
