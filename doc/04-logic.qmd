@@ -1,11 +1,10 @@
 ---
-title: 04-logic.lean
+title: Logic (Part III)
 
 number-sections: true
 
 format:
   html: default
-  pdf: default
 ---
 
 {{< lean-include ../2025fallLean4Teach/04-logic.lean >}}

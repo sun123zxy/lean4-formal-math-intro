@@ -1,9 +1,4 @@
-import Mathlib
-
 /-
-
-# Substructures
-
 Diffrent people formalize things differently.
 This is especially true when it comes to substructures and quotients.
 
@@ -12,6 +7,8 @@ It's a sophisticated hierarchy that I'm still trying to fully understand myself.
 For the philosophy behind this design,
 see [MiL](https://leanprover-community.github.io/mathematics_in_lean/) chapter 8.
 -/
+
+import Mathlib
 
 /-
 ## Subsets

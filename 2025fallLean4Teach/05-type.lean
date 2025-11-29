@@ -1,8 +1,4 @@
-import Mathlib
-
 /-
-# `Type*` and Equality
-
 In the previous chapter, we have seen that propositions are types in the `Prop` universe.
 In this chapter, we shall move up to the `Type*` universe,
 and see how the most fundamental notion in mathematics, equality, works there.
@@ -14,6 +10,8 @@ and see how the most fundamental notion in mathematics, equality, works there.
 - Defining terms and functions
   - Definitional equality vs propositional equality
 -/
+
+import Mathlib
 
 /-
 ## Numbers
@@ -617,14 +615,3 @@ For example, this won't compile.
 -- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry
 
 end
-
-/-
-## Equality (second visit)
-
-[TODO] (This section is for future chapters.)
--/
-
-#print Eq
-#print Equivalence
-#print Setoid
-#print PartialOrder

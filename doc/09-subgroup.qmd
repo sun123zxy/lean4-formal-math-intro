@@ -1,11 +1,10 @@
 ---
-title: 09-subgroup.lean
+title: Substructures and Subgroups
 
 number-sections: true
 
 format:
   html: default
-  pdf: default
 ---
 
 {{< lean-include ../2025fallLean4Teach/09-subgroup.lean >}}

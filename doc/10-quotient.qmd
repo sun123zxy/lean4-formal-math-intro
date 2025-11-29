@@ -1,11 +1,10 @@
 ---
-title: 10-quotient.lean
+title: Quotients and Quotient Groups
 
 number-sections: true
 
 format:
   html: default
-  pdf: default
 ---
 
 {{< lean-include ../2025fallLean4Teach/10-quotient.lean >}}

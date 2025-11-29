@@ -1,13 +1,13 @@
-import Mathlib
-
 /-
-# Inequality
-
 - Inequality `PartialOrder`
 - `abs`, `min` and `max`
 - The Art of Capturing Premises (TAOCP)
 - Wheelchair tactics
+-/
 
+import Mathlib
+
+/-
 ## Inequality
 
 ### Basics
@@ -17,6 +17,7 @@ A partial order is a relation with reflexivity, antisymmetry, and transitivity.
 In Lean, a relation means `α → α → Prop` for some type `α`,
 capturing the fact that each `a ≤ b` gives a proposition.
 -/
+
 section
 
 variable (a b c d : ℚ)
@@ -400,5 +401,5 @@ Do try them when you feel tired of trivial steps.
 
 /-
 A tactic cheatsheet is available at
-[lean-tactics.pdf](leanprover-community.github.io/papers/lean-tactics.pdf)
+[lean-tactics.pdf](https://leanprover-community.github.io/papers/lean-tactics.pdf)
 -/

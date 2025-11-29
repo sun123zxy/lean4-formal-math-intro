@@ -1,8 +1,4 @@
-import Mathlib
-
 /-
-# Quotients
-
 After building up the theory of groups, homorphisms, and subgroups,
 we are now ready to define quotient groups.
 
@@ -14,6 +10,8 @@ and then specialize it to quotient groups.
 
 At the end of the journey, we show the first isomorphism theorem for groups as promised.
 -/
+
+import Mathlib
 
 /-
 ## Quotient Sets

@@ -1,11 +1,10 @@
 ---
-title: 05-type.lean
+title: Type and Equality
 
 number-sections: true
 
 format:
   html: default
-  pdf: default
 ---
 
 {{< lean-include ../2025fallLean4Teach/05-type.lean >}}

@@ -50,7 +50,7 @@ Main topics:
 
 - Logic and Proofs
 
-- The `Type` Universe and Equality
+- The Type Universe and Equality
 
 - Inequalities
 

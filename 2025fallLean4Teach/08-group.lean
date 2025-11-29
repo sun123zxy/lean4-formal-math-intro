@@ -1,9 +1,4 @@
-import Mathlib
-
 /-
-
-# Groups and their morphisms
-
 In this file, we illustrate how Mathlib develops the theory of everyday algebraic structures,
 starting from semigroups, monoids, groups, and their morphisms.
 
@@ -21,6 +16,8 @@ Be advised that you can always ctrl+click on any name to see its actual definiti
 For a more complete treatment (especially on the philosophy behind API design),
 read [MiL](https://leanprover-community.github.io/mathematics_in_lean/) chapter 7 and 9.
 -/
+
+import Mathlib
 
 /-
 ## Semigroups

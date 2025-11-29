@@ -1,11 +1,10 @@
 ---
-title: 06-ineq.lean
+title: Inequality
 
 number-sections: true
 
 format:
   html: default
-  pdf: default
 ---
 
 {{< lean-include ../2025fallLean4Teach/06-ineq.lean >}}

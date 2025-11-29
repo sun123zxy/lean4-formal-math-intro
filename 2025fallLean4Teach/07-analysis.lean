@@ -1,6 +1,4 @@
 /-
-# Mathematical Analysis
-
 Finally some real math in Lean!
 In this file we show how to define limits of sequences and continuity of functions in Lean.
 Of course it is just a toy version, far from the real Mathlib definitions.

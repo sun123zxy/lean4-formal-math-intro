@@ -1,8 +1,4 @@
-import Mathlib
-
 /-
-# Logic (Part III)
-
 1. `True`, `False` and `Not`
 2. classical logic tactics, e.g. proof by contradiction
 3. negation-pushing techniques
@@ -14,6 +10,8 @@ For lazy ones, you may only remember the tactics introduced there.
 
 4, 5 are optional and left for logical lunatics.
 -/
+
+import Mathlib
 
 /-
 ## `True`, `False` and `Not`

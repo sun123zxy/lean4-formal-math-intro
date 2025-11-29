@@ -1,0 +1,307 @@
+---
+title: Introduction to Formal Mathematics with Lean 4
+subtitle: For newcomers to formalization methods
+date: 2025/09/17
+author: Xingyu Zhong
+institute: Beijing Institute of Technology
+shortinstitute: BIT
+lang: en
+
+format:
+  html:
+    other-links:
+      - text: "Lean 4 code"
+        href: 01-intro.lean
+  beamer:
+    toc: true
+
+resources: 
+  - 01-intro.lean
+
+aliases: 
+  - index.html
+---
+
+# What is formalization
+
+### Natural language vs. formal language
+
+- ambiguity in natural language
+
+  - implicit assumptions
+  - skipping details: "It's clear that we have..."
+  - "viewed as" arguments: $V^{**} = V$, $(A \times B) \times C = A \times (B \times C)$ ^[Knowledgable audience may recognize them as examples of natural isomorphisms in category theory.]
+  - abuses of notation: $3 \in \mathbb Z / 5 \mathbb Z$, $\mathbb C \subseteq \mathbb C[x]$
+
+- precision in formal language
+
+  - computer programs are formal languages
+
+### Mathematical proofs vs. Computer programs^[see also [Computational Trilogy](https://ncatlab.org/nlab/show/computational+trilogy), with category theory as the third vertex]
+
+:::{.list-table aligns="c,c" width="1,1"}
+
+Curry--Howard correspondence
+
+* - Logic
+  - Programming
+* - proposition
+  - type
+* - proof
+  - term
+* - proposition is true
+  - type has a term
+* - proposition is false
+  - type doesn't have a term
+* - logical constant `TRUE`
+  - unit type
+* - logical constant `FALSE`
+  - empty type
+* - implication $\to$
+  - function type
+* - conjunction $\land$
+  - product type $\prod$
+* - disjunction $\lor$
+  - sum type $\sum$
+* - universal quantification $\forall$
+  - dependent product type $\prod$
+* - existential quantification $\exists$
+  - dependent sum type $\sum$
+:::
+
+### Set theory vs. Type theory
+
+- Mathematicians choose axiomatic set theory (with first-order logic) as the foundation of mathematics.
+
+  - naive set theory fits human's intuition well
+
+- Type theory is an alternative foundation that is equally expressive, but more suitable for computer formalization.
+
+:::{.list-table aligns="c,c" width="1,1"}
+
+* - Set Theory
+  - Type Theory
+
+* - everything is a set
+  - everything has a type
+
+* - $3 \in \mathbb R$ is a proposition
+  - $(3 : \mathbb R)$ is a typing judgment
+
+* - $\mathbb Q \subseteq \mathbb R$ is an inclusion
+  - $\mathbb Q \to \mathbb R$ is a type conversion
+:::
+
+### What is Lean 4
+
+- A modern functional programming language designed for theorem proving
+
+> “Lean is based on a version of dependent type theory known as the *Calculus of Constructions*, with a countable hierarchy of non-cumulative universes and inductive types.” --- [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/)
+
+### Lean's dependent type theory
+
+- Dependent type theory is a powerful extension of type theory where
+
+  - types may depend on terms "given before" them
+  - first-order logic can be implemented in dependent type theory
+
+- functions, inductive types and quotient types^[Though seemingly [redundant](https://www.ma.imperial.ac.uk/~buzzard/xena/formalising-mathematics-2024/Part_B/threekindsoftypes.html), there are reasons for making quotient types as a fundamental constructing method. [funext](https://lean-lang.org/doc/reference/latest/The-Type-System/Quotients/#quotient-funext) [thesis](https://ncatlab.org/nlab/files/Li-QuotientTypes.pdf)] are the basic methods to construct new types.
+
+:::{.list-table aligns="c,c" width="1,1"}
+
+* - Set Theory
+  - Lean's dependent type theory
+
+* - $\forall x \in \mathbb R,\, x^2 \geq 0$
+  
+  - has type $(x : \mathbb R) \to (x^2 \geq 0)$
+
+* - $(n \in \mathbb N) \mapsto (1,0,\dots,0) \in \mathbb R^n$
+
+  - has type $(n : \mathbb N) \to \mathbb R^n$
+
+* - $\{ 0,1 \} = 2$ is a set equality
+  - make no sense
+
+* - cardinality is an equivalence class
+  - is a quotient type
+
+* - Russell's paradox
+  - [Girard's paradox](https://en.wikipedia.org/wiki/System_U#Girard's_paradox)
+:::
+
+### An example Lean 4 code
+
+- FLT
+- TendsTo
+
+# Why formalize
+
+### The rise of AI
+
+AI excels in Python. Why not Lean?
+
+- Automated theorem proving
+
+  - especially those "abstract nonsense"
+  
+  - full-auto (create a proof without human interaction)
+  
+  - semi-auto (suggest tactics)
+
+    - `exact?`, Github Copilot, ...
+
+- Natural language to formal language
+
+  - automatically transplanting textbooks and papers into Lean
+
+  - full-auto (translate without human interaction)
+  
+  - bolt-action (search for existing theorems)
+
+    - [LeanSearch](https://leansearch.net/), [LeanExplore](https://www.leanexplore.com/), ...
+  
+  - Converse? Already happening!
+
+- Proposing conjectures
+
+  - on which facts should we care about
+
+### Rigor matters
+
+- It's the foundation of mathematics
+
+- Imprecise natural language often leads to misunderstandings and glitches
+
+  - Especially when proofs get longer and longer
+
+- formalization fully confirms the correctness of a theorem
+  
+  - things that are too "technical" (boring) or simply impossible to verify by oneself
+  
+    - e.g. classification of finite simple groups
+
+    - e.g. "technical"
+
+    > "I spent much of 2019 obsessed with the proof of this theorem, almost getting crazy over it. In the end, we were able to get an argument pinned down on paper, but I think nobody else has dared to look at the details of this, and so I still have some small lingering doubts." --- [Peter Scholze](https://www.nature.com/articles/d41586-021-01627-2)
+
+### "Mathematical engineering"
+
+- manipulating tons of theorems and proofs with mature software engineering techniques
+
+- referencing existing theorems as dependencies
+
+- collaborative work across the globe
+
+> The beauty of the system: you do not have to understand the whole proof of FLT in order to contribute. The blueprint breaks down the proof into many many small lemmas, and if you can formalise a proof of just one of those lemmas then I am eagerly awaiting your pull request. --- [Kevin Buzzard on the FLT Project](https://leanprover-community.github.io/blog/posts/FLT-announcement/)
+
+### Formalization as learning
+
+- proofs with infinite detail
+
+  - intuitive textbooks, rigorous formalization
+
+- makes us understand things better
+
+  - Global: How to build natural numbers from scratch?
+
+    - [natural number game](https://adam.math.hhu.de/#/g/leanprover-community/nng4)
+    - [A journey to the world of numbers, by Riccardo Brasca](https://github.com/riccardobrasca/Numbers)
+  
+  - Local: reducing the cognitive load
+
+    - (With good organization at the beginning) you can focus on small parts of the proof at a time
+
+# Why now formalize
+
+### Formalization becomes more accessible
+
+Mathematician-friendly languages, interfaces, tools and community emerges:
+
+- Lean 4 with VSCode extension, modern interactive theorem prover made for mathematicians
+
+- formalization becomes more and more fashionable
+
+- big names works on formalization:
+  - [Kevin Buzzard](https://profiles.imperial.ac.uk/k.buzzard) works on formalizing FLT
+  - [Peter Scholze](https://www.nature.com/articles/d41586-021-01627-2)'s work on condensed mathematics has been formalized
+  - [Terrence Tao](https://terrytao.wordpress.com/) gave [a talk](https://www.youtube.com/watch?v=e049IoFBnLA) on formalization in IMO 2024 and wrote a Lean 4 companion of his book "Analysis I" recently
+
+- computer scientists and volunteering mathematicians run Lean 4 community collaboratively
+
+### Mathlib 4 is expanding explosively
+
+By the time of 2025/09/16, Mathlib 4 has^[Statistics fetched from [Mathlib statistics](https://leanprover-community.github.io/mathlib_stats.html)]
+
+:::{.list-table aligns="c,c,c,c" width="1,1,1,1"}
+
+* - Lines of code
+  - Definitions
+  - Theorems
+  - Contributors
+
+* - 1950000
+  - 115438
+  - 232204
+  - 653
+:::
+
+- undergraduate may contribute: some low-hanging fruits
+
+# How to formalize
+
+### The goal
+
+The goal, at the end of this course, is
+
+- to get used to think formally
+- to migrate from set theory to dependent type theory
+- to practice basic skills to translate statements and proofs into Lean 4
+- to know how to find existing theorems, how the community works
+- to acquire enough common senses to read the bibles (MiL, TPiL, Mathlib 4 Doc, etc.) by yourself for future formalization projects
+- (optimistically) to set up a Lean 4 formalization club at BIT!
+
+### How will we learn
+
+As mathematicians, we learn Lean 4 to formalizing mathematics. We learn by practice.
+
+- Dozens of Lean files packed with well-organized examples and exercises suffice to get you started, suitable for both guided study and self study. Most lectures will be given in this style.
+
+- This style of teaching is inspired by [Kevin Buzzard's 2024 course on formalising mathematics in the Lean theorem prover](https://github.com/ImperialCollegeLondon/formalising-mathematics-2024) and [many other courses](https://leanprover-community.github.io/teaching/courses.html).
+
+### What we won't cover
+
+Due to the limited time, my personal inability and the design of this course, we might not be able to cover:
+
+- a deep discussion into dependent type theory or Lean as a programming language itself
+
+  - Read [TPiL](https://lean-lang.org/theorem_proving_in_lean4/) for a Lean 4 tutorial that emphasizes on type theory.
+  - Read [FPiL](https://lean-lang.org/functional_programming_in_lean/) for a Lean 4 tutorial that focuses more on functional programming.
+  - Refer to [Lean Language Manual](https://leanprover.github.io/lean4/doc/index.html) for precise specifications.
+
+- systematic exposition of how a particular branch of mathematics is formalized in Mathlib 4
+
+  - Read [MiL](https://leanprover-community.github.io/mathematics_in_lean/) for this purpose.
+
+- how to organize a massive formalization project from scratch, i.e. project management
+
+  - somewhat subtle, might can only be learned by reading Mathlib codes and practical experience
+
+### Disclaimer
+
+- Formalization is tedious in its nature, Lean is no exception
+
+- Type conversions can be an extra burden (exclusive for type-theory-based systems)
+
+- Knowledge needs to be re-learned before being referenced
+
+- Different people may formalize the same thing in different ways
+
+### If these do not scare you away...
+
+Welcome aboard. Have fun formalizing mathematics!
+
+### Resources
+
+- [course repository](https://github.com/sun123zxy/2025fall-lean4-teach)
+- [online documentation](https://sun123zxy.github.io/2025fall-lean4-teach/)

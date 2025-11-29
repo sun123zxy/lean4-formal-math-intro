@@ -1,8 +1,4 @@
-import Mathlib
-
 /-
-# Logic (Part II)
-
 - `And` and `Or`
 - `Forall` and `Exists`
 
@@ -16,6 +12,8 @@ Cartesian product and disjoint union in set theory.
 
 They are also constructed as inductive types.
 -/
+
+import Mathlib
 
 section
 
