@@ -22,9 +22,9 @@ aliases:
   - index.html
 ---
 
-# What is formalization
+## What is formalization
 
-### Natural language vs. formal language
+#### Natural language vs. formal language
 
 - ambiguity in natural language
 
@@ -37,7 +37,7 @@ aliases:
 
   - computer programs are formal languages
 
-### Mathematical proofs vs. Computer programs^[see also [Computational Trilogy](https://ncatlab.org/nlab/show/computational+trilogy), with category theory as the third vertex]
+#### Mathematical proofs vs. Computer programs^[see also [Computational Trilogy](https://ncatlab.org/nlab/show/computational+trilogy), with category theory as the third vertex]
 
 :::{.list-table aligns="c,c" width="1,1"}
 
@@ -69,7 +69,7 @@ Curry--Howard correspondence
   - dependent sum type $\sum$
 :::
 
-### Set theory vs. Type theory
+#### Set theory vs. Type theory
 
 - Mathematicians choose axiomatic set theory (with first-order logic) as the foundation of mathematics.
 
@@ -92,13 +92,13 @@ Curry--Howard correspondence
   - $\mathbb Q \to \mathbb R$ is a type conversion
 :::
 
-### What is Lean 4
+#### What is Lean 4
 
 - A modern functional programming language designed for theorem proving
 
 > “Lean is based on a version of dependent type theory known as the *Calculus of Constructions*, with a countable hierarchy of non-cumulative universes and inductive types.” --- [Theorem Proving in Lean 4](https://lean-lang.org/theorem_proving_in_lean4/Dependent-Type-Theory/)
 
-### Lean's dependent type theory
+#### Lean's dependent type theory
 
 - Dependent type theory is a powerful extension of type theory where
 
@@ -130,14 +130,14 @@ Curry--Howard correspondence
   - [Girard's paradox](https://en.wikipedia.org/wiki/System_U#Girard's_paradox)
 :::
 
-### An example Lean 4 code
+#### An example Lean 4 code
 
 - FLT
 - TendsTo
 
-# Why formalize
+## Why formalize
 
-### The rise of AI
+#### The rise of AI
 
 AI excels in Python. Why not Lean?
 
@@ -167,7 +167,7 @@ AI excels in Python. Why not Lean?
 
   - on which facts should we care about
 
-### Rigor matters
+#### Rigor matters
 
 - It's the foundation of mathematics
 
@@ -185,7 +185,7 @@ AI excels in Python. Why not Lean?
 
     > "I spent much of 2019 obsessed with the proof of this theorem, almost getting crazy over it. In the end, we were able to get an argument pinned down on paper, but I think nobody else has dared to look at the details of this, and so I still have some small lingering doubts." --- [Peter Scholze](https://www.nature.com/articles/d41586-021-01627-2)
 
-### "Mathematical engineering"
+#### "Mathematical engineering"
 
 - manipulating tons of theorems and proofs with mature software engineering techniques
 
@@ -195,7 +195,7 @@ AI excels in Python. Why not Lean?
 
 > The beauty of the system: you do not have to understand the whole proof of FLT in order to contribute. The blueprint breaks down the proof into many many small lemmas, and if you can formalise a proof of just one of those lemmas then I am eagerly awaiting your pull request. --- [Kevin Buzzard on the FLT Project](https://leanprover-community.github.io/blog/posts/FLT-announcement/)
 
-### Formalization as learning
+#### Formalization as learning
 
 - proofs with infinite detail
 
@@ -212,9 +212,9 @@ AI excels in Python. Why not Lean?
 
     - (With good organization at the beginning) you can focus on small parts of the proof at a time
 
-# Why now formalize
+## Why now formalize
 
-### Formalization becomes more accessible
+#### Formalization becomes more accessible
 
 Mathematician-friendly languages, interfaces, tools and community emerges:
 
@@ -229,7 +229,7 @@ Mathematician-friendly languages, interfaces, tools and community emerges:
 
 - computer scientists and volunteering mathematicians run Lean 4 community collaboratively
 
-### Mathlib 4 is expanding explosively
+#### Mathlib 4 is expanding explosively
 
 By the time of 2025/09/16, Mathlib 4 has^[Statistics fetched from [Mathlib statistics](https://leanprover-community.github.io/mathlib_stats.html)]
 
@@ -248,9 +248,9 @@ By the time of 2025/09/16, Mathlib 4 has^[Statistics fetched from [Mathlib stati
 
 - undergraduate may contribute: some low-hanging fruits
 
-# How to formalize
+## How to formalize
 
-### The goal
+#### The goal
 
 The goal, at the end of this course, is
 
@@ -261,7 +261,7 @@ The goal, at the end of this course, is
 - to acquire enough common senses to read the bibles (MiL, TPiL, Mathlib 4 Doc, etc.) by yourself for future formalization projects
 - (optimistically) to set up a Lean 4 formalization club at BIT!
 
-### How will we learn
+#### How will we learn
 
 As mathematicians, we learn Lean 4 to formalizing mathematics. We learn by practice.
 
@@ -269,7 +269,7 @@ As mathematicians, we learn Lean 4 to formalizing mathematics. We learn by pract
 
 - This style of teaching is inspired by [Kevin Buzzard's 2024 course on formalising mathematics in the Lean theorem prover](https://github.com/ImperialCollegeLondon/formalising-mathematics-2024) and [many other courses](https://leanprover-community.github.io/teaching/courses.html).
 
-### What we won't cover
+#### What we won't cover
 
 Due to the limited time, my personal inability and the design of this course, we might not be able to cover:
 
@@ -287,7 +287,7 @@ Due to the limited time, my personal inability and the design of this course, we
 
   - somewhat subtle, might can only be learned by reading Mathlib codes and practical experience
 
-### Disclaimer
+#### Disclaimer
 
 - Formalization is tedious in its nature, Lean is no exception
 
@@ -297,11 +297,11 @@ Due to the limited time, my personal inability and the design of this course, we
 
 - Different people may formalize the same thing in different ways
 
-### If these do not scare you away...
+#### If these do not scare you away...
 
 Welcome aboard. Have fun formalizing mathematics!
 
-### Resources
+#### Resources
 
 - [course repository](https://github.com/sun123zxy/2025fall-lean4-teach)
 - [online documentation](https://sun123zxy.github.io/2025fall-lean4-teach/)
