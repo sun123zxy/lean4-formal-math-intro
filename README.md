@@ -1,4 +1,4 @@
-This book / repository contains the lecture notes and supplementary materials for the hobby course "Introduction to Formal Mathematics with Lean 4", offered in Fall 2025 at Beijing Institute of Technology.
+This book, or repository, contains the lecture notes and supplementary materials for the hobby course "Introduction to Formal Mathematics with Lean 4", offered in Fall 2025 at Beijing Institute of Technology.
 
 It is best to download the repository and read it alongside a Lean 4 environment, so that you can try out the code examples and exercises interactively. We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed PDF version is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.
 

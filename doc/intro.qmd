@@ -1,5 +1,4 @@
 ---
-title: Introduction to Formal Mathematics with Lean 4
 subtitle: For newcomers to formalization methods
 date: 2025/09/17
 author: Xingyu Zhong
@@ -21,6 +20,8 @@ resources:
 aliases: 
   - index.html
 ---
+
+# Introduction to Formal Mathematics with Lean 4 {.unnumbered}
 
 ## What is formalization
 

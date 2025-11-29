@@ -7,15 +7,22 @@ book:
   date: 2025/11/30
   chapters:
     - index.qmd
-    - part: Lectures
+    - part: Prelude
       chapters:
+        - intro.qmd
         - 01-intro.qmd
+    - part: Prop
+      chapters:
         - 02-logic.qmd
         - 03-logic.qmd
         - 04-logic.qmd
+    - part: Type
+      chapters:
         - 05-type.qmd
         - 06-ineq.qmd
         - 07-analysis.qmd
+    - part: Structure
+      chapters:
         - 08-group.qmd
         - 09-subgroup.qmd
         - 10-quotient.qmd
