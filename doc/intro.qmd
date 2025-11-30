@@ -13,6 +13,7 @@ format:
         href: 01-intro.lean
   beamer:
     toc: true
+    toc-depth: 1
 
 resources: 
   - 01-intro.lean
