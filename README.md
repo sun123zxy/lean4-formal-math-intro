@@ -32,7 +32,7 @@ git pull
 
 ## Compiling the Book
 
-Both the online and the PDF version of this book are prepared by $\SunQuarTeX$, a publishing system based on Quarto and LaTeX. Refer to <https://github.com/sun123zxy/sunquartex> for more information.
+Both the online and the PDF version of this book are prepared by \SunQuarTeX, a publishing system based on Quarto and \LaTeX. Refer to <https://github.com/sun123zxy/sunquartex> for more information.
 
 ## References
 

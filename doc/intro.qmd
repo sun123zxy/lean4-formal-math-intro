@@ -7,16 +7,9 @@ shortinstitute: BIT
 lang: en
 
 format:
-  html:
-    other-links:
-      - text: "Lean 4 code"
-        href: 01-intro.lean
+  html: default
   beamer:
     toc: true
-    toc-depth: 1
-
-resources: 
-  - 01-intro.lean
 
 aliases: 
   - index.html
