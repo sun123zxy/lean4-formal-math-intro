@@ -237,7 +237,7 @@ MathJax = {
   <ul class="collapse">
   <li><a href="#remark" id="toc-remark" class="nav-link" data-scroll-target="#remark"><span class="header-section-number">2.1</span> Remark</a></li>
   </ul></li>
-  <li><a href="#equality-eq-first-visit" id="toc-equality-eq-first-visit" class="nav-link" data-scroll-target="#equality-eq-first-visit"><span class="header-section-number">3</span> Equality <code>Eq</code> (<code>=</code>) (first visit)</a>
+  <li><a href="#equality-eq" id="toc-equality-eq" class="nav-link" data-scroll-target="#equality-eq"><span class="header-section-number">3</span> Equality <code>Eq</code> (<code>=</code>)</a>
   <ul class="collapse">
   <li><a href="#handling-equality" id="toc-handling-equality" class="nav-link" data-scroll-target="#handling-equality"><span class="header-section-number">3.1</span> Handling equality</a></li>
   <li><a href="#working-in-commring" id="toc-working-in-commring" class="nav-link" data-scroll-target="#working-in-commring"><span class="header-section-number">3.2</span> Working in <code>CommRing</code></a></li>
@@ -285,7 +285,7 @@ MathJax = {
 <ul>
 <li>Numbers</li>
 <li>Universe hierarchy</li>
-<li>Equality <code>Eq</code> (<code>=</code>) (first visit)
+<li>Equality <code>Eq</code> (<code>=</code>)
 <ul>
 <li>Arithmetic in <code>CommRing</code></li>
 </ul></li>
@@ -367,8 +367,8 @@ MathJax = {
 </ul>
 </section>
 </section>
-<section id="equality-eq-first-visit" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="equality-eq-first-visit"><span class="header-section-number">3</span> Equality <code>Eq</code> (<code>=</code>) (first visit)</h2>
+<section id="equality-eq" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="equality-eq"><span class="header-section-number">3</span> Equality <code>Eq</code> (<code>=</code>)</h2>
 <p>Equality is a fundamental notation in mathematics, but also a major victim of <em>abuse of notation</em>. Though trained experts can usually tell from context what kind of equality is meant, things still become hopelessly confusing from time to time.</p>
 <p>In set theory, by axiom of extensionality, two sets are equal if and only if they have the same elements.</p>
 <p>In Lean’s type theory, we distinguish between different equalities:</p>
@@ -377,7 +377,7 @@ MathJax = {
 <li><em>Propositional equality</em> (<code>Eq</code>, i.e.&nbsp;<code>=</code>)</li>
 <li><em>Heterogeneous equality</em> (We shall not touch this)</li>
 </ul>
-<p>We shall now show the basic usage of <code>=</code> in Lean, mostly in tactic mode. We detail a little on the difference between definitional and propositional equality afterwards. We postpone the real, full discussion of equality to later chapters.</p>
+<p>We shall now show the basic usage of <code>=</code> in Lean, mostly in tactic mode. We detail a little on the difference between definitional and propositional equality afterwards. The real, full discussion of equality is only accessible with enough knowledge of inductive types.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>Eq</code> takes two terms of the same type (up to definitional equality), and produces a proposition in <code>Prop</code>. For terms <code>a b : α</code>, the proposition <code>a = b</code> means that <code>a</code> and <code>b</code> are equal. Do note that types of <code>a</code> and <code>b</code> must be the same, i.e.&nbsp;definitionally equal.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Eq</span>

@@ -232,7 +232,10 @@ MathJax = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#quotient-sets" id="toc-quotient-sets" class="nav-link active" data-scroll-target="#quotient-sets"><span class="header-section-number">1</span> Quotient Sets</a></li>
+  <li><a href="#quotients" id="toc-quotients" class="nav-link active" data-scroll-target="#quotients"><span class="header-section-number"></span> Quotients</a>
+  <ul class="collapse">
+  <li><a href="#quotient-sets" id="toc-quotient-sets" class="nav-link" data-scroll-target="#quotient-sets"><span class="header-section-number">1</span> Quotient Sets</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -264,8 +267,10 @@ MathJax = {
 </header>
 
 
+<section id="quotients" class="level1" data-number="">
+<h1 data-number=""><span class="header-section-number"></span> Quotients</h1>
 <p>After building up the theory of groups, homorphisms, and subgroups, we are now ready to define quotient groups.</p>
-<p>In fact, quotients are so fundamental that Lean makes them a primitive way of constructing new types.</p>
+<p>In fact, quotients are so fundamental that Lean makes them a primitive way of constructing new types. [IGNORE] Other reasons including the foundation of <code>funext</code>, see <a href="https://lean-lang.org/doc/reference/latest/The-Type-System/Quotients/#quotient-funext">The Lean Language Manual</a>.</p>
 <p>We shall first illustrate the general quotient construction in Lean, and then specialize it to quotient groups.</p>
 <p>At the end of the journey, we show the first isomorphism theorem for groups as promised.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -285,20 +290,64 @@ MathJax = {
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.<span class="fu">refl</span> _</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a b → r b a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.symm</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a b → r b c → r a c <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.trans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a b → r b c → r a c <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.trans</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As a running example, we can define an equivalence relation on <code>ℕ × ℕ</code>, which ultimately gives us the construction of integers from natural numbers.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- tag as `simp` lemma for auto decomposition</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="at">@[simp]</span> <span class="kw">def</span> <span class="fu">NN</span>_r (z w : ℕ × ℕ) : <span class="fu">Prop</span> <span class="op">:=</span> z<span class="fl">.1</span> + w<span class="fl">.2</span> = z<span class="fl">.2</span> + w<span class="fl">.1</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">NN</span>_equiv : Equivalence NN_r where</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">refl</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">intro</span> _; <span class="fu">rw</span> [NN_r, add_comm]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  symm <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> ⟨z1, z2⟩ ⟨w1, w2⟩ h</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> <span class="fu">at</span> *</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    linarith only [h]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  trans <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> ⟨z1, z2⟩ ⟨w1, w2⟩ ⟨u1, u2⟩ h1 h2</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> <span class="fu">at</span> *</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    linarith only [h1, h2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In mathmatics we often denote equivalence relations by <code>~</code>. In Lean, we can also use <code>≈</code> as notation for equivalence relations, once we register the <code>Setoid</code> instance for <code>α</code>.</p>
 <p>The <code>Setoid</code> typeclass is a bundle of</p>
 <ul>
 <li>an equivalence relation <code>r</code> on <code>α</code></li>
 <li>the proof that <code>r</code> is an equivalence relation.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="fu">r</span>_setoid : Setoid α where</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  r <span class="op">:=</span> r</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  iseqv <span class="op">:=</span> r_equiv</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Setoid</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="fu">NN</span>_setoid : Setoid (ℕ × ℕ) where</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  r <span class="op">:=</span> NN_r</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  iseqv <span class="op">:=</span> NN_equiv</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="at">@[simp]</span> <span class="kw">lemma</span> <span class="fu">NN0</span>_r_of_equiv {z w : ℕ × ℕ} : z ≈ w ↔ NN_r z w <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="dv">1</span>, <span class="dv">2</span>) ≈ (<span class="dv">2</span>, <span class="dv">3</span>) <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n m p : ℕ) : (n, m) ≈ (n + p, m + p) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span>; <span class="fu">ring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>From a <code>Setoid α</code> instance <code>s</code>, we can define the quotient type <code>Quotient s</code>. The elements of <code>Quotient s</code>, are mathematically viewed as equivalence classes of <code>α</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For example, the following defines the type <code>Z</code> of integers as the quotient of <code>ℕ × ℕ</code> by the equivalence relation <code>NN_r</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">Z</span> <span class="op">:=</span> Quotient NN_setoid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Inductive types have their introduction rules and elimination rules. Similar self-evident rules exist for quotient types.</p>
+<p>The introduction rule is given by <code>Quotient.mk</code>, essentially a map from <code>α → Quotient s</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> Quotient.mk NN_setoid (<span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> Quotient.mk' (<span class="dv">3</span>, <span class="dv">5</span>) <span class="co">-- this version detects the `Setoid` instance in the context</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> ⟦(<span class="dv">3</span>, <span class="dv">5</span>)⟧ <span class="co">-- anonymous "constructor" for `Quotient`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Two elements of an inductive type are equal, iff they are constructed from the same data using the same constructor.</p>
+<p>This is different in the case of quotient types, since the same equivalence class can be represented by different elements of <code>α</code>.</p>
+<p>So quotient types need an additional “soundness” axiom to clarify when two quotient elements, coming from two possibly different representatives in <code>α</code>, are equal.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.sound</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.lift</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.ind</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.mk</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

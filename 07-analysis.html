@@ -8,7 +8,7 @@
 
 <meta name="author" content="Xingyu Zhong">
 
-<title>Mathematical Analysis – 2025 Fall Lean 4 Teach</title>
+<title>analysis – 2025 Fall Lean 4 Teach</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -227,15 +227,20 @@ MathJax = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sec-mathematical-analysis" id="toc-sec-mathematical-analysis" class="nav-link active" data-scroll-target="#sec-mathematical-analysis"><span class="header-section-number">1</span> Mathematical Analysis</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Mathematical Analysis</h1>
 </div>
 
 
@@ -258,6 +263,8 @@ MathJax = {
 </header>
 
 
+<section id="sec-mathematical-analysis" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="sec-mathematical-analysis"><span class="header-section-number">1</span> Mathematical Analysis</h2>
 <p>Finally some real math in Lean! In this file we show how to define limits of sequences and continuity of functions in Lean. Of course it is just a toy version, far from the real Mathlib definitions. Nevertheless, that should be enough for you to get a taste of formalizing something that is not completely trivial.</p>
 <p>Since we haven’t touch division quite much yet, you may find it’s difficult to deal with multiplication and division. <code>field_simp</code> tactic may help you a lot in such cases. It won’t break things up as <code>simp</code> does. Anyway, don’t worry too much about it for now.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span>
@@ -577,6 +584,7 @@ MathJax = {
 <span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>    linarith only [hn₀, fx_diverge]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

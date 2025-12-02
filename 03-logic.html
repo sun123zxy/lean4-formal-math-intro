@@ -264,7 +264,7 @@ window.Quarto = {
   <li><a href="#and-and-or" id="toc-and-and-or" class="nav-link active" data-scroll-target="#and-and-or"><span class="header-section-number">1</span> <code>And</code> and <code>Or</code></a>
   <ul class="collapse">
   <li><a href="#and" id="toc-and" class="nav-link" data-scroll-target="#and"><span class="header-section-number">1.1</span> <code>And</code> (<code>∧</code>)</a></li>
-  <li><a href="#iff-first-visit" id="toc-iff-first-visit" class="nav-link" data-scroll-target="#iff-first-visit"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>), first visit</a></li>
+  <li><a href="#iff" id="toc-iff" class="nav-link" data-scroll-target="#iff"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>)</a></li>
   <li><a href="#or" id="toc-or" class="nav-link" data-scroll-target="#or"><span class="header-section-number">1.3</span> <code>Or</code> (<code>∨</code>)</a></li>
   </ul></li>
   <li><a href="#forall-and-exists" id="toc-forall-and-exists" class="nav-link" data-scroll-target="#forall-and-exists"><span class="header-section-number">2</span> <code>Forall</code> and <code>Exists</code></a>
@@ -432,9 +432,9 @@ window.Quarto = {
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="iff-first-visit" class="level3" data-number="1.2">
-<h3 data-number="1.2" class="anchored" data-anchor-id="iff-first-visit"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>), first visit</h3>
-<p>It’s high time to introduce <code>Iff</code> here for the first time.</p>
+<section id="iff" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="iff"><span class="header-section-number">1.2</span> <code>Iff</code> (<code>↔︎</code>)</h3>
+<p>It’s high time to introduce <code>Iff</code> here.</p>
 <p><code>Iff</code> (<code>↔︎</code>) contains two side of implications: <code>Iff.mp</code> and <code>Iff.mpr</code>.</p>
 <p>Though it is defined as a distinct inductive type, <code>Iff</code> may be seen as a bundled version of <code>(p → q) ∧ (q → p)</code>. you may, somehow, even use it like a <code>(p → q) ∧ (q → p)</code>. The only major difference is the name of the two components.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Iff.<span class="fu">intro</span></span>

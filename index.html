@@ -145,7 +145,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -263,19 +263,23 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#portals" id="toc-portals" class="nav-link active" data-scroll-target="#portals">Portals</a></li>
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#approach" id="toc-approach" class="nav-link" data-scroll-target="#approach">Approach</a></li>
+  <li><a href="#structure" id="toc-structure" class="nav-link" data-scroll-target="#structure">Structure</a></li>
+  <li><a href="#instructions" id="toc-instructions" class="nav-link" data-scroll-target="#instructions">Instructions</a></li>
   <li><a href="#compiling-the-book" id="toc-compiling-the-book" class="nav-link" data-scroll-target="#compiling-the-book">Compiling the Book</a></li>
+  <li><a href="#portals" id="toc-portals" class="nav-link" data-scroll-target="#portals">Portals</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">README</h1>
+<h1 class="title">Preface</h1>
 </div>
 
 
@@ -298,8 +302,44 @@ window.Quarto = {
 </header>
 
 
-<p>This book, or repository, contains the lecture notes and supplementary materials for the hobby course “Introduction to Formal Mathematics with Lean 4”, offered in Fall 2025 at Beijing Institute of Technology.</p>
-<p>It is best to download the repository and read it alongside a Lean 4 environment, so that you can try out the code examples and exercises interactively. We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed PDF version is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.</p>
+<p>This book, or repository, contains the lecture notes and supplementary materials for the hobby course <em>Introduction to Formal Mathematics with Lean 4</em>, offered in Fall 2025 at Beijing Institute of Technology. It is designed as a companion to the course <em>Abstract Algebra</em> offered in the same semester, mainly intended for students with a background in undergraduate-level pure mathematics.</p>
+<section id="goals" class="level2">
+<h2 class="anchored" data-anchor-id="goals">Goals</h2>
+<p>The main goals of this course are</p>
+<ul>
+<li>to get used to think formally</li>
+<li>to migrate from set theory to dependent type theory</li>
+<li>to practice basic skills to translate statements and proofs into Lean 4</li>
+<li>to familiarize with the Mathlib 4 library</li>
+<li>to know how to find existing theorems, how the community works</li>
+<li>to acquire enough common senses to read the bibles (MiL, TPiL, Mathlib 4 Doc, etc.) by yourself for future formalization projects</li>
+</ul>
+</section>
+<section id="approach" class="level2">
+<h2 class="anchored" data-anchor-id="approach">Approach</h2>
+<p>The style of this course is inspired by Kevin Buzzard’s 2024 course on formalising mathematics in the Lean theorem prover and many other courses, that is: dozens of Lean files packed with well-organized examples and exercises should get you started. In fact, almost all chapters of this book is just a single Lean file with comments, converted into other formats later on. It is best to download the course repository and read it alongside a Lean 4 environment, so that you can try out the code examples and exercises interactively.</p>
+<p>We try to organize the materials in a way that balances theory and practice. The main feature of this book is that we introduce Lean 4 and formalized mathematics by “illustrating the theory”, that is: we accept the Mathlib definitions “as is”, but use them to reprove the major consequences that constitute the theory. Hopefully, this may help you familiarize with the Mathlib API more quickly, while at the same time understand how the theory is builded up mathematically.</p>
+<p>We try to keep the materials well-organized, but due to the extra-curricular nature of the course, the lecture notes are often prepared in a hurry, so please forgive any occasional messiness. Due to the scope of the course, the limited time and my personal inability, several important topics, such as inductive types and inductive proofs, discrete mathematics, type classes and coercions, are only briefly touched upon or omitted. The readers are encouraged to explore these topics by themselves using the references provided at the end of this preface. We might fill in these gaps in the next versions of this book.</p>
+</section>
+<section id="structure" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="structure">Structure</h2>
+<p>The book is divided into four parts<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The first part is purely introductory, persuading you that formal mathematics and the Lean language is interesting and increasingly important nowadays. In the second part, we illustrate how Lean’s dependent type theory builds up the first-order logic. Alongside the way, the readers are familiarized with Lean 4’s syntax, semantics, and basic proof techniques. In the third part, we advance from <code>Prop</code> to <code>Type</code>, introducing numbers, functions, equalities and inequalities. This cultimates in <strong>?@sec-mathematical-analysis</strong>, where we do some mathematical analysis in Lean 4. The last part is devoted to algebraic structures, where we introduce the Mathlib philosophy of organizing algebraic structures, morphisms, substructures, and quotients, especially in the case of groups. We prove the first isomorphism theorem for groups as a grand finale.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;each entitled with a valid Lean 4 keyword</p></div></div></section>
+<section id="instructions" class="level2">
+<h2 class="anchored" data-anchor-id="instructions">Instructions</h2>
+<p>We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed PDF version is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.</p>
+<p>For installation, first make sure you have installed Git, VSCode and Lean 4 extension for VSCode correctly. Refer to the installation guide <a href="https://lean-lang.org/install/" class="uri">https://lean-lang.org/install/</a> if you haven’t done so. Then execute the following commands in your terminal:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:sun123zxy/2025fall-lean4-teach.git <span class="co"># download the repository</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 2025fall-lean4-teach</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> update <span class="co"># download Mathlib source files</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> exe cache get <span class="co"># download compiled Mathlib artifacts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To update the repository, make sure you have discarded any local changes (otherwise you may need to merge manually). Then execute the following commands in your terminal:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="compiling-the-book" class="level2">
+<h2 class="anchored" data-anchor-id="compiling-the-book">Compiling the Book</h2>
+<p>Both the online and the PDF version of this book are prepared by <span class="math inline">\(\mathrm{\SunQuarTeX}\)</span>, a publishing system based on Quarto and <span class="math inline">\(\mathrm{\LaTeX}\)</span>. Refer to <a href="https://github.com/sun123zxy/sunquartex" class="uri">https://github.com/sun123zxy/sunquartex</a> for more information.</p>
+</section>
 <section id="portals" class="level2">
 <h2 class="anchored" data-anchor-id="portals">Portals</h2>
 <ul>
@@ -309,19 +349,6 @@ window.Quarto = {
 <li><p>Community (Lean Zulip): <a href="https://leanprover.zulipchat.com/" class="uri">https://leanprover.zulipchat.com/</a></p></li>
 <li><p>Lean 4 tactics cheatsheet: <a href="https://leanprover-community.github.io/papers/lean-tactics.pdf" class="uri">https://leanprover-community.github.io/papers/lean-tactics.pdf</a></p></li>
 </ul>
-</section>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>First make sure you have installed Git, VSCode and Lean 4 extension for VSCode correctly. Then execute the following commands in your terminal:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:sun123zxy/2025fall-lean4-teach.git</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 2025fall-lean4-teach</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> exe cache get</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To update the repository, make sure you have discarded any local changes (otherwise you may need to merge manually). Then execute the following commands in your terminal:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="compiling-the-book" class="level2">
-<h2 class="anchored" data-anchor-id="compiling-the-book">Compiling the Book</h2>
-<p>Both the online and the PDF version of this book are prepared by <span class="math inline">\(\mathrm{\SunQuarTeX}\)</span>, a publishing system based on Quarto and <span class="math inline">\(\mathrm{\LaTeX}\)</span>. Refer to <a href="https://github.com/sun123zxy/sunquartex" class="uri">https://github.com/sun123zxy/sunquartex</a> for more information.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
@@ -350,9 +377,18 @@ window.Quarto = {
 <ul>
 <li>Kevin Buzzard’s 2024 course on formalising mathematics in the Lean theorem prover: <a href="https://github.com/ImperialCollegeLondon/formalising-mathematics-2024" class="uri">https://github.com/ImperialCollegeLondon/formalising-mathematics-2024</a></li>
 </ul>
+<div style="page-break-after: always;"></div>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>The main motivation for this course is to promote Lean 4 and formalized mathematics to students majoring in mathematics at Beijing Institute of Technology, as well as to provide a structured exposition of Lean 4 and formalized mathematics with the author’s personal flavor. Prior to this course, the author was first introduced to Lean and formal mathematics in the summer of 2024 via <a href="https://math.bit.edu.cn/xsgz/xgdt/a5ac74f68b9840dba8dd700885a1d650.htm">an invited talk</a> by Jia Li (李嘉) on <a href="https://projectnumina.ai/">Project Numina</a> at Beijing Institute of Technology. One year later, he had the chance to participate in the <a href="https://mp.weixin.qq.com/s?__biz=MzkzOTE3NTU4Mw==&amp;mid=2247511705&amp;idx=1&amp;sn=767e708e18f8e7eddd000ff9c507d65b">2025 algebra and formalization summer school</a> held in Renmin University of China and Beijing International Center for Mathematical Research. The author wishes to express gratitude to the organizers and participants of these events for the inspiring experience, especially Professor Riccardo Brasca for his wonderful lectures. The teaching style of this course was deeply inspired by <a href="https://github.com/ImperialCollegeLondon/formalising-mathematics-2024">Kevin Buzzard’s 2024 course on formalising mathematics in the Lean theorem prover</a>. The author would like to thank Professor Yangyu Fan (范洋宇), for kindly allowing this hobby course to be offered alongside his <em>Abstract Algebra</em> course in Fall 2025 at Beijing Institute of Technology. The author is grateful to Junchao Huang (黄俊超), for providing the after-class exercises, and his valuable suggestions from his perspective as an AI4Math researcher. Finally, the author would like to thank all the fellow students who kindly scheduled their time to participate in this purely extra-curricular course. Yihan Zhuo (卓逸涵) deserve special thanks for his full attendance and active participation throughout the course.</p>
+<p>Xingyu Zhong (钟星宇)<br>
+<a href="https://scholar.sun123zxy.top" class="uri">https://scholar.sun123zxy.top</a></p>
+<p>December 2025, Beijing</p>
 
 
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
