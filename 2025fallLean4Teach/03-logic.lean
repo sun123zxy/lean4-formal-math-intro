@@ -178,9 +178,9 @@ example : p ∧ q → p := by
   exact hp
 
 /-
-### `Iff` (`↔`), first visit
+### `Iff` (`↔`)
 
-It's high time to introduce `Iff` here for the first time.
+It's high time to introduce `Iff` here.
 
 `Iff` (`↔`) contains two side of implications: `Iff.mp` and `Iff.mpr`.
 

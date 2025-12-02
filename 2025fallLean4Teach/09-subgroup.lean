@@ -44,38 +44,43 @@ A subset can be constructed using the set-builder notation
 where `p : α → Prop` is a predicate on `α`.
 -/
 #check setOf (fun x ↦ x = a)
-example : Set α := {x : α | x = a} /- The same as above -/
-example : Set α := {a} /- The same as above -/
-example : Set α := Set.singleton a /- The same as above -/
-/- [TODO] Are they definitionally equal? -/
+example : setOf (fun x ↦ x = a) = {x : α | x = a} := by rfl
+example : setOf (fun x ↦ x = a) = {a} := by rfl
+example : setOf (fun x ↦ x = a) = Set.singleton a := by rfl
 
 example : Set ℕ := {n | n > 514}
 example (n : ℕ) : n ∈ {x | x > 514} ↔ n > 514 := by rfl
 
-#check (∅ : Set α) /- The empty subset -/
+/- The empty subset -/
+#check (∅ : Set α)
 example : ∅ = {x : α | False} := by rfl
 example : a ∈ (∅ : Set α) ↔ False := by rfl
 #check Set.mem_empty_iff_false -- corresponding [@simp] lemma
 
-#check (Set.univ : Set α) /- The universal subset -/
+/- The universal subset -/
+#check (Set.univ : Set α)
 example : Set.univ = {x : α | True} := by rfl
 example : a ∈ Set.univ := by trivial
 #check Set.mem_univ -- corresponding [@simp] lemma
 
-#check sᶜ /- The complement of a subset `Set.compl s` -/
+/- The complement of a subset `Set.compl s` -/
+#check sᶜ
 example : sᶜ = {x | x ∉ s} := by rfl
 example : a ∈ sᶜ ↔ a ∉ s := by rfl
 #check Set.mem_compl -- corresponding [@simp] lemma
 
-#check s ⊆ t /- Subset relation `Set.Subset s t` -/
+/- Subset relation `Set.Subset s t` -/
+#check s ⊆ t
 example : s ⊆ t ↔ ∀ x : α, x ∈ s → x ∈ t := by rfl
 example (ha : a ∈ s) (hst : s ⊆ t) : a ∈ t := hst ha
 #check Subset -- [TODO] the implicit {x : α}
 
-#check s ∩ t /- Intersection of two subsets `Set.inter s t` -/
+/- Intersection of two subsets `Set.inter s t` -/
+#check s ∩ t
 example : a ∈ s ∩ t ↔ a ∈ s ∧ a ∈ t := by rfl
 
-#check s ∪ t /- Union of two subsets `Set.union s t` -/
+/- Union of two subsets `Set.union s t` -/
+#check s ∪ t
 example : a ∈ s ∪ t ↔ a ∈ s ∨ a ∈ t := by rfl
 
 /-
@@ -110,20 +115,23 @@ section
 
 variable {α β : Type*} (f : α → β) (s : Set α) (t : Set β) (a : α) (b : β)
 
+/- range of a function `Set.range f` -/
 #check Set.range f
 example : Set.range f = {y | ∃ x, f x = y} := by rfl
 example : Set.range f = {f x | x : α} := by rfl -- set-builder notation for range
 example : b ∈ Set.range f ↔ ∃ x, f x = b := by rfl
 #check Set.mem_range -- corresponding [@simp] lemma
 
-#check f '' s /- Image of a subset `Set.image f s` -/
+/- image of a subset `Set.image f s` -/
+#check f '' s
 #check Set.image f s
 example : f '' s = {y | ∃ x ∈ s, f x = y} := by rfl
 example : f '' s = {f x | x ∈ s} := by rfl -- set-builder notation for image
 example : b ∈ f '' s ↔ ∃ x ∈ s, f x = b := by rfl
 #check Set.mem_image -- corresponding [@simp] lemma
 
-#check f ⁻¹' t /- Preimage of a subset `Set.preimage f t` -/
+/- Preimage of a subset `Set.preimage f t` -/
+#check f ⁻¹' t
 #check Set.preimage f t
 example : f ⁻¹' t = {x | f x ∈ t} := by rfl
 example : a ∈ f ⁻¹' t ↔ f a ∈ t := by rfl

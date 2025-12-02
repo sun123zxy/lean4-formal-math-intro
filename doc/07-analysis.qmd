@@ -1,5 +1,4 @@
 ---
-title: Mathematical Analysis
 author: Xingyu Zhong
 
 number-sections: true
@@ -7,5 +6,7 @@ number-sections: true
 format:
   html: default
 ---
+
+## Mathematical Analysis {#sec-mathematical-analysis}
 
 {{< lean-include ../2025fallLean4Teach/07-analysis.lean >}}

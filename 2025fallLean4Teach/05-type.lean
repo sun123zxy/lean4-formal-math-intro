@@ -5,7 +5,7 @@ and see how the most fundamental notion in mathematics, equality, works there.
 
 - Numbers
 - Universe hierarchy
-- Equality `Eq` (`=`) (first visit)
+- Equality `Eq` (`=`)
   - Arithmetic in `CommRing`
 - Defining terms and functions
   - Definitional equality vs propositional equality
@@ -139,7 +139,7 @@ Two questions arise naturally here:
 -/
 
 /-
-## Equality `Eq` (`=`) (first visit)
+## Equality `Eq` (`=`)
 
 Equality is a fundamental notation in mathematics, but also a major victim of *abuse of notation*.
 Though trained experts can usually tell from context what kind of equality is meant,
@@ -157,7 +157,8 @@ In Lean's type theory, we distinguish between different equalities:
 We shall now show the basic usage of `=` in Lean, mostly in tactic mode.
 We detail a little on the difference between
 definitional and propositional equality afterwards.
-We postpone the real, full discussion of equality to later chapters.
+The real, full discussion of equality is only accessible with
+enough knowledge of inductive types.
 -/
 
 section
