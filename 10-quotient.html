@@ -234,7 +234,21 @@ MathJax = {
   <ul>
   <li><a href="#quotients" id="toc-quotients" class="nav-link active" data-scroll-target="#quotients"><span class="header-section-number"></span> Quotients</a>
   <ul class="collapse">
-  <li><a href="#quotient-sets" id="toc-quotient-sets" class="nav-link" data-scroll-target="#quotient-sets"><span class="header-section-number">1</span> Quotient Sets</a></li>
+  <li><a href="#quotient-types" id="toc-quotient-types" class="nav-link" data-scroll-target="#quotient-types"><span class="header-section-number">1</span> Quotient types</a>
+  <ul class="collapse">
+  <li><a href="#equivalence-setoid-quotient-types" id="toc-equivalence-setoid-quotient-types" class="nav-link" data-scroll-target="#equivalence-setoid-quotient-types"><span class="header-section-number">1.1</span> <code>Equivalence</code>, <code>Setoid</code>, quotient types</a></li>
+  <li><a href="#the-universal-properties" id="toc-the-universal-properties" class="nav-link" data-scroll-target="#the-universal-properties"><span class="header-section-number">1.2</span> The universal properties</a></li>
+  <li><a href="#quotient-types-under-morphisms" id="toc-quotient-types-under-morphisms" class="nav-link" data-scroll-target="#quotient-types-under-morphisms"><span class="header-section-number">1.3</span> Quotient types under morphisms</a></li>
+  </ul></li>
+  <li><a href="#quotient-groups" id="toc-quotient-groups" class="nav-link" data-scroll-target="#quotient-groups"><span class="header-section-number">2</span> Quotient groups</a>
+  <ul class="collapse">
+  <li><a href="#left-coset-relation" id="toc-left-coset-relation" class="nav-link" data-scroll-target="#left-coset-relation"><span class="header-section-number">2.1</span> Left coset relation</a></li>
+  <li><a href="#the-group-structure" id="toc-the-group-structure" class="nav-link" data-scroll-target="#the-group-structure"><span class="header-section-number">2.2</span> The group structure</a></li>
+  <li><a href="#lifting-a-group-homomorphism" id="toc-lifting-a-group-homomorphism" class="nav-link" data-scroll-target="#lifting-a-group-homomorphism"><span class="header-section-number">2.3</span> Lifting a group homomorphism</a></li>
+  <li><a href="#quotient-groups-under-morphisms" id="toc-quotient-groups-under-morphisms" class="nav-link" data-scroll-target="#quotient-groups-under-morphisms"><span class="header-section-number">2.4</span> Quotient groups under morphisms</a></li>
+  <li><a href="#the-first-isomorphism-theorem" id="toc-the-first-isomorphism-theorem" class="nav-link" data-scroll-target="#the-first-isomorphism-theorem"><span class="header-section-number">2.5</span> The first isomorphism theorem</a></li>
+  </ul></li>
+  <li><a href="#appendix-tracing-down-the-definition-of-coset-relations" id="toc-appendix-tracing-down-the-definition-of-coset-relations" class="nav-link" data-scroll-target="#appendix-tracing-down-the-definition-of-coset-relations"><span class="header-section-number">3</span> Appendix: tracing down the definition of coset relations</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -274,9 +288,12 @@ MathJax = {
 <p>We shall first illustrate the general quotient construction in Lean, and then specialize it to quotient groups.</p>
 <p>At the end of the journey, we show the first isomorphism theorem for groups as promised.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="quotient-sets" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="quotient-sets"><span class="header-section-number">1</span> Quotient Sets</h2>
-<p>We still build up the theory from sets. First, we need to define equivalence relations on a type <code>α</code>. As you can guess, a binary relation <code>r</code> is just a <code>α → α → Prop</code>.</p>
+<section id="quotient-types" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="quotient-types"><span class="header-section-number">1</span> Quotient types</h2>
+<p>We still build up the theory from sets.</p>
+<section id="equivalence-setoid-quotient-types" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="equivalence-setoid-quotient-types"><span class="header-section-number">1.1</span> <code>Equivalence</code>, <code>Setoid</code>, quotient types</h3>
+<p>First, we need to define equivalence relations on a type <code>α</code>. As you can guess, a binary relation <code>r</code> is just a <code>α → α → Prop</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {α : <span class="fu">Type</span>*} {r : α → α → <span class="fu">Prop</span>} (a b c : α)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -319,32 +336,273 @@ MathJax = {
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  r <span class="op">:=</span> NN_r</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  iseqv <span class="op">:=</span> NN_equiv</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="at">@[simp]</span> <span class="kw">lemma</span> <span class="fu">NN0</span>_r_of_equiv {z w : ℕ × ℕ} : z ≈ w ↔ NN_r z w <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="dv">1</span>, <span class="dv">2</span>) ≈ (<span class="dv">2</span>, <span class="dv">3</span>) <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n m p : ℕ) : (n, m) ≈ (n + p, m + p) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span>; <span class="fu">ring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- tag as `simp` lemma for auto decomposition</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="at">@[simp]</span> <span class="kw">lemma</span> <span class="fu">NN0</span>_r_of_equiv {z w : ℕ × ℕ} : z ≈ w ↔ NN_r z w <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="dv">1</span>, <span class="dv">2</span>) ≈ (<span class="dv">2</span>, <span class="dv">3</span>) <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n m p : ℕ) : (n, m) ≈ (n + p, m + p) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span>; <span class="fu">ring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>From a <code>Setoid α</code> instance <code>s</code>, we can define the quotient type <code>Quotient s</code>. The elements of <code>Quotient s</code>, are mathematically viewed as equivalence classes of <code>α</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For example, the following defines the type <code>Z</code> of integers as the quotient of <code>ℕ × ℕ</code> by the equivalence relation <code>NN_r</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">Z</span> <span class="op">:=</span> Quotient NN_setoid</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Inductive types have their introduction rules and elimination rules. Similar self-evident rules exist for quotient types.</p>
-<p>The introduction rule is given by <code>Quotient.mk</code>, essentially a map from <code>α → Quotient s</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> Quotient.mk NN_setoid (<span class="dv">3</span>, <span class="dv">5</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> Quotient.mk' (<span class="dv">3</span>, <span class="dv">5</span>) <span class="co">-- this version detects the `Setoid` instance in the context</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> ⟦(<span class="dv">3</span>, <span class="dv">5</span>)⟧ <span class="co">-- anonymous "constructor" for `Quotient`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-universal-properties" class="level3" data-number="1.2">
+<h3 data-number="1.2" class="anchored" data-anchor-id="the-universal-properties"><span class="header-section-number">1.2</span> The universal properties</h3>
+<p>Quotient types behave similarly to inductive types. But there is a key difference: Inductive types have their internal data directly accessible (via pattern matching and its elimination rules), while the internal data of a quotient type is hidden behind the equivalence relation.</p>
+<p>The introduction rule of a Quotient type is given by <code>Quotient.mk</code>, essentially a map from <code>α → Quotient s</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.mk</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> Quotient.mk NN_setoid (<span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> Quotient.mk' (<span class="dv">3</span>, <span class="dv">5</span>) <span class="co">-- this version detects the `Setoid` instance in the context</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Z <span class="op">:=</span> ⟦(<span class="dv">3</span>, <span class="dv">5</span>)⟧ <span class="co">-- anonymous "constructor" for `Quotient`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Two elements of an inductive type are equal, iff they are constructed from the same data using the same constructor.</p>
 <p>This is different in the case of quotient types, since the same equivalence class can be represented by different elements of <code>α</code>.</p>
-<p>So quotient types need an additional “soundness” axiom to clarify when two quotient elements, coming from two possibly different representatives in <code>α</code>, are equal.</p>
+<p>So quotient types need an additional “soundness” axiom to clarify when two quotient elements, coming from two possibly different representatives in <code>α</code>, are equal. It is an axiom in Lean, hence the equality is not definitional.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.sound</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.lift</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.ind</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.mk</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⟦(<span class="dv">3</span>, <span class="dv">5</span>)⟧ : Z) = ⟦(<span class="dv">4</span>, <span class="dv">6</span>)⟧ <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Quotient.sound</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The following two self-evident rules are the elimination rules for quotient types in <code>Sort*</code> and <code>Prop</code> respectively.</p>
+<p><code>Quotient.lift</code> is essentially the universal property of quotients: It allows us to define functions out of a quotient type <code>Quotient s</code> by defining them on representatives in <code>α</code>, once we verify that the function respects the equivalence relation <code>s.r</code>.</p>
+<p>[IGNORE] Note that <code>Quotient.lift</code> does not allow a motive depending on the input, since the well-definedness needs to be verified in the same type. Quotient types do have a dependent recursor, called <code>Quotient.rec</code>. With a more complicated type signature, it is more “tricky” to use and not often needed in practice.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.lift</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The universal property, true by definition</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.lift_mk</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As an example, we define the negation function on integers.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">Z</span>_neg : Z → Z <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Quotient.lift (<span class="kw">fun</span> ⟨z1, z2⟩ ↦ ⟦(z2, z1)⟧ : ℕ × ℕ → Z)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ⟨z1, z2⟩ ⟨w1, w2⟩ h</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsimp</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Quotient.sound</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> <span class="fu">at</span> *</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  linarith only [h]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Activate the <code>-</code> notation for <code>Z</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> : <span class="fu">N</span>eg Z <span class="op">:=</span> ⟨Z_neg⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Define the multiplication on <code>Z</code>. It uses <code>Quotient.lift₂</code>, which is for binary operations on quotient types. Challenge: Define Quotient.lift₂ by yourself!</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.lift₂</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">Z</span>_mul : Z → Z → Z <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Quotient.lift₂</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">fun</span> ⟨z1, z2⟩ ⟨w1, w2⟩ ↦ ⟦(z1 * w1 + z2 * w2, z1 * w2 + z2 * w1)⟧ : ℕ × ℕ → ℕ × ℕ → Z)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ⟨z1, z2⟩ ⟨w1, w2⟩ ⟨u1, u2⟩ ⟨v1, v2⟩ h1 h2</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsimp</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Quotient.sound</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> <span class="fu">at</span> *</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  nlinarith only [h1, h2]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Activate the <code>*</code> notation for <code>Z</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> : <span class="fu">Mu</span>l Z <span class="op">:=</span> ⟨Z_mul⟩</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>Quotient.ind</code> is also an elimination rule for quotient types, but it focuses on proving propositions about quotient types. As <code>Prop</code> is proof-irrelevant, a different proof for different representatives does not matter. Hence, the equivalence relation does not need to be verified here. ([IGNORE] and a motive depending on the input is allowed here)</p>
+<p>In effect, <code>Quotient.ind</code> states that we may assume any quotient element is constructed from a representative in <code>α</code> when proving propositions about quotient types. Or, the canonical map <code>α → Quotient s</code> is surjective when used in <code>Prop</code>.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.ind</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As an example, we prove that <code>(-z) * (-z) = z * z</code> for any integer <code>z</code>.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (z : Z) → (-z) * (-z) = z * z <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Quotient.ind</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> ⟨z1, z2⟩</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Quotient.sound</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span>; <span class="fu">ring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In tactic mode, <code>induction' ... using Quotient.ind with ...</code> is often used.</p>
+<p>You should convince yourself that this in effect act like an <code>rcases ... with ...</code> decomposition, and <code>using Quotient.ind</code> emphasizes that we are using the elimination rule for quotients. The full use of <code>induction'</code> can be touched only when inductive types are fully covered.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>#help tactic induction'</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (z : Z) : (-z) * (-z) = z * z <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  induction' z using Quotient.ind <span class="fu">with</span> z</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> z <span class="fu">with</span> ⟨z1, z2⟩</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> Quotient.sound</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span>; <span class="fu">ring</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>There is also <code>Quotient.ind₂</code> for proving propositions about two quotient elements. Many other variations for <code>Quotient.ind</code> and <code>Quotient.lift</code> exist as well.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.ind₂</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.ind'</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.liftOn</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.liftOn'</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.inductionOn</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Quotient.inductionOn'</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="quotient-types-under-morphisms" class="level3" data-number="1.3">
+<h3 data-number="1.3" class="anchored" data-anchor-id="quotient-types-under-morphisms"><span class="header-section-number">1.3</span> Quotient types under morphisms</h3>
+<div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Lifting functions does not change its range. [TODO]</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.range_quotient_lift</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="quotient-groups" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="quotient-groups"><span class="header-section-number">2</span> Quotient groups</h2>
+<p>We are now ready to define quotient groups.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (G : <span class="fu">Type</span>*) [Group G] (H : Subgroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="left-coset-relation" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="left-coset-relation"><span class="header-section-number">2.1</span> Left coset relation</h3>
+<p>The notation <code>G ⧸ H</code> is, mathematically, the left cosets of <code>H</code> in <code>G</code>. In Lean, it is defined as the quotient type of <code>G</code> by the left coset equivalence relation induced by <code>H</code>.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> QuotientGroup.leftRel H</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The definition of <code>QuotientGroup.leftRel H</code> is hidden deep inside Mathlib for general usability. Practically, we only need to know its meaning (up to logical equivalence). [IGNORE] See the appendix at the end of this file for the definitional one.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a b : G) : (QuotientGroup.leftRel H) a b ↔ a⁻¹ * b ∈ H <span class="op">:=</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  QuotientGroup.leftRel_apply</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This in turn allows us to define the left coset type <code>G ⧸ H</code> via quotient types.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>#synth HasQuotient G (Subgroup G)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> G ⧸ H</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-group-structure" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="the-group-structure"><span class="header-section-number">2.2</span> The group structure</h3>
+<p>With the normality of <code>H</code>, the group structure on <code>G ⧸ H</code> is induced from that of <code>G</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> [H.Normal]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We illustrate how to define the group structure on <code>G ⧸ H</code> manually here, from <code>Semigroup</code> to <code>Monoid</code> to <code>Group</code>.</p>
+<p>Note that it is just an illustration; in practice, you may wish to use the <code>Group.ofLeftAxioms</code> constructor from Mathlib instead.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>ySemigroup : Semigroup (G ⧸ H) where</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  mul <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.lift₂ (<span class="kw">fun</span> (a b : G) ↦ ⟦a * b⟧)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a1 a2 b1 b2 h1 h2</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.sound</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    change QuotientGroup.leftRel H a1 b1 <span class="fu">at</span> h1</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    change QuotientGroup.leftRel H a2 b2 <span class="fu">at</span> h2</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    change QuotientGroup.leftRel H (a1 * a2) (b1 * b2)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [QuotientGroup.leftRel_apply] <span class="fu">at</span> h1 h2 ⊢</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> hn : H.Normal <span class="op">:=</span> inferInstance; <span class="fu">rcases</span> hn <span class="fu">with</span> ⟨hn⟩</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> hn (a1⁻¹ * b1) h1 a2⁻¹</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [inv_inv] <span class="fu">at</span> hn</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    haveI : (a1 * a2)⁻¹ * (b1 * b2) =</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>        a2⁻¹ * (a1⁻¹ * b1) * a2 * (a2⁻¹ * b2) <span class="op">:=</span> <span class="kw">by</span> group</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [this]</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> mul_mem hn h2</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  mul_assoc <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a b c</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    induction' a using Quotient.ind <span class="fu">with</span> a</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    induction' b using Quotient.ind <span class="fu">with</span> b</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    induction' c using Quotient.ind <span class="fu">with</span> c</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.sound</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [mul_assoc]</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> <span class="fu">refl</span></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>#synth Semigroup (G ⧸ H)</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (QuotientGroup.Quotient.group H).toSemigroup = mySemigroup G H <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yMonoid : Monoid (G ⧸ H) where</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>  one <span class="op">:=</span> ⟦<span class="dv">1</span>⟧</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>  one_mul <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>    induction' a using Quotient.ind <span class="fu">with</span> a</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.sound; <span class="fu">dsimp</span></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [one_mul]</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> <span class="fu">refl</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>  mul_one <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a</span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>    induction' a using Quotient.ind <span class="fu">with</span> a</span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.sound; <span class="fu">dsimp</span></span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [mul_one]</span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> <span class="fu">refl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[TODO] For unknown reason we can’t show a definitional equality here.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>#synth Monoid (G ⧸ H)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (QuotientGroup.Quotient.group H).toMonoid = myMonoid G H <span class="op">:=</span> <span class="kw">by</span> ext; <span class="fu">rfl</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yGroup : Group (G ⧸ H) where</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  inv <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.lift (<span class="kw">fun</span> a ↦ ⟦a⁻¹⟧)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a1 a2 h</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.sound</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    change QuotientGroup.leftRel H a1 a2 <span class="fu">at</span> h</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    change QuotientGroup.leftRel H a1⁻¹ a2⁻¹</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [QuotientGroup.leftRel_apply] <span class="fu">at</span> h ⊢</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [inv_inv]</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace</span> h <span class="op">:=</span> inv_mem h</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> <span class="fu">at</span> h ⊢</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> hn : H.Normal <span class="op">:=</span> inferInstance; <span class="fu">rcases</span> hn <span class="fu">with</span> ⟨hn⟩</span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> hn (a2⁻¹ * a1) h a2</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> <span class="fu">at</span> hn; <span class="fu">exact</span> hn</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  div a b <span class="op">:=</span> a * b⁻¹</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>  inv_mul_cancel <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a</span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    induction' a using Quotient.ind <span class="fu">with</span> a</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.sound; <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>[TODO] For unknown reason we can’t show a definitional equality here.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>#synth Group (G ⧸ H)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : QuotientGroup.Quotient.group H = myGroup G H <span class="op">:=</span> <span class="kw">by</span> ext; <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>the Mathlib instance for <code>Group (G ⧸ H)</code></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>#synth Group (G ⧸ H)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>the canonical group epimorphism from <code>G</code> to <code>G ⧸ H</code></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> QuotientGroup.mk'</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="lifting-a-group-homomorphism" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="lifting-a-group-homomorphism"><span class="header-section-number">2.3</span> Lifting a group homomorphism</h3>
+<p>We now need to upgrade <code>Quotient.lift</code> to respect the group structure, so that we can define morphisms between quotient groups via universal properties.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G M: <span class="fu">Type</span>*} [Group G] [Group M] (N : Subgroup G) [N.Normal]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now we upgrade <code>Quotient.lift</code> to respect the group structure.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (ϕ : G →* M)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (HN : N ≤ ϕ.ker) : (G ⧸ N) →* M where</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  toFun <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.lift ϕ</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a b h</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    change QuotientGroup.leftRel N a b <span class="fu">at</span> h</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [QuotientGroup.leftRel_apply] <span class="fu">at</span> h</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    haveI <span class="op">:=</span> HN h; <span class="fu">simp</span> <span class="fu">at</span> this</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> eq_of_inv_mul_eq_one this</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  map_mul' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a b</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>    induction' a using Quotient.ind <span class="fu">with</span> a</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    induction' b using Quotient.ind <span class="fu">with</span> b</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">repeat</span> <span class="fu">rw</span> [Quotient.lift_mk]</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> map_mul</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  map_one' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>    conv =&gt; lhs; rhs; change ⟦<span class="dv">1</span>⟧</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [Quotient.lift_mk]</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> map_one</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> QuotientGroup.lift</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="quotient-groups-under-morphisms" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="quotient-groups-under-morphisms"><span class="header-section-number">2.4</span> Quotient groups under morphisms</h3>
+<p>[TODO] Upgrade <code>Set.range_quotient_lift</code> to groups.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (HN : N ≤ ϕ.ker) : (QuotientGroup.lift N ϕ HN).range = ϕ.range <span class="op">:=</span> <span class="kw">by</span> <span class="al">sorry</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="the-first-isomorphism-theorem" class="level3" data-number="2.5">
+<h3 data-number="2.5" class="anchored" data-anchor-id="the-first-isomorphism-theorem"><span class="header-section-number">2.5</span> The first isomorphism theorem</h3>
+<p>Finally, we come to our grand finale.</p>
+<p>Now we can lift the group homomorphisms <code>ϕ : G →* M</code> to <code>G ⧸ ker ϕ →* M</code>.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : G ⧸ ϕ.ker →* M <span class="op">:=</span> QuotientGroup.lift ϕ.ker ϕ (<span class="kw">by</span> <span class="fu">simp</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The first isomorphism theorem: <code>G ⧸ ker ϕ ≃* range ϕ</code>.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> QuotientGroup.quotientKerEquivRange</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="appendix-tracing-down-the-definition-of-coset-relations" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="appendix-tracing-down-the-definition-of-coset-relations"><span class="header-section-number">3</span> Appendix: tracing down the definition of coset relations</h2>
+<div class="sourceCode" id="cb37"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G : <span class="fu">Type</span>*} [Group G] (H : Subgroup G)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a b : G) : QuotientGroup.leftRel H a b = (<span class="kw">∃</span> (h : H.op), b * (h : Gᵐᵒᵖ).unop = a) <span class="op">:=</span> <span class="kw">calc</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  QuotientGroup.leftRel H a b</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    = (QuotientGroup.leftRel H).r a b <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  _ = (MulAction.orbitRel H.op G).r a b <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  _ = (a ∈ MulAction.orbit H.op b) <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  _ = (<span class="kw">∃</span> (h : H.op), h • b = a) <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>  _ = (<span class="kw">∃</span> (h : H.op), b * (h : Gᵐᵒᵖ).unop = a) <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a b : G) : QuotientGroup.rightRel H a b = (<span class="kw">∃</span> (h : H), h * b = a) <span class="op">:=</span> <span class="kw">calc</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>  QuotientGroup.rightRel H a b</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>    = (QuotientGroup.rightRel H).r a b <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>  _ = (MulAction.orbitRel H G).r a b <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>  _ = (a ∈ MulAction.orbit H b) <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>  _ = (<span class="kw">∃</span> (h : H), h • b = a) <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>  _ = (<span class="kw">∃</span> (h : H), h * b = a) <span class="op">:=</span> <span class="fu">rfl</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
