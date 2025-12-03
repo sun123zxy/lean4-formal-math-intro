@@ -1,6 +1,4 @@
 /-
-# Quotients
-
 After building up the theory of groups, homorphisms, and subgroups,
 we are now ready to define quotient groups.
 
@@ -396,7 +394,7 @@ so that we can define morphisms between quotient groups via universal properties
 
 section
 
-variable {G M: Type*} [Group G] [Group M] (N : Subgroup G) [N.Normal]
+variable {G M : Type*} [Group G] [Group M] (N : Subgroup G) [N.Normal]
 
 /-
 Now we upgrade `Quotient.lift` to respect the group structure.
