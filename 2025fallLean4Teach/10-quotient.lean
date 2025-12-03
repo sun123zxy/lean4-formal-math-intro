@@ -19,7 +19,7 @@ import Mathlib
 /-
 ## Quotient types
 
-We still build up the theory from sets.
+We still build up the theory from types.
 
 ### `Equivalence`, `Setoid`, quotient types
 
@@ -42,6 +42,7 @@ variable (r_equiv : Equivalence r)
 example : r a a := by exact r_equiv.refl _
 example : r a b → r b a := by exact r_equiv.symm
 example : r a b → r b c → r a c := by exact r_equiv.trans
+
 end
 
 /-
