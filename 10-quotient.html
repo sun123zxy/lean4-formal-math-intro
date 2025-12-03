@@ -232,9 +232,7 @@ MathJax = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#quotients" id="toc-quotients" class="nav-link active" data-scroll-target="#quotients"><span class="header-section-number"></span> Quotients</a>
-  <ul class="collapse">
-  <li><a href="#quotient-types" id="toc-quotient-types" class="nav-link" data-scroll-target="#quotient-types"><span class="header-section-number">1</span> Quotient types</a>
+  <li><a href="#quotient-types" id="toc-quotient-types" class="nav-link active" data-scroll-target="#quotient-types"><span class="header-section-number">1</span> Quotient types</a>
   <ul class="collapse">
   <li><a href="#equivalence-setoid-quotient-types" id="toc-equivalence-setoid-quotient-types" class="nav-link" data-scroll-target="#equivalence-setoid-quotient-types"><span class="header-section-number">1.1</span> <code>Equivalence</code>, <code>Setoid</code>, quotient types</a></li>
   <li><a href="#the-universal-properties" id="toc-the-universal-properties" class="nav-link" data-scroll-target="#the-universal-properties"><span class="header-section-number">1.2</span> The universal properties</a></li>
@@ -249,7 +247,6 @@ MathJax = {
   <li><a href="#the-first-isomorphism-theorem" id="toc-the-first-isomorphism-theorem" class="nav-link" data-scroll-target="#the-first-isomorphism-theorem"><span class="header-section-number">2.5</span> The first isomorphism theorem</a></li>
   </ul></li>
   <li><a href="#appendix-tracing-down-the-definition-of-coset-relations" id="toc-appendix-tracing-down-the-definition-of-coset-relations" class="nav-link" data-scroll-target="#appendix-tracing-down-the-definition-of-coset-relations"><span class="header-section-number">3</span> Appendix: tracing down the definition of coset relations</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -281,8 +278,6 @@ MathJax = {
 </header>
 
 
-<section id="quotients" class="level1" data-number="">
-<h1 data-number=""><span class="header-section-number"></span> Quotients</h1>
 <p>After building up the theory of groups, homorphisms, and subgroups, we are now ready to define quotient groups.</p>
 <p>In fact, quotients are so fundamental that Lean makes them a primitive way of constructing new types. [IGNORE] Other reasons including the foundation of <code>funext</code>, see <a href="https://lean-lang.org/doc/reference/latest/The-Type-System/Quotients/#quotient-funext">The Lean Language Manual</a>.</p>
 <p>We shall first illustrate the general quotient construction in Lean, and then specialize it to quotient groups.</p>
@@ -290,7 +285,7 @@ MathJax = {
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="quotient-types" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="quotient-types"><span class="header-section-number">1</span> Quotient types</h2>
-<p>We still build up the theory from sets.</p>
+<p>We still build up the theory from types.</p>
 <section id="equivalence-setoid-quotient-types" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="equivalence-setoid-quotient-types"><span class="header-section-number">1.1</span> <code>Equivalence</code>, <code>Setoid</code>, quotient types</h3>
 <p>First, we need to define equivalence relations on a type <code>α</code>. As you can guess, a binary relation <code>r</code> is just a <code>α → α → Prop</code>.</p>
@@ -308,7 +303,8 @@ MathJax = {
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.<span class="fu">refl</span> _</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a b → r b a <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.symm</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : r a b → r b c → r a c <span class="op">:=</span> <span class="kw">by</span> <span class="fu">exact</span> r_equiv.trans</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>As a running example, we can define an equivalence relation on <code>ℕ × ℕ</code>, which ultimately gives us the construction of integers from natural numbers.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -539,7 +535,7 @@ MathJax = {
 <p>We now need to upgrade <code>Quotient.lift</code> to respect the group structure, so that we can define morphisms between quotient groups via universal properties.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="pp">section</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G M: <span class="fu">Type</span>*} [Group G] [Group M] (N : Subgroup G) [N.Normal]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> {G M : <span class="fu">Type</span>*} [Group G] [Group M] (N : Subgroup G) [N.Normal]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now we upgrade <code>Quotient.lift</code> to respect the group structure.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">variable</span> (ϕ : G →* M)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -605,7 +601,6 @@ MathJax = {
 <span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
