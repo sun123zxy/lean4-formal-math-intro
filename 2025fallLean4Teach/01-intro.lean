@@ -85,6 +85,6 @@ In this part, we cover:
 You may notice along the way that except `→`,
 all other logical connectives are defined as *inductive types*.
 And they have their own *self-evident* *introduction rules* and *elimination rules*.
-We shall discuss inductive types later in this course.
+If possible, we might discuss inductive types later in this course.
 These logical connectives serve as good examples.
 -/
