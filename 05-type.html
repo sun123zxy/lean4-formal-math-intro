@@ -243,7 +243,7 @@ MathJax = {
   <li><a href="#working-in-commring" id="toc-working-in-commring" class="nav-link" data-scroll-target="#working-in-commring"><span class="header-section-number">3.2</span> Working in <code>CommRing</code></a></li>
   <li><a href="#funext-and-propext" id="toc-funext-and-propext" class="nav-link" data-scroll-target="#funext-and-propext"><span class="header-section-number">3.3</span> <code>funext</code> and <code>propext</code></a></li>
   </ul></li>
-  <li><a href="#defining-terms-and-functions" id="toc-defining-terms-and-functions" class="nav-link" data-scroll-target="#defining-terms-and-functions"><span class="header-section-number">4</span> Defining terms and functions</a>
+  <li><a href="#definitions-and-definitional-equality" id="toc-definitions-and-definitional-equality" class="nav-link" data-scroll-target="#definitions-and-definitional-equality"><span class="header-section-number">4</span> Definitions, and definitional equality</a>
   <ul class="collapse">
   <li><a href="#global-definitions" id="toc-global-definitions" class="nav-link" data-scroll-target="#global-definitions"><span class="header-section-number">4.1</span> Global definitions</a></li>
   <li><a href="#local-definitions" id="toc-local-definitions" class="nav-link" data-scroll-target="#local-definitions"><span class="header-section-number">4.2</span> Local definitions</a></li>
@@ -534,8 +534,8 @@ MathJax = {
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [h]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
-<section id="defining-terms-and-functions" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="defining-terms-and-functions"><span class="header-section-number">4</span> Defining terms and functions</h2>
+<section id="definitions-and-definitional-equality" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="definitions-and-definitional-equality"><span class="header-section-number">4</span> Definitions, and definitional equality</h2>
 <p>We now come back to detail a little on the exact power of <code>rfl</code>, i.e.&nbsp;what is the meaning of definitional equality.</p>
 <p>First, we show how to define terms and functions in Lean.</p>
 <section id="global-definitions" class="level3" data-number="4.1">
@@ -639,29 +639,35 @@ MathJax = {
 <div class="sourceCode" id="cb48"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">rfl</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : True ↔ True <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>dsimp</code> is a weaker version of <code>simp</code>, which only applies (obvious) definitional equalities to simplify an expression.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>#help tactic <span class="fu">dsimp</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a b c : ℕ) : <span class="dv">0</span> + a = a - (a + <span class="dv">0</span>) + a <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsimp</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>These are some non-examples for definitional equality. They are only propositionally equal, by <code>propext</code> and logical equivalence.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (p : Prop) : True ↔ (p → True) := by rfl</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- example True ↔ ¬ False := by rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (p : Prop) : True ↔ (p → True) := by rfl</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- example True ↔ ¬ False := by rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="type-checking" class="level4">
 <h4 class="anchored" data-anchor-id="type-checking">Type checking</h4>
 <p>Type checking is determined up to definitional equality.</p>
 <p>In fact, it’s the sole responsibility of Lean’s compiler to check definitional equalities.</p>
 <p>An failure of definitional equality results in a type error. That is, it is regarded as invalid Lean code.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yType <span class="op">:=</span> ℚ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yType <span class="op">:=</span> ℚ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This won’t compile, because Lean do not know a coercion of <code>ℕ → myType</code>.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- def myTypeNumber := (998244353 : myType)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- def myTypeNumber := (998244353 : myType)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This passes the type check. because we manually build a bridge here: Lean knows the coercion <code>ℕ → ℚ</code> and that <code>myType</code> is definitionally equal to <code>ℚ</code>.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yTypeNumber : myType <span class="op">:=</span> (<span class="dv">998244353</span> : ℚ)</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yTypeNumber : myType <span class="op">:=</span> (<span class="dv">998244353</span> : ℚ)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This also passes the type check for the same reason.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber = myNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber = myNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The type of <code>myNumber : ℚ</code> and <code>myTypeNumber : myType</code> are definitionally equal, thus the equality passes the type check. Their values are also definitionally equal, so you can prove their equality by <code>rfl</code>.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : myTypeNumber = myNumber <span class="op">:=</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : myTypeNumber = myNumber <span class="op">:=</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>abbrev</code> defines an abbreviation, which is like a <code>def</code>, but always expands when processed. This is useful for type synonyms.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>abbrev myAbbrev <span class="op">:=</span> ℚ</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yAbbrevNumber : myAbbrev <span class="op">:=</span> <span class="dv">998244353</span></span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myAbbrevNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>abbrev myAbbrev <span class="op">:=</span> ℚ</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yAbbrevNumber : myAbbrev <span class="op">:=</span> <span class="dv">998244353</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myAbbrevNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="propositional-equality" class="level4">
 <h4 class="anchored" data-anchor-id="propositional-equality">Propositional equality</h4>
@@ -673,9 +679,9 @@ MathJax = {
 </ul>
 <p>Propositional equality is not a meta-level concept. It’s a proposition in <code>Prop</code> that may be proved or disproved.</p>
 <p>Propositional equality on types does not get the types check. For example, this won’t compile.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

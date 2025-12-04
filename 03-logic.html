@@ -273,7 +273,6 @@ window.Quarto = {
   <li><a href="#exists" id="toc-exists" class="nav-link" data-scroll-target="#exists"><span class="header-section-number">2.2</span> <code>Exists</code> (<code>∃</code>)</a></li>
   </ul></li>
   <li><a href="#ignore-a-cosmological-remark-continued" id="toc-ignore-a-cosmological-remark-continued" class="nav-link" data-scroll-target="#ignore-a-cosmological-remark-continued"><span class="header-section-number">3</span> [IGNORE] A cosmological remark, continued</a></li>
-  <li><a href="#remainder" id="toc-remainder" class="nav-link" data-scroll-target="#remainder"><span class="header-section-number">4</span> Remainder</a></li>
   </ul>
 </nav>
     </div>
@@ -575,7 +574,7 @@ window.Quarto = {
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> hf a hpa</span>
 <span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">∀</span> x, p x → r) → ((<span class="kw">∃</span> x, p x) → r) <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h ⟨a, hpa⟩ <span class="co">-- you may also `rcases` explicitly</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> h ⟨a, hpa⟩ <span class="co">-- you may also `rcases` implicitly</span></span>
 <span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h a hpa</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] reverse direction is also true</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> :  ((<span class="kw">∃</span> x, p x) → r) → (<span class="kw">∀</span> x, p x → r) <span class="op">:=</span> <span class="kw">by</span></span>
@@ -640,11 +639,6 @@ window.Quarto = {
 <span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Nonempty <span class="co">-- a proof of non-emptiness living in `Prop`</span></span>
 <span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="at">#print</span> Inhabited <span class="co">-- an designated element living in `Sort*`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="remainder" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="remainder"><span class="header-section-number">4</span> Remainder</h2>
-<p><code>Iff</code> (<code>↔︎</code>), second visit, bundled and unbundled version</p>
-<p>we do it with <code>Eq</code>? <code>Eq</code> is hard. Maybe a second visit when touching inductive types.</p>
 
 
 </section>
