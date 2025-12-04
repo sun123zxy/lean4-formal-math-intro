@@ -55,19 +55,19 @@ example (n : ℕ) : n ∈ {x | x > 514} ↔ n > 514 := by rfl
 #check (∅ : Set α)
 example : ∅ = {x : α | False} := by rfl
 example : a ∈ (∅ : Set α) ↔ False := by rfl
-#check Set.mem_empty_iff_false -- corresponding [@simp] lemma
+#check Set.mem_empty_iff_false -- corresponding `simp` lemma
 
 /- The universal subset -/
 #check (Set.univ : Set α)
 example : Set.univ = {x : α | True} := by rfl
 example : a ∈ Set.univ := by trivial
-#check Set.mem_univ -- corresponding [@simp] lemma
+#check Set.mem_univ -- corresponding `simp` lemma
 
 /- The complement of a subset `Set.compl s` -/
 #check sᶜ
 example : sᶜ = {x | x ∉ s} := by rfl
 example : a ∈ sᶜ ↔ a ∉ s := by rfl
-#check Set.mem_compl -- corresponding [@simp] lemma
+#check Set.mem_compl -- corresponding `simp` lemma
 
 /- Subset relation `Set.Subset s t` -/
 #check s ⊆ t
@@ -120,7 +120,7 @@ variable {α β : Type*} (f : α → β) (s : Set α) (t : Set β) (a : α) (b :
 example : Set.range f = {y | ∃ x, f x = y} := by rfl
 example : Set.range f = {f x | x : α} := by rfl -- set-builder notation for range
 example : b ∈ Set.range f ↔ ∃ x, f x = b := by rfl
-#check Set.mem_range -- corresponding [@simp] lemma
+#check Set.mem_range -- corresponding `simp` lemma
 
 /- image of a subset `Set.image f s` -/
 #check f '' s
@@ -128,14 +128,14 @@ example : b ∈ Set.range f ↔ ∃ x, f x = b := by rfl
 example : f '' s = {y | ∃ x ∈ s, f x = y} := by rfl
 example : f '' s = {f x | x ∈ s} := by rfl -- set-builder notation for image
 example : b ∈ f '' s ↔ ∃ x ∈ s, f x = b := by rfl
-#check Set.mem_image -- corresponding [@simp] lemma
+#check Set.mem_image -- corresponding `simp` lemma
 
 /- Preimage of a subset `Set.preimage f t` -/
 #check f ⁻¹' t
 #check Set.preimage f t
 example : f ⁻¹' t = {x | f x ∈ t} := by rfl
 example : a ∈ f ⁻¹' t ↔ f a ∈ t := by rfl
-#check Set.mem_preimage -- corresponding [@simp] lemma
+#check Set.mem_preimage -- corresponding `simp` lemma
 
 /-
 Note the following is not a definitional equality.
@@ -147,7 +147,7 @@ example : f '' Set.univ = Set.range f := by
   ext x
   rw [Set.mem_range, Set.mem_image]
   simp only [Set.mem_univ, true_and]
-#check Set.image_univ -- corresponding [@simp] lemma
+#check Set.image_univ -- corresponding `simp` lemma
 
 /-
 We teach an syntax sugar of `rcases` here:
@@ -180,7 +180,7 @@ example : f '' s ⊆ t ↔ s ⊆ f ⁻¹' t := by
     specialize h hxs
     simp only [Set.mem_preimage] at h
     exact h
-#check Set.image_subset_iff -- corresponding [@simp] lemma
+#check Set.image_subset_iff -- corresponding `simp` lemma
 
 end
 
