@@ -4,4 +4,24 @@ project:
 website:
   site-url: "https://sun123zxy.github.io/2025fall-lean4-teach/"
   sidebar:
-    contents: auto
+    contents:
+      - index.qmd
+      - section: Prelude
+        contents:
+          - intro.qmd
+          - 01-intro.qmd
+      - section: Prop
+        contents:
+          - 02-logic.qmd
+          - 03-logic.qmd
+          - 04-logic.qmd
+      - section: Type
+        contents:
+          - 05-type.qmd
+          - 06-ineq.qmd
+          - 07-analysis.qmd
+      - section: Structure
+        contents:
+          - 08-group.qmd
+          - 09-subgroup.qmd
+          - 10-quotient.qmd
