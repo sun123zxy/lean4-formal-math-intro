@@ -1,17 +1,17 @@
 /-
-In this file, we illustrate how Mathlib develops the theory of everyday algebraic structures,
-starting from semigroups, monoids, groups, and their morphisms.
+The ultimate goal of the following several lectures is
+to state and prove the First Isomorphism Theorem for groups.
 
-By "illustrate", we do not mean to reconstruct these structures from scratch,
-as we haven't yet covered how to define structures and type classes in Lean.
+You might notice that starting from now, every lecture gets intolerablely lengthy.
+Unfortunately, this is the nature of formal mathematics. One has to endure this
+pain to reach the harmony of full formalization.
 
-Instead, we accept the Mathlib definitions and axioms,
-but reprove some of their consequences manually,
-with mention of the relevant theorems in Mathlib.
-
-Hopefully, this will help you focus on building up the theory mathematically
-while getting familiar with the Mathlib API.
+We organize the materials with respect to the philosophy of "illustrate the theory"
+(see the Preface if you don't know what this means),
 Be advised that you can always ctrl+click on any name to see its actual definition in Mathlib.
+
+In this lecture, we illustrate how Mathlib develops the theory of everyday algebraic structures,
+starting from semigroups, monoids, groups, and their morphisms.
 
 For a more complete treatment (especially on the philosophy behind API design),
 read [MiL](https://leanprover-community.github.io/mathematics_in_lean/) chapter 7 and 9.
@@ -201,7 +201,7 @@ example (h : a * b = a * c) : b = c := by
   apply_fun (a⁻¹ * ·) at h
   rw [← mul_assoc, ← mul_assoc, inv_mul_cancel, one_mul, one_mul] at h
   exact h
-#check mul_left_cancel -- this has a name
+#check mul_left_cancel -- corresponding Mathlib theorem
 
 /- [EXR] a left inverse actually also a right inverse -/
 example : a * a⁻¹ = 1 := by
@@ -209,7 +209,7 @@ example : a * a⁻¹ = 1 := by
   · dsimp
     rw [← mul_assoc, inv_mul_cancel, one_mul, mul_one]
   · apply mul_left_cancel
-#check mul_inv_cancel -- this has a name
+#check mul_inv_cancel -- corresponding Mathlib theorem
 
 /-
 The following proves that `G` is a `DivisionMonoid`.
@@ -221,26 +221,26 @@ You don't need to know what this means for now.
 example (h : a * b = 1) : b = a⁻¹ := by
   -- if you does not want to use `apply_fun`
   rw [← one_mul b, ← inv_mul_cancel a, mul_assoc, h, mul_one]
-#check eq_inv_of_mul_eq_one_right -- this has a name
+#check eq_inv_of_mul_eq_one_right -- corresponding Mathlib theorem
 
 /- [EXR] characterization of a left inverse -/
 example (h : a * b = 1) : a = b⁻¹ := by
   apply_fun (· * b⁻¹) at h
   rw [mul_assoc, mul_inv_cancel, mul_one, one_mul] at h
   exact h
-#check eq_inv_of_mul_eq_one_left -- this has a name
+#check eq_inv_of_mul_eq_one_left -- corresponding Mathlib theorem
 
 /- [EXR] involutivity of the inverse -/
 example : (a⁻¹)⁻¹ = a := by
   symm; apply eq_inv_of_mul_eq_one_right
   exact inv_mul_cancel a
-#check inv_inv -- this has a name
+#check inv_inv -- corresponding Mathlib theorem
 
 /- [EXR] inverse of a product -/
 example : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by
   apply inv_eq_of_mul_eq_one_left
   rw [← mul_assoc, mul_assoc b⁻¹, inv_mul_cancel, mul_one, inv_mul_cancel]
-#check mul_inv_rev -- this has a name
+#check mul_inv_rev -- corresponding Mathlib theorem
 
 /-
 some other injectivity
@@ -251,14 +251,14 @@ example (h : a⁻¹ = b⁻¹) : a = b := by
   apply_fun (·⁻¹) at h
   rw [inv_inv a, inv_inv b] at h
   exact h
-#check inv_injective -- this has a name
+#check inv_injective -- corresponding Mathlib theorem
 
 /- [EXR] right multiplication is injective -/
 example (h : b * a = c * a) : b = c := by
   apply_fun (· * a⁻¹) at h
   rw [mul_assoc, mul_assoc, mul_inv_cancel, mul_one, mul_one] at h
   exact h
-#check mul_right_cancel -- this has a name
+#check mul_right_cancel -- corresponding Mathlib theorem
 
 /- wheelchair tactic for groups -/
 #help tactic group
@@ -296,7 +296,7 @@ variable {G₁ G₂ G₃ : Type*} [Group G₁] [Group G₂] [Group G₃]
 example : f (a⁻¹) = (f a)⁻¹ := by
   apply eq_inv_of_mul_eq_one_right
   rw [← map_mul, mul_inv_cancel, map_one]
-#check map_inv -- this has a name
+#check map_inv -- corresponding Mathlib theorem
 
 /-
 [EXR] `MonoidHom` requires one to show preservation of `1`.

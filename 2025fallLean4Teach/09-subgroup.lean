@@ -150,8 +150,25 @@ example : f '' Set.univ = Set.range f := by
 #check Set.image_univ -- corresponding [@simp] lemma
 
 /-
-The so-called Galois connection between image and preimage.
+We teach an syntax sugar of `rcases` here:
+Say we are given `h : y ∈ Set.range f`,
+it is by definition `h : ∃ x, f x = y`.
+`rcases h with ⟨x, rfl⟩` will create a new variable `x : α`,
+and replace all occurrences of `y` in the context with `f x`.
+
+Feel free to combine it with `rintro`.
 -/
+example : Set.range f ⊆ t ↔ ∀ x, f x ∈ t := by
+  constructor
+  · intro h x
+    apply h
+    use x
+  · intro h y hy
+    rcases hy with ⟨x, rfl⟩
+    exact h x
+#check Set.range_subset_iff -- corresponding Mathlib theorem
+
+/- [EXR] The so-called Galois connection between image and preimage. -/
 example : f '' s ⊆ t ↔ s ⊆ f ⁻¹' t := by
   constructor
   · intro h x hx
@@ -159,26 +176,173 @@ example : f '' s ⊆ t ↔ s ⊆ f ⁻¹' t := by
     apply h
     simp only [Set.mem_image]
     use x
-  · intro h y hy
-    rcases hy with ⟨x, hxs, hxy⟩
+  · rintro h y ⟨x, hxs, rfl⟩
     specialize h hxs
     simp only [Set.mem_preimage] at h
-    rw [hxy] at h; exact h
+    exact h
 #check Set.image_subset_iff -- corresponding [@simp] lemma
 
+end
+
 /-
-We recall some definitions about functions.
+### Exercises on functions and subsets
+
+As an (a little bit advanced) exercise, prove that `f` has both inverses iff it is bijective.
+You might need the axiom of choice to construct such inverses.
+Familarize yourself with the following definitions if you haven't seen them before.
 -/
+section
+
 #check Function.comp
 #check Function.Injective
 #check Function.Surjective
 #check Function.Bijective
+
+#check Function.LeftInverse
+#check Function.RightInverse
+
+#check Classical.choose
+
+#check Equiv
+
+/- [EXR] your goal -/
+#check Equiv.ofBijective
 
 /-
 For those seeking a more challenging exercise, try proving the Bernstein–Schroeder theorem.
 See MiL chapter 3 for an answer.
 -/
 #check Function.Embedding.schroeder_bernstein
+
+end
+
+/-
+### Subset as a type
+
+At most of the time, we prefer to write `a ∈ s`-like expressions,
+to indicate that `a : α` belongs to the subset `s : Set α`.
+We prefer this way because this does not create an extra psychological hierarchy in types:
+(recall that `Set α := α → Prop`, which is in the same universe as `α`)
+
+```default
+Type u    α    Set α
+          |      |
+Term      a      s
+```
+
+However, there are situations where we want to treat `a` as an element of `s` directly:
+for example, when we wish to obtain a surjection from a function to its range.
+
+Lean provides a way to do this:
+directly write `a : s` to say `a` is an element of the subset `s`.
+-/
+section
+
+variable {α : Type*} (s : Set α)
+
+variable (a : s)
+#check a
+
+/-
+Note that `a` is now of type `↑s`, not `α`.
+This means that `a` is actually a bundled structure consisting of
+
+- an element of type `α`, denoted by `a.val` or `↑a`
+- a proof of `a.val ∈ s`, denoted by `a.property`
+-/
+#check a.val
+#check a.property
+
+/-
+In tactic mode, `rcases` may be used to destructure `a : s` into its components.
+-/
+example : a.val ∈ s := by
+  rcases a with ⟨v, p⟩
+  exact p
+
+/-
+Given an `v : α` and a proof `p : v ∈ s`,
+we can construct an element of type `s` using `⟨v, p⟩`.
+-/
+example (v : α) (p : v ∈ s) : ∃ a : s, a.val = v := by use ⟨v, p⟩
+
+/-
+Mechanically, when Lean sees `a : s`, it automatically
+coerces `s` to a subtype of `α`, defined as `{x : α // x ∈ s}`.
+That is the coercion sign you see in the result `a : ↑s` of the type check.
+And hence the `a.val` and `a.property` is acutally `Subtype.val a` and `Subtype.property a`.
+
+Though psychologically we have `a : s` and `s : Set α`, the actual hierarchy remains flat:
+
+```default
+Type u      α       Set α        ↑s
+            |         |          |
+Term      a.val       s          a
+```
+-/
+#check Subtype
+#check {x : α // x ∈ s}
+example : {x : α // x ∈ s} = ↑s := by rfl
+
+/-
+It's important to recognize that `Subtype.val : ↑s → α` is injective.
+
+Note that `ext` is a general tactic to reduce
+an equality of structures into equalities of their components.
+You can use `rcases` to do this manually if you wish.
+-/
+example (a₁ a₂ : s) (h : a₁.val = a₂.val) : a₁ = a₂ := by ext; exact h
+#check Subtype.val_injective
+
+end
+
+/-
+### Functions restricted to subsets
+-/
+section
+
+variable {α β : Type*} (f : α → β) (s : Set α) (s' : Set α) (t : Set β)
+
+/-
+Given a function `f : α → β`,
+we can restrict its domain to a subset `s : Set α`.
+-/
+#check Set.restrict
+/- the universal property of `Set.restrict` -/
+example : s.restrict f = f ∘ Subtype.val := by rfl
+#check Set.restrict_apply -- corresponding `simp` lemma
+
+/- the range of a restricted function -/
+example : Set.range (s.restrict f) = f '' s := by
+  ext y
+  constructor
+  · rintro ⟨x, rfl⟩
+    dsimp
+    use x.val, x.property
+  · rintro ⟨x, hx, rfl⟩
+    use ⟨x, hx⟩
+    dsimp
+#check Set.range_restrict -- corresponding `simp` lemma
+
+/-
+Given a function `f : α → β`,
+we can also restrict its codomain to a subset `t : Set β`,
+once we know that `Set.range f ⊆ t`.
+-/
+#check Set.range_subset_iff -- recall what we proved earlier
+#check Set.codRestrict
+example (h : ∀ x, f x ∈ t) : t.codRestrict f h = fun x ↦ ⟨f x, h x⟩ := by rfl
+
+/- the universal property of `Set.codRestrict` -/
+example (h : ∀ x, f x ∈ t) : Subtype.val ∘ (t.codRestrict f h) = f := by
+  funext x
+  rfl
+#check Set.val_codRestrict_apply -- corresponding `simp` lemma
+
+/- restriction on range -/
+#check Set.rangeFactorization
+example : Set.rangeFactorization f = (Set.range f).codRestrict f (by simp) := by rfl
+#check Set.rangeFactorization_coe -- universal property of range restriction
 
 end
 
@@ -319,6 +483,42 @@ example (x : G₂) : x ∈ MulHom.srange f ↔ x ∈ Set.range f := by rfl
 end
 
 /-
+### `Subsemigroup` as a type
+
+Sometimes we treat subset as a type directly. The same applies to subsemigroups.
+-/
+section
+
+variable {G : Type*} [Semigroup G] (H : Subsemigroup G)
+
+variable (a : H)
+#check a
+example : ↥H = {x : G // x ∈ H} := by rfl -- Hence the meaning of `a : H` is coerced
+#check a.val
+#check a.property
+
+end
+
+/-
+### `MulHom` restricted to subsemigroups
+
+Upgraded version of `Set.restrict` and `Set.codRestrict` for `MulHom`.
+-/
+section
+
+variable {G₁ G₂ : Type*} [Semigroup G₁] [Semigroup G₂]
+         (f : G₁ →ₙ* G₂) (H₁ : Subsemigroup G₁) (H₂ : Subsemigroup G₂)
+
+#check MulHom.restrict
+#check MulHom.restrict_apply -- universal property of restriction
+#check MulHom.codRestrict
+#check MulHom.codRestrict_apply_coe -- universal property of codomain restriction
+
+#check MulHom.srangeRestrict -- restriction on range
+
+end
+
+/-
 ## Submonoids
 
 A `Submonoid M` is a subsemigroup of a `Monoid M` that contains the identity element.
@@ -423,6 +623,24 @@ example (x : G₁) : x ∈ MonoidHom.mker f ↔ f x = 1 := by rfl
 end
 
 /-
+### Submonoid as a type, and `MonoidHom` restriction
+
+Tedious upgrade again. Note that `MonoidHom.mker` and `MonoidHom.mrange` steps in.
+-/
+section
+
+#check MonoidHom.restrict
+#check MonoidHom.restrict_apply -- universal property of restriction
+
+#check MonoidHom.codRestrict
+#check MonoidHom.injective_codRestrict -- restriction on codomain preserves injectivity
+
+#check MonoidHom.mrangeRestrict
+#check MonoidHom.coe_mrangeRestrict -- universal property of range restriction
+#check MonoidHom.mrangeRestrict_mker -- restriction on range preserves the kernel
+end
+
+/-
 ### Exercise
 
 As an exercise,
@@ -509,6 +727,49 @@ example : MonoidHom.ker f = (⊥ : Subgroup G₂).comap f := by rfl
 example : MonoidHom.ker f = {MonoidHom.mker f with
       inv_mem' := by simp
     } := by rfl
+
+/- [EXR] injectivity characterization via kernel -/
+example : MonoidHom.ker f = ⊥ ↔ Function.Injective f := by
+  constructor
+  · intro h
+    intro x y hxy
+    apply_fun (· * (f y)⁻¹) at hxy
+    simp only [mul_inv_cancel] at hxy
+    rw [← map_inv, ← map_mul, ← MonoidHom.mem_ker, h, Subgroup.mem_bot] at hxy
+    apply_fun (· * y) at hxy
+    simp at hxy; exact hxy
+  · intro h
+    ext x
+    simp only [MonoidHom.mem_ker, Subgroup.mem_bot]
+    constructor
+    · intro hx
+      rw [← map_one f] at hx
+      exact h hx
+    · intro hx
+      rw [hx]
+      exact map_one f
+#check MonoidHom.ker_eq_bot_iff -- corresponding Mathlib theorem
+
+end
+
+/-
+### Subgroup as a type, and `MonoidHom` restriction
+
+Similar to those for `Submonoid`.
+-/
+section
+
+#check MonoidHom.restrict
+#check MonoidHom.restrict_apply -- universal property of restriction
+
+#check MonoidHom.codRestrict
+#check MonoidHom.ker_codRestrict -- restriction on codomain preserves the kernel
+#check MonoidHom.injective_codRestrict -- restriction on codomain preserves injectivity
+
+#check MonoidHom.rangeRestrict
+#check MonoidHom.coe_rangeRestrict -- universal property of range restriction
+#check MonoidHom.ker_rangeRestrict -- restriction on range preserves the kernel
+#check MonoidHom.rangeRestrict_injective_iff -- restriction on range preserves injectivity
 
 end
 

@@ -238,17 +238,6 @@ Many other variations for `Quotient.ind` and `Quotient.lift` exist as well.
 end
 
 /-
-### Quotient types under morphisms
--/
-
-section
-
-/- Lifting functions does not change its range. [TODO] -/
-#check Set.range_quotient_lift
-
-end
-
-/-
 ## Quotient groups
 
 We are now ready to define quotient groups.
@@ -269,7 +258,7 @@ by the left coset equivalence relation induced by `H`.
 The definition of `QuotientGroup.leftRel H` is
 hidden deep inside Mathlib for general usability.
 Practically, we only need to know its meaning (up to logical equivalence).
-[IGNORE] See the appendix at the end of this file for the definitional one.
+[IGNORE] See the small section below for tracing down its definition.
 -/
 example (a b : G) : (QuotientGroup.leftRel H) a b ↔ a⁻¹ * b ∈ H :=
   QuotientGroup.leftRel_apply
@@ -280,6 +269,28 @@ via quotient types.
 -/
 #synth HasQuotient G (Subgroup G)
 #check G ⧸ H
+
+
+/-
+#### tracing down the definition of coset relations
+
+[IGNORE]
+-/
+example (a b : G) : QuotientGroup.leftRel H a b = (∃ (h : H.op), b * (h : Gᵐᵒᵖ).unop = a) := calc
+  QuotientGroup.leftRel H a b
+    = (QuotientGroup.leftRel H).r a b := rfl
+  _ = (MulAction.orbitRel H.op G).r a b := rfl
+  _ = (a ∈ MulAction.orbit H.op b) := rfl
+  _ = (∃ (h : H.op), h • b = a) := rfl
+  _ = (∃ (h : H.op), b * (h : Gᵐᵒᵖ).unop = a) := rfl
+
+example (a b : G) : QuotientGroup.rightRel H a b = (∃ (h : H), h * b = a) := calc
+  QuotientGroup.rightRel H a b
+    = (QuotientGroup.rightRel H).r a b := rfl
+  _ = (MulAction.orbitRel H G).r a b := rfl
+  _ = (a ∈ MulAction.orbit H b) := rfl
+  _ = (∃ (h : H), h • b = a) := rfl
+  _ = (∃ (h : H), h * b = a) := rfl
 
 /-
 ### The group structure
@@ -293,12 +304,13 @@ variable [H.Normal]
 We illustrate how to define the group structure on `G ⧸ H` manually here,
 from `Semigroup` to `Monoid` to `Group`.
 
-Note that it is just an illustration; in practice, you may wish to use the
+Note that it is just an illustration; in practice,
+to construct a group structure, you may wish to use the
 `Group.ofLeftAxioms` constructor from Mathlib instead.
 -/
 
-def mySemigroup : Semigroup (G ⧸ H) where
-
+#synth Semigroup (G ⧸ H)
+example : (QuotientGroup.Quotient.group H).toSemigroup = (show Semigroup (G ⧸ H) from {
   mul := by
     apply Quotient.lift₂ (fun (a b : G) ↦ ⟦a * b⟧)
     intro a1 a2 b1 b2 h1 h2
@@ -326,11 +338,10 @@ def mySemigroup : Semigroup (G ⧸ H) where
     apply Quotient.sound
     rw [mul_assoc]
     apply refl
+}) := by rfl
 
-#synth Semigroup (G ⧸ H)
-example : (QuotientGroup.Quotient.group H).toSemigroup = mySemigroup G H := by rfl
-
-def myMonoid : Monoid (G ⧸ H) where
+#synth Monoid (G ⧸ H)
+example : (QuotientGroup.Quotient.group H).toMonoid = (show Monoid (G ⧸ H) from {
   one := ⟦1⟧
   one_mul := by
     intro a
@@ -344,12 +355,10 @@ def myMonoid : Monoid (G ⧸ H) where
     apply Quotient.sound; dsimp
     rw [mul_one]
     apply refl
+}) := by ext; rfl
 
-/- [TODO] For unknown reason we can't show a definitional equality here. -/
-#synth Monoid (G ⧸ H)
-example : (QuotientGroup.Quotient.group H).toMonoid = myMonoid G H := by ext; rfl
-
-def myGroup : Group (G ⧸ H) where
+#synth Group (G ⧸ H)
+example : QuotientGroup.Quotient.group H = ( show Group (G ⧸ H) from {
   inv := by
     apply Quotient.lift (fun a ↦ ⟦a⁻¹⟧)
     intro a1 a2 h
@@ -372,13 +381,7 @@ def myGroup : Group (G ⧸ H) where
     intro a
     induction' a using Quotient.ind with a
     apply Quotient.sound; simp
-
-/- [TODO] For unknown reason we can't show a definitional equality here. -/
-#synth Group (G ⧸ H)
-example : QuotientGroup.Quotient.group H = myGroup G H := by ext; rfl
-
-/- the Mathlib instance for `Group (G ⧸ H)` -/
-#synth Group (G ⧸ H)
+}) := by ext; rfl
 
 /- the canonical group epimorphism from `G` to `G ⧸ H` -/
 #check QuotientGroup.mk'
@@ -423,48 +426,68 @@ example (HN : N ≤ ϕ.ker) : (G ⧸ N) →* M where
 #check QuotientGroup.lift
 
 /-
-### Quotient groups under morphisms
--/
-
-/- [TODO] Upgrade `Set.range_quotient_lift` to groups. -/
-example (HN : N ≤ ϕ.ker) : (QuotientGroup.lift N ϕ HN).range = ϕ.range := by sorry
-
-/-
 ### The first isomorphism theorem
 
-Finally, we come to our grand finale.
+At last, we come to our grand finale.
 -/
 
 /- Now we can lift the group homomorphisms `ϕ : G →* M` to `G ⧸ ker ϕ →* M`. -/
 example : G ⧸ ϕ.ker →* M := QuotientGroup.lift ϕ.ker ϕ (by simp)
+/- Recall the range restriction of `ϕ`. -/
+example : G →* ϕ.range := MonoidHom.rangeRestrict ϕ
+/- Recall the kernel of the range restriction -/
+example : ϕ.rangeRestrict.ker = ϕ.ker := MonoidHom.ker_rangeRestrict ϕ
 
-/- The first isomorphism theorem: `G ⧸ ker ϕ ≃* range ϕ`. -/
-#check QuotientGroup.quotientKerEquivRange
-
-end
+/- Combining above gives our desired homomorphism. -/
+example : QuotientGroup.rangeKerLift ϕ = (show G ⧸ ϕ.ker →* ϕ.range by
+  let rangeRestricted := MonoidHom.rangeRestrict ϕ
+  apply QuotientGroup.lift ϕ.ker rangeRestricted
+  rw [MonoidHom.ker_rangeRestrict]
+) := by rfl
 
 /-
-## Appendix: tracing down the definition of coset relations
+It remains to show that `QuotientGroup.rangeKerLift ϕ` is an isomorphism.
+Let's attack this by showing it's both injective and surjective.
 -/
 
-section
+#check MonoidHom.ker_eq_bot_iff -- recall the kernel criterion for injectivity
+example : Function.Injective (QuotientGroup.rangeKerLift ϕ) := by
+  rw [← MonoidHom.ker_eq_bot_iff, Subgroup.eq_bot_iff_forall]
+  intro gq hgq
 
-variable {G : Type*} [Group G] (H : Subgroup G)
+  induction' gq using Quotient.ind with g
+  unfold QuotientGroup.rangeKerLift MonoidHom.rangeRestrict at hgq
+  simp only [MonoidHom.mem_ker, QuotientGroup.lift_mk, MonoidHom.codRestrict_apply] at hgq
+  apply_fun Subtype.val at hgq; dsimp at hgq
 
-example (a b : G) : QuotientGroup.leftRel H a b = (∃ (h : H.op), b * (h : Gᵐᵒᵖ).unop = a) := calc
-  QuotientGroup.leftRel H a b
-    = (QuotientGroup.leftRel H).r a b := rfl
-  _ = (MulAction.orbitRel H.op G).r a b := rfl
-  _ = (a ∈ MulAction.orbit H.op b) := rfl
-  _ = (∃ (h : H.op), h • b = a) := rfl
-  _ = (∃ (h : H.op), b * (h : Gᵐᵒᵖ).unop = a) := rfl
+  apply Quotient.sound
+  change QuotientGroup.leftRel _ _ _
+  rw [QuotientGroup.leftRel_apply]
+  simp only [mul_one, inv_mem_iff, MonoidHom.mem_ker]
 
-example (a b : G) : QuotientGroup.rightRel H a b = (∃ (h : H), h * b = a) := calc
-  QuotientGroup.rightRel H a b
-    = (QuotientGroup.rightRel H).r a b := rfl
-  _ = (MulAction.orbitRel H G).r a b := rfl
-  _ = (a ∈ MulAction.orbit H b) := rfl
-  _ = (∃ (h : H), h • b = a) := rfl
-  _ = (∃ (h : H), h * b = a) := rfl
+  exact hgq
+#check QuotientGroup.rangeKerLift_injective -- corresponding Mathlib lemma
+
+example : Function.Surjective (QuotientGroup.rangeKerLift ϕ) := by
+  unfold QuotientGroup.rangeKerLift MonoidHom.rangeRestrict
+  rintro ⟨m, g, rfl⟩
+  use ⟦g⟧; simp
+
+#check QuotientGroup.rangeKerLift_surjective -- corresponding Mathlib lemma
+
+/-
+Recall that we've shown before in the exercises
+that an `Equiv` can be reached from a bijective function.
+Nothing special here for `MulEquiv`.
+-/
+#check Equiv.ofBijective
+#check MulEquiv.ofBijective
+
+/- The First Isomorphism Theorem for groups. -/
+example : QuotientGroup.quotientKerEquivRange ϕ = (show G ⧸ ϕ.ker ≃* ϕ.range from
+  MulEquiv.ofBijective
+    (QuotientGroup.rangeKerLift ϕ)
+    ⟨QuotientGroup.rangeKerLift_injective ϕ, QuotientGroup.rangeKerLift_surjective ϕ⟩
+) := by rfl
 
 end

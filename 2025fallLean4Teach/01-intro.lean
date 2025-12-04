@@ -1,7 +1,6 @@
 /-
 You may skip the materials tagged with [IGNORE] for the first runthrough.
-Most of them are here to illustrate the nature of inductive types,
-which may be too advanced for beginners.
+They could be not well-explained, or too advanced for now.
 
 Materials tagged with [EXR] are recommended for you to try before looking at the solution.
 

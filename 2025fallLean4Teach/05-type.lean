@@ -385,7 +385,7 @@ example (P Q : Prop) (h : P ↔ Q) : P = Q := by
   rw [h]
 
 /-
-## Defining terms and functions
+## Definitions, and definitional equality
 
 We now come back to detail a little on the exact power of `rfl`,
 i.e. what is the meaning of definitional equality.
@@ -543,6 +543,16 @@ This tactic works for logical equivalences (`↔`) as well, as `Iff.rfl` does.
 #help tactic rfl
 
 example : True ↔ True := by rfl
+
+/-
+`dsimp` is a weaker version of `simp`, which only applies
+(obvious) definitional equalities to simplify an expression.
+-/
+#help tactic dsimp
+
+example (a b c : ℕ) : 0 + a = a - (a + 0) + a := by
+  dsimp
+  simp
 
 /-
 These are some non-examples for definitional equality.

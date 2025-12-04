@@ -124,9 +124,8 @@ variable (p q : Prop)
 
 #print Not
 
-/- this has a name `absurd` in Lean -/
-#check absurd
 example (hp : p) (hnp : ¬p) : False := hnp hp
+#check absurd -- above has a name
 
 /- [EXR] contraposition -/
 example : (p → q) → (¬q → ¬p) := by

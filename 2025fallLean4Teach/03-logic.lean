@@ -385,7 +385,7 @@ example : (∀ x, p x → r) → ((∃ x, p x) → r) := by
   exact hf a hpa
 
 example : (∀ x, p x → r) → ((∃ x, p x) → r) := by
-  intro h ⟨a, hpa⟩ -- you may also `rcases` explicitly
+  intro h ⟨a, hpa⟩ -- you may also `rcases` implicitly
   exact h a hpa
 
 /- [EXR] reverse direction is also true -/
@@ -472,11 +472,3 @@ Same construction, different universes. Other examples are also shown below.
 
 #print Nonempty -- a proof of non-emptiness living in `Prop`
 #print Inhabited -- an designated element living in `Sort*`
-
-/-
-## Remainder
-
-`Iff` (`↔`), second visit, bundled and unbundled version
-
-we do it with `Eq`? `Eq` is hard. Maybe a second visit when touching inductive types.
--/
