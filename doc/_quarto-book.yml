@@ -5,6 +5,7 @@ book:
   title: Introduction to Formal Mathematics with Lean 4
   author: Xingyu Zhong
   date: 2025/12/05
+  date-format: "[December, 2025]"
   chapters:
     - index.qmd
     - part: Prelude
