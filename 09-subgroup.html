@@ -361,32 +361,38 @@ MathJax = {
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Set ℕ <span class="op">:=</span> {n | n &gt; <span class="dv">514</span>}</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (n : ℕ) : n ∈ {x | x &gt; <span class="dv">514</span>} ↔ n &gt; <span class="dv">514</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The empty subset</p>
+<p>the empty subset</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (∅ : Set α)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : ∅ = {x : α | False} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ (∅ : Set α) ↔ False <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_empty_iff_false <span class="co">-- corresponding `simp` lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The universal subset</p>
+<p>the universal subset</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (Set.univ : Set α)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Set.univ = {x : α | True} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ Set.univ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">trivial</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_univ <span class="co">-- corresponding `simp` lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The complement of a subset <code>Set.compl s</code></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> sᶜ</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : sᶜ = {x | x ∉ s} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ sᶜ ↔ a ∉ s <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_compl <span class="co">-- corresponding `simp` lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Subset relation <code>Set.Subset s t</code></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ⊆ t</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : s ⊆ t ↔ <span class="kw">∀</span> x : α, x ∈ s → x ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (ha : a ∈ s) (hst : s ⊆ t) : a ∈ t <span class="op">:=</span> hst ha</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Subset <span class="co">-- [TODO] the implicit {x : α}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Intersection of two subsets <code>Set.inter s t</code></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ∩ t</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ s ∩ t ↔ a ∈ s ∧ a ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Union of two subsets <code>Set.union s t</code></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ∪ t</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ s ∪ t ↔ a ∈ s ∨ a ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>the complement of a subset</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.compl s</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> sᶜ</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : sᶜ = {x | x ∉ s} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ sᶜ ↔ a ∉ s <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_compl <span class="co">-- corresponding `simp` lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Subset relation. Somehow you may use any proof of <code>s ⊆ t</code> like a function. It eats a proof of <code>a ∈ s</code> and produces a proof of <code>a ∈ t</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.Subset s t</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ⊆ t</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : s ⊆ t ↔ <span class="kw">∀</span> x : α, x ∈ s → x ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (ha : a ∈ s) (hst : s ⊆ t) : a ∈ t <span class="op">:=</span> hst ha</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_of_subset_of_mem <span class="co">-- corresponding Mathlib lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>intersection of two subsets</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.inter s t</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ∩ t</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ s ∩ t ↔ a ∈ s ∧ a ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_inter_iff <span class="co">-- corresponding `simp` lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>union of two subsets</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.union s t</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ∪ t</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ s ∪ t ↔ a ∈ s ∨ a ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_union <span class="co">-- corresponding `simp` lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>ext</code> tactic reduces subset equality to element membership. Fundamentally this is implimented using function &amp; propositional extensionality.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.ext</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : s ∩ t = t ∩ s <span class="op">:=</span> <span class="kw">by</span> ext x; <span class="fu">simp</span> [and_comm]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
