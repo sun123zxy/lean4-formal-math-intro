@@ -25,7 +25,7 @@ The book is divided into four parts^[each entitled with a valid Lean 4 keyword].
 
 ## Instructions
 
-We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed PDF version is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.
+We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed [PDF version](https://github.com/sun123zxy/2025fall-lean4-teach/releases) is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.
 
 For installation, first make sure you have installed Git, VSCode and Lean 4 extension for VSCode correctly. Refer to the installation guide <https://lean-lang.org/install/> if you haven't done so. Then execute the following commands in your terminal:
 
