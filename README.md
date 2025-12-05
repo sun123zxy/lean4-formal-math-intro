@@ -42,7 +42,7 @@ To update the repository, make sure you have discarded any local changes (otherw
 git pull
 ```
 
-## Compiling the Book
+## Compiling the book
 
 Both the online and the PDF version of this book are prepared by \SunQuarTeX, a publishing system based on Quarto and \LaTeX. Refer to <https://github.com/sun123zxy/sunquartex> for more information.
 

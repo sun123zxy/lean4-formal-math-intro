@@ -7,7 +7,7 @@ Materials tagged with [EXR] are recommended for you to try before looking at the
 Materials tagged with [TODO] means that I'm still working on it,
 or I'm not sure about the content yet. Feel free to give your suggestions!
 
-## A First Glance
+## A first glance
 
 Have a look at the sample Lean code below. Can you understand what it means, without any prior knowledge of Lean?
 -/
@@ -37,7 +37,7 @@ theorem tendsTo_sandwich {a b c : ℕ → ℝ} {L : ℝ} (ha : TendsTo a L) (hc 
   sorry
 
 /-
-## At the Very Beginning...
+## At the very beginning...
 
 There are some basic notions you should be familiar with: `:` and `:=`.
 

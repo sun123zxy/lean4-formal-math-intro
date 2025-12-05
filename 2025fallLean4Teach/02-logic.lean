@@ -59,7 +59,7 @@ example : p → (p → q) → q := fun (hp : p) (hpq : p → q) ↦ hpq hp
 example : p → (p → q) → q := fun hp hpq ↦ hpq hp
 
 /-
-## Tactic Mode
+## Tactic mode
 
 Construct proofs using explicit terms is called *term-style proof*.
 This can be tedious for complicated proofs.

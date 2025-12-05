@@ -51,37 +51,47 @@ example : setOf (fun x ↦ x = a) = Set.singleton a := by rfl
 example : Set ℕ := {n | n > 514}
 example (n : ℕ) : n ∈ {x | x > 514} ↔ n > 514 := by rfl
 
-/- The empty subset -/
+/- the empty subset -/
 #check (∅ : Set α)
 example : ∅ = {x : α | False} := by rfl
 example : a ∈ (∅ : Set α) ↔ False := by rfl
 #check Set.mem_empty_iff_false -- corresponding `simp` lemma
 
-/- The universal subset -/
+/- the universal subset -/
 #check (Set.univ : Set α)
 example : Set.univ = {x : α | True} := by rfl
 example : a ∈ Set.univ := by trivial
 #check Set.mem_univ -- corresponding `simp` lemma
 
-/- The complement of a subset `Set.compl s` -/
+/- the complement of a subset -/
+#check Set.compl s
 #check sᶜ
 example : sᶜ = {x | x ∉ s} := by rfl
 example : a ∈ sᶜ ↔ a ∉ s := by rfl
 #check Set.mem_compl -- corresponding `simp` lemma
 
-/- Subset relation `Set.Subset s t` -/
+/-
+Subset relation.
+Somehow you may use any proof of `s ⊆ t` like a function.
+It eats a proof of `a ∈ s` and produces a proof of `a ∈ t`.
+-/
+#check Set.Subset s t
 #check s ⊆ t
 example : s ⊆ t ↔ ∀ x : α, x ∈ s → x ∈ t := by rfl
 example (ha : a ∈ s) (hst : s ⊆ t) : a ∈ t := hst ha
-#check Subset -- [TODO] the implicit {x : α}
+#check Set.mem_of_subset_of_mem -- corresponding Mathlib lemma
 
-/- Intersection of two subsets `Set.inter s t` -/
+/- intersection of two subsets -/
+#check Set.inter s t
 #check s ∩ t
 example : a ∈ s ∩ t ↔ a ∈ s ∧ a ∈ t := by rfl
+#check Set.mem_inter_iff -- corresponding `simp` lemma
 
-/- Union of two subsets `Set.union s t` -/
+/- union of two subsets -/
+#check Set.union s t
 #check s ∪ t
 example : a ∈ s ∪ t ↔ a ∈ s ∨ a ∈ t := by rfl
+#check Set.mem_union -- corresponding `simp` lemma
 
 /-
 `ext` tactic reduces subset equality to element membership.
