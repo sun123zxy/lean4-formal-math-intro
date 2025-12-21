@@ -238,6 +238,29 @@ Many other variations for `Quotient.ind` and `Quotient.lift` exist as well.
 end
 
 /-
+### Appendix: Quotient types under morphisms
+-/
+
+/- Lifting functions does not change its range. [TODO] -/
+#check Set.range_quotient_lift
+
+/-
+Note that even you have two `Setoid` instances `s` and `t` that are propositionally equal,
+an element of `Quotient s` cannot be directly used as a `Quotient t` in general.
+This is because `Quotient s` and `Quotient t` are not definitionally equal in general.
+You may, however, transfer between them via the canonical equivalence `Quotient.congr`.
+-/
+section
+variable {α : Type*} {s : Setoid α} {t : Setoid α}
+#check Quotient.congr
+example (heq : s = t) : Quotient s ≃ Quotient t := by
+  apply Quotient.congr (Equiv.refl α)
+  dsimp
+  intro a b
+  rw [heq]
+end
+
+/-
 ## Quotient groups
 
 We are now ready to define quotient groups.
@@ -489,5 +512,29 @@ example : QuotientGroup.quotientKerEquivRange ϕ = (show G ⧸ ϕ.ker ≃* ϕ.ra
     (QuotientGroup.rangeKerLift ϕ)
     ⟨QuotientGroup.rangeKerLift_injective ϕ, QuotientGroup.rangeKerLift_surjective ϕ⟩
 ) := by rfl
+
+end
+
+/-
+### Appendix: Quotient groups under morphisms
+-/
+section
+
+variable {G M : Type*} [Group G] [Group M] (N : Subgroup G) [N.Normal]
+         (ϕ : G →* M)
+
+/- [EXR] Upgrade `Set.range_quotient_lift` to groups. -/
+example (HN : N ≤ ϕ.ker) : (QuotientGroup.lift N ϕ HN).range = ϕ.range := by sorry
+
+end
+
+section
+/-
+As the case of sets, even you have two subgroups `N` and `K` that are propositionally equal,
+an element of `G ⧸ N` cannot be directly used as a `G ⧸ K` in general.
+You may, however, transfer between them via the canonical equivalence.
+-/
+#check QuotientGroup.congr
+#check QuotientGroup.quotientMulEquivOfEq
 
 end
