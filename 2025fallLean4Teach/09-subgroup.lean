@@ -95,7 +95,8 @@ example : a ∈ s ∪ t ↔ a ∈ s ∨ a ∈ t := by rfl
 
 /-
 `ext` tactic reduces subset equality to element membership.
-Fundamentally this is implimented using function & propositional extensionality.
+Fundamentally this is implemented using function & propositional extensionality,
+hence not a definitional one.
 -/
 #check Set.ext
 example : s ∩ t = t ∩ s := by ext x; simp [and_comm]
@@ -399,14 +400,13 @@ example : H₁ ≤ H₂ ↔ H₁.carrier ⊆ H₂.carrier := by rfl
 #synth Min (Subsemigroup G)
 
 example : H₁ ⊓ H₂ = ⟨H₁ ∩ H₂, by
-    intro a b ha hb
-    rcases ha with ⟨ha₁, ha₂⟩
-    rcases hb with ⟨hb₁, hb₂⟩
-    constructor
-    all_goals apply mul_mem
-    all_goals assumption
-    ⟩ :=
-  rfl
+  intro a b ha hb
+  rcases ha with ⟨ha₁, ha₂⟩
+  rcases hb with ⟨hb₁, hb₂⟩
+  constructor
+  all_goals apply mul_mem
+  all_goals assumption
+⟩ := rfl
 
 /- product of two subsemigroups. -/
 #check H₁ ⊔ H₂
@@ -459,11 +459,11 @@ The preimage of a subsemigroup under a `MulHom` is also a subsemigroup.
 #check H₂.comap f
 
 example : Subsemigroup.comap f H₂ = ⟨f ⁻¹' H₂, by
-    intro x y hx hy
-    simp only [Set.mem_preimage] at hx hy ⊢
-    rw [map_mul]
-    exact mul_mem hx hy
-    ⟩ := by rfl
+  intro x y hx hy
+  simp only [Set.mem_preimage] at hx hy ⊢
+  rw [map_mul]
+  exact mul_mem hx hy
+⟩ := by rfl
 
 /-
 To define the range of a `f : G₁ →ₙ* G₂`,
@@ -482,10 +482,10 @@ for an official explanation.
 
 /- the desired definitional equality -/
 example : MulHom.srange f = ⟨Set.range f, by
-    rintro x y ⟨a, rfl⟩ ⟨b, rfl⟩
-    use a * b
-    rw [map_mul]
-    ⟩ := by rfl
+  rintro x y ⟨a, rfl⟩ ⟨b, rfl⟩
+  use a * b
+  rw [map_mul]
+⟩ := by rfl
 
 example (x : G₂) : x ∈ MulHom.srange f ↔ x ∈ Set.range f := by rfl
 #check MulHom.mem_srange -- corresponding Mathlib theorem
@@ -548,10 +548,10 @@ to extend the underlying `Subsemigroup` with the proof of containing `1`.
 -/
 #check (⊤ : Submonoid G)
 example : (⊤ : Submonoid G) = {(⊤ : Subsemigroup G) with
-    one_mem' := by
-      change 1 ∈ (⊤ : Set G)
-      apply Set.mem_univ
-    } := by rfl
+  one_mem' := by
+    change 1 ∈ (⊤ : Set G)
+    apply Set.mem_univ
+} := by rfl
 #synth Top (Submonoid G)
 
 /-
@@ -561,13 +561,13 @@ which is the empty set.
 -/
 #check (⊥ : Submonoid G)
 example : (⊥ : Submonoid G) = {
-    carrier := {1}
-    one_mem' := by rfl
-    mul_mem' := by
-      rintro x y hx hy
-      simp only [Set.mem_singleton_iff] at hx hy ⊢
-      rw [hx, hy, one_mul]
-    } := by rfl
+  carrier := {1}
+  one_mem' := by rfl
+  mul_mem' := by
+    rintro x y hx hy
+    simp only [Set.mem_singleton_iff] at hx hy ⊢
+    rw [hx, hy, one_mul]
+} := by rfl
 #synth Bot (Submonoid G)
 
 /-
@@ -595,16 +595,16 @@ with extra care to verify the identity element membership.
 
 #check Submonoid.map
 example : Submonoid.map f H₁ = { Subsemigroup.map f.toMulHom H₁.toSubsemigroup with
-      one_mem' := by
-        simp
-        use 1, H₁.one_mem
-        rw [map_one]
-    } := by rfl
+  one_mem' := by
+    simp
+    use 1, H₁.one_mem
+    rw [map_one]
+} := by rfl
 
 #check Submonoid.comap
 example : Submonoid.comap f H₂ = { Subsemigroup.comap f.toMulHom H₂.toSubsemigroup with
-      one_mem' := by simp
-    } := by rfl
+  one_mem' := by simp
+} := by rfl
 
 /- Range is also specially handled as `MulHom.range`. -/
 #check MonoidHom.mrange
@@ -619,13 +619,13 @@ example : MonoidHom.mker f = (⊥ : Submonoid G₂).comap f := by rfl
 
 /- [EXR] manual definition of `mker` -/
 example : MonoidHom.mker f = {
-      carrier := {x | f x = 1}
-      one_mem' := by rw [Set.mem_setOf, map_one]
-      mul_mem' := by
-        rintro x y hx hy
-        simp only [Set.mem_setOf] at hx hy ⊢
-        rw [map_mul, hx, hy, one_mul]
-    } := by rfl
+  carrier := {x | f x = 1}
+  one_mem' := by rw [Set.mem_setOf, map_one]
+  mul_mem' := by
+    rintro x y hx hy
+    simp only [Set.mem_setOf] at hx hy ⊢
+    rw [map_mul, hx, hy, one_mul]
+} := by rfl
 
 example (x : G₁) : x ∈ MonoidHom.mker f ↔ f x = 1 := by rfl
 #check MonoidHom.mem_mker -- corresponding Mathlib theorem
@@ -735,8 +735,8 @@ For groups, `mker` and `mrange` has been upgraded to `ker` and `range` respectiv
 
 example : MonoidHom.ker f = (⊥ : Subgroup G₂).comap f := by rfl
 example : MonoidHom.ker f = {MonoidHom.mker f with
-      inv_mem' := by simp
-    } := by rfl
+  inv_mem' := by simp
+} := by rfl
 
 /- [EXR] injectivity characterization via kernel -/
 example : MonoidHom.ker f = ⊥ ↔ Function.Injective f := by

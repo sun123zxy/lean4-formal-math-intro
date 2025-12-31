@@ -368,6 +368,13 @@ example (f g : ℚ → ℚ) (h : ∀ x : ℚ, f x = g x) : f = g := by
   exact h x
 
 /-
+Those who reject `funext` may hold an opinion that functions are equal
+only when their applications are calculated in the same way.
+This is known as the intensional view of functions,
+as opposed to the extensional view `funext` adopts.
+-/
+
+/-
 Propositional extensionality `propext` states that two propositions are equal
 if they are logically equivalent. It's admitted as an axiom in Lean.
 -/
@@ -383,6 +390,11 @@ example (P Q : Prop) (h : P ↔ Q) : P = Q := by
 /- This allows you to `rw` an `iff` (`↔`) like an equality (`=`). -/
 example (P Q : Prop) (h : P ↔ Q) : P = Q := by
   rw [h]
+
+/-
+We mention here that the extensionality axiom in set theory
+is derived from `funext` and `propext` in Lean.
+-/
 
 /-
 ## Definitions, and definitional equality
@@ -555,11 +567,17 @@ example (a b c : ℕ) : 0 + a = a - (a + 0) + a := by
   simp
 
 /-
-These are some non-examples for definitional equality.
-They are only propositionally equal, by `propext` and logical equivalence.
+#### Non-examples of definitional equality
+
+These are only propositionally equal by `propext` and logical equivalence.
 -/
--- example (p : Prop) : True ↔ (p → True) := by rfl
--- example True ↔ ¬ False := by rfl
+example (p : Prop) : True ↔ (p → True) := by simp -- `by rfl` fails
+example : True ↔ ¬ False := by simp -- `by rfl` fails
+
+/- These are only propositionally equal by `funext`. -/
+example : (fun x ↦ x) = (fun x ↦ 0 + x) := by
+  funext x
+  rw [zero_add]
 
 /-
 #### Type checking
