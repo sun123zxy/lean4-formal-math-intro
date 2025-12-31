@@ -565,6 +565,7 @@ MathJax = {
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (f g : ℚ → ℚ) (h : <span class="kw">∀</span> x : ℚ, f x = g x) : f = g <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">funext</span> x</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> h x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Those who reject <code>funext</code> may hold an opinion that functions are equal only when their applications are calculated in the same way. This is known as the intensional view of functions, as opposed to the extensional view <code>funext</code> adopts.</p>
 <p>Propositional extensionality <code>propext</code> states that two propositions are equal if they are logically equivalent. It’s admitted as an axiom in Lean.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">propext</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (P Q : <span class="fu">Prop</span>) (h : P ↔ Q) : P = Q <span class="op">:=</span> <span class="fu">propext</span> h</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -576,6 +577,7 @@ MathJax = {
 <p>This allows you to <code>rw</code> an <code>iff</code> (<code>↔︎</code>) like an equality (<code>=</code>).</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (P Q : <span class="fu">Prop</span>) (h : P ↔ Q) : P = Q <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [h]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We mention here that the extensionality axiom in set theory is derived from <code>funext</code> and <code>propext</code> in Lean.</p>
 </section>
 </section>
 <section id="definitions-and-definitional-equality" class="level2" data-number="4">
@@ -689,29 +691,36 @@ MathJax = {
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (a b c : ℕ) : <span class="dv">0</span> + a = a - (a + <span class="dv">0</span>) + a <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dsimp</span></span>
 <span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>These are some non-examples for definitional equality. They are only propositionally equal, by <code>propext</code> and logical equivalence.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (p : Prop) : True ↔ (p → True) := by rfl</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- example True ↔ ¬ False := by rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="non-examples-of-definitional-equality" class="level4">
+<h4 class="anchored" data-anchor-id="non-examples-of-definitional-equality">Non-examples of definitional equality</h4>
+<p>These are only propositionally equal by <code>propext</code> and logical equivalence.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (p : <span class="fu">Prop</span>) : True ↔ (p → True) <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span> <span class="co">-- `by rfl` fails</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : True ↔ ¬ False <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span> <span class="co">-- `by rfl` fails</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These are only propositionally equal by <code>funext</code>.</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (<span class="kw">fun</span> x ↦ x) = (<span class="kw">fun</span> x ↦ <span class="dv">0</span> + x) <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">funext</span> x</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [zero_add]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="type-checking" class="level4">
 <h4 class="anchored" data-anchor-id="type-checking">Type checking</h4>
 <p>Type checking is determined up to definitional equality.</p>
 <p>In fact, it’s the sole responsibility of Lean’s compiler to check definitional equalities.</p>
 <p>An failure of definitional equality results in a type error. That is, it is regarded as invalid Lean code.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yType <span class="op">:=</span> ℚ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yType <span class="op">:=</span> ℚ</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This won’t compile, because Lean do not know a coercion of <code>ℕ → myType</code>.</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- def myTypeNumber := (998244353 : myType)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- def myTypeNumber := (998244353 : myType)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This passes the type check. because we manually build a bridge here: Lean knows the coercion <code>ℕ → ℚ</code> and that <code>myType</code> is definitionally equal to <code>ℚ</code>.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yTypeNumber : myType <span class="op">:=</span> (<span class="dv">998244353</span> : ℚ)</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yTypeNumber : myType <span class="op">:=</span> (<span class="dv">998244353</span> : ℚ)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This also passes the type check for the same reason.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber = myNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myTypeNumber = myNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The type of <code>myNumber : ℚ</code> and <code>myTypeNumber : myType</code> are definitionally equal, thus the equality passes the type check. Their values are also definitionally equal, so you can prove their equality by <code>rfl</code>.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : myTypeNumber = myNumber <span class="op">:=</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : myTypeNumber = myNumber <span class="op">:=</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>abbrev</code> defines an abbreviation, which is like a <code>def</code>, but always expands when processed. This is useful for type synonyms.</p>
-<div class="sourceCode" id="cb56"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>abbrev myAbbrev <span class="op">:=</span> ℚ</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yAbbrevNumber : myAbbrev <span class="op">:=</span> <span class="dv">998244353</span></span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myAbbrevNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>abbrev myAbbrev <span class="op">:=</span> ℚ</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> <span class="fu">m</span>yAbbrevNumber : myAbbrev <span class="op">:=</span> <span class="dv">998244353</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> myAbbrevNumber</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="propositional-equality" class="level4">
 <h4 class="anchored" data-anchor-id="propositional-equality">Propositional equality</h4>
@@ -723,9 +732,9 @@ MathJax = {
 </ul>
 <p>Propositional equality is not a meta-level concept. It’s a proposition in <code>Prop</code> that may be proved or disproved.</p>
 <p>Propositional equality on types does not get the types check. For example, this won’t compile.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- example (α : Type) (h : α = ℕ) (a : α) : a = (998244353 : ℕ) := by sorry</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

@@ -393,7 +393,7 @@ MathJax = {
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> s ∪ t</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : a ∈ s ∪ t ↔ a ∈ s ∨ a ∈ t <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.mem_union <span class="co">-- corresponding `simp` lemma</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>ext</code> tactic reduces subset equality to element membership. Fundamentally this is implimented using function &amp; propositional extensionality.</p>
+<p><code>ext</code> tactic reduces subset equality to element membership. Fundamentally this is implemented using function &amp; propositional extensionality, hence not a definitional one.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Set.ext</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : s ∩ t = t ∩ s <span class="op">:=</span> <span class="kw">by</span> ext x; <span class="fu">simp</span> [and_comm]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] De Morgan’s law for sets</p>
@@ -599,14 +599,13 @@ MathJax = {
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>#synth Min (Subsemigroup G)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : H₁ ⊓ H₂ = ⟨H₁ ∩ H₂, <span class="kw">by</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a b ha hb</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> ha <span class="fu">with</span> ⟨ha₁, ha₂⟩</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hb <span class="fu">with</span> ⟨hb₁, hb₂⟩</span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_goals</span> <span class="fu">apply</span> mul_mem</span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all_goals</span> <span class="fu">assumption</span></span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span></span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> a b ha hb</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> ha <span class="fu">with</span> ⟨ha₁, ha₂⟩</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rcases</span> hb <span class="fu">with</span> ⟨hb₁, hb₂⟩</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> <span class="fu">apply</span> mul_mem</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">all_goals</span> <span class="fu">assumption</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>⟩ <span class="op">:=</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>product of two subsemigroups.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₁ ⊔ H₂</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>#synth Max (Subsemigroup G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -642,21 +641,21 @@ MathJax = {
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> H₂.comap f</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Subsemigroup.comap f H₂ = ⟨f ⁻¹' H₂, <span class="kw">by</span></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> x y hx hy</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_preimage] <span class="fu">at</span> hx hy ⊢</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [map_mul]</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> mul_mem hx hy</span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> x y hx hy</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">simp</span> only [Set.mem_preimage] <span class="fu">at</span> hx hy ⊢</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [map_mul]</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exact</span> mul_mem hx hy</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To define the range of a <code>f : G₁ →ₙ* G₂</code>, a common idea is to adopt <code>(⊤ : Subsemigroup G₁).map f</code>. Unfortunately, this makes the underlying set being <code>f '' (univ : Set G₁)</code>, which is not definitionally equal to <code>Set.range f</code>. It will also cause <code>x ∈ ⊤</code> conditions in later proofs, redundant and annoying.</p>
 <p>Hencee Mathlib define the range with some refinement: They manually replace the underlying set of <code>(⊤ : Subsemigroup G₁).map f</code> with <code>Set.range f</code>.</p>
 <p>See Note <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Submonoid/Operations.html#MonoidHom.Mathlib.LibraryNote.%C2%ABrange%20copy%20pattern%C2%BB">range copy pattern</a> for an official explanation.</p>
 <div class="sourceCode" id="cb49"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MulHom.srange</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>the desired definitional equality</p>
 <div class="sourceCode" id="cb50"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MulHom.srange f = ⟨Set.range f, <span class="kw">by</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    rintro x y ⟨a, rfl⟩ ⟨b, rfl⟩</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    use a * b</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [map_mul]</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>    ⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  rintro x y ⟨a, rfl⟩ ⟨b, rfl⟩</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  use a * b</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [map_mul]</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>⟩ <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (x : G₂) : x ∈ MulHom.srange f ↔ x ∈ Set.range f <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MulHom.mem_srange <span class="co">-- corresponding Mathlib theorem</span></span>
@@ -709,21 +708,21 @@ MathJax = {
 <p>The whole monoid as a submonoid. Note the use of <code>with</code>, to extend the underlying <code>Subsemigroup</code> with the proof of containing <code>1</code>.</p>
 <div class="sourceCode" id="cb54"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊤ : Submonoid G)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊤ : Submonoid G) = {(⊤ : Subsemigroup G) <span class="fu">with</span></span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    one_mem' <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>      change <span class="dv">1</span> ∈ (⊤ : Set G)</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">apply</span> Set.mem_univ</span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  one_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    change <span class="dv">1</span> ∈ (⊤ : Set G)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Set.mem_univ</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>#synth Top (Submonoid G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The trivial submonoid consisting of only the identity element. Note the difference from <code>⊥ : Subsemigroup G</code>, which is the empty set.</p>
 <div class="sourceCode" id="cb55"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (⊥ : Submonoid G)</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (⊥ : Submonoid G) = {</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    carrier <span class="op">:=</span> {<span class="dv">1</span>}</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    mul_mem' <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>      rintro x y hx hy</span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">simp</span> only [Set.mem_singleton_iff] <span class="fu">at</span> hx hy ⊢</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [hx, hy, one_mul]</span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  carrier <span class="op">:=</span> {<span class="dv">1</span>}</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  mul_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>    rintro x y hx hy</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_singleton_iff] <span class="fu">at</span> hx hy ⊢</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [hx, hy, one_mul]</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>#synth Bot (Submonoid G)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We don’t repeat tedious lattice structure part, which is similar to those for <code>Subsemigroup</code>.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>#synth CompleteLattice (Submonoid G)</span>
@@ -739,16 +738,16 @@ MathJax = {
 <p>We still have image and preimage of submonoids, which can be built on top of those for subsemigroups, with extra care to verify the identity element membership.</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Submonoid.map</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Submonoid.map f H₁ = { Subsemigroup.map f.toMulHom H₁.toSubsemigroup <span class="fu">with</span></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>      one_mem' <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">simp</span></span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>        use <span class="dv">1</span>, H₁.one_mem</span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rw</span> [map_one]</span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  one_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    use <span class="dv">1</span>, H₁.one_mem</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [map_one]</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> Submonoid.comap</span>
 <span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : Submonoid.comap f H₂ = { Subsemigroup.comap f.toMulHom H₂.toSubsemigroup <span class="fu">with</span></span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>      one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Range is also specially handled as <code>MulHom.range</code>.</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mrange</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (x : G₂) : x ∈ MonoidHom.mrange f ↔ x ∈ Set.range f <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
@@ -758,13 +757,13 @@ MathJax = {
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.mker f = (⊥ : Submonoid G₂).comap f <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] manual definition of <code>mker</code></p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.mker f = {</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>      carrier <span class="op">:=</span> {x | f x = <span class="dv">1</span>}</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>      one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [Set.mem_setOf, map_one]</span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>      mul_mem' <span class="op">:=</span> <span class="kw">by</span></span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>        rintro x y hx hy</span>
-<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">simp</span> only [Set.mem_setOf] <span class="fu">at</span> hx hy ⊢</span>
-<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rw</span> [map_mul, hx, hy, one_mul]</span>
-<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  carrier <span class="op">:=</span> {x | f x = <span class="dv">1</span>}</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>  one_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rw</span> [Set.mem_setOf, map_one]</span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>  mul_mem' <span class="op">:=</span> <span class="kw">by</span></span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>    rintro x y hx hy</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [Set.mem_setOf] <span class="fu">at</span> hx hy ⊢</span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [map_mul, hx, hy, one_mul]</span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a>} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (x : G₁) : x ∈ MonoidHom.mker f ↔ f x = <span class="dv">1</span> <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> MonoidHom.mem_mker <span class="co">-- corresponding Mathlib theorem</span></span>
@@ -855,8 +854,8 @@ MathJax = {
 <span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.ker f = (⊥ : Subgroup G₂).comap f <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span>
 <span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.ker f = {MonoidHom.mker f <span class="fu">with</span></span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>      inv_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>    } <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>  inv_mem' <span class="op">:=</span> <span class="kw">by</span> <span class="fu">simp</span></span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>} <span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[EXR] injectivity characterization via kernel</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : MonoidHom.ker f = ⊥ ↔ Function.Injective f <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span></span>
