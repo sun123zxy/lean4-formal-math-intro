@@ -233,7 +233,30 @@ when inductive types are fully covered.
 #help tactic induction'
 example (z : Z) : (-z) * (-z) = z * z := by
   induction' z using Quotient.ind with z
-  rcases z with ⟨z1, z2⟩
+  apply Quotient.sound
+  simp; ring
+
+/-
+There are other ways to do induction.
+
+For example, by direct `rcases`. This is the same as
+`induction' z using Quot.ind with z`.
+-/
+example (z : Z) : (-z) * (-z) = z * z := by
+  rcases z with ⟨z⟩
+  apply Quotient.sound
+  simp; ring
+
+/-
+For example, by proving the surjectivity of `Quotient.mk` first and use it.
+-/
+example (α : Type*) [s : Setoid α] : Function.Surjective (Quotient.mk s) := by
+  rintro ⟨x⟩
+  exact ⟨x, rfl⟩
+#check Quotient.mk_surjective
+
+example (z : Z) : (-z) * (-z) = z * z := by
+  rcases Quotient.mk_surjective z with ⟨z, rfl⟩
   apply Quotient.sound
   simp; ring
 
@@ -435,6 +458,17 @@ example : QuotientGroup.mk' H = show G →* (G ⧸ H) from
   MonoidHom.mk' QuotientGroup.mk (by intros; rfl)
 := by rfl
 
+/-
+The canonical quotient homomorphism is surjective.
+By `rcase`ing it, we may assume every quotient element
+comes from an application of `QuotientGroup.mk'`.
+This may be viewed as the bundled upgrade of `Quotient.ind` to groups.
+-/
+example : Function.Surjective (QuotientGroup.mk' H) := by
+  rintro ⟨g⟩
+  exact ⟨g, rfl⟩
+#check QuotientGroup.mk'_surjective
+
 end
 
 /-
@@ -449,23 +483,7 @@ section
 variable {G M : Type*} [Group G] [Group M] (N : Subgroup G) [N.Normal]
 variable (ϕ : G →* M)
 
-/-
-Now we upgrade `Quotient.lift` to respect the group structure.
-
-[TODO]
-I'm still figuring out how to do induction gracefully
-on quotient structures with bundled information.
-
-Ideally we should be able to assume every quotient element comes from
-the bundled canonical homomorphism `QuotientGroup.mk'`,
-so that multiplication is easier to handle.
-This should be achieved by updating `Quotient.ind` to a bundled version.
-
-However, for unknown reasons, induction lemmas in Mathlib tend to stick to the unbundled version.
-even `QuotientGroup.induction_on` recovers only `QuotientGroup.mk`.
-
-Anyway, since everything is definitionally equal, a force `change` always works.
--/
+/- upgrade `Quotient.lift` to respect the group structure -/
 example (HN : N ≤ ϕ.ker) : QuotientGroup.lift N ϕ HN = show G ⧸ N →* M by
   apply MonoidHom.mk' (by
     apply Quotient.lift ϕ
@@ -476,9 +494,10 @@ example (HN : N ≤ ϕ.ker) : QuotientGroup.lift N ϕ HN = show G ⧸ N →* M b
     exact eq_of_inv_mul_eq_one this
   )
   intro a b
-  induction' a using Quotient.ind with a
-  induction' b using Quotient.ind with b
-  change ϕ (a * b) = ϕ a * ϕ b
+  rcases QuotientGroup.mk'_surjective N a with ⟨a, rfl⟩
+  rcases QuotientGroup.mk'_surjective N b with ⟨b, rfl⟩
+  rw [← map_mul]
+  dsimp only [QuotientGroup.mk'_apply, Quotient.lift_mk]
   apply map_mul
 := by rfl
 
