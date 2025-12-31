@@ -623,7 +623,7 @@ MathJax = {
 <p>[TODO] I’m still figuring out how to do induction gracefully on quotient structures with bundled information.</p>
 <p>Ideally we should be able to assume every quotient element comes from the bundled canonical homomorphism <code>QuotientGroup.mk'</code>, so that multiplication is easier to handle. This should be achieved by updating <code>Quotient.ind</code> to a bundled version.</p>
 <p>However, for unknown reasons, induction lemmas in Mathlib tend to stick to the unbundled version. even <code>QuotientGroup.induction_on</code> recovers only <code>QuotientGroup.mk</code>.</p>
-<p>Anyway, we have <code>QuotientGroup.mk_mul</code> to help us here.</p>
+<p>Anyway, since everything is definitionally equal, a force <code>change</code> always works.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> (HN : N ≤ ϕ.ker) : QuotientGroup.lift N ϕ HN = <span class="fu">show</span> G ⧸ N →* M <span class="kw">by</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> MonoidHom.mk' (<span class="kw">by</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span> Quotient.lift ϕ</span>
@@ -636,8 +636,8 @@ MathJax = {
 <span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> a b</span>
 <span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  induction' a using Quotient.ind <span class="fu">with</span> a</span>
 <span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  induction' b using Quotient.ind <span class="fu">with</span> b</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rw</span> [Quotient.lift_mk, Quotient.lift_mk, ← QuotientGroup.mk_mul, ← map_mul]</span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rfl</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  change ϕ (a * b) = ϕ a * ϕ b</span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span> map_mul</span>
 <span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="op">:=</span> <span class="kw">by</span> <span class="fu">rfl</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="the-first-isomorphism-theorem" class="level3" data-number="2.4">
