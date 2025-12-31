@@ -151,6 +151,7 @@ With a more complicated type signature,
 it is more "tricky" to use and not often needed in practice.
 -/
 #check Quotient.lift
+#check Quotient.liftOn -- a variant which consumes a quotient element first
 
 /- The universal property, true by definition -/
 #check Quotient.lift_mk
@@ -164,18 +165,30 @@ def Z_neg : Z → Z := by
   simp at *
   linarith only [h]
 
+/- another flavor of usage -/
+example : Z → Z := by
+  intro z
+  -- advantage: no need to specify the type of the function
+  apply Quotient.liftOn z fun ⟨z1, z2⟩ ↦ ⟦(z2, z1)⟧
+  intro ⟨z1, z2⟩ ⟨w1, w2⟩ h
+  dsimp
+  apply Quotient.sound
+  simp at *
+  linarith only [h]
+
 /- Activate the `-` notation for `Z`. -/
 instance : Neg Z := ⟨Z_neg⟩
 
 /-
 Define the multiplication on `Z`.
 It uses `Quotient.lift₂`, which is for binary operations on quotient types.
-Challenge: Define Quotient.lift₂ by yourself!
+Challenge: Define `Quotient.lift₂` yourself!
 -/
 #check Quotient.lift₂
 def Z_mul : Z → Z → Z := by
-  apply Quotient.lift₂
-    (fun ⟨z1, z2⟩ ⟨w1, w2⟩ ↦ ⟦(z1 * w1 + z2 * w2, z1 * w2 + z2 * w1)⟧ : ℕ × ℕ → ℕ × ℕ → Z)
+  intro z w
+  apply Quotient.liftOn₂ z w
+    (fun ⟨z1, z2⟩ ⟨w1, w2⟩ ↦ ⟦(z1 * w1 + z2 * w2, z1 * w2 + z2 * w1)⟧)
   intro ⟨z1, z2⟩ ⟨w1, w2⟩ ⟨u1, u2⟩ ⟨v1, v2⟩ h1 h2
   dsimp
   apply Quotient.sound
@@ -293,6 +306,13 @@ via quotient types.
 #synth HasQuotient G (Subgroup G)
 #check G ⧸ H
 
+/-
+The canonical map from `G` to `G ⧸ H` is given by `QuotientGroup.mk`,
+where `H` is taken as an implicit argument.
+-/
+example : QuotientGroup.mk = (show G → G ⧸ H from
+  Quotient.mk''
+) := by rfl
 
 /-
 #### tracing down the definition of coset relations
@@ -333,7 +353,7 @@ to construct a group structure, you may wish to use the
 -/
 
 #synth Semigroup (G ⧸ H)
-example : (QuotientGroup.Quotient.group H).toSemigroup = (show Semigroup (G ⧸ H) from {
+example : (QuotientGroup.Quotient.group H).toSemigroup = show Semigroup (G ⧸ H) from {
   mul := by
     apply Quotient.lift₂ (fun (a b : G) ↦ ⟦a * b⟧)
     intro a1 a2 b1 b2 h1 h2
@@ -361,10 +381,10 @@ example : (QuotientGroup.Quotient.group H).toSemigroup = (show Semigroup (G ⧸ 
     apply Quotient.sound
     rw [mul_assoc]
     apply refl
-}) := by rfl
+} := by rfl
 
 #synth Monoid (G ⧸ H)
-example : (QuotientGroup.Quotient.group H).toMonoid = (show Monoid (G ⧸ H) from {
+example : (QuotientGroup.Quotient.group H).toMonoid = show Monoid (G ⧸ H) from {
   one := ⟦1⟧
   one_mul := by
     intro a
@@ -378,10 +398,10 @@ example : (QuotientGroup.Quotient.group H).toMonoid = (show Monoid (G ⧸ H) fro
     apply Quotient.sound; dsimp
     rw [mul_one]
     apply refl
-}) := by ext; rfl
+} := by ext; rfl
 
 #synth Group (G ⧸ H)
-example : QuotientGroup.Quotient.group H = ( show Group (G ⧸ H) from {
+example : QuotientGroup.Quotient.group H = show Group (G ⧸ H) from {
   inv := by
     apply Quotient.lift (fun a ↦ ⟦a⁻¹⟧)
     intro a1 a2 h
@@ -404,10 +424,16 @@ example : QuotientGroup.Quotient.group H = ( show Group (G ⧸ H) from {
     intro a
     induction' a using Quotient.ind with a
     apply Quotient.sound; simp
-}) := by ext; rfl
+} := by ext; rfl
 
-/- the canonical group epimorphism from `G` to `G ⧸ H` -/
-#check QuotientGroup.mk'
+/-
+The bundled version of `QuotientGroup.mk`,
+the canonical group homomorphism from `G` to `G ⧸ H`.
+-/
+example : QuotientGroup.mk' H = show G →* (G ⧸ H) from
+  -- recall that for groups, it suffices to show the preservation of multiplication
+  MonoidHom.mk' QuotientGroup.mk (by intros; rfl)
+:= by rfl
 
 end
 
@@ -421,32 +447,40 @@ so that we can define morphisms between quotient groups via universal properties
 section
 
 variable {G M : Type*} [Group G] [Group M] (N : Subgroup G) [N.Normal]
+variable (ϕ : G →* M)
 
 /-
 Now we upgrade `Quotient.lift` to respect the group structure.
--/
-variable (ϕ : G →* M)
 
-example (HN : N ≤ ϕ.ker) : (G ⧸ N) →* M where
-  toFun := by
+[TODO]
+I'm still figuring out how to do induction gracefully
+on quotient structures with bundled information.
+
+Ideally we should be able to assume every quotient element comes from
+the bundled canonical homomorphism `QuotientGroup.mk'`,
+so that multiplication is easier to handle.
+This should be achieved by updating `Quotient.ind` to a bundled version.
+
+However, for unknown reasons, induction lemmas in Mathlib tend to stick to the unbundled version.
+even `QuotientGroup.induction_on` recovers only `QuotientGroup.mk`.
+
+Anyway, we have `QuotientGroup.mk_mul` to help us here.
+-/
+example (HN : N ≤ ϕ.ker) : QuotientGroup.lift N ϕ HN = show G ⧸ N →* M by
+  apply MonoidHom.mk' (by
     apply Quotient.lift ϕ
     intro a b h
     change QuotientGroup.leftRel N a b at h
     rw [QuotientGroup.leftRel_apply] at h
     haveI := HN h; simp at this
     exact eq_of_inv_mul_eq_one this
-  map_mul' := by
-    intro a b
-    induction' a using Quotient.ind with a
-    induction' b using Quotient.ind with b
-    repeat rw [Quotient.lift_mk]
-    apply map_mul
-  map_one' := by
-    conv => lhs; rhs; change ⟦1⟧
-    rw [Quotient.lift_mk]
-    apply map_one
-
-#check QuotientGroup.lift
+  )
+  intro a b
+  induction' a using Quotient.ind with a
+  induction' b using Quotient.ind with b
+  rw [Quotient.lift_mk, Quotient.lift_mk, ← QuotientGroup.mk_mul, ← map_mul]
+  rfl
+:= by rfl
 
 /-
 ### The first isomorphism theorem
@@ -462,11 +496,11 @@ example : G →* ϕ.range := MonoidHom.rangeRestrict ϕ
 example : ϕ.rangeRestrict.ker = ϕ.ker := MonoidHom.ker_rangeRestrict ϕ
 
 /- Combining above gives our desired homomorphism. -/
-example : QuotientGroup.rangeKerLift ϕ = (show G ⧸ ϕ.ker →* ϕ.range by
+example : QuotientGroup.rangeKerLift ϕ = show G ⧸ ϕ.ker →* ϕ.range by
   let rangeRestricted := MonoidHom.rangeRestrict ϕ
   apply QuotientGroup.lift ϕ.ker rangeRestricted
   rw [MonoidHom.ker_rangeRestrict]
-) := by rfl
+:= by rfl
 
 /-
 It remains to show that `QuotientGroup.rangeKerLift ϕ` is an isomorphism.
@@ -507,11 +541,11 @@ Nothing special here for `MulEquiv`.
 #check MulEquiv.ofBijective
 
 /- The First Isomorphism Theorem for groups. -/
-example : QuotientGroup.quotientKerEquivRange ϕ = (show G ⧸ ϕ.ker ≃* ϕ.range from
+example : QuotientGroup.quotientKerEquivRange ϕ = show G ⧸ ϕ.ker ≃* ϕ.range from
   MulEquiv.ofBijective
     (QuotientGroup.rangeKerLift ϕ)
     ⟨QuotientGroup.rangeKerLift_injective ϕ, QuotientGroup.rangeKerLift_surjective ϕ⟩
-) := by rfl
+:= by rfl
 
 end
 
