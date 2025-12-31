@@ -464,7 +464,7 @@ This should be achieved by updating `Quotient.ind` to a bundled version.
 However, for unknown reasons, induction lemmas in Mathlib tend to stick to the unbundled version.
 even `QuotientGroup.induction_on` recovers only `QuotientGroup.mk`.
 
-Anyway, we have `QuotientGroup.mk_mul` to help us here.
+Anyway, since everything is definitionally equal, a force `change` always works.
 -/
 example (HN : N ≤ ϕ.ker) : QuotientGroup.lift N ϕ HN = show G ⧸ N →* M by
   apply MonoidHom.mk' (by
@@ -478,8 +478,8 @@ example (HN : N ≤ ϕ.ker) : QuotientGroup.lift N ϕ HN = show G ⧸ N →* M b
   intro a b
   induction' a using Quotient.ind with a
   induction' b using Quotient.ind with b
-  rw [Quotient.lift_mk, Quotient.lift_mk, ← QuotientGroup.mk_mul, ← map_mul]
-  rfl
+  change ϕ (a * b) = ϕ a * ϕ b
+  apply map_mul
 := by rfl
 
 /-
