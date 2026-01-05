@@ -258,7 +258,6 @@ example : (p ∧ q) ↔ ¬(p → ¬q) := by
     exact hpnq hp hnq
   · intro hnpnq -- the direction of constructing `And` needs classical logic
     contrapose hnpnq
-    rw [Classical.not_not]
     intro hp hq
     exact hnpnq ⟨hp, hq⟩
 

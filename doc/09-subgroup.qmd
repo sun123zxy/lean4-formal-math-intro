@@ -8,4 +8,4 @@ format:
   html: default
 ---
 
-{{< lean-include ../2025fallLean4Teach/09-subgroup.lean >}}
+{{< lean-include ../Tutorials/09-subgroup.lean >}}

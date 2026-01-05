@@ -9,4 +9,4 @@ format:
 
 ## Mathematical Analysis {#sec-mathematical-analysis}
 
-{{< lean-include ../2025fallLean4Teach/07-analysis.lean >}}
+{{< lean-include ../Tutorials/07-analysis.lean >}}

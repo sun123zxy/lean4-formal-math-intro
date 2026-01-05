@@ -8,4 +8,4 @@ format:
   html: default
 ---
 
-{{< lean-include ../2025fallLean4Teach/06-ineq.lean >}}
+{{< lean-include ../Tutorials/06-ineq.lean >}}

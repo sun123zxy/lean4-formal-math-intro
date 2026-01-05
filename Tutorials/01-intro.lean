@@ -14,6 +14,8 @@ Have a look at the sample Lean code below. Can you understand what it means, wit
 
 import Mathlib
 
+section
+
 theorem FLT (n : ℕ) (hn : n > 2) (a b c : ℕ) :
     a ≠ 0 → b ≠ 0 → c ≠ 0 → a^n + b^n ≠ c^n := by
   sorry
@@ -88,3 +90,4 @@ And they have their own *self-evident* *introduction rules* and *elimination rul
 If possible, we might discuss inductive types later in this course.
 These logical connectives serve as good examples.
 -/
+end

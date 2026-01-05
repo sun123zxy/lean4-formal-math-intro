@@ -13,6 +13,8 @@ Anyway, don't worry too much about it for now.
 
 import Mathlib
 
+section
+
 def TendsTo (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| < ε
 
@@ -119,7 +121,7 @@ You are welcome to optimize it!
 theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n ↦ a n * b n) (A * B) := by
   rw [← tendsTo_εlt_iff_TendsTo (show 1 > 0 by linarith)]
-  intro ε hε hεlt1; simp
+  intro ε hε hεlt1
   specialize ha (ε / (3 * (|B| + 1))) (by
     apply div_pos hε
     linarith only [abs_nonneg B])
@@ -134,35 +136,20 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
   specialize ha n hn.left
   specialize hb n hn.right
   rw [show a n * b n - A * B = (a n - A) * (b n - B) + A * (b n - B) + B * (a n - A) by ring]
-  repeat grw [abs_add]
+  repeat grw [abs_add_le]
   repeat grw [abs_mul]
   grw [ha, hb]
   -- sometimes you have no choice but add some manual steps
   have h1 : |A| * (ε / (3 * (|A| + 1))) < ε / 3 := by
     field_simp
-    rw [div_lt_iff₀]
-    · ring_nf
-      linarith only [hε]
-    · linarith only [abs_nonneg A]
+    simp
   have h2 : |B| * (ε / (3 * (|B| + 1))) < ε / 3 := by
     field_simp
-    rw [div_lt_iff₀]
-    · ring_nf
-      linarith only [hε]
-    · linarith only [abs_nonneg B]
+    simp
   have h3 : ε / (3 * (|B| + 1)) * (ε / (3 * (|A| + 1))) < ε / 3 := by
     field_simp
-    rw [div_lt_iff₀]
-    · repeat grw [← abs_nonneg]
-      ring_nf
-      calc
-        _ = ε * ε := by ring
-        _ ≤ 1 * ε := by grw [← hεlt1]
-        _ = ε     := by ring
-        _ < ε * 3 := by linarith only [hε]
-    · repeat grw [← abs_nonneg]
-      ring_nf
-      linarith only
+    grw [hεlt1, ← abs_nonneg A, ← abs_nonneg B]
+    simp
   linarith only [h1, h2, h3]
 
 /- squeeze theorem for sequences -/
@@ -360,3 +347,5 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     specialize hn₀ n₀ (by linarith only); simp at hn₀
     specialize fx_diverge n₀
     linarith only [hn₀, fx_diverge]
+
+end
