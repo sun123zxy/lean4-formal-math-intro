@@ -8,7 +8,7 @@
 
 <meta name="author" content="Xingyu Zhong">
 
-<title>2025 Fall Lean 4 Teach</title>
+<title>Introduction to Formal Mathematics with Lean 4</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -169,7 +169,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">2025 Fall Lean 4 Teach</a> 
+      <a href="./">Introduction to Formal Mathematics with Lean 4</a> 
     </div>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -369,10 +369,10 @@ window.Quarto = {
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;each entitled with a valid Lean 4 keyword</p></div></div></section>
 <section id="instructions" class="level2">
 <h2 class="anchored" data-anchor-id="instructions">Instructions</h2>
-<p>We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed <a href="https://github.com/sun123zxy/2025fall-lean4-teach/releases">PDF version</a> is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.</p>
+<p>We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed <a href="https://github.com/sun123zxy/lean4-formal-math-intro/releases">PDF version</a> is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.</p>
 <p>For installation, first make sure you have installed Git, VSCode and Lean 4 extension for VSCode correctly. Refer to the installation guide <a href="https://lean-lang.org/install/" class="uri">https://lean-lang.org/install/</a> if you haven’t done so. Then execute the following commands in your terminal:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:sun123zxy/2025fall-lean4-teach.git <span class="co"># download the repository</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> 2025fall-lean4-teach</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone git@github.com:sun123zxy/lean4-formal-math-intro.git <span class="co"># download the repository</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> lean4-formal-math-intro</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> update <span class="co"># download Mathlib source files</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> exe cache get <span class="co"># download compiled Mathlib artifacts</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To update the repository, make sure you have discarded any local changes (otherwise you may need to merge manually). Then execute the following commands in your terminal:</p>
@@ -385,8 +385,8 @@ window.Quarto = {
 <section id="portals" class="level2">
 <h2 class="anchored" data-anchor-id="portals">Portals</h2>
 <ul>
-<li><p>Course repository: <a href="https://github.com/sun123zxy/2025fall-lean4-teach" class="uri">https://github.com/sun123zxy/2025fall-lean4-teach</a></p></li>
-<li><p>Online lecture notes: <a href="https://sun123zxy.github.io/2025fall-lean4-teach/" class="uri">https://sun123zxy.github.io/2025fall-lean4-teach/</a></p></li>
+<li><p>Course repository: <a href="https://github.com/sun123zxy/lean4-formal-math-intro" class="uri">https://github.com/sun123zxy/lean4-formal-math-intro</a></p></li>
+<li><p>Online lecture notes: <a href="https://sun123zxy.github.io/lean4-formal-math-intro/" class="uri">https://sun123zxy.github.io/lean4-formal-math-intro/</a></p></li>
 <li><p>Online compiler: <a href="https://live.lean-lang.org" class="uri">https://live.lean-lang.org</a></p></li>
 <li><p>Community (Lean Zulip): <a href="https://leanprover.zulipchat.com/" class="uri">https://leanprover.zulipchat.com/</a></p></li>
 <li><p>Lean 4 tactics cheatsheet: <a href="https://leanprover-community.github.io/papers/lean-tactics.pdf" class="uri">https://leanprover-community.github.io/papers/lean-tactics.pdf</a></p></li>
@@ -505,7 +505,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/sun123zxy\.github\.io\/2025fall-lean4-teach\/");
+        var filterRegex = new RegExp("https:\/\/sun123zxy\.github\.io\/lean4-formal-math-intro\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

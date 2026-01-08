@@ -1,1 +1,1 @@
-Sitemap: https://sun123zxy.github.io/2025fall-lean4-teach/sitemap.xml
+Sitemap: https://sun123zxy.github.io/lean4-formal-math-intro/sitemap.xml
