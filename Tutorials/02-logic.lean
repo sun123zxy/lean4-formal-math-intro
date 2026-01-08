@@ -156,7 +156,10 @@ tactic: `have`
 `have h : p := hp` adds the hypothesis `h : p` into the context,
 where `hp` is a proof of `p` that you provide.
 
-`haveI` is similar to `have`, but it adds the hypothesis as `this`.
+You can use `have` anonymously as well:
+
+- `have : p := hp` adds a hypothesis of type `p` of name `this`.
+- `have _ : p := hp` adds an anonymous hypothesis of type `p`.
 -/
 example (hpq : p → q) (hqr : q → r) : p → r := by
   intro hp

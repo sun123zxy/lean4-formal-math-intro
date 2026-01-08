@@ -355,10 +355,10 @@ example : |(|a| - |b|)| ≤ |a + b| := by
   all_goals
     try rw [abs_of_nonneg h1]
     try rw [abs_of_nonpos h1]
-  · haveI := abs_sub_abs_le_abs_sub a (-b)
+  · have := abs_sub_abs_le_abs_sub a (-b)
     simp at *
     exact this
-  · haveI := abs_sub_abs_le_abs_sub b (-a)
+  · have := abs_sub_abs_le_abs_sub b (-a)
     simp at *
     grw [this]
     ring_nf
@@ -385,6 +385,7 @@ Do try them when you feel tired of trivial steps.
 #help tactic dsimp
 #help tactic simp_rw
 #help tactic field_simp
+#help tactic simpa
 
 #help tactic group
 #help tactic abel
@@ -396,7 +397,7 @@ Do try them when you feel tired of trivial steps.
 
 #help tactic omega
 #help tactic aesop
-#help tactic grind
+#help tactic grind -- this is a general tactic specialized for equalities
 #help tactic tauto
 
 /-

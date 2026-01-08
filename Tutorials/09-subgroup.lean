@@ -682,9 +682,9 @@ example (B₁ B₂ : AddSubmonoid A) : B₁ ⊔ B₂ = B₁ + B₂ := by
       rw [zero_add]
   · intro x hx
     rcases hx with ⟨b₁, hb₁, b₂, hb₂, rfl⟩
-    haveI : B₁ ≤ B₁ ⊔ B₂ := le_sup_left
+    have : B₁ ≤ B₁ ⊔ B₂ := le_sup_left
     replace hb₁ : b₁ ∈ B₁ ⊔ B₂ := this hb₁
-    haveI : B₂ ≤ B₁ ⊔ B₂ := le_sup_right
+    have : B₂ ≤ B₁ ⊔ B₂ := le_sup_right
     replace hb₂ : b₂ ∈ B₁ ⊔ B₂ := this hb₂
     exact add_mem hb₁ hb₂
 

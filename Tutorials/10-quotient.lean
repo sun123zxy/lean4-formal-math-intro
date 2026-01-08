@@ -390,7 +390,7 @@ example : (QuotientGroup.Quotient.group H).toSemigroup = show Semigroup (G ⧸ H
     specialize hn (a1⁻¹ * b1) h1 a2⁻¹
     simp only [inv_inv] at hn
 
-    haveI : (a1 * a2)⁻¹ * (b1 * b2) =
+    have : (a1 * a2)⁻¹ * (b1 * b2) =
         a2⁻¹ * (a1⁻¹ * b1) * a2 * (a2⁻¹ * b2) := by group
     rw [this]
 
@@ -490,7 +490,7 @@ example (HN : N ≤ ϕ.ker) : QuotientGroup.lift N ϕ HN = show G ⧸ N →* M b
     intro a b h
     change QuotientGroup.leftRel N a b at h
     rw [QuotientGroup.leftRel_apply] at h
-    haveI := HN h; simp at this
+    have := HN h; simp at this
     exact eq_of_inv_mul_eq_one this
   )
   intro a b

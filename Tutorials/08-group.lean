@@ -303,7 +303,7 @@ example : f (a⁻¹) = (f a)⁻¹ := by
 But this is redundant for group homomorphisms.
 -/
 example (φ : G₁ →ₙ* G₂) : φ 1 = 1 := by
-  haveI : φ 1 * φ 1 = φ 1 * 1 := by rw [← map_mul, mul_one, mul_one]
+  have : φ 1 * φ 1 = φ 1 * 1 := by rw [← map_mul, mul_one, mul_one]
   exact mul_left_cancel this
 
 /-

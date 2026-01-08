@@ -4,16 +4,23 @@ In this file we show how to define limits of sequences and continuity of functio
 Of course it is just a toy version, far from the real Mathlib definitions.
 Nevertheless, that should be enough for you to get a taste of
 formalizing something that is not completely trivial.
-
-Since we haven't touch division quite much yet,
-you may find it's difficult to deal with multiplication and division.
-`field_simp` tactic may help you a lot in such cases. It won't break things up as `simp` does.
-Anyway, don't worry too much about it for now.
 -/
-
 import Mathlib
 
 section
+
+/-
+Since we haven't touch division quite much yet,
+you may find it's difficult to deal with multiplication and division.
+`field_simp` tactic may help you a lot in such cases.
+It won't break things up as `simp` does, and becomes quite powerful nowadays,
+even able to acquire some positivity information automatically.
+Anyway, don't worry too much about it for now.
+
+We will use other automation tactics like `linarith` and `ring` as well.
+`#help tactic <tactic_name>` it if you don't know them yet.
+-/
+#help tactic field_simp
 
 def TendsTo (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| < ε
@@ -35,13 +42,12 @@ theorem tendsTo_neg {a : ℕ → ℝ} {t : ℝ} (ha : TendsTo a t) : TendsTo (fu
   use n₀
   intro n hn
   specialize hn₀ n hn
-  simp
+  simp only [sub_neg_eq_add]
   -- what theorems should I use?
   rw [← abs_neg, add_comm]
-  simp
+  simp only [neg_add_rev, neg_neg]
   -- what theorems should I use?
-  rw [← sub_eq_add_neg]
-  exact hn₀
+  rwa [← sub_eq_add_neg]
 
 /- `+` commutes with `tendsTo` -/
 theorem tendsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
@@ -57,7 +63,7 @@ theorem tendsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (
   rw [max_le_iff] at hn
   specialize ha n (by linarith only [hn.left])
   specialize hb n (by linarith only [hn.right])
-  simp
+  dsimp
   -- common tactic: eliminate abs to make use of `linarith`
   -- what theorems should I use?
   rw [abs_lt] at ha hb ⊢
@@ -68,14 +74,9 @@ theorem tendsTo_add {a b : ℕ → ℝ} {A : ℝ} {B : ℝ} (ha : TendsTo a A) (
 /- [EXR] `-` commutes with `tendsTo` -/
 theorem tendsTo_sub {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n => a n - b n) (A - B) := by
-  haveI := tendsTo_add ha (tendsTo_neg hb)
-  -- [TODO] `congr` closes the goal directly here. Find out why.
-  ring_nf at this
-  exact this
+  exact tendsTo_add ha (tendsTo_neg hb)
 
-/-
-`≤` version of `TendsTo` is equivalent to the usual `TendsTo`.
--/
+/- `≤` version of `TendsTo` is equivalent to the usual `TendsTo`. -/
 def TendsTo_le (a : ℕ → ℝ) (t : ℝ) : Prop :=
   ∀ ε > 0, ∃ n₀ : ℕ, ∀ n, n₀ ≤ n → |a n - t| ≤ ε
 
@@ -113,11 +114,7 @@ theorem tendsTo_εlt_iff_TendsTo {a : ℕ → ℝ} {t : ℝ} {l : ℝ} (l_gt_zer
     exact hn₀.left
   · exact fun h ε hε _ ↦ h ε hε
 
-/-
-`*` commutes with `tendsTo`.
-[TODO] I failed to finish the proof swiftly.
-You are welcome to optimize it!
--/
+/- `*` commutes with `tendsTo`. -/
 theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : TendsTo b B) :
     TendsTo (fun n ↦ a n * b n) (A * B) := by
   rw [← tendsTo_εlt_iff_TendsTo (show 1 > 0 by linarith)]
@@ -135,10 +132,14 @@ theorem tendsTo_mul {a b : ℕ → ℝ} {A B : ℝ} (ha : TendsTo a A) (hb : Ten
   rw [max_le_iff] at hn
   specialize ha n hn.left
   specialize hb n hn.right
+
+  -- grouping terms
   rw [show a n * b n - A * B = (a n - A) * (b n - B) + A * (b n - B) + B * (a n - A) by ring]
   repeat grw [abs_add_le]
   repeat grw [abs_mul]
+
   grw [ha, hb]
+
   -- sometimes you have no choice but add some manual steps
   have h1 : |A| * (ε / (3 * (|A| + 1))) < ε / 3 := by
     field_simp
@@ -180,13 +181,12 @@ theorem tendsTo_zero_iff_lt_ε {x : ℝ} : TendsTo (fun _ ↦ x) 0 ↔ (∀ ε >
     specialize h ε hε
     rcases h with ⟨n₀, hn₀⟩
     specialize hn₀ n₀ (by linarith only)
-    simp at hn₀; exact hn₀
-  · intro h
-    intro ε hε
+    simpa using hn₀
+  · intro h ε hε
     specialize h ε hε
     use 0
     intro n hn
-    simp; exact h
+    simpa using h
 
 /- [EXR] zero sequence tends to x iff condition -/
 theorem zero_tendsTo_iff_lt_ε {x : ℝ} : TendsTo (fun _ ↦ 0) x ↔ (∀ ε > 0, |x| < ε) := by
@@ -198,12 +198,10 @@ theorem zero_tendsTo_iff_lt_ε {x : ℝ} : TendsTo (fun _ ↦ 0) x ↔ (∀ ε >
     rcases h with ⟨n₀, hn₀⟩
     specialize hn₀ n₀ (by linarith only)
     exact hn₀
-  · intro h
-    intro ε hε
+  · intro h ε hε
     use 0
     intro n hn
-    simp
-    exact h ε hε
+    simpa using h ε hε
 
 /- uniqueness of limits -/
 theorem tendsTo_unique (a : ℕ → ℝ) (s t : ℝ) (hs : TendsTo a s) (ht : TendsTo a t) : s = t := by
@@ -211,12 +209,10 @@ theorem tendsTo_unique (a : ℕ → ℝ) (s t : ℝ) (hs : TendsTo a s) (ht : Te
   have hstp : 0 < |t - s| := by
     rw [abs_pos]
     contrapose! hneq
-    apply_fun fun x ↦ x + s at hneq
-    simp at hneq
-    symm
-    exact hneq
+    apply_fun (· + s) at hneq
+    symm; simpa using hneq
   have hst := tendsTo_sub hs ht
-  simp at hst
+  simp only [sub_self] at hst
   rw [zero_tendsTo_iff_lt_ε] at hst
   specialize hst |t - s| hstp
   rw [abs_sub_comm] at hst
@@ -287,11 +283,6 @@ The sequential definition of function continuity is equivalent to the epsilon-de
 def contAt_seq (f : ℝ → ℝ) (x₀ : ℝ) : Prop :=
   ∀ a : ℕ → ℝ, TendsTo a x₀ → TendsTo (f ∘ a) (f x₀)
 
-/-
-[TODO]
-I failed to solve it swiftly.
-You are welcome to optimize it!
--/
 theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     contAt f x₀ ↔ contAt_seq f x₀ := by
   constructor
@@ -303,48 +294,45 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     push_neg at hnfcont
     -- construct a sequence `a n` tending to `x₀`
     let a (n : ℕ) : ℝ := 1 / (n + 1)
-    have a_gt_zero (n : ℕ) : a n > 0 := by simp [a]; linarith only
+    have a_gt_zero (n : ℕ) : a n > 0 := by
+      simp only [one_div, gt_iff_lt, inv_pos, a]
+      linarith only
     have a_TendsTo_zero : TendsTo a 0 := by
       intro ε hε
       use Nat.ceil (1 / ε) -- ceiling function
       intro n hn
       rw [Nat.ceil_le] at hn
-      simp
+      simp only [sub_zero]
       rw [abs_of_pos (a_gt_zero n)]
       unfold a
       rw [div_lt_comm₀ (by linarith only) hε]
       linarith only [hn]
-    -- construct a diverging sequence `f x` with `x` tending to `x₀`
-    -- this requires us to extract `Type*` objects from an existence to form a function
-    -- may meet universe issues if done naively
-    -- we use `Classical.indefiniteDescription` here to extract such objects classically
+
+    /-
+    In the past, an existential quantifier inside a universal quantifier
+    would be troublesome to choose, e.g. `Classical.indefiniteDescription` was needed.
+    But with the `choose` tactic, this becomes much easier.
+    -/
     rcases hnfcont with ⟨ε, hε, hnf⟩
-    let x_subtype (n : ℕ) := Classical.indefiniteDescription _ <| hnf (a n) (a_gt_zero n)
-    let x (n : ℕ) : ℝ := (x_subtype n).val
-    have x_lt_a (n : ℕ) : |x n - x₀| < a n := by
-      unfold x
-      exact (x_subtype n).property.left
-    have fx_diverge (n : ℕ) : |f (x n) - f x₀| ≥ ε := by
-      unfold x
-      exact (x_subtype n).property.right
+    choose x x_lt_a fx_diverge using fun n ↦ hnf (a n) (a_gt_zero n)
 
     have x_tendsTo_x₀ : TendsTo x x₀ := by
       suffices TendsTo (fun n ↦ x n - x₀) 0 by
         have h_add := tendsTo_add this (tendsTo_const x₀)
-        simp at h_add; exact h_add
+        simpa using h_add
       refine tendsTo_sandwich (?_ : TendsTo (fun n ↦ -a n) 0) (?_ : TendsTo (fun n ↦ a n) 0) ?_ ?_
-      · haveI := tendsTo_neg a_TendsTo_zero
-        simp at this; exact this
+      · simpa using tendsTo_neg a_TendsTo_zero
       · exact a_TendsTo_zero
       all_goals
         intro n
-        haveI := x_lt_a n
+        have := x_lt_a n
         rw [abs_lt] at this
         linarith only [this]
     -- but it is said that all such sequences converge
-    haveI := hnfseq x x_tendsTo_x₀
+    have := hnfseq x x_tendsTo_x₀
     rcases this ε hε with ⟨n₀, hn₀⟩
-    specialize hn₀ n₀ (by linarith only); simp at hn₀
+    specialize hn₀ n₀ (by linarith only)
+    dsimp only [Function.comp_apply] at hn₀
     specialize fx_diverge n₀
     linarith only [hn₀, fx_diverge]
 
