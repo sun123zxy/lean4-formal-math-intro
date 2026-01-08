@@ -99,8 +99,8 @@ If time permits:
 
 - Course materials:
 
-  - [course repository](https://github.com/sun123zxy/2025fall-lean4-teach)
-  - [online documentation](https://sun123zxy.github.io/2025fall-lean4-teach/)
+  - [course repository](https://github.com/sun123zxy/lean4-formal-math-intro)
+  - [online documentation](https://sun123zxy.github.io/lean4-formal-math-intro/)
 
 - Online compiler:
 

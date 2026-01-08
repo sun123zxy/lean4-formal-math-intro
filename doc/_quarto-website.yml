@@ -2,7 +2,7 @@ project:
   type: website
 
 website:
-  site-url: "https://sun123zxy.github.io/2025fall-lean4-teach/"
+  site-url: "https://sun123zxy.github.io/lean4-formal-math-intro/"
   sidebar:
     contents:
       - index.qmd

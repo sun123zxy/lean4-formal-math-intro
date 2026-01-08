@@ -1,4 +1,4 @@
-name = "2025fall-lean4-teach"
+name = "lean4-formal-math-intro"
 version = "0.1.0"
 
 [[require]]

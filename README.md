@@ -25,13 +25,13 @@ The book is divided into four parts^[each entitled with a valid Lean 4 keyword].
 
 ## Instructions
 
-We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed [PDF version](https://github.com/sun123zxy/2025fall-lean4-teach/releases) is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.
+We maintain an online version of the lecture notes with embedded Lean code if you prefer to read it in your browser. A printed [PDF version](https://github.com/sun123zxy/lean4-formal-math-intro/releases) is also provided as a souvenir, though no special effort has been made to resolve the hyperlinks.
 
 For installation, first make sure you have installed Git, VSCode and Lean 4 extension for VSCode correctly. Refer to the installation guide <https://lean-lang.org/install/> if you haven't done so. Then execute the following commands in your terminal:
 
 ```bash
-git clone git@github.com:sun123zxy/2025fall-lean4-teach.git # download the repository
-cd 2025fall-lean4-teach
+git clone git@github.com:sun123zxy/lean4-formal-math-intro.git # download the repository
+cd lean4-formal-math-intro
 lake update # download Mathlib source files
 lake exe cache get # download compiled Mathlib artifacts
 ```
@@ -48,9 +48,9 @@ Both the online and the PDF version of this book are prepared by \SunQuarTeX, a 
 
 ## Portals
 
-- Course repository: <https://github.com/sun123zxy/2025fall-lean4-teach>
+- Course repository: <https://github.com/sun123zxy/lean4-formal-math-intro>
 
-- Online lecture notes: <https://sun123zxy.github.io/2025fall-lean4-teach/>
+- Online lecture notes: <https://sun123zxy.github.io/lean4-formal-math-intro/>
 
 - Online compiler: <https://live.lean-lang.org>
 
