@@ -814,9 +814,9 @@ MathJax = {
 <span id="cb63-23"><a href="#cb63-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rw</span> [zero_add]</span>
 <span id="cb63-24"><a href="#cb63-24" aria-hidden="true" tabindex="-1"></a>  · <span class="fu">intro</span> x hx</span>
 <span id="cb63-25"><a href="#cb63-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hx <span class="fu">with</span> ⟨b₁, hb₁, b₂, hb₂, rfl⟩</span>
-<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a>    haveI : B₁ ≤ B₁ ⊔ B₂ <span class="op">:=</span> le_sup_left</span>
+<span id="cb63-26"><a href="#cb63-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> : B₁ ≤ B₁ ⊔ B₂ <span class="op">:=</span> le_sup_left</span>
 <span id="cb63-27"><a href="#cb63-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace</span> hb₁ : b₁ ∈ B₁ ⊔ B₂ <span class="op">:=</span> this hb₁</span>
-<span id="cb63-28"><a href="#cb63-28" aria-hidden="true" tabindex="-1"></a>    haveI : B₂ ≤ B₁ ⊔ B₂ <span class="op">:=</span> le_sup_right</span>
+<span id="cb63-28"><a href="#cb63-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> : B₂ ≤ B₁ ⊔ B₂ <span class="op">:=</span> le_sup_right</span>
 <span id="cb63-29"><a href="#cb63-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">replace</span> hb₂ : b₂ ∈ B₁ ⊔ B₂ <span class="op">:=</span> this hb₂</span>
 <span id="cb63-30"><a href="#cb63-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> add_mem hb₁ hb₂</span>
 <span id="cb63-31"><a href="#cb63-31" aria-hidden="true" tabindex="-1"></a></span>

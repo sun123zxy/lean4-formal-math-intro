@@ -561,7 +561,7 @@ MathJax = {
 <span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">specialize</span> hn (a1⁻¹ * b1) h1 a2⁻¹</span>
 <span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">simp</span> only [inv_inv] <span class="fu">at</span> hn</span>
 <span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    haveI : (a1 * a2)⁻¹ * (b1 * b2) =</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> : (a1 * a2)⁻¹ * (b1 * b2) =</span>
 <span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>        a2⁻¹ * (a1⁻¹ * b1) * a2 * (a2⁻¹ * b2) <span class="op">:=</span> <span class="kw">by</span> group</span>
 <span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [this]</span>
 <span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
@@ -646,7 +646,7 @@ MathJax = {
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">intro</span> a b h</span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    change QuotientGroup.leftRel N a b <span class="fu">at</span> h</span>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rw</span> [QuotientGroup.leftRel_apply] <span class="fu">at</span> h</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    haveI <span class="op">:=</span> HN h; <span class="fu">simp</span> <span class="fu">at</span> this</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">have</span> <span class="op">:=</span> HN h; <span class="fu">simp</span> <span class="fu">at</span> this</span>
 <span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exact</span> eq_of_inv_mul_eq_one this</span>
 <span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">intro</span> a b</span>
