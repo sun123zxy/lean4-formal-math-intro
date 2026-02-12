@@ -277,7 +277,10 @@ example : (a ^ 3 * b⁻¹)⁻¹ = b * a⁻¹ * (a ^ 2)⁻¹  := by
 
 [IGNORE]
 It extends `npow` for monoids.
-See the library note [forgetful inheritance] for the philosophy of this definition.
+See the following the philosophy of this definition:
+
+- library note [`LibraryNote.forgetful_inheritance`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Defs.html#LibraryNote.forgetful_inheritance)
+- introduction to default declaration in [Section 5.1 of FPiL](https://lean-lang.org/functional_programming_in_lean/Functors___-Applicative-Functors___-and-Monads/Structures-and-Inheritance/)
 -/
 
 /-
