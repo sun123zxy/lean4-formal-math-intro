@@ -10,11 +10,18 @@ We organize the materials with respect to the philosophy of "illustrate the theo
 (see the Preface if you don't know what this means),
 Be advised that you can always ctrl+click on any name to see its actual definition in Mathlib.
 
+- Though `structure` and `class` are the main tools to define algebraic structures in Mathlib,
+  we can't cover a detailed exposition of them due to time constraints.
+  Hopefully, you can get some understanding of them via the examples provided.
+
+  A detailed treatment of `structure` and `class` can be found in
+  [Section 5.1 of Functional Programming in Lean](https://lean-lang.org/functional_programming_in_lean/Functors___-Applicative-Functors___-and-Monads/Structures-and-Inheritance/).
+
+- For a more complete treatment (especially on the philosophy behind API design),
+read [MiL](https://leanprover-community.github.io/mathematics_in_lean/) chapter 7 and 9.
+
 In this lecture, we illustrate how Mathlib develops the theory of everyday algebraic structures,
 starting from semigroups, monoids, groups, and their morphisms.
-
-For a more complete treatment (especially on the philosophy behind API design),
-read [MiL](https://leanprover-community.github.io/mathematics_in_lean/) chapter 7 and 9.
 -/
 
 import Mathlib
