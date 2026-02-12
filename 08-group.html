@@ -509,7 +509,11 @@ MathJax = {
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="kw">example</span> : (a ^ <span class="dv">3</span> * b⁻¹)⁻¹ = b * a⁻¹ * (a ^ <span class="dv">2</span>)⁻¹  <span class="op">:=</span> <span class="kw">by</span></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  group</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[TODO] <code>DivInvMonoid</code> enables <code>zpow</code> notation for integer powers <code>a ^ n</code> where <code>n : ℤ</code>.</p>
-<p>[IGNORE] It extends <code>npow</code> for monoids. See the library note [forgetful inheritance] for the philosophy of this definition.</p>
+<p>[IGNORE] It extends <code>npow</code> for monoids. See the following the philosophy of this definition:</p>
+<ul>
+<li>library note <a href="https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Group/Defs.html#LibraryNote.forgetful_inheritance"><code>LibraryNote.forgetful_inheritance</code></a></li>
+<li>introduction to default declaration in <a href="https://lean-lang.org/functional_programming_in_lean/Functors___-Applicative-Functors___-and-Monads/Structures-and-Inheritance/">Section 5.1 of FPiL</a></li>
+</ul>
 <p>Additive and commutative versions of groups are as usual.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> AddGroup</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> CommGroup</span>
