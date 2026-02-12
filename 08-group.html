@@ -325,8 +325,12 @@ MathJax = {
 <p>The ultimate goal of the following several lectures is to state and prove the First Isomorphism Theorem for groups.</p>
 <p>You might notice that starting from now, every lecture gets intolerablely lengthy. Unfortunately, this is the nature of formal mathematics. One has to endure this pain to reach the harmony of full formalization.</p>
 <p>We organize the materials with respect to the philosophy of “illustrate the theory” (see the Preface if you don’t know what this means), Be advised that you can always ctrl+click on any name to see its actual definition in Mathlib.</p>
+<ul>
+<li><p>Though <code>structure</code> and <code>class</code> are the main tools to define algebraic structures in Mathlib, we can’t cover a detailed exposition of them due to time constraints. Hopefully, you can get some understanding of them via the examples provided.</p>
+<p>A detailed treatment of <code>structure</code> and <code>class</code> can be found in <a href="https://lean-lang.org/functional_programming_in_lean/Functors___-Applicative-Functors___-and-Monads/Structures-and-Inheritance/">Section 5.1 of Functional Programming in Lean</a>.</p></li>
+<li><p>For a more complete treatment (especially on the philosophy behind API design), read <a href="https://leanprover-community.github.io/mathematics_in_lean/">MiL</a> chapter 7 and 9.</p></li>
+</ul>
 <p>In this lecture, we illustrate how Mathlib develops the theory of everyday algebraic structures, starting from semigroups, monoids, groups, and their morphisms.</p>
-<p>For a more complete treatment (especially on the philosophy behind API design), read <a href="https://leanprover-community.github.io/mathematics_in_lean/">MiL</a> chapter 7 and 9.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> Mathlib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="semigroups" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="semigroups"><span class="header-section-number">1</span> Semigroups</h2>
