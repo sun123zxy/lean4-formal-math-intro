@@ -74,20 +74,4 @@ theorem thm_sq_nonneg : ∀ x : ℝ, 0 ≤ x ^ 2 := sq_nonneg
 -- `example` is just an anonymous theorem
 example : ∀ x : ℝ, 0 ≤ x ^ 2 := thm_sq_nonneg
 
-/-
-We shall work out the basic logic in Lean's dependent type theory.
-
-In this part, we cover:
-
-- Implication
-  - Syntax for defining functions / theorems
-- Tactic Mode
-
-[IGNORE]
-You may notice along the way that except `→`,
-all other logical connectives are defined as *inductive types*.
-And they have their own *self-evident* *introduction rules* and *elimination rules*.
-If possible, we might discuss inductive types later in this course.
-These logical connectives serve as good examples.
--/
 end

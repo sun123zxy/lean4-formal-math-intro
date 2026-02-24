@@ -1,5 +1,5 @@
 ---
-title: Logic (Part III)
+title: Negation
 author: Xingyu Zhong
 
 number-sections: true

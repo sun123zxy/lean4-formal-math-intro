@@ -123,9 +123,11 @@ for more details on universe levels.
 -/
 
 #check Type → Type
-#check (α : Type) → List α
 #check Type 3 → Type 6
 #check Type 6 → Type 3
+
+#check (n : Nat) → ZMod n
+#check (α : Type) → List α
 
 /-
 So a (dependent) function `α → β` where `α : Type u` and `β : Type v` lives in `Type (max u v)`.

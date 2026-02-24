@@ -1,5 +1,5 @@
 ---
-title: Logic (Part I)
+title: Implication
 author: Xingyu Zhong
 
 number-sections: true
