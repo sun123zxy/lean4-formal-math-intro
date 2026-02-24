@@ -12,6 +12,7 @@ and see how the most fundamental notion in mathematics, equality, works there.
 -/
 
 import Mathlib
+import Counterexamples.Girard
 
 /-
 ## Numbers
@@ -92,7 +93,14 @@ Type 1            = Sort 2
 ```
 
 - `Prop` is the universe of logical propositions.
-- `Type` is the universe of most of the mathematical objects.
+- `Type u` is the universe of most of the mathematical objects.
+
+In general, a type in Lean 4 may be:
+
+- The `Prop` universe
+- a proposition that lives in (of type) `Prop`
+- `Type u`
+- a type that lives in (of type) `Type u`
 
 At most times, you don't need to care about universe levels above `Type`.
 But do recall the critical difference between `Prop` and `Type`:
@@ -101,41 +109,103 @@ Terms in `Prop`, i.e. proofs, are *proof-irrelevant*,
 i.e. all proofs of the same proposition are considered equal,
 while terms in `Type` are distinguishable in general.
 This allows classical reasoning in `Prop`, and computation in `Type`.
-
 You may explore more on this in the previous logic chapters.
 
-### Remark
+[IGNORE] You may skip the rest of this section
+if you are not interested in the technical details of universe levels.
 
-Two questions arise naturally here:
+See [The Lean Language Reference](https://lean-lang.org/doc/reference/latest/The-Type-System/Universes/)
+for more details on universe levels.
+-/
 
+/-
+### Universe levels of functions
+-/
+
+#check Type → Type
+#check (α : Type) → List α
+#check Type 3 → Type 6
+#check Type 6 → Type 3
+
+/-
+So a (dependent) function `α → β` where `α : Type u` and `β : Type v` lives in `Type (max u v)`.
+
+Note that in the `Type 6 → Type 3` example, `u = 7` and `v = 4`, which looks like a `+1` effect.
+-/
+
+/-
+### Predicates and impredicativity of `Prop`
+-/
+
+#check (x : Nat) → (x ≥ 0)
+#check Type 3 → True
+#check True → Type 3
+
+/-
+You can see that if a function's codomain is `Prop`,
+then it always lives in `Prop`, regardless of the universe level of its domain.
+This is reasonable because the function is essentially a predicate,
+and predicates are propositions.
+We call the `Prop` universe *impredicative* to reflect this fact.
+-/
+
+#check Type 3 → Prop
+#print Set
+#check Set Nat
+#check Set Type
+
+/-
+We note that in the above `Set` example, `Prop` is of type `Type`,
+hence it does not fall into the impredicative case.
+
+In general, a function `α → β` where `α : Sort u` and `β : Sort v` lives in `Sort (imax u v)`,
+where `imax u v` is the regular `max u v` if `v ≠ 0`,
+and is `0` if `v = 0` (i.e. if the codomain is `Prop`).
+
+### Q&A
+
+- Note that `Type 3 : Type 4`, `Type 4 : Type 5`, but `Type 3` is not of type `Type 5`.
+
+  That is, Lean's universe system is *cumulative*: type statements are not transitive.
+
+- Why we don't allow `Type : Type`?
+
+  This design is to prevent us from constructing something too "large" in the same universe,
+  e.g. a type consisting all subsets of `Type`, `Set Type`.
+
+  The ability to construct such a "large" type in the same universe
+  would lead to a paradox of self-reference,
+  called *Girard's paradox*, which can be seen as
+  a type-theoretic analogue of Russell's paradox in set theory.
+
+  [TODO] We shall not go into the details of Girard's paradox here,
+  but you are welcome to check it out.
+-/
+
+#print Set
+#check Set Type
+#check Counterexample.girard
+
+/-
 - Why `Prop` is separated from `Type`?
 
   This is answered by the need of proof irrelevance.
 
+- But `Prop` is impredicative, why it is immune to Girard's paradox?
+
+  [TODO] It may have something to do with proof irrelevance, but I am not sure about this.
+
 - Why `Prop` is at the bottom of the hierarchy?
 
-  We come up with two explanations ([TODO] discussions are welcome!):
+  One argument is that `Prop` is often compared to `Bool : Type`.
+  This analogy validates the `Prop : Type` convention.
 
-  - `Prop` is often compared to `Bool : Type`. This analogy validates the `Prop : Type` convention.
+  `Bool` has two values `true` and `false`, representing truth values, acting as a switch.
+  `Prop` may be viewed as a non-computable version of `Bool`, switching by
+  whether a proposition is true or false.
 
-    `Bool` has two values `true` and `false`, representing truth values, acting as a switch.
-    `Prop` may be viewed as a non-computatble version of `Bool`, switching by
-    whether a proposition is true or false.
-    e.g. In Mathlib, a subset of `α` is defined as a predicate `α → Prop`,
-    a relation on `α` is defined as `α → α → Prop`, etc.
-    But all of these are non-computable.
-    e.g. you cannot define a computable function by this switch.
-
-  - On determining universe levels of predicates and functions.
-
-    For a function `α → β` where `α : Type u` and `β : Type v`,
-    its should live in `Type (max u v)` naturally.
-    But recall `∀` and `∃` quantifiers from logic.
-    They eat `α → Prop` functions to produce propositions, living in `Prop`.
-    This means that `Prop` should be larger than any `Type u` to accommodate such functions.
-    As a convention, we put `Prop` at the bottom of the hierarchy to reflect this.
-    The true universe level of a function is `imax u v` if it maps from `Sort u` to `Sort v`,
-    where `imax` is the regular `max` except that `imax u 0 = imax 0 u = 0` for any `u`.
+  e.g. In Mathlib, a subset of `α`, `Set α` is defined as `α → Prop`,
+  a relation on `α` is defined as `α → α → Prop`, etc.
 -/
 
 /-
