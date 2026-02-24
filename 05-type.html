@@ -408,9 +408,11 @@ MathJax = {
 <section id="universe-levels-of-functions" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="universe-levels-of-functions"><span class="header-section-number">2.1</span> Universe levels of functions</h3>
 <div class="sourceCode" id="cb9"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">Type</span> → <span class="fu">Type</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (α : <span class="fu">Type</span>) → List α</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">Type</span> <span class="dv">3</span> → <span class="fu">Type</span> <span class="dv">6</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">Type</span> <span class="dv">6</span> → <span class="fu">Type</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">Type</span> <span class="dv">3</span> → <span class="fu">Type</span> <span class="dv">6</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> <span class="fu">Type</span> <span class="dv">6</span> → <span class="fu">Type</span> <span class="dv">3</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (n : Nat) → ZMod n</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">#check</span> (α : <span class="fu">Type</span>) → List α</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>So a (dependent) function <code>α → β</code> where <code>α : Type u</code> and <code>β : Type v</code> lives in <code>Type (max u v)</code>.</p>
 <p>Note that in the <code>Type 6 → Type 3</code> example, <code>u = 7</code> and <code>v = 4</code>, which looks like a <code>+1</code> effect.</p>
 </section>
