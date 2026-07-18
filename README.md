@@ -13,6 +13,11 @@ The main goals of this course are
 
 ## Approach
 
+:::{.remark}
+
+Upon the student's feedback, the approach of this tutorial, compared to most of the existing tutorials, is rather logic-heavy, bottom-up, and type-theoretical, which is more similar to the book *Theorem Proving in Lean*. From the perspective of a working mathematician this might be a bit boring. Readers with similar concerns are encouraged to read the book *Mathematics in Lean* instead.
+:::
+
 The style of this course is inspired by Kevin Buzzard's 2024 course on formalising mathematics in the Lean theorem prover and many other courses, that is: dozens of Lean files packed with well-organized examples and exercises should get you started. In fact, almost all chapters of this book is just a single Lean file with comments, converted into other formats later on. It is best to download the course repository and read it alongside a Lean 4 environment, so that you can try out the code examples and exercises interactively.
 
 We try to organize the materials in a way that balances theory and practice. The main feature of this book is that we introduce Lean 4 and formalized mathematics by "illustrating the theory", that is: we accept the Mathlib definitions "as is", but reprove the major consequences that constitute the theory. Once a result is proved, we immediately relate it back to its Mathlib version (via a definitional equality, mostly), and use the Mathlib version in the subsequent developments. Hopefully, this may help you familiarize with the Mathlib API more quickly, while at the same time understand how the theory is builded up mathematically, without being lost in the huge Mathlib codebase.
