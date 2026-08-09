@@ -168,7 +168,7 @@ and is `0` if `v = 0` (i.e. if the codomain is `Prop`).
 
 - Note that `Type 3 : Type 4`, `Type 4 : Type 5`, but `Type 3` is not of type `Type 5`.
 
-  That is, Lean's universe system is *cumulative*: type statements are not transitive.
+  That is, Lean's universe system is *not cumulative*: type statements are not transitive.
 
 - Why we don't allow `Type : Type`?
 
