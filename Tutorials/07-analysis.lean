@@ -312,6 +312,10 @@ theorem contAt_iff_seq (f : ℝ → ℝ) (x₀ : ℝ) :
     In the past, an existential quantifier inside a universal quantifier
     would be troublesome to choose, e.g. `Classical.indefiniteDescription` was needed.
     But with the `choose` tactic, this becomes much easier.
+
+    You can see clearly from this step that the equivalence of sequential continuity and
+    epsilon-delta continuity requires Axiom of Choice, the reason we can choose a function
+    from a family of existential statements.
     -/
     rcases hnfcont with ⟨ε, hε, hnf⟩
     choose x x_lt_a fx_diverge using fun n ↦ hnf (a n) (a_gt_zero n)
