@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ef9b4160c8a83316478f4a85257b0125.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6b841184ae791b03c3fdccea86328fb6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -581,7 +581,11 @@ MathJax = {
 <span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>      linarith only [hn]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>In the past, an existential quantifier inside a universal quantifier
 would be troublesome to choose, e.g. `Classical.indefiniteDescription` was needed.
-But with the `choose` tactic, this becomes much easier.</code></pre>
+But with the `choose` tactic, this becomes much easier.
+
+You can see clearly from this step that the equivalence of sequential continuity and
+epsilon-delta continuity requires Axiom of Choice, the reason we can choose a function
+from a family of existential statements.</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode lean code-with-copy"><code class="sourceCode lean"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rcases</span> hnfcont <span class="fu">with</span> ⟨ε, hε, hnf⟩</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    choose x x_lt_a fx_diverge using <span class="kw">fun</span> n ↦ hnf (a n) (a_gt_zero n)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
